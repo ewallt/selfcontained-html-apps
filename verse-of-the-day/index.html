@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KJV Bible Verse of the Day (Jan-Mar)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 800px;
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      padding: 40px;
+      margin: 20px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      height: 500px; /* Fixed exact height */
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(to right, #3a7bd5, #00d2ff);
+    }
+    
+    .date {
+      display: inline-block;
+      background-color: #3a7bd5;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    
+    .day-of-year {
+      font-size: 14px;
+      color: #666;
+      margin-top: 5px;
+    }
+    
+    .verse-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* Align content to top instead of center */
+      padding: 40px 0 20px; /* Add more top padding to position text lower from date */
+    }
+    
+    .verse-text {
+      font-size: 24px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-family: Georgia, serif;
+    }
+    
+    .verse-reference {
+      font-weight: bold;
+      color: #3a7bd5;
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+    
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: auto; /* Push to bottom */
+      padding-bottom: 10px;
+    }
+    
+    button {
+      background-color: #3a7bd5;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #2c5aa0;
+    }
+    
+    button.secondary {
+      background-color: transparent;
+      color: #3a7bd5;
+      border: 1px solid #3a7bd5;
+    }
+    
+    button.secondary:hover {
+      background-color: rgba(58, 123, 213, 0.1);
+    }
+    
+    .selector {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      justify-content: center;
+    }
+    
+    select {
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      background-color: white;
+    }
+    
+    @media (max-width: 600px) {
+      .card {
+        padding: 20px;
+        height: 450px; /* Slightly smaller on mobile */
+      }
+      
+      .verse-text {
+        font-size: 20px;
+      }
+      
+      .controls {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="date" id="currentDate"></div>
+      <div class="day-of-year" id="dayOfYear"></div>
+      <div class="verse-content">
+        <p class="verse-text" id="verseText"></p>
+        <div class="verse-reference" id="verseReference"></div>
+      </div>
+      <div class="controls">
+        <button id="prevButton">Previous</button>
+        <button id="todayButton" class="secondary">Today</button>
+        <button id="nextButton">Next</button>
+      </div>
+      <div class="selector">
+        <select id="monthSelector"></select>
+        <select id="daySelector"></select>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Collection of KJV verses for three months (Jan-Mar, 90 days)
+    const verses = [
+      // January (31 days)
+      {
+        text: "In the beginning God created the heaven and the earth.",
+        reference: "Genesis 1:1"
+      },
+      {
+        text: "And God said, Let there be light: and there was light.",
+        reference: "Genesis 1:3"
+      },
+      {
+        text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
+        reference: "John 3:16"
+      },
+      {
+        text: "Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.",
+        reference: "Proverbs 3:5-6"
+      },
+      {
+        text: "I can do all things through Christ which strengtheneth me.",
+        reference: "Philippians 4:13"
+      },
+      {
+        text: "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.",
+        reference: "Jeremiah 29:11"
+      },
+      {
+        text: "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.",
+        reference: "Romans 8:28"
+      },
+      {
+        text: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",
+        reference: "Philippians 4:6"
+      },
+      {
+        text: "For by grace are ye saved through faith; and that not of yourselves: it is the gift of God: Not of works, lest any man should boast.",
+        reference: "Ephesians 2:8-9"
+      },
+      {
+        text: "But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.",
+        reference: "Matthew 6:33"
+      },
+      {
+        text: "Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.",
+        reference: "Joshua 1:9"
+      },
+      {
+        text: "The LORD is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters.",
+        reference: "Psalm 23:1-2"
+      },
+      {
+        text: "This is the day which the LORD hath made; we will rejoice and be glad in it.",
+        reference: "Psalm 118:24"
+      },
+      {
+        text: "Thy word is a lamp unto my feet, and a light unto my path.",
+        reference: "Psalm 119:105"
+      },
+      {
+        text: "The grass withereth, the flower fadeth: but the word of our God shall stand for ever.",
+        reference: "Isaiah 40:8"
+      },
+      {
+        text: "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
+        reference: "Isaiah 40:31"
+      },
+      {
+        text: "Let not your heart be troubled: ye believe in God, believe also in me.",
+        reference: "John 14:1"
+      },
+      {
+        text: "Jesus saith unto him, I am the way, the truth, and the life: no man cometh unto the Father, but by me.",
+        reference: "John 14:6"
+      },
+      {
+        text: "Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.",
+        reference: "2 Corinthians 5:17"
+      },
+      {
+        text: "But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith, meekness, temperance: against such there is no law.",
+        reference: "Galatians 5:22-23"
+      },
+      {
+        text: "Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven.",
+        reference: "Matthew 5:16"
+      },
+      {
+        text: "But thou, when thou prayest, enter into thy closet, and when thou hast shut thy door, pray to thy Father which is in secret; and thy Father which seeth in secret shall reward thee openly.",
+        reference: "Matthew 6:6"
+      },
+      {
+        text: "Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you.",
+        reference: "Matthew 7:7"
+      },
+      {
+        text: "For where your treasure is, there will your heart be also.",
+        reference: "Matthew 6:21"
+      },
+      {
+        text: "No man can serve two masters: for either he will hate the one, and love the other; or else he will hold to the one, and despise the other. Ye cannot serve God and mammon.",
+        reference: "Matthew 6:24"
+      },
+      {
+        text: "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
+        reference: "Matthew 11:28"
+      },
+      {
+        text: "For we are his workmanship, created in Christ Jesus unto good works, which God hath before ordained that we should walk in them.",
+        reference: "Ephesians 2:10"
+      },
+      {
+        text: "But God commendeth his love toward us, in that, while we were yet sinners, Christ died for us.",
+        reference: "Romans 5:8"
+      },
+      {
+        text: "Go ye therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost.",
+        reference: "Matthew 28:19"
+      },
+      {
+        text: "Thy word have I hid in mine heart, that I might not sin against thee.",
+        reference: "Psalm 119:11"
+      },
+      {
+        text: "The earth is the LORD'S, and the fulness thereof; the world, and they that dwell therein.",
+        reference: "Psalm 24:1"
+      },
+      
+      // February (28 days)
+      {
+        text: "Let not mercy and truth forsake thee: bind them about thy neck; write them upon the table of thine heart.",
+        reference: "Proverbs 3:3"
+      },
+      {
+        text: "For the LORD giveth wisdom: out of his mouth cometh knowledge and understanding.",
+        reference: "Proverbs 2:6"
+      },
+      {
+        text: "The fear of the LORD is the beginning of knowledge: but fools despise wisdom and instruction.",
+        reference: "Proverbs 1:7"
+      },
+      {
+        text: "A soft answer turneth away wrath: but grievous words stir up anger.",
+        reference: "Proverbs 15:1"
+      },
+      {
+        text: "Pride goeth before destruction, and an haughty spirit before a fall.",
+        reference: "Proverbs 16:18"
+      },
+      {
+        text: "A merry heart doeth good like a medicine: but a broken spirit drieth the bones.",
+        reference: "Proverbs 17:22"
+      },
+      {
+        text: "A man that hath friends must shew himself friendly: and there is a friend that sticketh closer than a brother.",
+        reference: "Proverbs 18:24"
+      },
+      {
+        text: "The name of the LORD is a strong tower: the righteous runneth into it, and is safe.",
+        reference: "Proverbs 18:10"
+      },
+      {
+        text: "Train up a child in the way he should go: and when he is old, he will not depart from it.",
+        reference: "Proverbs 22:6"
+      },
+      {
+        text: "Go to the ant, thou sluggard; consider her ways, and be wise.",
+        reference: "Proverbs 6:6"
+      },
+      {
+        text: "Hatred stirreth up strifes: but love covereth all sins.",
+        reference: "Proverbs 10:12"
+      },
+      {
+        text: "The blessing of the LORD, it maketh rich, and he addeth no sorrow with it.",
+        reference: "Proverbs 10:22"
+      },
+      {
+        text: "There is that scattereth, and yet increaseth; and there is that withholdeth more than is meet, but it tendeth to poverty.",
+        reference: "Proverbs 11:24"
+      },
+      {
+        text: "Where there is no vision, the people perish: but he that keepeth the law, happy is he.",
+        reference: "Proverbs 29:18"
+      },
+      {
+        text: "He that is slow to anger is better than the mighty; and he that ruleth his spirit than he that taketh a city.",
+        reference: "Proverbs 16:32"
+      },
+      {
+        text: "Who can find a virtuous woman? for her price is far above rubies.",
+        reference: "Proverbs 31:10"
+      },
+      {
+        text: "Favour is deceitful, and beauty is vain: but a woman that feareth the LORD, she shall be praised.",
+        reference: "Proverbs 31:30"
+      },
+      {
+        text: "For whosoever shall call upon the name of the Lord shall be saved.",
+        reference: "Romans 10:13"
+      },
+      {
+        text: "There is therefore now no condemnation to them which are in Christ Jesus, who walk not after the flesh, but after the Spirit.",
+        reference: "Romans 8:1"
+      },
+      {
+        text: "For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers, nor things present, nor things to come, nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord.",
+        reference: "Romans 8:38-39"
+      },
+      {
+        text: "And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.",
+        reference: "Romans 12:2"
+      },
+      {
+        text: "I beseech you therefore, brethren, by the mercies of God, that ye present your bodies a living sacrifice, holy, acceptable unto God, which is your reasonable service.",
+        reference: "Romans 12:1"
+      },
+      {
+        text: "O the depth of the riches both of the wisdom and knowledge of God! how unsearchable are his judgments, and his ways past finding out!",
+        reference: "Romans 11:33"
+      },
+      {
+        text: "So then faith cometh by hearing, and hearing by the word of God.",
+        reference: "Romans 10:17"
+      },
+      {
+        text: "For I am not ashamed of the gospel of Christ: for it is the power of God unto salvation to every one that believeth; to the Jew first, and also to the Greek.",
+        reference: "Romans 1:16"
+      },
+      {
+        text: "The heavens declare the glory of God; and the firmament sheweth his handywork.",
+        reference: "Psalm 19:1"
+      },
+      {
+        text: "He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake.",
+        reference: "Psalm 23:3"
+      },
+      {
+        text: "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
+        reference: "Psalm 23:4"
+      },
+      
+      // March (31 days)
+      {
+        text: "Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever.",
+        reference: "Psalm 23:6"
+      },
+      {
+        text: "O LORD our Lord, how excellent is thy name in all the earth! who hast set thy glory above the heavens.",
+        reference: "Psalm 8:1"
+      },
+      {
+        text: "The LORD is my light and my salvation; whom shall I fear? the LORD is the strength of my life; of whom shall I be afraid?",
+        reference: "Psalm 27:1"
+      },
+      {
+        text: "Wait on the LORD: be of good courage, and he shall strengthen thine heart: wait, I say, on the LORD.",
+        reference: "Psalm 27:14"
+      },
+      {
+        text: "Create in me a clean heart, O God; and renew a right spirit within me.",
+        reference: "Psalm 51:10"
+      },
+      {
+        text: "Whither shall I go from thy spirit? or whither shall I flee from thy presence?",
+        reference: "Psalm 139:7"
+      },
+      {
+        text: "For thou hast possessed my reins: thou hast covered me in my mother's womb. I will praise thee; for I am fearfully and wonderfully made.",
+        reference: "Psalm 139:13-14"
+      },
+      {
+        text: "Search me, O God, and know my heart: try me, and know my thoughts: And see if there be any wicked way in me, and lead me in the way everlasting.",
+        reference: "Psalm 139:23-24"
+      },
+      {
+        text: "God is our refuge and strength, a very present help in trouble.",
+        reference: "Psalm 46:1"
+      },
+      {
+        text: "Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.",
+        reference: "Psalm 46:10"
+      },
+      {
+        text: "Likewise, ye younger, submit yourselves unto the elder. Yea, all of you be subject one to another, and be clothed with humility: for God resisteth the proud, and giveth grace to the humble.",
+        reference: "1 Peter 5:5"
+      },
+      {
+        text: "Casting all your care upon him; for he careth for you.",
+        reference: "1 Peter 5:7"
+      },
+      {
+        text: "But sanctify the Lord God in your hearts: and be ready always to give an answer to every man that asketh you a reason of the hope that is in you with meekness and fear.",
+        reference: "1 Peter 3:15"
+      },
+      {
+        text: "Wherefore let them that suffer according to the will of God commit the keeping of their souls to him in well doing, as unto a faithful Creator.",
+        reference: "1 Peter 4:19"
+      },
+      {
+        text: "According as his divine power hath given unto us all things that pertain unto life and godliness, through the knowledge of him that hath called us to glory and virtue.",
+        reference: "2 Peter 1:3"
+      },
+      {
+        text: "But grow in grace, and in the knowledge of our Lord and Saviour Jesus Christ. To him be glory both now and for ever. Amen.",
+        reference: "2 Peter 3:18"
+      },
+      {
+        text: "If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.",
+        reference: "1 John 1:9"
+      },
+      {
+        text: "Behold, what manner of love the Father hath bestowed upon us, that we should be called the sons of God.",
+        reference: "1 John 3:1"
+      },
+      {
+        text: "Beloved, let us love one another: for love is of God; and every one that loveth is born of God, and knoweth God.",
+        reference: "1 John 4:7"
+      },
+      {
+        text: "There is no fear in love; but perfect love casteth out fear: because fear hath torment. He that feareth is not made perfect in love.",
+        reference: "1 John 4:18"
+      },
+      {
+        text: "For whatsoever is born of God overcometh the world: and this is the victory that overcometh the world, even our faith.",
+        reference: "1 John 5:4"
+      },
+      {
+        text: "For God sent not his Son into the world to condemn the world; but that the world through him might be saved.",
+        reference: "John 3:17"
+      },
+      {
+        text: "Jesus answered and said unto her, Whosoever drinketh of this water shall thirst again: But whosoever drinketh of the water that I shall give him shall never thirst.",
+        reference: "John 4:13-14"
+      },
+      {
+        text: "God is a Spirit: and they that worship him must worship him in spirit and in truth.",
+        reference: "John 4:24"
+      },
+      {
+        text: "Verily, verily, I say unto you, He that heareth my word, and believeth on him that sent me, hath everlasting life, and shall not come into condemnation; but is passed from death unto life.",
+        reference: "John 5:24"
+      },
+      {
+        text: "Search the scriptures; for in them ye think ye have eternal life: and they are they which testify of me.",
+        reference: "John 5:39"
+      },
+      {
+        text: "Labour not for the meat which perisheth, but for that meat which endureth unto everlasting life, which the Son of man shall give unto you: for him hath God the Father sealed.",
+        reference: "John 6:27"
+      },
+      {
+        text: "And Jesus said unto them, I am the bread of life: he that cometh to me shall never hunger; and he that believeth on me shall never thirst.",
+        reference: "John 6:35"
+      },
+      {
+        text: "It is the spirit that quickeneth; the flesh profiteth nothing: the words that I speak unto you, they are spirit, and they are life.",
+        reference: "John 6:63"
+      },
+      {
+        text: "And ye shall know the truth, and the truth shall make you free.",
+        reference: "John 8:32"
+      },
+      {
+        text: "I am the light of the world: he that followeth me shall not walk in darkness, but shall have the light of life.",
+        reference: "John 8:12" 
+      },
+// April (30 days)
+{
+  text: "I am the good shepherd: the good shepherd giveth his life for the sheep.",
+  reference: "John 10:11"
+},
+{
+  text: "Jesus said unto her, I am the resurrection, and the life: he that believeth in me, though he were dead, yet shall he live.",
+  reference: "John 11:25"
+},
+{
+  text: "Greater love hath no man than this, that a man lay down his life for his friends.",
+  reference: "John 15:13"
+},
+{
+  text: "I am the vine, ye are the branches: He that abideth in me, and I in him, the same bringeth forth much fruit: for without me ye can do nothing.",
+  reference: "John 15:5"
+},
+{
+  text: "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.",
+  reference: "John 14:27"
+},
+{
+  text: "These things I have spoken unto you, that in me ye might have peace. In the world ye shall have tribulation: but be of good cheer; I have overcome the world.",
+  reference: "John 16:33"
+},
+{
+  text: "And I will pray the Father, and he shall give you another Comforter, that he may abide with you for ever.",
+  reference: "John 14:16"
+},
+{
+  text: "But the Comforter, which is the Holy Ghost, whom the Father will send in my name, he shall teach you all things, and bring all things to your remembrance, whatsoever I have said unto you.",
+  reference: "John 14:26"
+},
+{
+  text: "If ye love me, keep my commandments.",
+  reference: "John 14:15"
+},
+{
+  text: "Ye have not chosen me, but I have chosen you, and ordained you, that ye should go and bring forth fruit, and that your fruit should remain.",
+  reference: "John 15:16"
+},
+{
+  text: "And I give unto them eternal life; and they shall never perish, neither shall any man pluck them out of my hand.",
+  reference: "John 10:28"
+},
+{
+  text: "I and my Father are one.",
+  reference: "John 10:30"
+},
+{
+  text: "For as in Adam all die, even so in Christ shall all be made alive.",
+  reference: "1 Corinthians 15:22"
+},
+{
+  text: "And now abideth faith, hope, charity, these three; but the greatest of these is charity.",
+  reference: "1 Corinthians 13:13"
+},
+{
+  text: "Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up.",
+  reference: "1 Corinthians 13:4"
+},
+{
+  text: "Doth not behave itself unseemly, seeketh not her own, is not easily provoked, thinketh no evil.",
+  reference: "1 Corinthians 13:5"
+},
+{
+  text: "Rejoiceth not in iniquity, but rejoiceth in the truth; Beareth all things, believeth all things, hopeth all things, endureth all things.",
+  reference: "1 Corinthians 13:6-7"
+},
+{
+  text: "For now we see through a glass, darkly; but then face to face: now I know in part; but then shall I know even as also I am known.",
+  reference: "1 Corinthians 13:12"
+},
+{
+  text: "Therefore, my beloved brethren, be ye stedfast, unmoveable, always abounding in the work of the Lord, forasmuch as ye know that your labour is not in vain in the Lord.",
+  reference: "1 Corinthians 15:58"
+},
+{
+  text: "I am crucified with Christ: nevertheless I live; yet not I, but Christ liveth in me: and the life which I now live in the flesh I live by the faith of the Son of God, who loved me, and gave himself for me.",
+  reference: "Galatians 2:20"
+},
+{
+  text: "And let us not be weary in well doing: for in due season we shall reap, if we faint not.",
+  reference: "Galatians 6:9"
+},
+{
+  text: "For we wrestle not against flesh and blood, but against principalities, against powers, against the rulers of the darkness of this world, against spiritual wickedness in high places.",
+  reference: "Ephesians 6:12"
+},
+{
+  text: "And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ's sake hath forgiven you.",
+  reference: "Ephesians 4:32"
+},
+{
+  text: "Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things.",
+  reference: "Philippians 4:8"
+},
+{
+  text: "And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.",
+  reference: "Philippians 4:7"
+},
+{
+  text: "Let this mind be in you, which was also in Christ Jesus.",
+  reference: "Philippians 2:5"
+},
+{
+  text: "Rejoice in the Lord alway: and again I say, Rejoice.",
+  reference: "Philippians 4:4"
+},
+{
+  text: "Not that I speak in respect of want: for I have learned, in whatsoever state I am, therewith to be content.",
+  reference: "Philippians 4:11"
+},
+{
+  text: "But my God shall supply all your need according to his riches in glory by Christ Jesus.",
+  reference: "Philippians 4:19"
+},
+{
+  text: "Wherefore seeing we also are compassed about with so great a cloud of witnesses, let us lay aside every weight, and the sin which doth so easily beset us, and let us run with patience the race that is set before us.",
+  reference: "Hebrews 12:1"
+},
+
+// May (31 days)
+{
+  text: "Looking unto Jesus the author and finisher of our faith; who for the joy that was set before him endured the cross, despising the shame, and is set down at the right hand of the throne of God.",
+  reference: "Hebrews 12:2"
+},
+{
+  text: "For the word of God is quick, and powerful, and sharper than any twoedged sword, piercing even to the dividing asunder of soul and spirit, and of the joints and marrow, and is a discerner of the thoughts and intents of the heart.",
+  reference: "Hebrews 4:12"
+},
+{
+  text: "But without faith it is impossible to please him: for he that cometh to God must believe that he is, and that he is a rewarder of them that diligently seek him.",
+  reference: "Hebrews 11:6"
+},
+{
+  text: "Now faith is the substance of things hoped for, the evidence of things not seen.",
+  reference: "Hebrews 11:1"
+},
+{
+  text: "Let us therefore come boldly unto the throne of grace, that we may obtain mercy, and find grace to help in time of need.",
+  reference: "Hebrews 4:16"
+},
+{
+  text: "Jesus Christ the same yesterday, and to day, and for ever.",
+  reference: "Hebrews 13:8"
+},
+{
+  text: "For we have not an high priest which cannot be touched with the feeling of our infirmities; but was in all points tempted like as we are, yet without sin.",
+  reference: "Hebrews 4:15"
+},
+{
+  text: "Let us hold fast the profession of our faith without wavering; (for he is faithful that promised;)",
+  reference: "Hebrews 10:23"
+},
+{
+  text: "Let brotherly love continue. Be not forgetful to entertain strangers: for thereby some have entertained angels unawares.",
+  reference: "Hebrews 13:1-2"
+},
+{
+  text: "Blessed is the man that endureth temptation: for when he is tried, he shall receive the crown of life, which the Lord hath promised to them that love him.",
+  reference: "James 1:12"
+},
+{
+  text: "Pure religion and undefiled before God and the Father is this, To visit the fatherless and widows in their affliction, and to keep himself unspotted from the world.",
+  reference: "James 1:27"
+},
+{
+  text: "Even so faith, if it hath not works, is dead, being alone.",
+  reference: "James 2:17"
+},
+{
+  text: "But the wisdom that is from above is first pure, then peaceable, gentle, and easy to be intreated, full of mercy and good fruits, without partiality, and without hypocrisy.",
+  reference: "James 3:17"
+},
+{
+  text: "Draw nigh to God, and he will draw nigh to you. Cleanse your hands, ye sinners; and purify your hearts, ye double minded.",
+  reference: "James 4:8"
+},
+{
+  text: "Confess your faults one to another, and pray one for another, that ye may be healed. The effectual fervent prayer of a righteous man availeth much.",
+  reference: "James 5:16"
+},
+{
+  text: "Every good gift and every perfect gift is from above, and cometh down from the Father of lights, with whom is no variableness, neither shadow of turning.",
+  reference: "James 1:17"
+},
+{
+  text: "Set your affection on things above, not on things on the earth.",
+  reference: "Colossians 3:2"
+},
+{
+  text: "And whatsoever ye do in word or deed, do all in the name of the Lord Jesus, giving thanks to God and the Father by him.",
+  reference: "Colossians 3:17"
+},
+{
+  text: "And whatsoever ye do, do it heartily, as to the Lord, and not unto men.",
+  reference: "Colossians 3:23"
+},
+{
+  text: "Put on therefore, as the elect of God, holy and beloved, bowels of mercies, kindness, humbleness of mind, meekness, longsuffering.",
+  reference: "Colossians 3:12"
+},
+{
+  text: "Continue in prayer, and watch in the same with thanksgiving.",
+  reference: "Colossians 4:2"
+},
+{
+  text: "Rejoice evermore. Pray without ceasing. In every thing give thanks: for this is the will of God in Christ Jesus concerning you.",
+  reference: "1 Thessalonians 5:16-18"
+},
+{
+  text: "Abstain from all appearance of evil.",
+  reference: "1 Thessalonians 5:22"
+},
+{
+  text: "And the very God of peace sanctify you wholly; and I pray God your whole spirit and soul and body be preserved blameless unto the coming of our Lord Jesus Christ.",
+  reference: "1 Thessalonians 5:23"
+},
+{
+  text: "For this is the will of God, even your sanctification.",
+  reference: "1 Thessalonians 4:3"
+},
+{
+  text: "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth.",
+  reference: "2 Timothy 2:15"
+},
+{
+  text: "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness.",
+  reference: "2 Timothy 3:16"
+},
+{
+  text: "Preach the word; be instant in season, out of season; reprove, rebuke, exhort with all longsuffering and doctrine.",
+  reference: "2 Timothy 4:2"
+},
+{
+  text: "But watch thou in all things, endure afflictions, do the work of an evangelist, make full proof of thy ministry.",
+  reference: "2 Timothy 4:5"
+},
+{
+  text: "I have fought a good fight, I have finished my course, I have kept the faith.",
+  reference: "2 Timothy 4:7"
+},
+
+// June (30 days)
+{
+  text: "Let no man despise thy youth; but be thou an example of the believers, in word, in conversation, in charity, in spirit, in faith, in purity.",
+  reference: "1 Timothy 4:12"
+},
+{
+  text: "For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.",
+  reference: "2 Timothy 1:7"
+},
+{
+  text: "Fight the good fight of faith, lay hold on eternal life, whereunto thou art also called, and hast professed a good profession before many witnesses.",
+  reference: "1 Timothy 6:12"
+},
+{
+  text: "For the love of money is the root of all evil: which while some coveted after, they have erred from the faith, and pierced themselves through with many sorrows.",
+  reference: "1 Timothy 6:10"
+},
+{
+  text: "But godliness with contentment is great gain.",
+  reference: "1 Timothy 6:6"
+},
+{
+  text: "Let nothing be done through strife or vainglory; but in lowliness of mind let each esteem other better than themselves.",
+  reference: "Philippians 2:3"
+},
+{
+  text: "The LORD is my rock, and my fortress, and my deliverer; my God, my strength, in whom I will trust; my buckler, and the horn of my salvation, and my high tower.",
+  reference: "Psalm 18:2"
+},
+{
+  text: "As for God, his way is perfect: the word of the LORD is tried: he is a buckler to all those that trust in him.",
+  reference: "Psalm 18:30"
+},
+{
+  text: "For who is God save the LORD? or who is a rock save our God?",
+  reference: "Psalm 18:31"
+},
+{
+  text: "It is God that girdeth me with strength, and maketh my way perfect.",
+  reference: "Psalm 18:32"
+},
+{
+  text: "I will love thee, O LORD, my strength.",
+  reference: "Psalm 18:1"
+},
+{
+  text: "To every thing there is a season, and a time to every purpose under the heaven.",
+  reference: "Ecclesiastes 3:1"
+},
+{
+  text: "A time to be born, and a time to die; a time to plant, and a time to pluck up that which is planted.",
+  reference: "Ecclesiastes 3:2"
+},
+{
+  text: "A time to weep, and a time to laugh; a time to mourn, and a time to dance.",
+  reference: "Ecclesiastes 3:4"
+},
+{
+  text: "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.",
+  reference: "Jeremiah 29:11"
+},
+{
+  text: "The LORD hath appeared of old unto me, saying, Yea, I have loved thee with an everlasting love: therefore with lovingkindness have I drawn thee.",
+  reference: "Jeremiah 31:3"
+},
+{
+  text: "Call unto me, and I will answer thee, and shew thee great and mighty things, which thou knowest not.",
+  reference: "Jeremiah 33:3"
+},
+{
+  text: "Blessed are the poor in spirit: for theirs is the kingdom of heaven.",
+  reference: "Matthew 5:3"
+},
+{
+  text: "Blessed are they that mourn: for they shall be comforted.",
+  reference: "Matthew 5:4"
+},
+{
+  text: "Blessed are the meek: for they shall inherit the earth.",
+  reference: "Matthew 5:5"
+},
+{
+  text: "Blessed are they which do hunger and thirst after righteousness: for they shall be filled.",
+  reference: "Matthew 5:6"
+},
+{
+  text: "Blessed are the merciful: for they shall obtain mercy.",
+  reference: "Matthew 5:7"
+},
+{
+  text: "Blessed are the pure in heart: for they shall see God.",
+  reference: "Matthew 5:8"
+},
+{
+  text: "Blessed are the peacemakers: for they shall be called the children of God.",
+  reference: "Matthew 5:9"
+},
+{
+  text: "Blessed are they which are persecuted for righteousness' sake: for theirs is the kingdom of heaven.",
+  reference: "Matthew 5:10"
+},
+{
+  text: "Ye are the light of the world. A city that is set on an hill cannot be hid.",
+  reference: "Matthew 5:14"
+},
+{
+  text: "Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven.",
+  reference: "Matthew 5:16"
+},
+{
+  text: "Love your enemies, bless them that curse you, do good to them that hate you, and pray for them which despitefully use you, and persecute you.",
+  reference: "Matthew 5:44"
+},
+{
+  text: "Be ye therefore perfect, even as your Father which is in heaven is perfect.",
+  reference: "Matthew 5:48"
+},
+{
+  text: "But thou, when thou prayest, enter into thy closet, and when thou hast shut thy door, pray to thy Father which is in secret; and thy Father which seeth in secret shall reward thee openly.",
+  reference: "Matthew 6:6"
+},
+// July (31 days)
+{
+  text: "After this manner therefore pray ye: Our Father which art in heaven, Hallowed be thy name.",
+  reference: "Matthew 6:9"
+},
+{
+  text: "Thy kingdom come. Thy will be done in earth, as it is in heaven.",
+  reference: "Matthew 6:10"
+},
+{
+  text: "Give us this day our daily bread.",
+  reference: "Matthew 6:11"
+},
+{
+  text: "And forgive us our debts, as we forgive our debtors.",
+  reference: "Matthew 6:12"
+},
+{
+  text: "And lead us not into temptation, but deliver us from evil: For thine is the kingdom, and the power, and the glory, for ever. Amen.",
+  reference: "Matthew 6:13"
+},
+{
+  text: "Lay not up for yourselves treasures upon earth, where moth and rust doth corrupt, and where thieves break through and steal: But lay up for yourselves treasures in heaven.",
+  reference: "Matthew 6:19-20"
+},
+{
+  text: "Therefore take no thought, saying, What shall we eat? or, What shall we drink? or, Wherewithal shall we be clothed?",
+  reference: "Matthew 6:31"
+},
+{
+  text: "But seek ye first the kingdom of God, and his righteousness; and all these things shall be added unto you.",
+  reference: "Matthew 6:33"
+},
+{
+  text: "Take therefore no thought for the morrow: for the morrow shall take thought for the things of itself. Sufficient unto the day is the evil thereof.",
+  reference: "Matthew 6:34"
+},
+{
+  text: "Judge not, that ye be not judged.",
+  reference: "Matthew 7:1"
+},
+{
+  text: "Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you.",
+  reference: "Matthew 7:7"
+},
+{
+  text: "Enter ye in at the strait gate: for wide is the gate, and broad is the way, that leadeth to destruction, and many there be which go in thereat:",
+  reference: "Matthew 7:13"
+},
+{
+  text: "Beware of false prophets, which come to you in sheep's clothing, but inwardly they are ravening wolves.",
+  reference: "Matthew 7:15"
+},
+{
+  text: "Wherefore by their fruits ye shall know them.",
+  reference: "Matthew 7:20"
+},
+{
+  text: "Therefore whosoever heareth these sayings of mine, and doeth them, I will liken him unto a wise man, which built his house upon a rock:",
+  reference: "Matthew 7:24"
+},
+{
+  text: "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
+  reference: "Matthew 11:28"
+},
+{
+  text: "Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls.",
+  reference: "Matthew 11:29"
+},
+{
+  text: "For my yoke is easy, and my burden is light.",
+  reference: "Matthew 11:30"
+},
+{
+  text: "And Jesus said unto them, I am the bread of life: he that cometh to me shall never hunger; and he that believeth on me shall never thirst.",
+  reference: "John 6:35"
+},
+{
+  text: "Then spake Jesus again unto them, saying, I am the light of the world: he that followeth me shall not walk in darkness, but shall have the light of life.",
+  reference: "John 8:12"
+},
+{
+  text: "I am the door: by me if any man enter in, he shall be saved, and shall go in and out, and find pasture.",
+  reference: "John 10:9"
+},
+{
+  text: "I am the good shepherd: the good shepherd giveth his life for the sheep.",
+  reference: "John 10:11"
+},
+{
+  text: "Jesus said unto her, I am the resurrection, and the life: he that believeth in me, though he were dead, yet shall he live:",
+  reference: "John 11:25"
+},
+{
+  text: "Jesus saith unto him, I am the way, the truth, and the life: no man cometh unto the Father, but by me.",
+  reference: "John 14:6"
+},
+{
+  text: "I am the vine, ye are the branches: He that abideth in me, and I in him, the same bringeth forth much fruit: for without me ye can do nothing.",
+  reference: "John 15:5"
+},
+{
+  text: "Verily, verily, I say unto you, He that believeth on me hath everlasting life.",
+  reference: "John 6:47"
+},
+{
+  text: "And ye shall know the truth, and the truth shall make you free.",
+  reference: "John 8:32"
+},
+{
+  text: "If the Son therefore shall make you free, ye shall be free indeed.",
+  reference: "John 8:36"
+},
+{
+  text: "These things I have spoken unto you, that in me ye might have peace. In the world ye shall have tribulation: but be of good cheer; I have overcome the world.",
+  reference: "John 16:33"
+},
+{
+  text: "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away.",
+  reference: "Revelation 21:4"
+},
+{
+  text: "Behold, I stand at the door, and knock: if any man hear my voice, and open the door, I will come in to him, and will sup with him, and he with me.",
+  reference: "Revelation 3:20"
+},
+
+// August (31 days)
+{
+  text: "In the beginning was the Word, and the Word was with God, and the Word was God.",
+  reference: "John 1:1"
+},
+{
+  text: "And the Word was made flesh, and dwelt among us, (and we beheld his glory, the glory as of the only begotten of the Father,) full of grace and truth.",
+  reference: "John 1:14"
+},
+{
+  text: "For God sent not his Son into the world to condemn the world; but that the world through him might be saved.",
+  reference: "John 3:17"
+},
+{
+  text: "He that believeth on the Son hath everlasting life: and he that believeth not the Son shall not see life; but the wrath of God abideth on him.",
+  reference: "John 3:36"
+},
+{
+  text: "But whosoever drinketh of the water that I shall give him shall never thirst; but the water that I shall give him shall be in him a well of water springing up into everlasting life.",
+  reference: "John 4:14"
+},
+{
+  text: "God is a Spirit: and they that worship him must worship him in spirit and in truth.",
+  reference: "John 4:24"
+},
+{
+  text: "Verily, verily, I say unto you, He that heareth my word, and believeth on him that sent me, hath everlasting life, and shall not come into condemnation; but is passed from death unto life.",
+  reference: "John 5:24"
+},
+{
+  text: "Labour not for the meat which perisheth, but for that meat which endureth unto everlasting life, which the Son of man shall give unto you: for him hath God the Father sealed.",
+  reference: "John 6:27"
+},
+{
+  text: "And this is the will of him that sent me, that every one which seeth the Son, and believeth on him, may have everlasting life: and I will raise him up at the last day.",
+  reference: "John 6:40"
+},
+{
+  text: "It is the spirit that quickeneth; the flesh profiteth nothing: the words that I speak unto you, they are spirit, and they are life.",
+  reference: "John 6:63"
+},
+{
+  text: "If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.",
+  reference: "1 John 1:9"
+},
+{
+  text: "But if we walk in the light, as he is in the light, we have fellowship one with another, and the blood of Jesus Christ his Son cleanseth us from all sin.",
+  reference: "1 John 1:7"
+},
+{
+  text: "My little children, these things write I unto you, that ye sin not. And if any man sin, we have an advocate with the Father, Jesus Christ the righteous:",
+  reference: "1 John 2:1"
+},
+{
+  text: "He that saith he abideth in him ought himself also so to walk, even as he walked.",
+  reference: "1 John 2:6"
+},
+{
+  text: "Love not the world, neither the things that are in the world. If any man love the world, the love of the Father is not in him.",
+  reference: "1 John 2:15"
+},
+{
+  text: "And the world passeth away, and the lust thereof: but he that doeth the will of God abideth for ever.",
+  reference: "1 John 2:17"
+},
+{
+  text: "Behold, what manner of love the Father hath bestowed upon us, that we should be called the sons of God: therefore the world knoweth us not, because it knew him not.",
+  reference: "1 John 3:1"
+},
+{
+  text: "Beloved, now are we the sons of God, and it doth not yet appear what we shall be: but we know that, when he shall appear, we shall be like him; for we shall see him as he is.",
+  reference: "1 John 3:2"
+},
+{
+  text: "Little children, let us not love in word, neither in tongue; but in deed and in truth.",
+  reference: "1 John 3:18"
+},
+{
+  text: "Beloved, let us love one another: for love is of God; and every one that loveth is born of God, and knoweth God.",
+  reference: "1 John 4:7"
+},
+{
+  text: "He that loveth not knoweth not God; for God is love.",
+  reference: "1 John 4:8"
+},
+{
+  text: "Herein is love, not that we loved God, but that he loved us, and sent his Son to be the propitiation for our sins.",
+  reference: "1 John 4:10"
+},
+{
+  text: "Beloved, if God so loved us, we ought also to love one another.",
+  reference: "1 John 4:11"
+},
+{
+  text: "There is no fear in love; but perfect love casteth out fear: because fear hath torment. He that feareth is not made perfect in love.",
+  reference: "1 John 4:18"
+},
+{
+  text: "We love him, because he first loved us.",
+  reference: "1 John 4:19"
+},
+{
+  text: "For whatsoever is born of God overcometh the world: and this is the victory that overcometh the world, even our faith.",
+  reference: "1 John 5:4"
+},
+{
+  text: "And this is the confidence that we have in him, that, if we ask any thing according to his will, he heareth us:",
+  reference: "1 John 5:14"
+},
+{
+  text: "And we know that the Son of God is come, and hath given us an understanding, that we may know him that is true, and we are in him that is true, even in his Son Jesus Christ. This is the true God, and eternal life.",
+  reference: "1 John 5:20"
+},
+{
+  text: "The Lord is not slack concerning his promise, as some men count slackness; but is longsuffering to us-ward, not willing that any should perish, but that all should come to repentance.",
+  reference: "2 Peter 3:9"
+},
+{
+  text: "But the day of the Lord will come as a thief in the night; in the which the heavens shall pass away with a great noise, and the elements shall melt with fervent heat, the earth also and the works that are therein shall be burned up.",
+  reference: "2 Peter 3:10"
+},
+{
+  text: "But grow in grace, and in the knowledge of our Lord and Saviour Jesus Christ. To him be glory both now and for ever. Amen.",
+  reference: "2 Peter 3:18"
+},
+
+// September (30 days)
+{
+  text: "And he spake many things unto them in parables, saying, Behold, a sower went forth to sow;",
+  reference: "Matthew 13:3"
+},
+{
+  text: "And when he sowed, some seeds fell by the way side, and the fowls came and devoured them up:",
+  reference: "Matthew 13:4"
+},
+{
+  text: "Some fell upon stony places, where they had not much earth: and forthwith they sprung up, because they had no deepness of earth:",
+  reference: "Matthew 13:5"
+},
+{
+  text: "And when the sun was up, they were scorched; and because they had no root, they withered away.",
+  reference: "Matthew 13:6"
+},
+{
+  text: "And some fell among thorns; and the thorns sprung up, and choked them:",
+  reference: "Matthew 13:7"
+},
+{
+  text: "But other fell into good ground, and brought forth fruit, some an hundredfold, some sixtyfold, some thirtyfold.",
+  reference: "Matthew 13:8"
+},
+{
+  text: "Who hath ears to hear, let him hear.",
+  reference: "Matthew 13:9"
+},
+{
+  text: "For verily I say unto you, That whosoever shall say unto this mountain, Be thou removed, and be thou cast into the sea; and shall not doubt in his heart, but shall believe that those things which he saith shall come to pass; he shall have whatsoever he saith.",
+  reference: "Mark 11:23"
+},
+{
+  text: "Therefore I say unto you, What things soever ye desire, when ye pray, believe that ye receive them, and ye shall have them.",
+  reference: "Mark 11:24"
+},
+{
+  text: "And when ye stand praying, forgive, if ye have ought against any: that your Father also which is in heaven may forgive you your trespasses.",
+  reference: "Mark 11:25"
+},
+{
+  text: "For whosoever shall do the will of God, the same is my brother, and my sister, and mother.",
+  reference: "Mark 3:35"
+},
+{
+  text: "And these signs shall follow them that believe; In my name shall they cast out devils; they shall speak with new tongues;",
+  reference: "Mark 16:17"
+},
+{
+  text: "And as ye would that men should do to you, do ye also to them likewise.",
+  reference: "Luke 6:31"
+},
+{
+  text: "Judge not, and ye shall not be judged: condemn not, and ye shall not be condemned: forgive, and ye shall be forgiven:",
+  reference: "Luke 6:37"
+},
+{
+  text: "Give, and it shall be given unto you; good measure, pressed down, and shaken together, and running over, shall men give into your bosom. For with the same measure that ye mete withal it shall be measured to you again.",
+  reference: "Luke 6:38"
+},
+{
+  text: "For a good tree bringeth not forth corrupt fruit; neither doth a corrupt tree bring forth good fruit.",
+  reference: "Luke 6:43"
+},
+{
+  text: "For of the abundance of the heart his mouth speaketh.",
+  reference: "Luke 6:45"
+},
+{
+  text: "And why call ye me, Lord, Lord, and do not the things which I say?",
+  reference: "Luke 6:46"
+},
+{
+  text: "Nevertheless I tell you the truth; It is expedient for you that I go away: for if I go not away, the Comforter will not come unto you; but if I depart, I will send him unto you.",
+  reference: "John 16:7"
+},
+{
+  text: "Howbeit when he, the Spirit of truth, is come, he will guide you into all truth: for he shall not speak of himself; but whatsoever he shall hear, that shall he speak: and he will shew you things to come.",
+  reference: "John 16:13"
+},
+{
+  text: "Hitherto have ye asked nothing in my name: ask, and ye shall receive, that your joy may be full.",
+  reference: "John 16:24"
+},
+{
+  text: "Let all bitterness, and wrath, and anger, and clamour, and evil speaking, be put away from you, with all malice:",
+  reference: "Ephesians 4:31"
+},
+{
+  text: "And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ's sake hath forgiven you.",
+  reference: "Ephesians 4:32"
+},
+{
+  text: "Be ye therefore followers of God, as dear children; And walk in love, as Christ also hath loved us, and hath given himself for us an offering and a sacrifice to God for a sweetsmelling savour.",
+  reference: "Ephesians 5:1-2"
+},
+{
+  text: "For ye were sometimes darkness, but now are ye light in the Lord: walk as children of light:",
+  reference: "Ephesians 5:8"
+},
+{
+  text: "See then that ye walk circumspectly, not as fools, but as wise, Redeeming the time, because the days are evil.",
+  reference: "Ephesians 5:15-16"
+},
+{
+  text: "Wherefore be ye not unwise, but understanding what the will of the Lord is.",
+  reference: "Ephesians 5:17"
+},
+{
+  text: "Speaking to yourselves in psalms and hymns and spiritual songs, singing and making melody in your heart to the Lord;",
+  reference: "Ephesians 5:19"
+},
+{
+  text: "Giving thanks always for all things unto God and the Father in the name of our Lord Jesus Christ;",
+  reference: "Ephesians 5:20"
+},
+{
+  text: "Finally, my brethren, be strong in the Lord, and in the power of his might.",
+  reference: "Ephesians 6:10"
+},
+// October (31 days)
+{
+  text: "Put on the whole armour of God, that ye may be able to stand against the wiles of the devil.",
+  reference: "Ephesians 6:11"
+},
+{
+  text: "Stand therefore, having your loins girt about with truth, and having on the breastplate of righteousness;",
+  reference: "Ephesians 6:14"
+},
+{
+  text: "And your feet shod with the preparation of the gospel of peace;",
+  reference: "Ephesians 6:15"
+},
+{
+  text: "Above all, taking the shield of faith, wherewith ye shall be able to quench all the fiery darts of the wicked.",
+  reference: "Ephesians 6:16"
+},
+{
+  text: "And take the helmet of salvation, and the sword of the Spirit, which is the word of God:",
+  reference: "Ephesians 6:17"
+},
+{
+  text: "Praying always with all prayer and supplication in the Spirit, and watching thereunto with all perseverance and supplication for all saints;",
+  reference: "Ephesians 6:18"
+},
+{
+  text: "I can do all things through Christ which strengtheneth me.",
+  reference: "Philippians 4:13"
+},
+{
+  text: "But my God shall supply all your need according to his riches in glory by Christ Jesus.",
+  reference: "Philippians 4:19"
+},
+{
+  text: "Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things.",
+  reference: "Philippians 4:8"
+},
+{
+  text: "Let nothing be done through strife or vainglory; but in lowliness of mind let each esteem other better than themselves.",
+  reference: "Philippians 2:3"
+},
+{
+  text: "For whom the Lord loveth he chasteneth, and scourgeth every son whom he receiveth.",
+  reference: "Hebrews 12:6"
+},
+{
+  text: "Now no chastening for the present seemeth to be joyous, but grievous: nevertheless afterward it yieldeth the peaceable fruit of righteousness unto them which are exercised thereby.",
+  reference: "Hebrews 12:11"
+},
+{
+  text: "Let brotherly love continue.",
+  reference: "Hebrews 13:1"
+},
+{
+  text: "Be not forgetful to entertain strangers: for thereby some have entertained angels unawares.",
+  reference: "Hebrews 13:2"
+},
+{
+  text: "Remember them that are in bonds, as bound with them; and them which suffer adversity, as being yourselves also in the body.",
+  reference: "Hebrews 13:3"
+},
+{
+  text: "Marriage is honourable in all, and the bed undefiled: but whoremongers and adulterers God will judge.",
+  reference: "Hebrews 13:4"
+},
+{
+  text: "Let your conversation be without covetousness; and be content with such things as ye have: for he hath said, I will never leave thee, nor forsake thee.",
+  reference: "Hebrews 13:5"
+},
+{
+  text: "So that we may boldly say, The Lord is my helper, and I will not fear what man shall do unto me.",
+  reference: "Hebrews 13:6"
+},
+{
+  text: "Jesus Christ the same yesterday, and to day, and for ever.",
+  reference: "Hebrews 13:8"
+},
+{
+  text: "Be not carried about with divers and strange doctrines. For it is a good thing that the heart be established with grace; not with meats, which have not profited them that have been occupied therein.",
+  reference: "Hebrews 13:9"
+},
+{
+  text: "By him therefore let us offer the sacrifice of praise to God continually, that is, the fruit of our lips giving thanks to his name.",
+  reference: "Hebrews 13:15"
+},
+{
+  text: "But to do good and to communicate forget not: for with such sacrifices God is well pleased.",
+  reference: "Hebrews 13:16"
+},
+{
+  text: "Now the God of peace, that brought again from the dead our Lord Jesus, that great shepherd of the sheep, through the blood of the everlasting covenant,",
+  reference: "Hebrews 13:20"
+},
+{
+  text: "Make you perfect in every good work to do his will, working in you that which is wellpleasing in his sight, through Jesus Christ; to whom be glory for ever and ever. Amen.",
+  reference: "Hebrews 13:21"
+},
+{
+  text: "To him be glory and dominion for ever and ever. Amen.",
+  reference: "1 Peter 5:11"
+},
+{
+  text: "Casting all your care upon him; for he careth for you.",
+  reference: "1 Peter 5:7"
+},
+{
+  text: "Be sober, be vigilant; because your adversary the devil, as a roaring lion, walketh about, seeking whom he may devour:",
+  reference: "1 Peter 5:8"
+},
+{
+  text: "Whom resist stedfast in the faith, knowing that the same afflictions are accomplished in your brethren that are in the world.",
+  reference: "1 Peter 5:9"
+},
+{
+  text: "But the God of all grace, who hath called us unto his eternal glory by Christ Jesus, after that ye have suffered a while, make you perfect, stablish, strengthen, settle you.",
+  reference: "1 Peter 5:10"
+},
+{
+  text: "He that saith, I know him, and keepeth not his commandments, is a liar, and the truth is not in him.",
+  reference: "1 John 2:4"
+},
+{
+  text: "But whoso keepeth his word, in him verily is the love of God perfected: hereby know we that we are in him.",
+  reference: "1 John 2:5"
+},
+
+// November (30 days)
+{
+  text: "Let all things be done decently and in order.",
+  reference: "1 Corinthians 14:40"
+},
+{
+  text: "Prove all things; hold fast that which is good.",
+  reference: "1 Thessalonians 5:21"
+},
+{
+  text: "Be kindly affectioned one to another with brotherly love; in honour preferring one another;",
+  reference: "Romans 12:10"
+},
+{
+  text: "Not slothful in business; fervent in spirit; serving the Lord;",
+  reference: "Romans 12:11"
+},
+{
+  text: "Rejoicing in hope; patient in tribulation; continuing instant in prayer;",
+  reference: "Romans 12:12"
+},
+{
+  text: "Distributing to the necessity of saints; given to hospitality.",
+  reference: "Romans 12:13"
+},
+{
+  text: "Bless them which persecute you: bless, and curse not.",
+  reference: "Romans 12:14"
+},
+{
+  text: "Rejoice with them that do rejoice, and weep with them that weep.",
+  reference: "Romans 12:15"
+},
+{
+  text: "Be of the same mind one toward another. Mind not high things, but condescend to men of low estate. Be not wise in your own conceits.",
+  reference: "Romans 12:16"
+},
+{
+  text: "Recompense to no man evil for evil. Provide things honest in the sight of all men.",
+  reference: "Romans 12:17"
+},
+{
+  text: "If it be possible, as much as lieth in you, live peaceably with all men.",
+  reference: "Romans 12:18"
+},
+{
+  text: "Dearly beloved, avenge not yourselves, but rather give place unto wrath: for it is written, Vengeance is mine; I will repay, saith the Lord.",
+  reference: "Romans 12:19"
+},
+{
+  text: "Therefore if thine enemy hunger, feed him; if he thirst, give him drink: for in so doing thou shalt heap coals of fire on his head.",
+  reference: "Romans 12:20"
+},
+{
+  text: "Be not overcome of evil, but overcome evil with good.",
+  reference: "Romans 12:21"
+},
+{
+  text: "A new commandment I give unto you, That ye love one another; as I have loved you, that ye also love one another.",
+  reference: "John 13:34"
+},
+{
+  text: "By this shall all men know that ye are my disciples, if ye have love one to another.",
+  reference: "John 13:35"
+},
+{
+  text: "I press toward the mark for the prize of the high calling of God in Christ Jesus.",
+  reference: "Philippians 3:14"
+},
+{
+  text: "Let your moderation be known unto all men. The Lord is at hand.",
+  reference: "Philippians 4:5"
+},
+{
+  text: "The Lord is my light and my salvation; whom shall I fear? the Lord is the strength of my life; of whom shall I be afraid?",
+  reference: "Psalm 27:1"
+},
+{
+  text: "Wait on the Lord: be of good courage, and he shall strengthen thine heart: wait, I say, on the Lord.",
+  reference: "Psalm 27:14"
+},
+{
+  text: "The Lord is my shepherd; I shall not want.",
+  reference: "Psalm 23:1"
+},
+{
+  text: "He maketh me to lie down in green pastures: he leadeth me beside the still waters.",
+  reference: "Psalm 23:2"
+},
+{
+  text: "He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake.",
+  reference: "Psalm 23:3"
+},
+{
+  text: "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
+  reference: "Psalm 23:4"
+},
+{
+  text: "Thou preparest a table before me in the presence of mine enemies: thou anointest my head with oil; my cup runneth over.",
+  reference: "Psalm 23:5"
+},
+{
+  text: "Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the Lord for ever.",
+  reference: "Psalm 23:6"
+},
+{
+  text: "Make a joyful noise unto the Lord, all ye lands. Serve the Lord with gladness: come before his presence with singing.",
+  reference: "Psalm 100:1-2"
+},
+{
+  text: "Know ye that the Lord he is God: it is he that hath made us, and not we ourselves; we are his people, and the sheep of his pasture.",
+  reference: "Psalm 100:3"
+},
+{
+  text: "Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name.",
+  reference: "Psalm 100:4"
+},
+{
+  text: "For the Lord is good; his mercy is everlasting; and his truth endureth to all generations.",
+  reference: "Psalm 100:5"
+},
+
+// December (31 days)
+{
+  text: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.",
+  reference: "Isaiah 41:10"
+},
+{
+  text: "For I the Lord thy God will hold thy right hand, saying unto thee, Fear not; I will help thee.",
+  reference: "Isaiah 41:13"
+},
+{
+  text: "For unto us a child is born, unto us a son is given: and the government shall be upon his shoulder: and his name shall be called Wonderful, Counsellor, The mighty God, The everlasting Father, The Prince of Peace.",
+  reference: "Isaiah 9:6"
+},
+{
+  text: "But they that wait upon the Lord shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
+  reference: "Isaiah 40:31"
+},
+{
+  text: "The grass withereth, the flower fadeth: but the word of our God shall stand for ever.",
+  reference: "Isaiah 40:8"
+},
+{
+  text: "Behold, a virgin shall be with child, and shall bring forth a son, and they shall call his name Emmanuel, which being interpreted is, God with us.",
+  reference: "Matthew 1:23"
+},
+{
+  text: "And she shall bring forth a son, and thou shalt call his name JESUS: for he shall save his people from their sins.",
+  reference: "Matthew 1:21"
+},
+{
+  text: "Now when Jesus was born in Bethlehem of Judaea in the days of Herod the king, behold, there came wise men from the east to Jerusalem.",
+  reference: "Matthew 2:1"
+},
+{
+  text: "And when they were come into the house, they saw the young child with Mary his mother, and fell down, and worshipped him: and when they had opened their treasures, they presented unto him gifts; gold, and frankincense, and myrrh.",
+  reference: "Matthew 2:11"
+},
+{
+  text: "And there were in the same country shepherds abiding in the field, keeping watch over their flock by night.",
+  reference: "Luke 2:8"
+},
+{
+  text: "And, lo, the angel of the Lord came upon them, and the glory of the Lord shone round about them: and they were sore afraid.",
+  reference: "Luke 2:9"
+},
+{
+  text: "And the angel said unto them, Fear not: for, behold, I bring you good tidings of great joy, which shall be to all people.",
+  reference: "Luke 2:10"
+},
+{
+  text: "For unto you is born this day in the city of David a Saviour, which is Christ the Lord.",
+  reference: "Luke 2:11"
+},
+{
+  text: "And this shall be a sign unto you; Ye shall find the babe wrapped in swaddling clothes, lying in a manger.",
+  reference: "Luke 2:12"
+},
+{
+  text: "And suddenly there was with the angel a multitude of the heavenly host praising God, and saying, Glory to God in the highest, and on earth peace, good will toward men.",
+  reference: "Luke 2:13-14"
+},
+{
+  text: "And it came to pass, as the angels were gone away from them into heaven, the shepherds said one to another, Let us now go even unto Bethlehem, and see this thing which is come to pass, which the Lord hath made known unto us.",
+  reference: "Luke 2:15"
+},
+{
+  text: "And they came with haste, and found Mary, and Joseph, and the babe lying in a manger.",
+  reference: "Luke 2:16"
+},
+{
+  text: "And the Word was made flesh, and dwelt among us, (and we beheld his glory, the glory as of the only begotten of the Father,) full of grace and truth.",
+  reference: "John 1:14"
+},
+{
+  text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
+  reference: "John 3:16"
+},
+{
+  text: "That whosoever believeth in him should not perish, but have eternal life.",
+  reference: "John 3:15"
+},
+{
+  text: "He that spared not his own Son, but delivered him up for us all, how shall he not with him also freely give us all things?",
+  reference: "Romans 8:32"
+},
+{
+  text: "For when we were yet without strength, in due time Christ died for the ungodly.",
+  reference: "Romans 5:6"
+},
+{
+  text: "For scarcely for a righteous man will one die: yet peradventure for a good man some would even dare to die.",
+  reference: "Romans 5:7"
+},
+{
+  text: "But God commendeth his love toward us, in that, while we were yet sinners, Christ died for us.",
+  reference: "Romans 5:8"
+},
+{
+  text: "Therefore being justified by faith, we have peace with God through our Lord Jesus Christ:",
+  reference: "Romans 5:1"
+},
+{
+  text: "By whom also we have access by faith into this grace wherein we stand, and rejoice in hope of the glory of God.",
+  reference: "Romans 5:2"
+},
+{
+  text: "And not only so, but we glory in tribulations also: knowing that tribulation worketh patience;",
+  reference: "Romans 5:3"
+},
+{
+  text: "And patience, experience; and experience, hope:",
+  reference: "Romans 5:4"
+},
+{
+  text: "And hope maketh not ashamed; because the love of God is shed abroad in our hearts by the Holy Ghost which is given unto us.",
+  reference: "Romans 5:5"
+},
+{
+  text: "Thanks be unto God for his unspeakable gift.",
+  reference: "2 Corinthians 9:15"
+},
+{
+  text: "And the angel said unto them, Fear not: for, behold, I bring you good tidings of great joy, which shall be to all people. For unto you is born this day in the city of David a Saviour, which is Christ the Lord.",
+  reference: "Luke 2:10-11"
+},
+{
+  text: "In the beginning was the Word, and the Word was with God, and the Word was God. The same was in the beginning with God. All things were made by him; and without him was not any thing made that was made. In him was life; and the life was the light of men.",
+  reference: "John 1:1-4"
+}
+
+
+
+
+
+    ];
+
+    // DOM elements
+    const dateElement = document.getElementById('currentDate');
+    const dayOfYearElement = document.getElementById('dayOfYear');
+    const verseTextElement = document.getElementById('verseText');
+    const verseReferenceElement = document.getElementById('verseReference');
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+    // Random button removed
+    const todayButton = document.getElementById('todayButton');
+    const monthSelector = document.getElementById('monthSelector');
+    const daySelector = document.getElementById('daySelector');
+
+    // Calculate day of year from a date
+    function getDayOfYear(date) {
+      const start = new Date(date.getFullYear(), 0, 0);
+      const diff = date - start;
+      const oneDay = 1000 * 60 * 60 * 24;
+      return Math.floor(diff / oneDay);
+    }
+
+    // Calculate date from day of year
+    function getDateFromDayOfYear(year, dayOfYear) {
+      const date = new Date(year, 0);
+      date.setDate(dayOfYear);
+      return date;
+    }
+
+    // Get day of year
+    const today = new Date();
+    let currentDayOfYear = getDayOfYear(today);
+    
+    // Restrict to only first 3 months (90 days)
+    const maxDayOfYear = 90;
+    if (currentDayOfYear > maxDayOfYear) {
+      currentDayOfYear = currentDayOfYear % maxDayOfYear;
+      if (currentDayOfYear === 0) currentDayOfYear = maxDayOfYear;
+    }
+    
+    // Current verse index
+    let currentVerseIndex = currentDayOfYear - 1; // 0-based index
+    
+    // Format date
+    function formatDate(date) {
+      const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    }
+    
+    // Update the verse display
+    function updateVerseDisplay() {
+      const verse = verses[currentVerseIndex];
+      
+      // Create a date object for this verse (based on its index)
+      const verseDate = getDateFromDayOfYear(today.getFullYear(), currentVerseIndex + 1);
+      
+      // Format the verse's date
+      const formattedDate = formatDate(verseDate);
+      dateElement.textContent = formattedDate;
+      
+      // Show day of year (1-90)
+      dayOfYearElement.textContent = `Day ${currentVerseIndex + 1} of ${verses.length}`;
+      
+      verseTextElement.textContent = verse.text;
+      verseReferenceElement.textContent = verse.reference;
+      
+      // Update the month and day selectors to match current verse
+      monthSelector.value = verseDate.getMonth();
+      populateDaySelector(verseDate.getMonth());
+      daySelector.value = verseDate.getDate();
+    }
+    
+    // Populate month selector
+    function populateMonthSelector() {
+      // Only add the first 3 months
+      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      monthSelector.innerHTML = '';
+      
+      months.forEach((month, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = month;
+        monthSelector.appendChild(option);
+      });
+    }
+    
+    // Populate day selector based on selected month
+    function populateDaySelector(monthIndex) {
+      daySelector.innerHTML = '';
+      
+      // Get the number of days in the month
+      const daysInMonth = new Date(today.getFullYear(), monthIndex + 1, 0).getDate();
+      
+      for (let i = 1; i <= daysInMonth; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        daySelector.appendChild(option);
+      }
+    }
+    
+    // Initialize month and day selectors
+    populateMonthSelector();
+    populateDaySelector(today.getMonth());
+    
+    // Initialize the display
+    updateVerseDisplay();
+    
+    // Button event listeners
+    prevButton.addEventListener('click', () => {
+      currentVerseIndex = (currentVerseIndex - 1 + verses.length) % verses.length;
+      updateVerseDisplay();
+    });
+    
+    nextButton.addEventListener('click', () => {
+      currentVerseIndex = (currentVerseIndex + 1) % verses.length;
+      updateVerseDisplay();
+    });
+    
+    // Random button functionality removed
+    
+    todayButton.addEventListener('click', () => {
+      // Calculate today's verse index (1-90)
+      let todayIndex = getDayOfYear(new Date()) - 1;
+      
+      // Adjust for days beyond our 3-month range
+      if (todayIndex >= verses.length) {
+        todayIndex = todayIndex % verses.length;
+      }
+      
+      currentVerseIndex = todayIndex;
+      updateVerseDisplay();
+    });
+    
+    // Month selector event listener
+    monthSelector.addEventListener('change', () => {
+      const selectedMonth = parseInt(monthSelector.value);
+      populateDaySelector(selectedMonth);
+      
+      // Default to day 1 when changing months
+      daySelector.value = 1;
+      
+      // Calculate the verse index for this date
+      const dayOfYear = calculateDayOfYear(selectedMonth, 1);
+      currentVerseIndex = dayOfYear - 1;
+      updateVerseDisplay();
+    });
+    
+    // Day selector event listener
+    daySelector.addEventListener('change', () => {
+      const selectedMonth = parseInt(monthSelector.value);
+      const selectedDay = parseInt(daySelector.value);
+      
+      // Calculate the verse index for this date
+      const dayOfYear = calculateDayOfYear(selectedMonth, selectedDay);
+      currentVerseIndex = dayOfYear - 1;
+      updateVerseDisplay();
+    });
+    
+    // Calculate day of year from month and day
+    function calculateDayOfYear(month, day) {
+      // Array to hold the number of days in each previous month
+      const daysInPreviousMonths = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]; // For Jan, Feb, Mar, etc.
+      
+      // Calculate day of year
+      return daysInPreviousMonths[month] + day;
+    }
+  </script>
+</body>
+</html>
