@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Learner: Mimetic Desire (Adaptive)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General body and container styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light gray-blue background */
+            color: #1a202c; /* Dark gray text */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        /* Knowledge Display Styles */
+        .knowledge-item h3 { /* Level 1 Concept Title */
+            color: #4A55A2; /* Indigo dye - for Level 1 concept title */
+        }
+        .sub-topic-container { /* Container for each L2 sub-topic */
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0; /* Light gray border */
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .sub-topic-header { /* Clickable header for L2 sub-topic */
+            padding: 0.75rem 1rem;
+            background-color: #f7fafc; /* Very light gray */
+            border-bottom: 1px solid #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top-left-radius: 8px; /* Rounded corners for the top of the header */
+            border-top-right-radius: 8px;
+        }
+        .sub-topic-header:hover {
+            background-color: #edf2f7; /* Slightly darker on hover */
+        }
+        .sub-topic-header h4 { /* Level 2 Sub-Topic Title */
+            color: #5A67D8; /* Indigo - for Level 2 sub-topic title */
+            font-weight: 600;
+        }
+        .insights-list { /* List of insights under an L2 sub-topic */
+            padding: 0.75rem 1rem 1rem 2rem; /* Indent insights for clarity */
+            list-style-type: disc;
+            background-color: #ffffff;
+            border-bottom-left-radius: 8px; /* Rounded corners for the bottom of the insights list */
+            border-bottom-right-radius: 8px;
+        }
+        .insights-list li { /* Individual insight item */
+            margin-bottom: 0.5rem;
+            color: #4a5568; /* Medium gray text */
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .toggler-icon { /* Icon for expand/collapse */
+            transition: transform 0.2s ease-in-out;
+        }
+        details[open] .toggler-icon { /* Rotate icon when section is open */
+            transform: rotate(90deg);
+        }
+        .insights-list { display: none; } /* Insights are hidden by default */
+        details[open] .insights-list { display: block; } /* Show insights when <details> is open */
+
+        /* Trivia/Quiz App Styles (adapted and enhanced) */
+        .trivia-container {
+            background-color: #ffffff;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+        @media (min-width: 640px) { /* Larger padding on larger screens */
+            .trivia-container { padding: 32px; }
+        }
+        .answer-btn { /* Styling for answer buttons */
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            border: 1px solid #e2e8f0;
+            min-height: 60px; /* Minimum height for the button */
+            padding: 0.5rem 0.75rem; /* Add some padding */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 500;
+            border-radius: 8px; /* Rounded corners for answer buttons */
+            line-height: 1.4; /* Adjust line height for better readability of wrapped text */
+            word-break: break-word; /* Allow long words to break to prevent overflow */
+        }
+        .answer-btn:hover:not(:disabled) {
+            background-color: #f8fafc; /* Light hover effect */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+        .answer-btn.correct { /* Styling for correctly selected answer */
+            background-color: #10B981 !important; /* Green-500 */
+            color: white !important;
+            border-color: #059669 !important; /* Green-600 */
+        }
+        .answer-btn.incorrect { /* Styling for incorrectly selected answer */
+            background-color: #EF4444 !important; /* Red-500 */
+            color: white !important;
+            border-color: #DC2626 !important; /* Red-600 */
+        }
+        .answer-btn:disabled { /* Styling for disabled answer buttons */
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        #feedback { /* Styling for feedback message (Correct/Incorrect) */
+            min-height: 24px;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        /* Ensure spans within buttons inherit color correctly for correct/incorrect states */
+        .answer-btn.correct span, .answer-btn.incorrect span {
+            color: white;
+        }
+        .answer-btn span { /* Default text color for span within button */
+            color: #1a202c;
+        }
+        #score, #question-counter, #session-counter { /* Styling for score and counter text */
+            color: #4a5568;
+        }
+        /* Styling for disabled Next and Practice buttons */
+        #next-btn:disabled, #practice-btn:disabled {
+            background-color: #9ca3af; /* Grayed out */
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        #next-btn:disabled:hover, #practice-btn:disabled:hover {
+            background-color: #9ca3af; /* Prevent hover effect when disabled */
+        }
+        #practice-btn { /* Specific styling for the practice button */
+            background-color: #f59e0b; /* Amber 500 */
+        }
+        #practice-btn:hover:not(:disabled) {
+            background-color: #d97706; /* Amber 600 for hover */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container mx-auto p-4">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-indigo-700">Knowledge Base Learner</h1>
+        </header>
+
+        <section id="knowledge-display-section" class="mb-12">
+            <h2 class="text-2xl font-semibold mb-6 text-center text-indigo-600">Learn: Core Concepts</h2>
+            <div id="knowledge-display-area" class="p-2 sm:p-4 bg-gray-100 rounded-lg shadow-md">
+                </div>
+        </section>
+
+        <section id="quiz-section">
+            <div id="quiz-area" class="trivia-container text-center">
+                <h2 id="quiz-title" class="text-2xl font-bold mb-4 text-indigo-600">Test Your Knowledge!</h2>
+                <div id="score-area" class="mb-4 text-lg">
+                    <span id="score" class="font-semibold">Score: 0</span>
+                    <span class="mx-2 text-gray-400">|</span>
+                    <span id="question-counter" class="font-semibold">Question: 0 / 0</span>
+                    <span class="mx-2 text-gray-400">|</span>
+                    <span id="session-counter" class="font-semibold">Section: 1 / 2</span>
+                </div>
+                <div id="question-area" class="mb-6">
+                    <h3 id="question-text" class="text-xl font-semibold mb-4 min-h-[60px] flex items-center justify-center text-gray-700">
+                        Loading question...
+                    </h3>
+                    <div id="answer-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        </div>
+                </div>
+                <div id="feedback" class="mt-4 text-lg font-medium min-h-[24px] mb-4">
+                    &nbsp; </div>
+                <button id="next-btn" class="mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md w-full sm:w-auto">
+                    Next Question
+                </button>
+                <div id="game-over-message" class="hidden mt-6 text-xl font-semibold">
+                    <p id="final-score-message" class="mb-3"></p>
+                    <button id="restart-btn" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out mr-2">
+                        </button>
+                    <button id="practice-btn" class="hidden bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out ml-2">
+                        Practice Weak Areas
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // --- 1. KNOWLEDGE BASE DATA ---
+        // This object holds the structured knowledge for the "Mimetic Desire" concept.
+        const knowledgeChunk = {
+            level1Concept: "Mimetic Desire",
+            level2SubTopics: [
+                { name: "Triangular Structure of Desire", insights: [ "Desire is mediated; a model’s wanting confers value on an object, creating a triangle of subject‑model‑object.", "The subject imitates the model’s desire, not merely noticing but internalising the model’s valuation.", "This structure is ubiquitous in classic novels, revealing imitation as a hidden driver of plot and character motivation." ] },
+                { name: "Internal vs External Mediation", insights: [ "External models are distant idols whose desires inspire without rivalry, fostering aspiration rather than conflict.", "Internal mediation occurs among peers; proximity makes the desired object scarce and rivalry almost certain.", "Transition from external to internal mediation often marks the tipping point from admiration to resentment." ] },
+                { name: "Metaphysical Desire", insights: [ "Beyond objects, imitators crave the model’s very being, seeking ontological fullness through possession.", "This deeper hunger intensifies competition, because the model’s identity cannot be shared or replicated.", "Metaphysical desire explains chronic dissatisfaction after acquisition; the real aim was the model’s stature, not the thing." ] },
+                { name: "Positive vs Negative Mimesis", insights: [ "Imitation can transmit virtues—charity, courage—when the model embodies self‑giving rather than acquisitive will.", "Negative mimesis centres on scarce goods and prestige, breeding envy and escalating rivalry.", "The same imitative faculty underlies both outcomes; ethical direction depends on the model imitated." ] },
+                { name: "Neurobiological Correlates", insights: [ "Mirror‑neuron research confirms humans are wired to reproduce observed intentions and emotions.", "This neural substrate makes mimetic contagion rapid and largely subconscious, aligning biology with Girard’s anthropology.", "Recognition of this circuitry offers empirical grounding for cultural patterns previously inferred from texts and rituals." ] }
+            ]
+        };
+
+        // --- 2. QUIZ QUESTIONS DATA (with relatedConcept) ---
+        // Array of question objects. Each has a 'question', 'answers' array, and 'relatedConcept'.
+        // Correct answers are marked with '#' at the end.
+        const allQuizQuestions = [
+            // Section 1 - Original questions
+            { question: "According to Girard, what is the fundamental characteristic of the 'Triangular Structure of Desire'?", answers: ["Desire is mediated by a model#", "Desire is always for an object's intrinsic value", "Desire primarily arises from biological needs", "Desire is strongest when models are absent"], relatedConcept: "Triangular Structure of Desire" },
+            { question: "What distinguishes 'Internal Mediation' from 'External Mediation'?", answers: ["Proximity leading to rivalry#", "Admiration for distant idols", "A focus on metaphysical qualities", "Confirmation by mirror neurons"], relatedConcept: "Internal vs External Mediation" },
+            { question: "What is the core idea behind 'Metaphysical Desire'?", answers: ["Craving the model’s very being or ontological fullness#", "Desiring purely physical objects", "A desire that is always positive and virtuous", "The desire for external validation through social media"], relatedConcept: "Metaphysical Desire" },
+            { question: "'Positive Mimesis' involves the imitation of...", answers: ["Virtues like charity and courage#", "Scarce goods and prestige", "Hostility and aggression", "Subconscious neural patterns"], relatedConcept: "Positive vs Negative Mimesis" },
+            { question: "The 'Neurobiological Correlates' of mimetic theory are primarily supported by research on:", answers: ["Mirror neurons#", "Classic literary texts", "Economic supply and demand", "Ritualistic sacrifices"], relatedConcept: "Neurobiological Correlates" },
+            { question: "Which L2 Sub-Topic explains that 'a model’s wanting confers value on an object'?", answers: ["Triangular Structure of Desire#", "Metaphysical Desire", "Internal vs External Mediation", "Positive vs Negative Mimesis"], relatedConcept: "Triangular Structure of Desire" },
+            { question: "The insight 'Transition from external to internal mediation often marks the tipping point from admiration to resentment' belongs to which concept?", answers: ["Internal vs External Mediation#", "Neurobiological Correlates", "Metaphysical Desire", "Triangular Structure of Desire"], relatedConcept: "Internal vs External Mediation" },
+            { question: "What concept describes a desire so deep it 'intensifies competition, because the model’s identity cannot be shared or replicated'?", answers: ["Metaphysical Desire#", "Positive Mimesis", "External Mediation", "Neurobiological Substrate"], relatedConcept: "Metaphysical Desire" },
+            { question: "If imitation transmits virtues like self-giving, it is termed:", answers: ["Positive Mimesis#", "Negative Mimesis", "Metaphysical Desire", "Internal Mediation"], relatedConcept: "Positive vs Negative Mimesis" },
+            { question: "The idea that humans are 'wired to reproduce observed intentions and emotions' aligns with:", answers: ["Neurobiological Correlates#", "Triangular Structure of Desire", "Positive vs Negative Mimesis", "Internal vs External Mediation"], relatedConcept: "Neurobiological Correlates" },
+            // Section 2
+            { question: "Which of these is a key insight from 'Triangular Structure of Desire'?", answers: ["The subject imitates the model’s desire, internalising the model’s valuation.#", "External models are distant idols inspiring aspiration.", "The model's identity cannot be shared or replicated.", "Ethical direction depends on the model imitated."], relatedConcept: "Triangular Structure of Desire" },
+            { question: "What is a primary outcome of 'Internal Mediation' among peers?", answers: ["Rivalry over scarce objects becomes almost certain.#", "Aspiration without conflict.", "Transmission of virtues like charity.", "Rapid and subconscious contagion of emotions."], relatedConcept: "Internal vs External Mediation" },
+            { question: "Chronic dissatisfaction after acquiring an object, because the real aim was the model's stature, is explained by:", answers: ["Metaphysical Desire#", "Positive Mimesis", "External Mediation", "The ubiquity of triangles in novels"], relatedConcept: "Metaphysical Desire" },
+            { question: "Negative mimesis primarily centers on:", answers: ["Scarce goods and prestige, breeding envy.#", "The transmission of courage and charity.", "The imitation of distant, admirable idols.", "The empirical grounding of cultural patterns."], relatedConcept: "Positive vs Negative Mimesis" },
+            { question: "Mimetic contagion being 'rapid and largely subconscious' is an insight from:", answers: ["Neurobiological Correlates#", "Internal vs External Mediation", "Metaphysical Desire", "Positive vs Negative Mimesis"], relatedConcept: "Neurobiological Correlates" },
+            { question: "The general concept of 'Mimetic Desire' posits that desire is primarily:", answers: ["Learned or imitated from a model#", "Innate and purely individual", "Focused on an object's use-value", "A result of rational calculation"], relatedConcept: "Triangular Structure of Desire" },
+            { question: "What happens when desire is mediated by 'external models'?", answers: ["It fosters aspiration rather than conflict.#", "It inevitably leads to resentment.", "It creates a subject-model-object triangle of rivalry.", "It can only transmit negative behaviors."], relatedConcept: "Internal vs External Mediation" },
+            { question: "An imitator craving the 'ontological fullness' of a model is an example of:", answers: ["Metaphysical Desire#", "The triangular structure in novels", "Positive mimesis", "A neurobiological response"], relatedConcept: "Metaphysical Desire" },
+            { question: "The statement 'ethical direction depends on the model imitated' is a key insight of:", answers: ["Positive vs Negative Mimesis#", "Metaphysical Desire", "Neurobiological Correlates", "Triangular Structure of Desire"], relatedConcept: "Positive vs Negative Mimesis" },
+            { question: "What provides 'empirical grounding for cultural patterns previously inferred from texts and rituals' according to Girardian theory discussed here?", answers: ["Recognition of mirror-neuron circuitry#", "The study of internal mediation", "The analysis of positive mimesis", "The concept of metaphysical desire"], relatedConcept: "Neurobiological Correlates" }
+        ];
+
+        // --- 3. DOM Elements ---
+        // References to various HTML elements used by the application.
+        const knowledgeDisplayArea = document.getElementById('knowledge-display-area');
+        const quizTitleElement = document.getElementById('quiz-title');
+        const questionTextElement = document.getElementById('question-text');
+        const answerButtonsElement = document.getElementById('answer-buttons');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const scoreElement = document.getElementById('score');
+        const questionCounterElement = document.getElementById('question-counter');
+        const sessionCounterElement = document.getElementById('session-counter');
+        const gameOverMessageElement = document.getElementById('game-over-message');
+        const finalScoreMessageElement = document.getElementById('final-score-message');
+        const restartButton = document.getElementById('restart-btn');
+        const practiceButton = document.getElementById('practice-btn');
+        // Grouping quiz UI elements for easier collective manipulation (e.g., show/hide).
+        const quizAreaElements = {
+            questionArea: document.getElementById('question-area'),
+            scoreArea: document.getElementById('score-area'),
+            nextButton: nextButton,
+            feedbackElement: feedbackElement,
+            quizTitleElement: quizTitleElement
+        };
+
+        // --- 4. Game State ---
+        // Variables to manage the quiz's current state.
+        let questionsForCurrentSession = [];
+        let currentQuestionInSessionIndex = 0;
+        let score = 0;
+        let currentSessionNumber = 1;
+        // RESTORED to original values:
+        const QUESTIONS_PER_SESSION = 10; // Number of questions in each main quiz section
+        const TOTAL_SESSIONS = 2; // Total number of main quiz sections
+        let conceptsToPractice = new Set();
+        let isPracticeMode = false;
+
+        // --- 5. Functions ---
+
+        /**
+         * Dynamically builds and injects the HTML for the knowledge base display.
+         */
+        function displayKnowledgeBase() {
+            knowledgeDisplayArea.innerHTML = '';
+            const l1Div = document.createElement('div');
+            l1Div.classList.add('knowledge-item', 'p-4', 'rounded-lg');
+
+            const l1Header = document.createElement('h3');
+            l1Header.classList.add('text-2xl', 'font-bold', 'mb-4', 'text-center');
+            l1Header.textContent = knowledgeChunk.level1Concept;
+            l1Div.appendChild(l1Header);
+
+            knowledgeChunk.level2SubTopics.forEach((subTopic, index) => {
+                const detailsElement = document.createElement('details');
+                detailsElement.classList.add('sub-topic-container');
+                if (index === 0) detailsElement.open = true;
+                const summaryElement = document.createElement('summary');
+                summaryElement.classList.add('sub-topic-header', 'font-semibold', 'text-lg');
+                const titleElement = document.createElement('h4');
+                titleElement.textContent = subTopic.name;
+                const icon = document.createElement('span');
+                icon.classList.add('toggler-icon', 'text-indigo-500', 'font-bold', 'text-xl');
+                icon.innerHTML = '&#9654;'; // Right-pointing triangle
+                summaryElement.appendChild(titleElement);
+                summaryElement.appendChild(icon);
+
+                const insightsUl = document.createElement('ul');
+                insightsUl.classList.add('insights-list', 'mt-2');
+                subTopic.insights.forEach(insightText => {
+                    const insightLi = document.createElement('li');
+                    insightLi.textContent = insightText;
+                    insightsUl.appendChild(insightLi);
+                });
+
+                detailsElement.appendChild(summaryElement);
+                detailsElement.appendChild(insightsUl);
+                l1Div.appendChild(detailsElement);
+            });
+            knowledgeDisplayArea.appendChild(l1Div);
+        }
+
+        /**
+         * Shuffles an array.
+         * @param {Array} array - The array to shuffle.
+         * @returns {Array} The shuffled array.
+         */
+        function shuffleArray(array) {
+            const newArray = [...array]; // Create a shallow copy to avoid modifying the original
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // Swap elements
+            }
+            return newArray;
+        }
+
+        /**
+         * Initializes or resets the quiz game.
+         * @param {boolean} practice - If true, starts a practice session. Defaults to false.
+         */
+        function startGame(practice = false) {
+            isPracticeMode = practice;
+            score = 0;
+            updateScoreDisplay();
+
+            if (isPracticeMode) {
+                quizTitleElement.textContent = "Practice Weak Areas";
+                const practiceQuestions = allQuizQuestions.filter(q => conceptsToPractice.has(q.relatedConcept));
+                questionsForCurrentSession = shuffleArray(practiceQuestions);
+
+                if (questionsForCurrentSession.length === 0) {
+                    // Handle case where there's nothing to practice
+                    finalScoreMessageElement.textContent = "No specific areas marked for practice, or all practiced correctly!";
+                    gameOverMessageElement.classList.remove('hidden');
+                    practiceButton.classList.add('hidden');
+                    restartButton.textContent = "Play Full Quiz Again?";
+                    Object.values(quizAreaElements).forEach(el => el.classList.add('hidden')); // Hide quiz elements
+                    quizAreaElements.quizTitleElement.classList.remove('hidden'); // Show title area again
+                    return;
+                }
+            } else { // Starting a new main quiz
+                quizTitleElement.textContent = "Test Your Knowledge!";
+                currentSessionNumber = 1;
+                conceptsToPractice.clear(); // Clear practice list for a new full quiz run
+                prepareNewSession(); // This will load the first session's questions
+                return; // Exit startGame early as prepareNewSession handles the rest
+            }
+
+            // Common setup for both practice and subsequent main sessions (if not handled by prepareNewSession)
+            currentQuestionInSessionIndex = 0;
+            feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.add('hidden');
+            practiceButton.classList.add('hidden'); // Hide practice button during active sessions
+            Object.values(quizAreaElements).forEach(el => el.classList.remove('hidden')); // Ensure quiz elements are visible
+            quizAreaElements.nextButton.style.display = 'block'; // Make sure next button is potentially visible
+            nextButton.disabled = true; // Disable next button until an answer is selected
+            loadQuestion();
+        }
+
+        /**
+         * Sets up a new main quiz session.
+         */
+        function prepareNewSession() {
+            sessionCounterElement.textContent = `Section: ${currentSessionNumber} / ${TOTAL_SESSIONS}`;
+            const start = (currentSessionNumber - 1) * QUESTIONS_PER_SESSION;
+            const end = start + QUESTIONS_PER_SESSION;
+            // Ensure we don't try to slice beyond the available questions
+            questionsForCurrentSession = shuffleArray(allQuizQuestions.slice(start, Math.min(end, allQuizQuestions.length)));
+
+            currentQuestionInSessionIndex = 0;
+
+            feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.add('hidden');
+            practiceButton.classList.add('hidden');
+            Object.values(quizAreaElements).forEach(el => el.classList.remove('hidden')); // Show quiz elements
+            quizAreaElements.nextButton.style.display = 'block'; // Show next button area
+            nextButton.disabled = true;
+            nextButton.textContent = "Next Question"; // Default text
+
+            // Check if there are actually questions for this session (handles cases where TOTAL_SESSIONS might be higher than needed)
+            if (questionsForCurrentSession.length === 0 && currentSessionNumber <= TOTAL_SESSIONS) {
+                 showFinalThankYouMessage(); // Treat as end of quiz if no more questions
+                 return;
+            }
+            loadQuestion(); // Load the first question of the session
+        }
+
+        /**
+         * Loads the current question and its answer choices into the UI.
+         */
+        function loadQuestion() {
+            resetStateForNewQuestion();
+            if (currentQuestionInSessionIndex < questionsForCurrentSession.length) {
+                const currentQuestion = questionsForCurrentSession[currentQuestionInSessionIndex];
+                questionTextElement.textContent = currentQuestion.question;
+
+                // Update counters based on mode
+                if (isPracticeMode) {
+                    questionCounterElement.textContent = `Practice Question: ${currentQuestionInSessionIndex + 1} / ${questionsForCurrentSession.length}`;
+                    sessionCounterElement.textContent = `Practicing: ${currentQuestion.relatedConcept}`; // Show concept being practiced
+                } else {
+                    // Calculate the correct number of questions for the *current* session
+                     const questionsInThisSession = Math.min(QUESTIONS_PER_SESSION, allQuizQuestions.length - (currentSessionNumber - 1) * QUESTIONS_PER_SESSION);
+                     questionCounterElement.textContent = `Question: ${currentQuestionInSessionIndex + 1} / ${questionsInThisSession}`; // Use actual count for session
+                    sessionCounterElement.textContent = `Section: ${currentSessionNumber} / ${TOTAL_SESSIONS}`;
+                }
+
+                const shuffledAnswerStrings = shuffleArray([...currentQuestion.answers]);
+
+                shuffledAnswerStrings.forEach(answerString => {
+                    const button = document.createElement('button');
+                    let displayText = answerString;
+                    let isThisAnswerCorrect = false;
+                    if (answerString.endsWith('#')) {
+                        displayText = answerString.slice(0, -1); // Remove the marker
+                        isThisAnswerCorrect = true;
+                    }
+                    button.innerHTML = `<span>${displayText}</span>`; // Wrap text in span for better color control
+                    // button.title = displayText; // TOOLTIP REMOVED - word wrap handles long text
+                    button.dataset.answerText = displayText; // Store clean text for comparison
+
+                    // Apply Tailwind classes for styling
+                    button.classList.add('answer-btn', 'w-full', 'p-3', 'sm:p-4', 'rounded-lg', 'bg-white', 'hover:bg-gray-100', 'focus:outline-none', 'focus:ring-2', 'focus:ring-indigo-500');
+                    button.addEventListener('click', () => selectAnswer(button, isThisAnswerCorrect));
+                    answerButtonsElement.appendChild(button);
+                });
+
+                // Configure the Next button text based on position in the session/quiz
+                nextButton.disabled = true; // Disable until answer selected
+                if (currentQuestionInSessionIndex >= questionsForCurrentSession.length - 1) { // Last question of the current batch
+                    if (isPracticeMode) {
+                        nextButton.textContent = "Finish Practice";
+                    } else {
+                        nextButton.textContent = (currentSessionNumber < TOTAL_SESSIONS && allQuizQuestions.length > currentSessionNumber * QUESTIONS_PER_SESSION) ? "Finish Section" : "Finish Quiz";
+                    }
+                } else {
+                    nextButton.textContent = "Next Question";
+                }
+            } else { // Should not happen if called correctly, but acts as a fallback
+                if(isPracticeMode) endPracticeSession(); else endSession();
+            }
+        }
+
+        /**
+         * Clears feedback and answer buttons from the previous question.
+         */
+        function resetStateForNewQuestion() {
+            feedbackElement.innerHTML = '&nbsp;'; // Clear feedback
+            feedbackElement.classList.remove('text-green-500', 'text-red-500'); // Remove color classes
+            // Clear out old answer buttons
+            while (answerButtonsElement.firstChild) {
+                answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+            }
+        }
+
+        /**
+         * Handles the logic when a user selects an answer.
+         * @param {HTMLButtonElement} selectedButton - The button element the user clicked.
+         * @param {boolean} isClickedAnswerCorrect - Whether the clicked answer was correct.
+         */
+        function selectAnswer(selectedButton, isClickedAnswerCorrect) {
+            // Disable all buttons and reveal the correct answer
+            Array.from(answerButtonsElement.children).forEach(button => {
+                button.disabled = true;
+                // Find the actual correct answer text for the current question
+                const currentQuestionData = questionsForCurrentSession[currentQuestionInSessionIndex];
+                let actualCorrectText = "";
+                currentQuestionData.answers.forEach(ansStr => {
+                    if (ansStr.endsWith('#')) actualCorrectText = ansStr.slice(0, -1);
+                });
+                // Highlight the correct button regardless of what was clicked
+                if (button.dataset.answerText === actualCorrectText) {
+                    button.classList.add('correct');
+                }
+            });
+
+            // Process the selected answer
+            if (isClickedAnswerCorrect) {
+                score++;
+                updateScoreDisplay();
+                feedbackElement.textContent = "Correct!";
+                feedbackElement.classList.add('text-green-500');
+                // No need to add 'correct' class again, done above
+            } else {
+                selectedButton.classList.add('incorrect'); // Highlight the incorrect selection
+                feedbackElement.textContent = "Incorrect!";
+                feedbackElement.classList.add('text-red-500');
+                // If wrong in the main quiz, add the related concept for practice
+                if (!isPracticeMode) {
+                    const concept = questionsForCurrentSession[currentQuestionInSessionIndex].relatedConcept;
+                    if (concept) { // Ensure concept exists
+                        conceptsToPractice.add(concept);
+                    }
+                }
+            }
+            nextButton.disabled = false; // Enable the next button
+        }
+
+        /**
+         * Updates the score display in the UI.
+         */
+        function updateScoreDisplay() {
+            scoreElement.textContent = `Score: ${score}`;
+        }
+
+        /**
+         * Handles the click event for the 'Next Question' or 'Finish Section/Quiz' button.
+         */
+        function handleNextButton() {
+            currentQuestionInSessionIndex++;
+            if (currentQuestionInSessionIndex < questionsForCurrentSession.length) {
+                loadQuestion(); // Load the next question
+            } else { // Reached the end of the current batch of questions
+                if(isPracticeMode) endPracticeSession(); else endSession();
+            }
+        }
+
+        /**
+         * Called when a main quiz session (e.g., 10 questions) ends.
+         */
+        function endSession() {
+            // Hide active quiz elements
+            Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+             quizAreaElements.feedbackElement.innerHTML = '&nbsp;'; // Clear feedback visually
+
+            // Show the game over message area
+            gameOverMessageElement.classList.remove('hidden');
+
+
+            // Determine if there are more sections or if the quiz is finished
+             const moreSessionsExist = currentSessionNumber < TOTAL_SESSIONS && allQuizQuestions.length > currentSessionNumber * QUESTIONS_PER_SESSION;
+
+            if (moreSessionsExist) { // More sections remaining
+                finalScoreMessageElement.textContent = `Section ${currentSessionNumber} Complete! Current Score: ${score}`;
+                restartButton.textContent = "Start Next Section";
+                practiceButton.classList.add('hidden'); // No practice until the full quiz is done
+            } else { // End of the entire main quiz
+                showFinalThankYouMessage(); // Display final score and practice option
+            }
+        }
+
+
+        /**
+         * Called when a practice quiz session ends.
+         */
+        function endPracticeSession() {
+            // Hide active quiz elements
+            Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+             quizAreaElements.feedbackElement.innerHTML = '&nbsp;'; // Clear feedback visually
+            gameOverMessageElement.classList.remove('hidden'); // Show end message area
+
+            finalScoreMessageElement.textContent = `Practice Complete! Your score: ${score} / ${questionsForCurrentSession.length}.`;
+            restartButton.textContent = "Play Full Quiz Again?"; // Option to restart main quiz
+
+            // Logic for showing the practice button again
+            // Only show if there are concepts, questions were asked, and the score wasn't perfect
+            if (conceptsToPractice.size > 0 && questionsForCurrentSession.length > 0 && score < questionsForCurrentSession.length) {
+                 // Update conceptsToPractice: remove concepts where all related questions were answered correctly *in this practice round*
+                const conceptsPracticedThisRound = new Set(questionsForCurrentSession.map(q => q.relatedConcept));
+                conceptsPracticedThisRound.forEach(concept => {
+                    const questionsForConcept = questionsForCurrentSession.filter(q => q.relatedConcept === concept);
+                    // Check if *all* answers for this concept were marked correct (need a way to track this - simplified for now)
+                    // Simple approach: If they finish practice and didn't get 100%, offer again. More complex tracking needed for concept removal.
+                     // For now, keep offering practice if score wasn't perfect on the practice items.
+                     // A more robust solution would track correct answers per concept within the practice session.
+                });
+
+
+                 practiceButton.textContent = "Practice Remaining Areas Again?";
+                 practiceButton.classList.remove('hidden');
+                 practiceButton.disabled = false;
+
+            } else {
+                conceptsToPractice.clear(); // Clear concepts if they aced the practice or no questions were there initially
+                practiceButton.classList.add('hidden'); // Hide practice button
+                 if(questionsForCurrentSession.length > 0 && score === questionsForCurrentSession.length) {
+                      finalScoreMessageElement.textContent += " You aced the practice!"; // Add encouragement
+                 }
+            }
+        }
+
+        /**
+         * Displays the final message when the entire main quiz (all sessions) is complete.
+         * Also makes the practice button visible if there are concepts to practice.
+         */
+         function showFinalThankYouMessage() {
+             // Calculate total questions based on the configured sessions and questions per session for the main quiz.
+              const totalMainQuizQuestions = Math.min(allQuizQuestions.length, QUESTIONS_PER_SESSION * TOTAL_SESSIONS);
+              finalScoreMessageElement.textContent = `Main Quiz Complete! Final Score: ${score} out of ${totalMainQuizQuestions}`;
+              restartButton.textContent = "Play Full Quiz Again?";
+
+             // Ensure quiz elements are hidden and end message is shown
+             Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+             gameOverMessageElement.classList.remove('hidden');
+             quizAreaElements.feedbackElement.innerHTML = '&nbsp;'; // Clear residual feedback
+
+             // Show practice button only if there are concepts marked during the main quiz
+             if (conceptsToPractice.size > 0) {
+                 practiceButton.textContent = "Practice Weak Areas"; // Set initial text
+                 practiceButton.classList.remove('hidden'); // Show the button
+                 practiceButton.disabled = false; // Ensure it's clickable
+             } else {
+                 practiceButton.classList.add('hidden'); // Hide if no concepts to practice
+             }
+         }
+
+
+        /**
+         * Handles the click on the button that appears after a session or the full quiz ends.
+         * This button either starts the next session or restarts the full quiz.
+         */
+        function handleRestartOrContinue() {
+            // Check if it was the end of a session within the main quiz (and not practice mode)
+            const moreSessionsExist = !isPracticeMode && currentSessionNumber < TOTAL_SESSIONS && allQuizQuestions.length > currentSessionNumber * QUESTIONS_PER_SESSION;
+
+            if (moreSessionsExist) { // If there's another section to go
+                currentSessionNumber++;
+                prepareNewSession(); // Set up and start the next section
+            } else { // If it was the end of the full quiz, or end of practice
+                startGame(false); // Restart the main quiz from the beginning
+            }
+        }
+
+
+        /**
+         * Handles the click on the "Practice Weak Areas" button.
+         */
+        function handlePracticeButton() {
+            startGame(true); // Start the game in practice mode
+        }
+
+        // --- Event Listeners ---
+        nextButton.addEventListener('click', handleNextButton);
+        restartButton.addEventListener('click', handleRestartOrContinue);
+        practiceButton.addEventListener('click', handlePracticeButton);
+
+        // --- Initialize ---
+        // This function runs once the entire HTML document is loaded and parsed.
+        document.addEventListener('DOMContentLoaded', () => {
+            displayKnowledgeBase(); // Display the knowledge content first
+            startGame(false); // Start the main quiz by default.
+        });
+    </script>
+</body>
+</html>
