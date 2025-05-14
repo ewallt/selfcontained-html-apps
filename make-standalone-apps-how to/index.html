@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Build Standalone How-To Web Apps with Gemini</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General body and container styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light grey-blue background */
+            color: #1a202c; /* Dark grey text */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px; /* Max width for content */
+            margin: 2rem auto; /* Centering and top/bottom margin */
+            padding: 1rem; /* Padding around content */
+        }
+
+        /* --- Main Guide Display Styles --- */
+        #how-to-guide-display-area {
+            background-color: #f9fafb; /* Very light grey, almost white */
+            border-radius: 8px; /* Rounded corners */
+            padding: 1rem; /* Padding inside the display area */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); /* Subtle shadow */
+        }
+        .main-topic-container {
+            background-color: #ffffff; /* White background for each main topic */
+            border: 1px solid #e5e7eb; /* Light grey border */
+            border-radius: 8px; /* Rounded corners */
+            margin-bottom: 1.5rem; /* Space between main topics */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Slightly more pronounced shadow */
+            overflow: hidden; /* Ensures content respects border radius */
+        }
+        .main-topic-header {
+            padding: 1rem 1.25rem; /* Padding inside the header */
+            background-color: #eef2ff; /* Light indigo background for header */
+            border-bottom: 1px solid #e5e7eb; /* Border below header */
+            cursor: pointer; /* Indicates it's clickable */
+            display: flex;
+            justify-content: space-between; /* Pushes title and icon apart */
+            align-items: center; /* Vertically aligns title and icon */
+            list-style: none; /* Removes default marker for summary */
+        }
+        .main-topic-header::-webkit-details-marker { display: none; } /* Hides default arrow in Chrome/Safari for details */
+        .main-topic-header:hover {
+            background-color: #e0e7ff; /* Slightly darker indigo on hover */
+        }
+        .main-topic-header h3 {
+            color: #4338ca; /* Indigo text color for main topic title */
+            font-weight: 700; /* Bold */
+            font-size: 1.25rem; /* Larger font size */
+            margin: 0; /* Removes default margin */
+        }
+        .sub-topics-wrapper {
+            padding: 0.5rem 1rem 1rem 1rem; /* Padding for the sub-topics area */
+            background-color: #ffffff; /* White background */
+        }
+        .sub-topic-item-container {
+            background-color: #f9fafb; /* Very light grey for sub-topic items */
+            border: 1px solid #e5e7eb; /* Light grey border */
+            border-radius: 6px; /* Slightly smaller rounded corners */
+            margin-bottom: 0.75rem; /* Space between sub-topics */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Very subtle shadow */
+            overflow: hidden; /* Ensures content respects border radius */
+        }
+        .sub-topic-item-header {
+            padding: 0.75rem 1rem; /* Padding inside sub-topic header */
+            background-color: #f9fafb; /* Matching background */
+            border-bottom: 1px solid #e5e7eb; /* Border below header */
+            cursor: pointer; /* Indicates it's clickable */
+            display: flex;
+            justify-content: space-between; /* Pushes title and icon apart */
+            align-items: center; /* Vertically aligns title and icon */
+            list-style: none; /* Removes default marker for summary */
+        }
+        .sub-topic-item-header::-webkit-details-marker { display: none; } /* Hides default arrow */
+        .sub-topic-item-header:hover {
+            background-color: #f3f4f6; /* Slightly darker grey on hover */
+        }
+        .sub-topic-item-header h4 {
+            color: #4f46e5; /* Slightly lighter indigo for sub-topic title */
+            font-weight: 600; /* Semi-bold */
+            font-size: 1rem; /* Standard font size */
+            margin: 0; /* Removes default margin */
+        }
+        .points-list {
+            padding: 0.75rem 1rem 1rem 2rem; /* Padding, with more left padding for bullets */
+            list-style-type: disc; /* Standard disc bullets */
+            background-color: #f9fafb; /* Matching background */
+            margin: 0; /* Removes default margin */
+        }
+        .points-list li {
+            margin-bottom: 0.5rem; /* Space between bullet points */
+            color: #4b5563; /* Medium grey text for points */
+            font-size: 0.9rem; /* Slightly smaller font for readability */
+            line-height: 1.6; /* Improved line spacing */
+        }
+        .toggler-icon {
+            transition: transform 0.2s ease-in-out; /* Smooth rotation for icon */
+            font-size: 1.2rem; /* Size of the icon */
+            color: #6366f1; /* Indigo color for icon */
+            margin-left: 8px; /* Space to the left of the icon */
+        }
+        details[open] > summary .toggler-icon {
+            transform: rotate(90deg); /* Rotates icon when details element is open */
+        }
+
+        /* Styles for the code display box */
+        .prompt-display-box {
+            background-color: #1e293b; /* Dark slate background for code */
+            border: 1px solid #334155; /* Slightly lighter slate border */
+            border-radius: 8px; /* Rounded corners */
+            padding: 1rem; /* Padding inside the box */
+            margin-top: 1rem; /* Space above the box */
+            font-family: 'Courier New', Courier, monospace; /* Monospace font for code */
+            font-size: 0.85rem; /* Optimal size for code readability */
+            line-height: 1.6; /* Line spacing for code */
+            color: #e2e8f0; /* Light grey/blue text color for dark background */
+            white-space: pre-wrap; /* Preserves whitespace and wraps lines */
+            word-break: break-all; /* Breaks long words to prevent overflow */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Soft shadow */
+            max-height: 500px; /* Maximum height before scrolling */
+            overflow-y: auto; /* Enables vertical scrolling if content exceeds max-height */
+        }
+        .prompt-display-box h5 { /* Title for the code box */
+            font-family: 'Inter', sans-serif; /* Use main font for title */
+            font-weight: 600; /* Semi-bold */
+            color: #a5b4fc; /* Light indigo for title on dark background */
+            margin-top: 0; /* No top margin */
+            margin-bottom: 0.75rem; /* Space below title */
+            border-bottom: 1px solid #334155; /* Border below title */
+            padding-bottom: 0.5rem; /* Padding below title */
+        }
+        /* Styles for comments within the code box to make them stand out */
+        .code-comment {
+            color: #94a3b8; /* Lighter gray for comments */
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto p-4">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-indigo-700">How to Build Standalone How-To Web Apps with Gemini</h1>
+        </header>
+
+        <section id="main-guide-section" class="mb-12">
+            <h2 class="text-2xl font-semibold mb-6 text-center text-indigo-600">Guide: Creating Your Own How-To App with Gemini</h2>
+            <div id="how-to-guide-display-area">
+                </div>
+        </section>
+    </div>
+
+    <script>
+        // --- 1. GUIDE CONTENT DATA ---
+        // This array holds all the content for the guide.
+        // Each object in the array represents a main topic.
+        const guideContentData = [
+            {
+                mainTopic: "Understanding Standalone How-To Apps",
+                subTopics: [
+                    {
+                        name: "What Are They?",
+                        points: [
+                            "A standalone web app is typically a single HTML file that contains all its CSS (styling) and JavaScript (interactivity) embedded within it.",
+                            "This structure makes them highly portable and simple to manage for basic projects, learning purposes (like this guide!), or quick prototypes.",
+                            "They are excellent for creating simple How-To guides or interactive checklists without complex backend requirements."
+                        ]
+                    },
+                    {
+                        name: "Key Advantages for How-To Guides",
+                        points: [
+                            "Easy to preview: Just open the HTML file in any web browser on your computer to see it in action instantly.",
+                            "Simple to share: Since it's only one file, you can easily send your How-To guide to others.",
+                            "Straightforward to deploy: Basic hosting services often allow you to publish these single-file apps with minimal effort."
+                        ]
+                    }
+                ]
+            },
+            {
+                mainTopic: "Your Toolkit: Gemini & Web Basics",
+                subTopics: [
+                    {
+                        name: "The Core Trio: HTML, CSS, JavaScript",
+                        points: [
+                            "HTML (HyperText Markup Language): Forms the structure or skeleton of your How-To app. It defines content elements like text, headings, steps, and lists.",
+                            "CSS (Cascading Style Sheets): Controls the style and appearance. It dictates colors, fonts, layout, and overall visual presentation.",
+                            "JavaScript: Adds interactivity (like collapsible sections) and makes the app responsive to user actions."
+                        ]
+                    },
+                    {
+                        name: "Your Gemini Workspace for App Building",
+                        points: [
+                            "You'll primarily interact with Gemini through its chat interface.",
+                            "The 'Canvas' or 'Preview' area (often on the right) is where Gemini displays generated code, allowing you to see and test your How-To app."
+                        ]
+                    },
+                    {
+                        name: "Crafting Your First Prompt to Gemini",
+                        points: [
+                            "Be clear and specific. For example: 'Create a simple How-To guide for tying a shoelace.'",
+                            "Specify key elements: 'Include a main title, an introduction, and three main steps. Each step should have a few bullet points.'",
+                            "Request styling: 'Use Tailwind CSS for styling and make the page look modern and clean.'"
+                        ]
+                    },
+                    {
+                        name: "Previewing & Refining with Gemini",
+                        points: [
+                            "Ask Gemini to make the code previewable: 'Please put this code in an immersive block so I can preview it.'",
+                            "Use the 'Preview' button to see your app live.",
+                            "Provide iterative feedback: 'Change the main title's color,' 'Make the step headers bolder,' or 'Add an introductory paragraph before the first step.'"
+                        ]
+                    }
+                ]
+            },
+            {
+                mainTopic: "Launching Your How-To App",
+                subTopics: [
+                    {
+                        name: "Running Locally (On Your Computer)",
+                        points: [
+                            "After Gemini provides the complete HTML code, select and copy all of it.",
+                            "Paste it into a plain text editor (like Notepad, TextEdit, or VS Code).",
+                            "Save the file with an '.html' extension (e.g., 'my_how_to_guide.html'). Double-click it to open in your browser."
+                        ]
+                    },
+                    {
+                        name: "Going Public (Simple Web Deployment)",
+                        points: [
+                            "Services like GitHub Pages, Netlify Drop, or Vercel offer free and easy ways to host static HTML files.",
+                            "Typically, you create an account and then upload (or drag-and-drop) your single '.html' file.",
+                            "These services provide a public URL for your app to share with anyone."
+                        ]
+                    }
+                ]
+            },
+            {
+                mainTopic: "Complete Example: A Working How-To App",
+                subTopics: [
+                    {
+                        name: "Get Started: Full Code for a 'How to Make Tea' App",
+                        points: [
+                            "The box below contains the complete HTML, CSS, and JavaScript for a fully functional 'How to Make Tea' application. This app has the same interactive style as the guide you are currently viewing.",
+                            "**To use this code:**",
+                            "1. Click anywhere inside the code box below.",
+                            "2. Select all the code (Ctrl+A or Cmd+A).",
+                            "3. Copy the selected code (Ctrl+C or Cmd+C).",
+                            "4. Paste it into a plain text editor (like Notepad, TextEdit, or VS Code).",
+                            "5. Save the file with an '.html' extension (e.g., 'my_tea_guide.html').",
+                            "6. Open this HTML file in your web browser. You'll have a working 'How to Make Tea' app!",
+                            "**To adapt it for YOUR topic:** Open a session with Gemini 2.5 pro, give it the \"How to Make Tea\" App code, and ask it to work with you to adopt it to a how to project of your choice."
+                        ]
+                    },
+                    {
+                        name: "Full Code: Interactive 'How to Make Tea' App",
+                        points: [
+                            "This is the complete, self-contained code. Modify the titles and the `yourHowToData` JavaScript array (as indicated by comments within the code) to create a guide for any topic you choose."
+                        ]
+                        // The actual code box with the full HTML will be injected by JavaScript below.
+                    }
+                ]
+            }
+        ];
+
+        // --- 2. DOM Elements ---
+        // Get the main container where the guide content will be displayed.
+        const guideDisplayArea = document.getElementById('how-to-guide-display-area');
+
+        // --- 3. Functions ---
+
+        /**
+         * Dynamically builds and displays the guide content from 'guideContentData'.
+         * It creates HTML elements for each main topic and its sub-topics.
+         */
+        function displayGuideContent() {
+            guideDisplayArea.innerHTML = ''; // Clear any existing content
+
+            guideContentData.forEach((mainTopicData, mainTopicIndex) => {
+                // Create a <details> element for each main topic (for collapsibility)
+                const mainTopicDetailsElement = document.createElement('details');
+                mainTopicDetailsElement.classList.add('main-topic-container');
+                // Open the first main topic by default
+                if (mainTopicIndex === 0) mainTopicDetailsElement.open = true;
+
+                // Create a <summary> element for the main topic header
+                const mainTopicSummaryElement = document.createElement('summary');
+                mainTopicSummaryElement.classList.add('main-topic-header');
+                const mainTopicTitleElement = document.createElement('h3');
+                mainTopicTitleElement.textContent = mainTopicData.mainTopic;
+                const mainTopicIcon = document.createElement('span');
+                mainTopicIcon.classList.add('toggler-icon');
+                mainTopicIcon.innerHTML = '&#9654;'; // Right-pointing triangle icon
+                mainTopicSummaryElement.appendChild(mainTopicTitleElement);
+                mainTopicSummaryElement.appendChild(mainTopicIcon);
+                mainTopicDetailsElement.appendChild(mainTopicSummaryElement);
+
+                // Create a <div> to wrap all sub-topics for this main topic
+                const subTopicsWrapperDiv = document.createElement('div');
+                subTopicsWrapperDiv.classList.add('sub-topics-wrapper');
+
+                mainTopicData.subTopics.forEach((subTopic, subTopicIndex) => {
+                    // Create a <details> element for each sub-topic
+                    const subTopicDetailsElement = document.createElement('details');
+                    subTopicDetailsElement.classList.add('sub-topic-item-container');
+
+                    // Open the first sub-topic of the first main topic by default
+                    if (mainTopicIndex === 0 && subTopicIndex === 0) {
+                        subTopicDetailsElement.open = true;
+                    }
+                    // Specifically open the "Get Started" sub-topic in the "Complete Example" section
+                    if (mainTopicData.mainTopic === "Complete Example: A Working How-To App" && subTopicIndex === 0) {
+                        subTopicDetailsElement.open = true;
+                    }
+
+
+                    // Create a <summary> element for the sub-topic header
+                    const subTopicSummaryElement = document.createElement('summary');
+                    subTopicSummaryElement.classList.add('sub-topic-item-header');
+                    const subTopicTitleElement = document.createElement('h4');
+                    subTopicTitleElement.textContent = subTopic.name;
+                    const subTopicIcon = document.createElement('span');
+                    subTopicIcon.classList.add('toggler-icon');
+                    subTopicIcon.innerHTML = '&#9654;'; // Right-pointing triangle icon
+                    subTopicSummaryElement.appendChild(subTopicTitleElement);
+                    subTopicSummaryElement.appendChild(subTopicIcon);
+                    subTopicDetailsElement.appendChild(subTopicSummaryElement);
+
+                    // Create a <ul> element for the bullet points
+                    const pointsUl = document.createElement('ul');
+                    pointsUl.classList.add('points-list');
+                    if (subTopic.points && Array.isArray(subTopic.points)) {
+                        subTopic.points.forEach(pointText => {
+                            const pointLi = document.createElement('li');
+                            // Basic check for simple markdown-like bold (e.g., **text**)
+                            if (pointText.includes("**")) {
+                                pointLi.innerHTML = pointText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                            } else {
+                                pointLi.textContent = pointText;
+                            }
+                            pointsUl.appendChild(pointLi);
+                        });
+                    }
+                    subTopicDetailsElement.appendChild(pointsUl);
+                    
+
+                    // Special handling for injecting the full example code
+                    if (mainTopicData.mainTopic === "Complete Example: A Working How-To App" &&
+                        subTopic.name === "Full Code: Interactive 'How to Make Tea' App") {
+                        const codeBox = document.createElement('div');
+                        codeBox.classList.add('prompt-display-box'); // Using this class for styling the code box
+
+                        const codeTitle = document.createElement('h5');
+                        codeTitle.textContent = "Copyable Full App Code (HTML, CSS, JS for 'How to Make Tea'):";
+                        codeBox.appendChild(codeTitle);
+
+                        const codePre = document.createElement('pre');
+                        // --- START OF EMBEDDED FULL APP CODE ---
+                        // This is a template string containing the complete HTML for the example "How to Make Tea" app.
+                        // Note the escaped closing script tag: <\/script> to prevent parsing issues.
+                        codePre.textContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Make a Perfect Cup of Tea</title>
+    <script src="https://cdn.tailwindcss.com"><\/script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General body and container styles - You can keep these as is, or customize further */
+        body {
+            font-family: 'Inter', sans-serif; background-color: #f0f4f8; color: #1a202c;
+            margin: 0; padding: 0; display: flex; justify-content: center;
+            min-height: 100vh; align-items: flex-start; /* Aligns content to the top if it's shorter than viewport */
+        }
+        .container { max-width: 800px; width: 90%; margin: 2rem auto; padding: 1rem; }
+
+        /* --- Content Display Styles - Keep these for the interactive sections --- */
+        /* You can customize colors and fonts here if you wish */
+        #how-to-content-display-area {
+            background-color: #f9fafb; border-radius: 8px; padding: 1rem;
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+        }
+        .how-to-step-container { /* Renamed from main-topic-container for clarity in this app */
+            background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px;
+            margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .how-to-step-header { /* Renamed from main-topic-header */
+            padding: 1rem 1.25rem; background-color: #eef2ff; border-bottom: 1px solid #e5e7eb;
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center; list-style: none;
+        }
+        .how-to-step-header::-webkit-details-marker { display: none; }
+        .how-to-step-header:hover { background-color: #e0e7ff; }
+        .how-to-step-header h3 { color: #4338ca; font-weight: 700; font-size: 1.25rem; margin: 0; }
+        .how-to-details-wrapper { /* Renamed from sub-topics-wrapper */
+            padding: 0.5rem 1rem 1rem 1rem; background-color: #ffffff;
+        }
+        .how-to-sub-detail-container { /* Renamed from sub-topic-item-container */
+            background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px;
+            margin-bottom: 0.75rem; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); overflow: hidden;
+        }
+        .how-to-sub-detail-header { /* Renamed from sub-topic-item-header */
+            padding: 0.75rem 1rem; background-color: #f9fafb; border-bottom: 1px solid #e5e7eb;
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center; list-style: none;
+        }
+        .how-to-sub-detail-header::-webkit-details-marker { display: none; }
+        .how-to-sub-detail-header:hover { background-color: #f3f4f6; }
+        .how-to-sub-detail-header h4 { color: #4f46e5; font-weight: 600; font-size: 1rem; margin: 0; }
+        .how-to-points-list { /* Renamed from points-list */
+            padding: 0.75rem 1rem 1rem 2rem; list-style-type: disc; background-color: #f9fafb; margin: 0;
+        }
+        .how-to-points-list li { margin-bottom: 0.5rem; color: #4b5563; font-size: 0.9rem; line-height: 1.6; }
+        .toggler-icon { transition: transform 0.2s ease-in-out; font-size: 1.2rem; color: #6366f1; margin-left: 8px; }
+        details[open] > summary .toggler-icon { transform: rotate(90deg); }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto p-4">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-indigo-700">How to Make a Perfect Cup of Tea</h1>
+        </header>
+
+        <section id="how-to-main-guide-section" class="mb-12">
+             <h2 class="text-2xl font-semibold mb-6 text-center text-indigo-600">Step-by-Step Instructions</h2>
+            <div id="how-to-content-display-area">
+                </div>
+        </section>
+    </div>
+
+    <script>
+        // --- 1. YOUR HOW-TO STEPS DATA ---
+        // TODO: MODIFY THE CONTENT of this 'yourHowToData' array with your own How-To steps and details.
+        // This is where you define the actual steps and points for YOUR specific guide.
+        // 'stepName' is the main title for a step.
+        // 'stepDetails' is an array of objects, where each object has a 'title' (for a sub-section)
+        // and 'points' (an array of strings for bullet points).
+        const yourHowToData = [
+            {
+                stepName: "Step 1: Gather Your Supplies", // Example Main Step
+                stepDetails: [ // Array of sub-details for this main step
+                    {
+                        title: "Essential Ingredients & Tools", // Example Sub-Detail Title
+                        points: [ // Array of bullet points for this sub-detail
+                            "Your favorite tea (tea bag or loose leaf with an infuser)",
+                            "Fresh, cold water (filtered if possible, for best taste)",
+                            "Kettle or a clean pot for boiling water",
+                            "Your chosen mug or teacup",
+                            "Optional: Sweetener (sugar, honey, agave), milk or cream, lemon slices"
+                        ]
+                    }
+                    // You can add more sub-detail objects here if Step 1 has more parts
+                    // e.g., { title: "Another Part of Step 1", points: ["Point A", "Point B"] }
+                ]
+            },
+            {
+                stepName: "Step 2: Boil the Water",
+                stepDetails: [
+                    {
+                        title: "Heating to Perfection",
+                        points: [
+                            "Fill your kettle or pot with the desired amount of fresh, cold water. Using fresh water is key for good flavor.",
+                            "Heat the water to the appropriate temperature. For most black teas and herbal teas, a full rolling boil (212°F or 100°C) is ideal. For delicate green or white teas, use slightly cooler water (around 175°F or 80°C), just off the boil.",
+                            "Avoid re-boiling water multiple times, as it can reduce oxygen content and affect the tea's taste."
+                        ]
+                    }
+                ]
+            },
+            {
+                stepName: "Step 3: Steep the Tea",
+                stepDetails: [
+                    {
+                        title: "The Art of Infusion",
+                        points: [
+                            "Place your tea bag or tea infuser (filled with the correct amount of loose leaves, typically 1 teaspoon per cup) into your mug.",
+                            "Once the water has reached the correct temperature, pour it directly over the tea in your mug.",
+                            "Let the tea steep for the recommended time. This varies greatly by tea type:",
+                            "  - Black tea: 3-5 minutes",
+                            "  - Green tea: 1-3 minutes",
+                            "  - White tea: 2-4 minutes",
+                            "  - Oolong tea: 2-5 minutes (can vary widely)",
+                            "  - Herbal infusions (tisanes): 5-7 minutes or longer",
+                            "Covering your mug while steeping can help maintain temperature and improve infusion.",
+                            "Be careful not to over-steep, especially green and black teas, as this can lead to a bitter taste. Set a timer if needed!"
+                        ]
+                    }
+                ]
+            },
+            {
+                stepName: "Step 4: Customize and Enjoy",
+                stepDetails: [
+                    {
+                        title: "Finishing Touches for Your Perfect Cup",
+                        points: [
+                            "Once steeping is complete, carefully remove the tea bag or infuser from your mug.",
+                            "If desired, add your choice of sweetener (sugar, honey, etc.), milk, cream, or a slice of lemon.",
+                            "Stir gently to combine any additions.",
+                            "Take a moment to savor the aroma, then sip and enjoy your perfectly brewed cup of tea!"
+                        ]
+                    }
+                ]
+            }
+            // Add more step objects here for more main steps in your guide
+            // e.g., { stepName: "Step 5: Clean Up", stepDetails: [ { title: "Quick Rinse", points: ["Rinse your mug."] } ] }
+        ];
+
+        // --- 2. DOM Elements - DO NOT MODIFY THIS PART (unless you change the ID in the HTML above) ---
+        const displayArea = document.getElementById('how-to-content-display-area');
+
+        // --- 3. Functions - DO NOT MODIFY THIS PART (this logic builds the interactive sections) ---
+        /**
+         * Dynamically builds and displays the How-To steps from 'yourHowToData'.
+         */
+        function displayHowToContent() {
+            displayArea.innerHTML = ''; // Clear any existing content from the display area
+
+            yourHowToData.forEach((stepData, stepIndex) => {
+                // Create <details> for the main step (collapsible)
+                const stepDetailsElement = document.createElement('details');
+                stepDetailsElement.classList.add('how-to-step-container');
+                if (stepIndex === 0) { // Open the first main step by default
+                    stepDetailsElement.open = true;
+                }
+
+                // Create <summary> for the main step header
+                const stepSummaryElement = document.createElement('summary');
+                stepSummaryElement.classList.add('how-to-step-header');
+                const stepTitleElement = document.createElement('h3');
+                stepTitleElement.textContent = stepData.stepName;
+                const stepIcon = document.createElement('span');
+                stepIcon.classList.add('toggler-icon');
+                stepIcon.innerHTML = '&#9654;'; // Right-pointing triangle
+                stepSummaryElement.appendChild(stepTitleElement);
+                stepSummaryElement.appendChild(stepIcon);
+                stepDetailsElement.appendChild(stepSummaryElement);
+
+                // Create a wrapper div for all sub-details of this step
+                const detailsWrapperDiv = document.createElement('div');
+                detailsWrapperDiv.classList.add('how-to-details-wrapper');
+
+                stepData.stepDetails.forEach((subDetailData, subDetailIndex) => {
+                    // Create <details> for each sub-detail (collapsible)
+                    const subDetailsElement = document.createElement('details');
+                    subDetailsElement.classList.add('how-to-sub-detail-container');
+                    // Open the first sub-detail of the first main step by default
+                    if (stepIndex === 0 && subDetailIndex === 0) {
+                        subDetailsElement.open = true;
+                    }
+
+                    // Create <summary> for the sub-detail header
+                    const subDetailSummaryElement = document.createElement('summary');
+                    subDetailSummaryElement.classList.add('how-to-sub-detail-header');
+                    const subDetailTitleElement = document.createElement('h4');
+                    subDetailTitleElement.textContent = subDetailData.title;
+                    const subDetailIcon = document.createElement('span');
+                    subDetailIcon.classList.add('toggler-icon');
+                    subDetailIcon.innerHTML = '&#9654;'; // Right-pointing triangle
+                    subDetailSummaryElement.appendChild(subDetailTitleElement);
+                    subDetailSummaryElement.appendChild(subDetailIcon);
+                    subDetailsElement.appendChild(subDetailSummaryElement);
+
+                    // Create <ul> for the bullet points of the sub-detail
+                    const pointsUl = document.createElement('ul');
+                    pointsUl.classList.add('how-to-points-list');
+                    if (subDetailData.points && Array.isArray(subDetailData.points)) {
+                        subDetailData.points.forEach(pointText => {
+                            const pointLi = document.createElement('li');
+                            pointLi.textContent = pointText; // Directly set text content
+                            pointsUl.appendChild(pointLi);
+                        });
+                    }
+                    subDetailsElement.appendChild(pointsUl);
+                    detailsWrapperDiv.appendChild(subDetailsElement);
+                });
+                stepDetailsElement.appendChild(detailsWrapperDiv);
+                displayArea.appendChild(stepDetailsElement); // Add the completed step to the main display area
+            });
+        }
+
+        // --- 4. Initialization - DO NOT MODIFY THIS PART ---
+        // When the HTML document is fully loaded and parsed, call displayHowToContent to build the guide.
+        document.addEventListener('DOMContentLoaded', () => {
+            displayHowToContent(); 
+        });
+    <\/script>
+</body>
+</html>`;
+                        // --- END OF EMBEDDED FULL APP CODE ---
+                        codeBox.appendChild(codePre);
+                        subTopicDetailsElement.appendChild(codeBox); // Add the code box to the sub-topic
+                    }
+
+                    subTopicsWrapperDiv.appendChild(subTopicDetailsElement); // Add sub-topic to its wrapper
+                });
+                mainTopicDetailsElement.appendChild(subTopicsWrapperDiv); // Add sub-topics wrapper to main topic
+                guideDisplayArea.appendChild(mainTopicDetailsElement); // Add main topic to the guide display area
+            });
+        }
+
+        // --- 4. Initialization ---
+        // When the HTML document is fully loaded and parsed, call displayGuideContent to build the guide.
+        document.addEventListener('DOMContentLoaded', () => {
+            displayGuideContent();
+        });
+    </script>
+</body>
+</html>
