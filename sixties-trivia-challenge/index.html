@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Game - 1960s Edition (40 Qs)</title>
+
+    <script>
+        // Trivia Data for the 1960s (40 Questions total)
+        // Delimiters: | for next question, / for question-answers, , for answers. # marks correct answer.
+        const rawTriviaStringData = 
+            "Which iconic music festival a defining event of 1960s counterculture took place in August 1969?/Isle of Wight Festival,Monterey Pop Festival,Woodstock Music & Art Fair#,Altamont Speedway Free Festival|Who delivered the famous \"I Have a Dream\" speech in Washington D.C. in 1963?/Malcolm X,John F. Kennedy,Martin Luther King Jr.#,Lyndon B. Johnson|In what year did Neil Armstrong and Buzz Aldrin first walk on the Moon?/1967,1968,1969#,1970|Which British rock band led the \"British Invasion\" in the US starting in 1964?/The Rolling Stones,The Who,The Kinks,The Beatles#|The Cuban Missile Crisis in 1962 involved a tense standoff between which two superpowers?/USA & China,USA & Soviet Union#,UK & Soviet Union,France & USA|What popular dance craze characterized by twisting movements swept the early 1960s?/The Mashed Potato,The Watusi,The Twist#,The Hully Gully|Which U.S. President was assassinated in Dallas Texas in November 1963?/Lyndon B. Johnson,Richard Nixon,John F. Kennedy#,Dwight D. Eisenhower|What was the name of the first James Bond film released in 1962?/Goldfinger,From Russia with Love,Dr. No#,Thunderball|The Berlin Wall a symbol of the Cold War was constructed in what year?/1960,1961#,1962,1963|Which fashion item popularized by Mary Quant became a symbol of 1960s women's liberation?/Go-go boots,Bell-bottoms,Miniskirt#,Tie-dye shirts" +
+            "|What groundbreaking animated TV sitcom set in the Stone Age premiered in 1960?/The Jetsons,Scooby-Doo,The Flintstones#,Top Cat|Which country won the FIFA World Cup in 1966 hosted in England?/Brazil,West Germany,England#,Italy|The Civil Rights Act of 1964 was signed into law by which U.S. President?/John F. Kennedy,Richard Nixon,Lyndon B. Johnson#,Dwight D. Eisenhower|What was the name of the first human in space launched by the Soviet Union in 1961?/Alexei Leonov,Gherman Titov,Yuri Gagarin#,Alan Shepard|Which influential Motown group had hits like \"Where Did Our Love Go\" in the 1960s?/The Temptations,The Four Tops,The Supremes#,Martha and the Vandellas|The \"Summer of Love\" is most associated with which year?/1966,1967#,1968,1969|What type of car was the star in the 1968 movie \"Bullitt\" known for its famous chase scene?/Chevrolet Camaro,Ford Mustang#,Dodge Charger,Pontiac GTO|The first Super Bowl was played in January of which year?/1965,1966,1967#,1968|Who authored the influential feminist book \"The Feminine Mystique\" published in 1963?/Simone de Beauvoir,Gloria Steinem,Betty Friedan#,Germaine Greer|Which war escalated significantly for the United States throughout the 1960s?/Korean War,Cold War (general),Vietnam War#,World War I" +
+            "|Which Alfred Hitchcock thriller released in 1960 featured a famous shower scene?/Vertigo,North by Northwest,Psycho#,The Birds|What popular children's toy allowing kids to draw and erase images was introduced in 1960?/Etch A Sketch#,Spirograph,Lite-Brite,View-Master|Who became the first woman in space in 1963?/Sally Ride,Judith Resnik,Valentina Tereshkova#,Svetlana Savitskaya|Which iconic American folk music trio sang \"Blowin' in the Wind\" a 1963 hit?/The Kingston Trio,The Weavers,Peter Paul and Mary#,The Limeliters|The first successful heart transplant was performed by Dr. Christiaan Barnard in which country in 1967?/United States,United Kingdom,South Africa#,France|What was the name of the U.S. intelligence-gathering ship captured by North Korea in 1968?/USS Liberty,USS Mayaguez,USS Pueblo#,USS Stark|Which influential science fiction TV series created by Gene Roddenberry first aired in 1966?/The Twilight Zone,Lost in Space,Star Trek#,Doctor Who|What colorful toy consisting of a plastic tube that made a noise when twirled was a fad in the late 1960s?/Silly Putty,Clackers,Whirly Tube (Boomerang)#,Yo-yo|The musical \"Hair\" which celebrated hippie counterculture opened on Broadway in what year?/1967,1968#,1969,1970|Which European country experienced major student protests and general strikes in May 1968?/United Kingdom,West Germany,France#,Italy" +
+            "|What was the name of the first commercially successful video game console the Brown Box which was prototyped in the late 1960s?/Atari Pong,Coleco Telstar,Magnavox Odyssey#,Nintendo Color TV-Game|Which fashion designer is credited with popularizing the \"space age\" look in the 1960s?/Yves Saint Laurent,Coco Chanel,André Courrèges#,Hubert de Givenchy|The Watts Riots a major civil disturbance took place in which U.S. city in 1965?/Detroit,Newark,Los Angeles#,Chicago|What is the name of the international treaty signed in 1968 to prevent the spread of nuclear weapons?/SALT I,Test Ban Treaty,Nuclear Non-Proliferation Treaty#,ABM Treaty|Which Japanese company introduced the first quartz crystal wristwatch the Astron in December 1969?/Casio,Citizen,Seiko#,Orient|Who won the Academy Award for Best Actress for \"Breakfast at Tiffany's\" in 1961?/Elizabeth Taylor,Sophia Loren,Audrey Hepburn#,Natalie Wood|The term \"software\" was reportedly first coined in print in what year by John Tukey?/1953,1958#,1962,1965|What was the name of the first African American to win the men's singles title at Wimbledon in 1975 but was a prominent player in the 60s?/Arthur Ashe#,Althea Gibson,Rod Laver,John Newcombe|Which film won the Academy Award for Best Picture for 1969 at the 42nd Academy Awards?/Midnight Cowboy#,Butch Cassidy and the Sundance Kid,Hello Dolly!,Z|What organization was founded in 1960 by oil-exporting countries to coordinate petroleum policies?/OPEC#,NATO,UN,WTO";
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles (unchanged from previous version) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            padding: 16px; /* Padding around the container */
+        }
+        .trivia-container {
+            background-color: #ffffff; /* White background for the game box */
+            padding: 24px; /* Padding inside the game box */
+            border-radius: 12px; /* Rounded corners for the game box */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+            width: 100%; /* Full width on small screens */
+            max-width: 600px; /* Max width for larger screens */
+        }
+        @media (min-width: 640px) { /* sm breakpoint in Tailwind */
+            .trivia-container {
+                padding: 32px; /* Larger padding on larger screens */
+            }
+        }
+        .answer-btn {
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out; /* Smooth transitions */
+            border: 1px solid #e2e8f0; /* Light gray border for buttons */
+            min-height: 60px; 
+            display: flex; /* Added for centering text */
+            justify-content: center; /* Added for centering text */
+            align-items: center; /* Added for centering text */
+            text-align: center; /* Ensure text is centered */
+        }
+        .answer-btn:hover:not(:disabled) {
+            background-color: #f8fafc; /* Lighter background on hover */
+            transform: translateY(-2px); /* Slight lift effect on hover */
+        }
+        .answer-btn.correct {
+            background-color: #10B981 !important; /* Green for correct answers */
+            color: white !important;
+            border-color: #059669 !important; /* Darker green border */
+        }
+        .answer-btn.incorrect {
+            background-color: #EF4444 !important; /* Red for incorrect answers */
+            color: white !important;
+            border-color: #DC2626 !important; /* Darker red border */
+        }
+        .answer-btn:disabled {
+            opacity: 0.7; /* Slightly faded when disabled */
+            cursor: not-allowed; /* Indicate non-interactive state */
+        }
+        #feedback {
+            min-height: 24px; /* Reserve space for feedback text */
+            font-weight: 500; /* Medium font weight for feedback */
+            margin-bottom: 1rem; /* Space below feedback */
+        }
+        /* Ensure consistent text color for main elements */
+        h1, h2, p, button, span {
+            color: #1a202c; /* Dark gray text for readability */
+        }
+        /* Override text color for correct/incorrect buttons */
+        .answer-btn.correct span, .answer-btn.incorrect span {
+            color: white; 
+        }
+         .answer-btn span { 
+            color: #1a202c; /* Default text color for answer button spans */
+        }
+        #score, #question-counter {
+            color: #4a5568; /* Slightly lighter gray for score and counter */
+        }
+        #next-btn {
+            transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+        }
+        #next-btn:disabled {
+            background-color: #9ca3af; /* Gray when disabled */
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+         #next-btn:disabled:hover {
+            background-color: #9ca3af; /* Keep gray on hover when disabled */
+        }
+    </style>
+</head>
+<body>
+    <div class="trivia-container text-center">
+        <h1 class="text-3xl font-bold mb-6 text-indigo-600">1960s Trivia Challenge!</h1> 
+
+        <div id="score-area" class="mb-4 text-lg">
+            <span id="score" class="font-semibold">Score: 0</span>
+             <span class="mx-2">|</span>
+            <span id="question-counter" class="font-semibold">Question: 1 / 10</span> 
+        </div>
+
+        <div id="question-area" class="mb-6">
+            <h2 id="question-text" class="text-xl font-semibold mb-4 min-h-[60px] flex items-center justify-center">
+                Loading question...
+            </h2>
+            <div id="answer-buttons" class="grid grid-cols-2 gap-4">
+                </div>
+        </div>
+
+        <div id="feedback" class="mt-4 text-lg font-medium">
+            &nbsp; </div>
+
+        <button id="next-btn" class="mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md w-full sm:w-auto">
+            Next Question
+        </button>
+
+        <div id="game-over-message" class="hidden mt-6 text-2xl font-bold">
+            <p id="final-score"></p>
+            <button id="restart-btn" class="mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out">
+                </button>
+        </div>
+    </div>
+
+    <script>
+        // --- Data Parsing Function ---
+        // Parses the rawTriviaStringData (defined in the head) into the structured format the game expects.
+        function parseTriviaData() {
+            const parsedQuestions = [];
+            // rawTriviaStringData is defined above in the head
+            const questionBlocks = rawTriviaStringData.split('|'); 
+
+            questionBlocks.forEach(block => {
+                if (block.trim() === "") return; // Skip empty blocks if any
+
+                const parts = block.split('/');
+                if (parts.length !== 2) {
+                    console.error("Invalid data block format:", block);
+                    return; // Skip malformed blocks
+                }
+
+                const questionText = parts[0].trim();
+                const answerStrings = parts[1].split(',').map(s => s.trim());
+
+                parsedQuestions.push({
+                    question: questionText,
+                    answers: answerStrings 
+                });
+            });
+            return parsedQuestions;
+        }
+
+        // --- DOM Elements ---
+        const questionTextElement = document.getElementById('question-text');
+        const answerButtonsElement = document.getElementById('answer-buttons');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const scoreElement = document.getElementById('score');
+        const questionCounterElement = document.getElementById('question-counter');
+        const gameOverMessageElement = document.getElementById('game-over-message');
+        const finalScoreElement = document.getElementById('final-score');
+        const restartButton = document.getElementById('restart-btn');
+        const questionAreaElement = document.getElementById('question-area');
+        const scoreAreaElement = document.getElementById('score-area');
+
+        // --- Game State ---
+        let allQuestions = []; 
+        let questionsForCurrentSession = []; 
+        let currentQuestionInSessionIndex = 0; 
+        let overallPlayedQuestionsCount = 0; 
+        let score = 0;
+        const QUESTIONS_PER_SESSION = 10; // Number of questions per game session
+
+        // --- Functions ---
+        // Function to shuffle an array (Fisher-Yates shuffle)
+        function shuffleArray(array) {
+            const newArray = [...array]; // Create a copy to avoid modifying the original
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // Swap elements
+            }
+            return newArray;
+        }
+        
+        // Called at the very beginning or when "Play Full Game Again?" is clicked
+        function startGame() {
+            allQuestions = shuffleArray(parseTriviaData()); // Parse and shuffle all available questions
+            overallPlayedQuestionsCount = 0; // Reset count of questions played across all sessions
+            score = 0; // Reset score for a completely new game
+            scoreElement.textContent = `Score: ${score}`;
+            
+            // Hide game over message if it was visible
+            gameOverMessageElement.classList.add('hidden');
+            // Ensure main game elements are visible
+            questionAreaElement.classList.remove('hidden');
+            scoreAreaElement.classList.remove('hidden');
+            answerButtonsElement.classList.remove('hidden');
+            nextButton.style.display = 'block'; // Or 'inline-block' or 'flex' depending on desired layout
+
+            prepareNewSession(); // Start the first session
+        }
+
+        // Prepares a new 10-question session
+        function prepareNewSession() {
+            // Determine the slice of questions for the current session from the master shuffled list
+            const start = overallPlayedQuestionsCount;
+            const end = Math.min(start + QUESTIONS_PER_SESSION, allQuestions.length);
+            
+            questionsForCurrentSession = allQuestions.slice(start, end);
+
+            if (questionsForCurrentSession.length === 0) {
+                // This case should ideally be caught by endSession before calling prepareNewSession,
+                // but as a fallback if all questions are exhausted.
+                showFinalThankYouMessage();
+                return;
+            }
+
+            currentQuestionInSessionIndex = 0; // Reset index for the new session
+            
+            // Update UI for the new session
+            feedbackElement.innerHTML = '&nbsp;'; // Clear previous feedback
+            gameOverMessageElement.classList.add('hidden'); // Hide previous session's game over message
+            questionAreaElement.classList.remove('hidden');
+            answerButtonsElement.classList.remove('hidden');
+            nextButton.style.display = 'block'; // Ensure next button is visible
+            nextButton.disabled = true; // Disable next button until an answer is selected
+            nextButton.textContent = "Next Question"; // Default text for next button
+
+            loadQuestion(); // Load the first question of the new session
+        }
+
+        // Function to load the current question and its answers
+        function loadQuestion() {
+            resetStateForNewQuestion(); // Clear buttons and feedback from previous question
+            if (currentQuestionInSessionIndex < questionsForCurrentSession.length) {
+                const currentQuestion = questionsForCurrentSession[currentQuestionInSessionIndex];
+                questionTextElement.textContent = currentQuestion.question;
+                // Display session progress (e.g., Question 1/10)
+                questionCounterElement.textContent = `Question: ${currentQuestionInSessionIndex + 1} / ${questionsForCurrentSession.length}`;
+
+                // The 'answers' property is already an array of strings from parseTriviaData()
+                const shuffledAnswerStrings = shuffleArray([...currentQuestion.answers]); // Shuffle answers for this question
+
+                shuffledAnswerStrings.forEach(answerString => {
+                    const button = document.createElement('button');
+                    let displayText = answerString;
+                    let isThisAnswerCorrect = false;
+
+                    // Check for the '#' marker to determine correctness and clean the display text.
+                    if (answerString.endsWith('#')) {
+                        displayText = answerString.slice(0, -1); // Remove the '#'
+                        isThisAnswerCorrect = true;
+                    }
+
+                    button.innerHTML = `<span class="truncate">${displayText}</span>`; // Use span for better text control if needed
+                    // Store the clean display text on the button for later comparison if needed.
+                    button.dataset.answerText = displayText; 
+                    
+                    button.classList.add('answer-btn', 'w-full', 'p-3', 'sm:p-4', 'rounded-lg', 'bg-white', 'hover:bg-gray-100', 'focus:outline-none', 'focus:ring-2', 'focus:ring-indigo-500', 'font-medium');
+                    // Pass the determined correctness to the selectAnswer function.
+                    button.addEventListener('click', () => selectAnswer(button, isThisAnswerCorrect));
+                    answerButtonsElement.appendChild(button);
+                });
+                
+                nextButton.disabled = true; // Ensure next button is disabled initially
+                 if (currentQuestionInSessionIndex >= questionsForCurrentSession.length - 1) {
+                    nextButton.textContent = "Finish Session"; // Last question of the session
+                } else {
+                    nextButton.textContent = "Next Question";
+                }
+            } else {
+                // This should not happen if logic is correct, endSession handles session completion
+                endSession(); 
+            }
+        }
+        
+        // Resets elements for a new question within the current session
+        function resetStateForNewQuestion() {
+            feedbackElement.innerHTML = '&nbsp;'; // Clear feedback
+            // nextButton.disabled = true; // This is handled in loadQuestion and prepareNewSession
+            while (answerButtonsElement.firstChild) { // Clear old answer buttons
+                answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+            }
+        }
+
+        // Handles answer selection
+        function selectAnswer(selectedButton, isClickedAnswerCorrect) {
+            // Disable all answer buttons first to prevent multiple clicks
+            Array.from(answerButtonsElement.children).forEach(button => {
+                button.disabled = true;
+            });
+            
+            // Determine the actual correct answer text for the current question
+            const currentQuestionData = questionsForCurrentSession[currentQuestionInSessionIndex];
+            let actualCorrectText = "";
+            // The 'answers' are already in the format ["Answer1", "Answer2#", ...]
+            currentQuestionData.answers.forEach(ansStr => {
+                if (ansStr.endsWith('#')) {
+                    actualCorrectText = ansStr.slice(0, -1); // Get text without '#'
+                }
+            });
+
+            // Style all buttons: green for correct, red for the one clicked if incorrect.
+            Array.from(answerButtonsElement.children).forEach(button => {
+                const buttonText = button.dataset.answerText; // Get the clean text stored earlier
+                if (buttonText === actualCorrectText) {
+                    button.classList.add('correct'); // Mark the correct answer button
+                }
+            });
+            
+            // Handle scoring and feedback based on the clicked answer
+            if (isClickedAnswerCorrect) {
+                score++; // Score is cumulative across sessions until a full game restart
+                scoreElement.textContent = `Score: ${score}`;
+                feedbackElement.textContent = "Correct!";
+                feedbackElement.classList.remove('text-red-500');
+                feedbackElement.classList.add('text-green-500');
+            } else {
+                // If the clicked answer was wrong, specifically mark it red.
+                selectedButton.classList.add('incorrect'); 
+                feedbackElement.textContent = "Wrong!";
+                feedbackElement.classList.remove('text-green-500');
+                feedbackElement.classList.add('text-red-500');
+            }
+            
+            nextButton.disabled = false; // Enable the Next/Finish button
+        }
+
+        // Handles click on "Next Question" or "Finish Session" button
+        function handleNextButton() {
+            currentQuestionInSessionIndex++;
+            if (currentQuestionInSessionIndex < questionsForCurrentSession.length) {
+                loadQuestion(); // Load next question in the current session
+            } else {
+                endSession(); // Current 10-question session is over
+            }
+        }
+
+        // Called when a 10-question session ends
+        function endSession() {
+            overallPlayedQuestionsCount += questionsForCurrentSession.length; // Add played questions to overall count
+
+            // Hide active game elements
+            questionAreaElement.classList.add('hidden');
+            answerButtonsElement.classList.add('hidden');
+            nextButton.style.display = 'none'; 
+            feedbackElement.innerHTML = '&nbsp;'; // Clear feedback
+            
+            // Show game over/session complete message area
+            gameOverMessageElement.classList.remove('hidden');
+
+            if (overallPlayedQuestionsCount < allQuestions.length) {
+                // More questions available for another session
+                finalScoreElement.textContent = `Session Complete! Current Score: ${score}`;
+                restartButton.textContent = "Do another?"; // Prompt to start next session
+                // The existing event listener on restartButton will call handleRestartOrContinue
+            } else {
+                // All questions from allQuestions have been played
+                showFinalThankYouMessage();
+            }
+        }
+        
+        // Called when all questions in all sessions have been played
+        function showFinalThankYouMessage() {
+            finalScoreElement.textContent = `Thank you for playing! Final Score: ${score}`;
+            restartButton.textContent = "Play Full Game Again?"; // Prompt to restart the entire game
+            // Ensure game over message is visible if not already
+            gameOverMessageElement.classList.remove('hidden'); 
+            // Hide active game elements that might still be visible if called directly
+            questionAreaElement.classList.add('hidden');
+            answerButtonsElement.classList.add('hidden');
+            nextButton.style.display = 'none';
+        }
+
+        // Handles clicks on "Do another?" or "Play Full Game Again?"
+        function handleRestartOrContinue() {
+            if (overallPlayedQuestionsCount < allQuestions.length) {
+                prepareNewSession(); // Start next session with remaining questions
+            } else {
+                startGame(); // Restart the entire game from scratch (reshuffle all questions)
+            }
+        }
+
+        // --- Event Listeners ---
+        nextButton.addEventListener('click', handleNextButton);
+        restartButton.addEventListener('click', handleRestartOrContinue); // Unified handler for restart/continue
+
+        // --- Initialize Game ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial text for restartButton will be set by endSession or showFinalThankYouMessage dynamically
+            startGame(); // Start the game when the DOM is fully loaded
+        });
+    </script>
+</body>
+</html>
