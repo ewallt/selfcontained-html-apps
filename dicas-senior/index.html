@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Saúde Gerontológica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Tailwind gray-100 */
+            color: #1f2937; /* Tailwind gray-800 */
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+        }
+        details {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb; /* Tailwind gray-200 */
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: box-shadow 0.2s ease-in-out;
+        }
+        details:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.07);
+        }
+        details[open] {
+            border-bottom: 1px solid #d1d5db; /* Tailwind gray-300 */
+        }
+        summary {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            color: #111827; /* Tailwind gray-900 */
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none; /* Remove default marker */
+            background-color: #f9fafb; /* Tailwind gray-50 */
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        details[open] summary {
+            border-bottom: 1px solid #e5e7eb;
+            background-color: #f3f4f6; /* Tailwind gray-100 */
+        }
+        summary::-webkit-details-marker { /* Hide Safari marker */
+            display: none;
+        }
+        .content-wrapper {
+            padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+        }
+        .content-wrapper details { /* Nested details */
+             background-color: #f9fafb; /* Lighter background for nested */
+             border-color: #f3f4f6; /* Lighter border */
+             margin-top: 0.75rem;
+        }
+        .content-wrapper summary {
+            font-weight: 500;
+            color: #374151; /* Tailwind gray-700 */
+            background-color: #e5e7eb; /* Tailwind gray-200 */
+            padding: 0.75rem 1rem;
+        }
+         .content-wrapper details[open] summary {
+            background-color: #d1d5db; /* Tailwind gray-300 */
+        }
+        .content-wrapper .content-wrapper { /* Deeper nested content */
+            padding: 0.75rem 1rem 1rem 1rem;
+        }
+
+        .toggler-icon {
+            transition: transform 0.2s ease-in-out;
+            color: #4b5563; /* Tailwind gray-600 */
+        }
+        details[open] > summary .toggler-icon {
+            transform: rotate(90deg);
+        }
+        ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+            color: #4b5563; /* Tailwind gray-600 */
+            line-height: 1.6;
+        }
+        h1 {
+            color: #1e3a8a; /* Tailwind blue-800 */
+        }
+        h2 { /* Main category titles in summary */
+            font-size: 1.125rem; /* text-lg */
+            color: #1e40af; /* Tailwind blue-700 */
+        }
+         .content-wrapper h3 { /* Sub-category titles in summary */
+            font-size: 1rem; /* text-base */
+            color: #1d4ed8; /* Tailwind blue-600 */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold">Guia de Saúde Gerontológica</h1>
+            <p class="text-slate-600 mt-2">Dicas e informações para um envelhecimento saudável.</p>
+        </header>
+
+        <section id="health-topics">
+            <details>
+                <summary>
+                    <h2 class="font-semibold">I. Saúde Física e Mobilidade</h2>
+                    <span class="toggler-icon">&#9654;</span> </summary>
+                <div class="content-wrapper">
+                    <details>
+                        <summary><h3 class="font-medium">Prevenção de Quedas</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Segurança em Casa:</strong> Remova tapetes soltos ou prenda-os bem. Garanta boa iluminação em todos os cômodos, corredores e escadas. Instale barras de apoio no banheiro (perto do vaso sanitário e no chuveiro/banheira). Mantenha os caminhos livres de desordem.</li>
+                                <li><strong>Exercícios de Equilíbrio e Força:</strong> Pratique exercícios como Tai Chi, yoga suave ou caminhadas regulares para melhorar o equilíbrio e fortalecer os músculos das pernas. Consulte um fisioterapeuta para um programa personalizado.</li>
+                                <li><strong>Revisão de Medicamentos:</strong> Alguns medicamentos podem causar tontura ou sonolência, aumentando o risco de quedas. Revise todos os medicamentos (prescritos e de venda livre) com seu médico ou farmacêutico.</li>
+                                <li><strong>Calçados Adequados:</strong> Use sapatos com sola antiderrapante, bom suporte e que se ajustem bem aos pés. Evite andar descalço ou apenas de meias.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><h3 class="font-medium">Manter-se Ativo</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Exercícios Leves:</strong> Caminhada diária (mesmo que curta), natação ou hidroginástica (baixo impacto nas articulações), Tai Chi Chuan (melhora equilíbrio e flexibilidade), jardinagem leve.</li>
+                                <li><strong>Benefícios:</strong> Melhora a saúde cardiovascular, fortalece músculos e ossos, aumenta a flexibilidade e o equilíbrio, melhora o humor e a qualidade do sono, ajuda a manter um peso saudável.</li>
+                                <li><strong>Começando com Segurança:</strong> Consulte seu médico antes de iniciar uma nova rotina de exercícios. Comece devagar e aumente gradualmente a intensidade e duração. Ouça seu corpo e descanse quando necessário.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><h3 class="font-medium">Gestão da Dor Crônica</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Terapias Alternativas:</strong> Acupuntura, massagem terapêutica, fisioterapia podem ajudar a aliviar a dor.</li>
+                                <li><strong>Técnicas de Relaxamento:</strong> Meditação, respiração profunda e mindfulness podem ajudar a gerenciar a percepção da dor.</li>
+                                <li><strong>Atividade Física Adaptada:</strong> Exercícios de baixo impacto, como alongamento suave e hidroterapia, podem melhorar a mobilidade e reduzir a rigidez.</li>
+                                <li><strong>Uso Consciente de Medicamentos:</strong> Siga as orientações médicas para analgésicos e discuta os efeitos colaterais.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><h3 class="font-medium">Saúde Óssea (Osteoporose)</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Cálcio e Vitamina D:</strong> Consuma alimentos ricos em cálcio (laticínios, vegetais de folhas escuras, tofu) e vitamina D (peixes gordurosos, gema de ovo, alimentos fortificados). A exposição solar moderada também ajuda na produção de vitamina D.</li>
+                                <li><strong>Exercícios de Sustentação de Peso:</strong> Caminhada, subir escadas e dança leve ajudam a fortalecer os ossos.</li>
+                                <li><strong>Evitar Fumo e Álcool em Excesso:</strong> Ambos podem prejudicar a saúde óssea.</li>
+                                <li><strong>Densitometria Óssea:</strong> Converse com seu médico sobre a necessidade de realizar exames para verificar a densidade óssea, especialmente após a menopausa ou se houver fatores de risco.</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <details>
+                <summary>
+                    <h2 class="font-semibold">II. Nutrição e Hidratação</h2>
+                    <span class="toggler-icon">&#9654;</span>
+                </summary>
+                <div class="content-wrapper">
+                    <details>
+                        <summary><h3 class="font-medium">Alimentação Saudável para Idosos</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Variedade Nutricional:</strong> Inclua frutas, vegetais coloridos, grãos integrais, proteínas magras (peixe, frango, leguminosas) e laticínios com baixo teor de gordura ou alternativas vegetais fortificadas.</li>
+                                <li><strong>Proteína Adequada:</strong> Essencial para manter a massa muscular e a força. Boas fontes incluem ovos, feijões, lentilhas, nozes, sementes, peixe e carnes magras.</li>
+                                <li><strong>Fibras:</strong> Importantes para a saúde digestiva e para prevenir constipação. Encontradas em frutas, vegetais, leguminosas e grãos integrais.</li>
+                                <li><strong>Moderação no Sal e Açúcar:</strong> Reduza o consumo de alimentos processados, que geralmente são ricos em sódio e açúcares adicionados.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><h3 class="font-medium">Manter-se Hidratado</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Beba Água Regularmente:</strong> Mesmo sem sentir sede, pois a sensação de sede pode diminuir com a idade. Tenha uma garrafa de água sempre por perto.</li>
+                                <li><strong>Outras Fontes de Líquidos:</strong> Chás de ervas, sucos naturais diluídos, sopas e frutas ricas em água (como melancia e pepino) também contribuem.</li>
+                                <li><strong>Sinais de Desidratação:</strong> Boca seca, urina escura e com odor forte, tontura, fadiga e confusão mental.</li>
+                                <li><strong>Atenção Especial:</strong> Em dias quentes ou durante a prática de atividades físicas, a necessidade de líquidos aumenta.</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <details>
+                <summary>
+                    <h2 class="font-semibold">III. Bem-estar Cognitivo e Mental</h2>
+                    <span class="toggler-icon">&#9654;</span>
+                </summary>
+                <div class="content-wrapper">
+                    <details>
+                        <summary><h3 class="font-medium">Manter a Mente Aguçada</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Atividades Estimulantes:</strong> Leitura, palavras cruzadas, sudoku, jogos de tabuleiro, aprender um novo idioma ou habilidade (como tocar um instrumento musical ou pintura).</li>
+                                <li><strong>Interação Social:</strong> Manter contato com amigos e familiares, participar de grupos ou clubes, voluntariado.</li>
+                                <li><strong>Alimentação Saudável para o Cérebro:</strong> Dieta rica em antioxidantes, ômega-3 (presente em peixes gordurosos, nozes, sementes de linhaça) e vitaminas do complexo B.</li>
+                                <li><strong>Exercício Físico Regular:</strong> A atividade física também beneficia a saúde cerebral, melhorando o fluxo sanguíneo.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><h3 class="font-medium">Compreender Demência e Alzheimer</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Sinais de Alerta:</strong> Perda de memória que afeta o dia a dia, dificuldade em planejar ou resolver problemas, confusão com tempo ou lugar, problemas de linguagem, alterações de humor ou personalidade.</li>
+                                <li><strong>Importância do Diagnóstico Precoce:</strong> Permite o acesso a tratamentos que podem retardar a progressão, além de planejamento e suporte adequados.</li>
+                                <li><strong>Busque Informação e Suporte:</strong> Existem associações e grupos de apoio para pacientes e familiares que oferecem informações valiosas e suporte emocional.</li>
+                            </ul>
+                        </div>
+                    </details>
+                     <details>
+                        <summary><h3 class="font-medium">Gestão da Depressão e Ansiedade</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Reconhecer Sintomas:</strong> Tristeza persistente, perda de interesse em atividades prazerosas, alterações no apetite ou sono, fadiga, dificuldade de concentração, sentimentos de inutilidade, preocupação excessiva.</li>
+                                <li><strong>Procurar Ajuda Profissional:</strong> A depressão e a ansiedade são condições tratáveis. Converse com seu médico, psicólogo ou psiquiatra.</li>
+                                <li><strong>Manter Conexões Sociais:</strong> O isolamento pode agravar os sintomas. Mantenha contato com pessoas queridas.</li>
+                                <li><strong>Estilo de Vida Saudável:</strong> Alimentação equilibrada, atividade física regular e sono adequado podem ajudar.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><h3 class="font-medium">Higiene do Sono para Idosos</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Rotina Regular:</strong> Tente ir para a cama e acordar aproximadamente no mesmo horário todos os dias, mesmo nos finais de semana.</li>
+                                <li><strong>Ambiente Confortável:</strong> Quarto escuro, silencioso e com temperatura agradável.</li>
+                                <li><strong>Evitar Estimulantes:</strong> Reduza o consumo de cafeína e álcool, especialmente à noite. Evite refeições pesadas perto da hora de dormir.</li>
+                                <li><strong>Limitar Cochilos Diurnos:</strong> Se precisar cochilar, que seja por no máximo 20-30 minutos e não muito tarde.</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <details>
+                <summary>
+                    <h2 class="font-semibold">IV. Gestão de Medicamentos e Segurança</h2>
+                    <span class="toggler-icon">&#9654;</span>
+                </summary>
+                <div class="content-wrapper">
+                    <details>
+                        <summary><h3 class="font-medium">Organizar Medicamentos</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Lista Atualizada:</strong> Mantenha uma lista de todos os medicamentos que você toma, incluindo nome, dose, frequência e motivo do uso. Leve esta lista a todas as consultas médicas.</li>
+                                <li><strong>Organizadores de Pílulas:</strong> Caixas semanais com compartimentos diários podem ajudar a evitar esquecimentos ou doses duplicadas.</li>
+                                <li><strong>Alarmes e Lembretes:</strong> Use o celular ou relógios com alarme para lembrar os horários dos medicamentos.</li>
+                                <li><strong>Farmacêutico de Confiança:</strong> Utilize sempre a mesma farmácia, se possível, para que o farmacêutico possa ajudar a identificar possíveis interações.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><h3 class="font-medium">Interações Medicamentosas e Efeitos Colaterais</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Informe seu Médico:</strong> Comunique todos os medicamentos que você usa, incluindo vitaminas, suplementos e chás, para evitar interações perigosas.</li>
+                                <li><strong>Leia a Bula:</strong> Familiarize-se com os possíveis efeitos colaterais dos seus medicamentos.</li>
+                                <li><strong>Comunique Efeitos Adversos:</strong> Se sentir algo diferente ou desagradável após iniciar um novo medicamento, informe seu médico imediatamente.</li>
+                                <li><strong>Não se Automedique:</strong> Evite tomar medicamentos por conta própria sem orientação médica, mesmo aqueles que não exigem receita.</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <details>
+                <summary>
+                    <h2 class="font-semibold">V. Envolvimento Social e Saúde Emocional</h2>
+                    <span class="toggler-icon">&#9654;</span>
+                </summary>
+                <div class="content-wrapper">
+                    <details>
+                        <summary><h3 class="font-medium">Combater Solidão e Isolamento</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Participe de Grupos:</strong> Clubes de leitura, grupos de caminhada, aulas de artesanato, centros de convivência para idosos.</li>
+                                <li><strong>Voluntariado:</strong> Oferecer seu tempo e habilidades pode trazer um senso de propósito e conexão.</li>
+                                <li><strong>Use a Tecnologia:</strong> Videochamadas com familiares e amigos, redes sociais (com cautela), fóruns online de interesse.</li>
+                                <li><strong>Mantenha Contato Regular:</strong> Telefone para amigos, escreva cartas ou e-mails, agende encontros.</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <details>
+                <summary>
+                    <h2 class="font-semibold">VI. Cuidados Preventivos e Rastreios</h2>
+                    <span class="toggler-icon">&#9654;</span>
+                </summary>
+                <div class="content-wrapper">
+                    <details>
+                        <summary><h3 class="font-medium">Check-ups Regulares e Exames</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Consultas Médicas Anuais:</strong> Mesmo se sentindo bem, é importante fazer um check-up geral.</li>
+                                <li><strong>Rastreios Essenciais:</strong> Pressão arterial, colesterol, diabetes, exames de visão e audição, rastreio de câncer (colo de útero, mama, colorretal, próstata, conforme orientação médica).</li>
+                                <li><strong>Vacinação:</strong> Mantenha as vacinas em dia (gripe, pneumonia, tétano, coqueluche, herpes zoster).</li>
+                                <li><strong>Saúde Bucal:</strong> Visitas regulares ao dentista são cruciais para a saúde geral.</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <details>
+                <summary>
+                    <h2 class="font-semibold">VII. Segurança Doméstica e Ambiente</h2>
+                    <span class="toggler-icon">&#9654;</span>
+                </summary>
+                <div class="content-wrapper">
+                    <details>
+                        <summary><h3 class="font-medium">Criar um Espaço Seguro (além de quedas)</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Detectores de Fumaça e Monóxido de Carbono:</strong> Verifique as baterias regularmente (a cada 6 meses) e substitua os detectores conforme a validade.</li>
+                                <li><strong>Segurança na Cozinha:</strong> Nunca deixe panelas no fogo sem supervisão. Mantenha materiais inflamáveis longe do fogão. Tenha um extintor de incêndio acessível e saiba usá-lo.</li>
+                                <li><strong>Prevenção de Queimaduras:</strong> Ajuste a temperatura do aquecedor de água para evitar queimaduras (idealmente abaixo de 49°C ou 120°F).</li>
+                                <li><strong>Números de Emergência Visíveis:</strong> Mantenha uma lista de números de emergência (polícia, bombeiros, SAMU, contato de familiar) perto do telefone.</li>
+                            </ul>
+                        </div>
+                    </details>
+                    <details>
+                        <summary><h3 class="font-medium">Evitar Golpes e Abuso Contra Idosos</h3><span class="toggler-icon">&#9654;</span></summary>
+                        <div class="content-wrapper">
+                            <ul>
+                                <li><strong>Desconfie de Ofertas "Boas Demais":</strong> Se algo parece muito vantajoso ou urgente, provavelmente é um golpe.</li>
+                                <li><strong>Não Forneça Informações Pessoais:</strong> Nunca compartilhe senhas, números de cartão de crédito, CPF ou dados bancários por telefone, e-mail ou mensagens, a menos que você tenha iniciado o contato e confie na instituição.</li>
+                                <li><strong>Cuidado com Pedidos de Dinheiro Inesperados:</strong> Golpistas frequentemente se passam por netos ou outros parentes em apuros. Verifique a informação diretamente com a pessoa ou outro familiar.</li>
+                                <li><strong>Procure Ajuda:</strong> Se suspeitar de um golpe ou se sentir pressionado, converse com um familiar de confiança, amigo ou procure as autoridades (Disque 100 para Direitos Humanos).</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+        </section>
+    </div>
+
+    <script>
+        // Optional: Add JavaScript if needed for more complex interactions later.
+        // For now, the HTML <details> element handles expand/collapse natively.
+        document.querySelectorAll('details').forEach((detail) => {
+            // Optional: Open the first main category by default
+            // if (!detail.parentElement.classList.contains('content-wrapper')) {
+            //     if (detail === document.querySelector('#health-topics > details:first-of-type')) {
+            //         detail.open = true;
+            //     }
+            // }
+        });
+    </script>
+</body>
+</html>
