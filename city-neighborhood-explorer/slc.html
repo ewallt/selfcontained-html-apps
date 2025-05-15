@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salt Lake City Neighborhood Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles to complement Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Tailwind gray-100 */
+        }
+        /* Custom scrollbar for a cleaner look (optional, for the main browser scrollbar) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Softer track */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* Tailwind slate-300 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; /* Tailwind slate-500 */
+        }
+        .content-area h2 { /* Main neighborhood name */
+            border-bottom: 2px solid #e5e7eb; /* Tailwind gray-200 */
+        }
+        .content-area .section { /* Individual content section (History, Art, etc.) */
+            border-left: 4px solid #3b82f6; /* Tailwind blue-500 */
+            background-color: #f9fafb; /* Tailwind gray-50 */
+        }
+        .content-area .section h3 { /* Section titles like "History" */
+            color: #1e40af; /* Tailwind blue-800 */
+        }
+        /* Ensuring select dropdown arrows are visible and styled consistently */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 0.65em auto;
+            padding-right: 2.5rem; /* Make space for the arrow */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex justify-center p-4 bg-gradient-to-br from-slate-100 to-sky-100">
+    <main class="container bg-white shadow-2xl rounded-xl w-full max-w-3xl mx-auto flex flex-col my-8 overflow-hidden">
+        <div class="top-panel flex-shrink-0 px-6 md:px-8 pt-6 md:pt-8">
+            <header class="mb-6 md:mb-8 text-center">
+                <div class="flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 mr-2 text-blue-700">
+                        <path fill-rule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                    </svg>
+                    <h1 id="main-title" class="text-2xl md:text-3xl font-bold text-blue-800">
+                        Salt Lake City Neighborhood Explorer
+                    </h1>
+                </div>
+            </header>
+
+            <div class="controls grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 pb-6 border-b border-slate-200">
+                <div>
+                    <label for="level1-dropdown" class="block text-sm font-medium text-slate-700 mb-1">Area:</label>
+                    <select id="level1-dropdown" class="w-full p-3 border border-slate-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out bg-white text-slate-700">
+                        <option value="" class="text-slate-500">-- Select Area --</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="level2-dropdown" class="block text-sm font-medium text-slate-700 mb-1">Neighborhood:</label>
+                    <select id="level2-dropdown" disabled class="w-full p-3 border border-slate-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out bg-white text-slate-700 disabled:bg-slate-50 disabled:text-slate-400">
+                        <option value="" class="text-slate-500">-- Select Neighborhood --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-area" class="content-area space-y-6 px-6 md:px-8 py-6">
+            <p id="initial-message" class="text-slate-600 italic text-center py-8">Please select an area and then a neighborhood to see details.</p>
+            </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- EMBEDDED DATA for Salt Lake City ---
+            const currentExplorerData = {
+                appTitle: "Salt Lake City Neighborhood Explorer",
+                level1Label: "Area", // Changed from "City"
+                level2Label: "Neighborhood",
+                level1Items: {
+                    "items": [
+                        { "id": "slc1", "name": "North Salt Lake Valley" },
+                        { "id": "slc2", "name": "Central Salt Lake City" },
+                        { "id": "slc3", "name": "South Salt Lake Valley" }
+                    ]
+                },
+                level2Items: {
+                    "items": [
+                        // --- North Salt Lake Valley (slc1) ---
+                        {
+                            "id": "slc1a", "name": "Rose Park", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "Rose Park is a diverse, community-oriented neighborhood on the west side of Salt Lake City, known for its namesake park and relatively affordable housing.", "tips": "Check out the International Peace Gardens located within Jordan Park, just south of Rose Park." },
+                                { "title": "Vibe", "content": "Family-friendly with a strong sense of local community and cultural diversity. More laid-back than downtown.", "tips": "Good for families looking for starter homes and a quieter atmosphere." },
+                                { "title": "Highlights", "content": "Rose Park, Jordan River Parkway Trail access, proximity to Utah State Fairpark.", "tips": "Enjoy a walk or bike ride along the Jordan River." }
+                            ]
+                        },
+                        {
+                            "id": "slc1b", "name": "Fairpark", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "Home to the Utah State Fairpark, this neighborhood has a rich history and is undergoing revitalization efforts. It's characterized by older homes and a diverse population.", "tips": "The Utah State Fair in September is a major annual event." },
+                                { "title": "Vibe", "content": "A mix of historic charm and working-class roots, with increasing community engagement.", "tips": "Look for local events and initiatives aimed at neighborhood improvement." },
+                                { "title": "Highlights", "content": "Utah State Fairpark, multicultural dining options, historic architecture.", "tips": "Explore the diverse food scene, especially along North Temple." }
+                            ]
+                        },
+                        {
+                            "id": "slc1c", "name": "The Avenues", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "One of SLC's oldest residential areas, The Avenues is known for its Victorian architecture, tree-lined streets, and views of the valley. It's a desirable and historic neighborhood.", "tips": "Parking can be tight, so walking is often preferred." },
+                                { "title": "Vibe", "content": "Historic, charming, and somewhat eclectic, with a strong neighborhood association. Popular with professionals and families.", "tips": "Great for walking and admiring unique homes." },
+                                { "title": "Highlights", "content": "Beautiful historic homes, local cafes and shops, proximity to City Creek Canyon and Memory Grove Park.", "tips": "Hike or bike in City Creek Canyon for a quick nature escape." }
+                            ]
+                        },
+                        {
+                            "id": "slc1d", "name": "Capitol Hill", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "Dominated by the Utah State Capitol building, this area offers stunning views and a mix of grand historic homes and more modest residences. It's a prestigious and scenic neighborhood.", "tips": "Visit the Capitol grounds for panoramic city and mountain views." },
+                                { "title": "Vibe", "content": "Elegant, historic, and politically significant, with a quieter residential feel compared to downtown.", "tips": "Ideal for those who appreciate architecture and history." },
+                                { "title": "Highlights", "content": "Utah State Capitol, Marmalade District (adjacent), Memory Grove Park, Ensign Peak trails.", "tips": "Hike to Ensign Peak for an iconic view of the valley, especially at sunset." }
+                            ]
+                        },
+                        {
+                            "id": "slc1e", "name": "Marmalade District", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "A historic sub-neighborhood of Capitol Hill, known for its narrow streets named after fruit trees and diverse architectural styles. It has a unique, village-like feel.", "tips": "The area hosts an annual Marmalade Jam Fest." },
+                                { "title": "Vibe", "content": "Quirky, historic, and tight-knit, with a bohemian and artistic undercurrent.", "tips": "Explore the unique street layout and charming homes." },
+                                { "title": "Highlights", "content": "Distinctive street names, varied architecture, proximity to downtown and Capitol Hill.", "tips": "A great area for a leisurely stroll to discover hidden gems." }
+                            ]
+                        },
+                         {
+                            "id": "slc1f", "name": "Westpointe", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "A more suburban-feeling area on the western edge of Salt Lake City, offering newer housing developments and convenient access to the airport and major freeways.", "tips": "Consider this area for newer homes and easier commutes to the airport." },
+                                { "title": "Vibe", "content": "Residential, family-oriented, with a mix of housing styles. Generally quieter and more spread out.", "tips": "Good for those seeking a suburban environment within city limits." },
+                                { "title": "Highlights", "content": "Proximity to Salt Lake City International Airport, Wingpointe Park, access to I-80 and I-215.", "tips": "Explore the nearby parks for outdoor recreation." }
+                            ]
+                        },
+                        {
+                            "id": "slc1g", "name": "Jordan Meadows", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "Located in the northwestern part of the city, Jordan Meadows is primarily a residential area with a mix of single-family homes and apartment complexes.", "tips": "Offers access to the Jordan River Parkway for walking and biking." },
+                                { "title": "Vibe", "content": "A diverse residential community with local parks and schools.", "tips": "A more affordable area compared to eastern SLC neighborhoods." },
+                                { "title": "Highlights", "content": "Jordan River Parkway, local parks, diverse community.", "tips": "Enjoy the open spaces and recreational opportunities along the river." }
+                            ]
+                        },
+                        // --- Central Salt Lake City (slc2) ---
+                        {
+                            "id": "slc2a", "name": "Downtown", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "The commercial and cultural heart of Salt Lake City, featuring skyscrapers, historic Temple Square, shopping, dining, and entertainment venues.", "tips": "Utilize the TRAX light rail for easy transportation within downtown." },
+                                { "title": "Vibe", "content": "Bustling, energetic, and modern, with a growing residential population. The core of business and nightlife.", "tips": "Ideal for those who enjoy urban living and walkability." },
+                                { "title": "Highlights", "content": "Temple Square, City Creek Center (shopping), Gallivan Center, Eccles Theater, numerous restaurants and bars.", "tips": "Catch a show at the Eccles Theater or enjoy an outdoor concert at the Gallivan Center." }
+                            ]
+                        },
+                        {
+                            "id": "slc2b", "name": "Central City", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "A vibrant, diverse neighborhood just east of downtown, known for its mix of historic homes, local businesses, and community gardens. It includes the popular 9th and 9th district.", "tips": "Many local shops and restaurants are walkable." },
+                                { "title": "Vibe", "content": "Eclectic, community-focused, and increasingly trendy, with a strong emphasis on localism.", "tips": "Great for those seeking a lively neighborhood with character." },
+                                { "title": "Highlights", "content": "Trolley Square, Liberty Park (southern edge), 9th and 9th shopping district, diverse dining.", "tips": "Spend an afternoon exploring the boutiques and eateries in the 9th and 9th area." }
+                            ]
+                        },
+                        {
+                            "id": "slc2c", "name": "East Central", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "Stretching towards the University of Utah, East Central is a mix of student housing, historic homes, and local businesses. It's a lively area influenced by the university.", "tips": "Good for access to the University and its events." },
+                                { "title": "Vibe", "content": "Youthful, academic, and energetic, with a blend of residential calm and student activity.", "tips": "Popular with students, faculty, and young professionals." },
+                                { "title": "Highlights", "content": "Proximity to University of Utah, Rice-Eccles Stadium, Red Butte Garden (nearby), diverse food options.", "tips": "Visit Red Butte Garden for beautiful botanical displays and summer concerts." }
+                            ]
+                        },
+                        {
+                            "id": "slc2d", "name": "Liberty Wells", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "Centered around the iconic Liberty Park, this neighborhood offers a mix of charming bungalows and local businesses. It's known for its green space and community feel.", "tips": "Liberty Park is a major draw for recreation and events." },
+                                { "title": "Vibe", "content": "Relaxed, family-friendly, and active, with a strong connection to outdoor and community life.", "tips": "Perfect for those who love parks and a neighborhood atmosphere." },
+                                { "title": "Highlights", "content": "Liberty Park (Tracy Aviary, tennis courts, pond), local coffee shops and eateries.", "tips": "Spend a day at Liberty Park: visit the aviary, rent a paddle boat, or just relax on the grass." }
+                            ]
+                        },
+                        {
+                            "id": "slc2e", "name": "9th and 9th", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "A trendy and walkable commercial and residential district within Central City, known for its independent boutiques, art house cinema, and popular restaurants.", "tips": "Street parking can be competitive, especially on weekends." },
+                                { "title": "Vibe", "content": "Bohemian, chic, and vibrant, with a strong local business scene. A go-to spot for unique finds and food.", "tips": "A great place for coffee, browsing unique shops, and indie films." },
+                                { "title": "Highlights", "content": "Tower Theatre, diverse local shops (clothing, books, gifts), acclaimed restaurants and bakeries.", "tips": "Catch an independent film at the historic Tower Theatre." }
+                            ]
+                        },
+                        {
+                            "id": "slc2f", "name": "Yalecrest", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "An affluent residential neighborhood known for its beautiful, architecturally significant homes (often called 'Harvard-Yale area') and tree-lined streets. It's a highly sought-after area.", "tips": "Primarily residential, so amenities are found in nearby districts like 15th & 15th or Sugar House." },
+                                { "title": "Vibe", "content": "Historic, upscale, and picturesque, with a quiet and established residential character.", "tips": "Known for its beautiful architecture and well-maintained properties." },
+                                { "title": "Highlights", "content": "Stunning examples of period architecture (Tudor, Colonial Revival), Laird Park, proximity to Emigration Market.", "tips": "Take a walk or drive through to admire the impressive homes." }
+                            ]
+                        },
+                         {
+                            "id": "slc2g", "name": "University/Foothill", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "Encompassing the University of Utah campus and the residential areas extending towards the eastern foothills. Offers a mix of student life, research facilities, and upscale homes with views.", "tips": "Home to University of Utah hospitals and research park." },
+                                { "title": "Vibe", "content": "Academic, dynamic, and scenic, blending campus energy with quieter residential pockets in the foothills.", "tips": "Great for those affiliated with the University or who enjoy proximity to mountain trails." },
+                                { "title": "Highlights", "content": "University of Utah campus, Red Butte Garden, Natural History Museum of Utah, Bonneville Shoreline Trail access.", "tips": "Explore the museums on campus or hike the Bonneville Shoreline Trail." }
+                            ]
+                        },
+                        // --- South Salt Lake Valley (slc3) ---
+                        {
+                            "id": "slc3a", "name": "Sugar House", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "A vibrant and eclectic neighborhood with a distinct identity, known for its walkable business district, parks, and mix of historic and modern development.", "tips": "The S-Line streetcar connects Sugar House to other parts of the valley." },
+                                { "title": "Vibe", "content": "Lively, progressive, and community-oriented, with a strong local arts and dining scene. A 'city within a city' feel.", "tips": "Excellent for dining, shopping at local boutiques, and enjoying parks." },
+                                { "title": "Highlights", "content": "Sugar House Park, Hidden Hollow, vibrant shopping and dining district, Fairmont Park, S-Line streetcar.", "tips": "Explore the numerous local shops and restaurants, or relax in Sugar House Park." }
+                            ]
+                        },
+                        {
+                            "id": "slc3b", "name": "East Millcreek", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "A largely residential area (now its own city, Millcreek) known for its established neighborhoods, good schools, and proximity to Millcreek Canyon. Offers a more suburban feel.", "tips": "Millcreek Canyon is a popular spot for hiking and picnicking (fee area)." },
+                                { "title": "Vibe", "content": "Suburban, family-friendly, and outdoors-oriented, with a strong sense of community.", "tips": "Appeals to families and those who enjoy easy access to mountain recreation." },
+                                { "title": "Highlights", "content": "Access to Millcreek Canyon, local parks, well-regarded schools, Evergreen Park.", "tips": "Hike or bike in Millcreek Canyon, or visit one of the local community parks." }
+                            ]
+                        },
+                        {
+                            "id": "slc3c", "name": "Holladay", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "An upscale suburban community (now its own city) at the base of Mount Olympus, known for its large lots, mature trees, and village center. Offers a more secluded and affluent atmosphere.", "tips": "Holladay Village offers a charming collection of shops and restaurants." },
+                                { "title": "Vibe", "content": "Established, affluent, and picturesque, with a strong community identity and a focus on quality of life.", "tips": "Known for its beautiful homes and quiet, tree-lined streets." },
+                                { "title": "Highlights", "content": "Holladay Village center, beautiful residential architecture, proximity to Big Cottonwood Canyon (via Knudsen Park area).", "tips": "Stroll through Holladay Village and enjoy its local businesses." }
+                            ]
+                        },
+                        {
+                            "id": "slc3d", "name": "Glendale", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "A diverse residential neighborhood on the west side of Salt Lake City, featuring many mid-century homes and the popular Glendale Golf Course.", "tips": "Offers more affordable housing options compared to east side neighborhoods." },
+                                { "title": "Vibe", "content": "Multicultural, established, and community-focused, with a mix of long-time residents and newer families.", "tips": "Known for its golf course and community events." },
+                                { "title": "Highlights", "content": "Glendale Golf Course, Jordan River Parkway access, Seven Peaks Waterpark (formerly Raging Waters), diverse community.", "tips": "Play a round of golf or enjoy the amenities along the Jordan River." }
+                            ]
+                        },
+                        {
+                            "id": "slc3e", "name": "Poplar Grove", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "One of SLC's oldest west-side neighborhoods, Poplar Grove is a diverse community with a mix of housing styles, local businesses, and parks.", "tips": "The neighborhood is undergoing gradual revitalization." },
+                                { "title": "Vibe", "content": "Historic, diverse, and community-oriented, with a strong working-class heritage.", "tips": "Offers a more urban feel on the west side, with good public transit access." },
+                                { "title": "Highlights", "content": "Poplar Grove Park, 9 Line Trail access, diverse culinary options, proximity to downtown.", "tips": "Explore the 9 Line Trail for a unique urban greenway experience." }
+                            ]
+                        },
+                        {
+                            "id": "slc3f", "name": "Ballpark", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "Named after Smith's Ballpark (home of the Salt Lake Bees), this neighborhood is a mix of industrial, commercial, and residential areas. It's experiencing significant redevelopment.", "tips": "Catch a Bees baseball game during the season." },
+                                { "title": "Vibe", "content": "Transitional, up-and-coming, and increasingly vibrant, with new breweries, eateries, and housing projects.", "tips": "An area to watch for new developments and urban renewal." },
+                                { "title": "Highlights", "content": "Smith's Ballpark, local breweries and distilleries, proximity to TRAX lines, emerging arts scene.", "tips": "Check out the growing number of craft breweries in the area." }
+                            ]
+                        },
+                        {
+                            "id": "slc3g", "name": "People's Freeway", "sectionProperties": ["title", "content", "tips"],
+                            "sections": [
+                                { "title": "Overview", "content": "A neighborhood defined by its proximity to major transportation corridors (I-15, I-80, State Street). It's a mix of commercial, light industrial, and residential uses.", "tips": "Offers convenient freeway access for commuters." },
+                                { "title": "Vibe", "content": "Utilitarian, accessible, and diverse, with a focus on transportation and commerce.", "tips": "Less of a destination neighborhood, more a functional area with varied services." },
+                                { "title": "Highlights", "content": "Excellent freeway access, mix of businesses, some affordable housing options.", "tips": "Consider for easy commuting if working in various parts of the valley." }
+                            ]
+                        }
+                    ]
+                }
+            };
+
+
+            // --- DOM Elements ---
+            const level1Dropdown = document.getElementById('level1-dropdown');
+            const level2Dropdown = document.getElementById('level2-dropdown');
+            const contentArea = document.getElementById('content-area');
+            const initialMessageElement = document.getElementById('initial-message'); 
+            const mainTitleElement = document.getElementById('main-title');
+
+            // --- UI Configuration from Data ---
+            document.title = currentExplorerData.appTitle; 
+            mainTitleElement.textContent = currentExplorerData.appTitle; // Update the H1 title
+            document.querySelector('label[for="level1-dropdown"]').textContent = `${currentExplorerData.level1Label}:`;
+            document.querySelector('label[for="level2-dropdown"]').textContent = `${currentExplorerData.level2Label}:`;
+
+            // --- Initialize Application ---
+            function initializeApp() {
+                if (!currentExplorerData.level1Items || !currentExplorerData.level1Items.items) {
+                    console.error("Level 1 data is missing or malformed.");
+                    contentArea.innerHTML = `<p class="text-red-600 font-semibold p-4 bg-red-100 rounded-md">Error: Level 1 data not found.</p>`;
+                    return;
+                }
+                if (!currentExplorerData.level2Items || !currentExplorerData.level2Items.items) {
+                    console.error("Level 2 data is missing or malformed.");
+                    contentArea.innerHTML = `<p class="text-red-600 font-semibold p-4 bg-red-100 rounded-md">Error: Level 2 data not found.</p>`;
+                    return;
+                }
+                populateLevel1Dropdown();
+                updateInitialMessage(`Please select a ${currentExplorerData.level1Label.toLowerCase()} and then a ${currentExplorerData.level2Label.toLowerCase()} to see details.`);
+            }
+
+            // --- Populate Dropdowns ---
+            function populateLevel1Dropdown() {
+                currentExplorerData.level1Items.items.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = item.name;
+                    option.className = "text-slate-700";
+                    level1Dropdown.appendChild(option);
+                });
+            }
+
+            function populateLevel2Dropdown(selectedLevel1ItemId) {
+                level2Dropdown.innerHTML = `<option value="" class="text-slate-500">-- Select ${currentExplorerData.level2Label} --</option>`; 
+                level2Dropdown.disabled = true;
+                clearContentArea(); 
+                updateInitialMessage(`Please select a ${currentExplorerData.level2Label.toLowerCase()} to view details.`);
+
+                if (!selectedLevel1ItemId) return;
+
+                const filteredItems = currentExplorerData.level2Items.items.filter(item => item.id.startsWith(selectedLevel1ItemId));
+
+                if (filteredItems.length > 0) {
+                    filteredItems.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.name;
+                        option.className = "text-slate-700";
+                        level2Dropdown.appendChild(option);
+                    });
+                    level2Dropdown.disabled = false;
+                } else {
+                    updateInitialMessage(`No ${currentExplorerData.level2Label.toLowerCase()}s found for the selected ${currentExplorerData.level1Label.toLowerCase()}.`);
+                }
+            }
+            
+            function clearContentArea() {
+                contentArea.innerHTML = ''; 
+                if (initialMessageElement) { 
+                    if (!contentArea.contains(initialMessageElement)) {
+                        contentArea.appendChild(initialMessageElement);
+                    }
+                    initialMessageElement.style.display = 'block'; 
+                }
+            }
+
+            // --- Display Content ---
+            function displayItemDetails(selectedLevel2ItemId) {
+                clearContentArea(); 
+                if (!selectedLevel2ItemId) {
+                    updateInitialMessage(`Please select a ${currentExplorerData.level2Label.toLowerCase()} to view details.`);
+                    return;
+                }
+
+                const itemDetails = currentExplorerData.level2Items.items.find(item => item.id === selectedLevel2ItemId);
+
+                if (itemDetails) {
+                    if(initialMessageElement) initialMessageElement.style.display = 'none'; 
+
+                    const nameHeader = document.createElement('h2');
+                    nameHeader.textContent = itemDetails.name;
+                    nameHeader.className = "text-2xl font-semibold text-slate-700 mb-4 pb-2"; 
+                    contentArea.appendChild(nameHeader);
+
+                    itemDetails.sections.forEach(section => {
+                        const sectionDiv = document.createElement('div');
+                        sectionDiv.className = 'section p-4 rounded-lg shadow mb-4'; 
+
+                        if (itemDetails.sectionProperties && Array.isArray(itemDetails.sectionProperties)) {
+                            itemDetails.sectionProperties.forEach((propName, index) => {
+                                if (section[propName] !== undefined && section[propName] !== null && String(section[propName]).trim() !== '') {
+                                    let element;
+                                    if (index === 0) { 
+                                        element = document.createElement('h3');
+                                        element.className = "text-xl font-semibold mb-2"; 
+                                    } else {
+                                        element = document.createElement('p');
+                                        element.className = "text-slate-600 mb-2 leading-relaxed"; 
+                                        if (propName === 'tips') {
+                                            element.classList.add('italic', 'text-sm', 'text-blue-600', 'border-l-2', 'border-blue-500', 'pl-3', 'py-1', 'bg-blue-50', 'rounded-r-md');
+                                        }
+                                    }
+                                    element.textContent = section[propName]; 
+                                    sectionDiv.appendChild(element);
+                                }
+                            });
+                        }
+                        if (sectionDiv.hasChildNodes()) {
+                            contentArea.appendChild(sectionDiv);
+                        }
+                    });
+                } else {
+                     updateInitialMessage(`Details not found for the selected ${currentExplorerData.level2Label.toLowerCase()}.`);
+                }
+            }
+            
+            function updateInitialMessage(message) {
+                if (initialMessageElement) {
+                    initialMessageElement.textContent = message;
+                    initialMessageElement.style.display = 'block'; 
+                    if (!contentArea.contains(initialMessageElement)) {
+                        contentArea.insertBefore(initialMessageElement, contentArea.firstChild);
+                    }
+                } else { 
+                    const p = document.createElement('p');
+                    p.id = "initial-message"; 
+                    p.className = "text-slate-600 italic text-center py-8";
+                    p.textContent = message;
+                    while (contentArea.firstChild) {
+                        contentArea.removeChild(contentArea.firstChild);
+                    }
+                    contentArea.appendChild(p);
+                }
+            }
+
+            // --- Event Listeners ---
+            level1Dropdown.addEventListener('change', (e) => {
+                const selectedLevel1ItemId = e.target.value;
+                populateLevel2Dropdown(selectedLevel1ItemId); 
+            });
+
+            level2Dropdown.addEventListener('change', (e) => {
+                const selectedLevel2ItemId = e.target.value;
+                displayItemDetails(selectedLevel2ItemId);
+            });
+
+            // --- Start the app ---
+            initializeApp();
+        });
+    </script>
+</body>
+</html>

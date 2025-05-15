@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles to complement Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Tailwind gray-100 */
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* Tailwind slate-300 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; /* Tailwind slate-500 */
+        }
+        /* Styling for recipe display sections */
+        .recipe-title-main {
+            border-bottom: 2px solid #e5e7eb; /* Tailwind gray-200 */
+        }
+        .recipe-section {
+            border-left: 4px solid #fb923c; /* Tailwind orange-400, for a foodie theme */
+            background-color: #f9fafb; /* Tailwind gray-50 */
+        }
+        .recipe-section h3 {
+            color: #c2410c; /* Tailwind orange-700 */
+        }
+        /* Ensuring select dropdown arrows are visible and styled consistently */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 0.65em auto;
+            padding-right: 2.5rem; /* Make space for the arrow */
+        }
+        .recipe-list-item {
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .recipe-list-item:hover {
+            background-color: #f0f9ff; /* Tailwind sky-50 */
+        }
+        .ingredient-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+        }
+        .ingredient-item .name {
+            flex-grow: 1;
+        }
+        .ingredient-item .quantity {
+            min-width: 100px; /* Adjust as needed */
+            text-align: right;
+            margin-left: 1rem;
+            color: #475569; /* slate-600 */
+        }
+        .ingredient-item .note {
+            font-style: italic;
+            color: #64748b; /* slate-500 */
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex justify-center p-4 bg-gradient-to-br from-orange-50 to-amber-100">
+    <main class="container bg-white shadow-2xl rounded-xl w-full max-w-3xl mx-auto flex flex-col my-8 overflow-hidden">
+        <div class="top-panel flex-shrink-0 px-6 md:px-8 pt-6 md:pt-8">
+            <header class="mb-6 md:mb-8 text-center">
+                <div class="flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 mr-2 text-orange-600">
+                        <path d="M11.25 4.533A9.707 9.707 0 006 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v1.205a.75.75 0 00.5.707c1.724.462 2.972 1.617 3.232 3.013A4.495 4.495 0 015.25 9.75c-.798 0-1.537-.224-2.164-.61a.75.75 0 00-.916.092L.99 10.41a.75.75 0 00-.034.99c.611.84 1.446 1.483 2.409 1.913A9.701 9.701 0 006 13.5a9.707 9.707 0 003.25-.555.75.75 0 00.5-.707V10.83a.75.75 0 00-.5-.707c-1.724-.462-2.972-1.617-3.232-3.013A4.495 4.495 0 019.75 5.25c.798 0 1.537.224 2.164.61a.75.75 0 00.916-.092l1.178-1.178a.75.75 0 00.034-.99c-.611-.84-1.446-1.483-2.409-1.913zM15 4.533A9.707 9.707 0 009.75 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v1.205a.75.75 0 00.5.707c1.724.462 2.972 1.617 3.232 3.013A4.495 4.495 0 019 9.75c-.798 0-1.537-.224-2.164-.61a.75.75 0 00-.916.092l-1.178 1.178a.75.75 0 00-.034.99c.611.84 1.446 1.483 2.409 1.913A9.701 9.701 0 009.75 13.5a9.707 9.707 0 003.25-.555.75.75 0 00.5-.707V10.83a.75.75 0 00-.5-.707c-1.724-.462-2.972-1.617-3.232-3.013A4.495 4.495 0 0113.5 5.25c.798 0 1.537.224 2.164.61a.75.75 0 00.916-.092l1.178-1.178a.75.75 0 00.034-.99c-.611-.84-1.446-1.483-2.409-1.913zM12 15a.75.75 0 00.75.75h.008a.75.75 0 00.75-.75v-.008a.75.75 0 00-.75-.75h-.008a.75.75 0 00-.75.75v.008zM12.75 17.25a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75v-.008c0-.414.336-.75.75-.75h.008a.75.75 0 01.75.75v.008zM12 19.5a.75.75 0 00.75.75h.008a.75.75 0 00.75-.75v-.008a.75.75 0 00-.75-.75h-.008a.75.75 0 00-.75.75v.008z" />
+                    </svg>
+                    <h1 id="main-title" class="text-2xl md:text-3xl font-bold text-orange-700">
+                        Recipe Finder
+                    </h1>
+                </div>
+            </header>
+
+            <div class="controls grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 pb-6 border-b border-slate-200">
+                <div>
+                    <label for="level1-dropdown" class="block text-sm font-medium text-slate-700 mb-1">Cuisine:</label>
+                    <select id="level1-dropdown" class="w-full p-3 border border-slate-300 rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-150 ease-in-out bg-white text-slate-700">
+                        <option value="" class="text-slate-500">-- Select Cuisine --</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="level2-dropdown" class="block text-sm font-medium text-slate-700 mb-1">Dish Type:</label>
+                    <select id="level2-dropdown" disabled class="w-full p-3 border border-slate-300 rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition duration-150 ease-in-out bg-white text-slate-700 disabled:bg-slate-50 disabled:text-slate-400">
+                        <option value="" class="text-slate-500">-- Select Dish Type --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-area" class="space-y-6 px-6 md:px-8 py-6 overflow-y-auto flex-grow">
+            <p id="initial-message" class="text-slate-600 italic text-center py-8">Please select a cuisine and then a dish type to see recipes.</p>
+            </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- EMBEDDED RECIPE DATA ---
+            const recipeAppData = {
+                appTitle: "Flavorful Finds: A Recipe Collection",
+                level1Label: "Cuisine",
+                level2Label: "Dish Type",
+                level1Items: {
+                    items: [ // Added Mediterranean, Thai, French
+                        { id: "italian", name: "Italian" },
+                        { id: "mexican", name: "Mexican" },
+                        { id: "indian", name: "Indian" },
+                        { id: "mediterranean", name: "Mediterranean" },
+                        { id: "thai", name: "Thai" },
+                        { id: "french", name: "French" }
+                    ]
+                },
+                recipes: [
+                    { // Italian Risotto
+                        id: "recipe001",
+                        title: "Wild Mushroom Risotto with Truffle Oil",
+                        cuisineId: "italian",
+                        dishTypeId: "risotto",
+                        dishTypeName: "Risotto",
+                        description: "A creamy and flavorful risotto featuring a mix of wild mushrooms, enhanced with a touch of truffle oil. Perfect for an elegant vegetarian main course.",
+                        prepTime: "15 minutes",
+                        cookTime: "30-40 minutes",
+                        servings: "2-3",
+                        ingredients: [
+                            { item: "Arborio rice", quantity: "1 cup" },
+                            { item: "Vegetable broth", quantity: "approx. 4 cups", note: "warm" },
+                            { item: "Mixed wild mushrooms", quantity: "2 cups", note: "cleaned and sliced/chopped (e.g., shiitake, oyster, chanterelle)" },
+                            { item: "Medium onion", quantity: "1", note: "finely chopped" },
+                            { item: "Garlic cloves", quantity: "2", note: "minced" },
+                            { item: "Dry white wine", quantity: "1/2 cup" },
+                            { item: "Freshly grated Parmesan cheese", quantity: "1/2 cup", note: "plus extra for serving" },
+                            { item: "Truffle oil", quantity: "1-2 tbsp", note: "or to taste" },
+                            { item: "Olive oil or butter", quantity: "2 tbsp" },
+                            { item: "Salt and black pepper", quantity: "to taste" },
+                            { item: "Fresh parsley", quantity: "for garnish", note: "chopped" }
+                        ],
+                        directions: [
+                            "In a large, heavy-bottomed pan or Dutch oven, heat olive oil or butter over medium heat. Add the finely chopped onions and sauté until translucent, about 3-5 minutes.",
+                            "Add the minced garlic and cook for another minute until fragrant.",
+                            "Increase heat slightly, add the wild mushrooms, and cook until they soften and release their juices, about 5-7 minutes. Season lightly with salt and pepper.",
+                            "Stir in the Arborio rice, ensuring each grain is coated with the mushroom mixture and oil. Toast for 1-2 minutes, stirring constantly.",
+                            "Pour in the dry white wine and stir continuously until it is fully absorbed by the rice.",
+                            "Begin adding the warm vegetable broth, one ladleful (about 1/2 to 1 cup) at a time, stirring continuously. Ensure each addition of broth is mostly absorbed before adding the next.",
+                            "Continue this process for about 18-25 minutes, or until the rice is al dente (cooked through but with a slight bite in the center) and the risotto has a creamy consistency.",
+                            "Remove the pan from the heat. Stir in the grated Parmesan cheese vigorously. Add a knob of butter if desired for extra creaminess.",
+                            "Season the risotto with salt and pepper to your taste. Drizzle the truffle oil on top just before serving.",
+                            "Garnish with fresh parsley and serve immediately. Offer extra Parmesan on the side."
+                        ],
+                        chefNotes: "Feel free to use any mix of your favorite mushrooms. For a richer flavor, a splash of cream can be added with the Parmesan. Adjust truffle oil to your preference as it can be quite potent. A squeeze of lemon juice at the end can brighten the flavors."
+                    },
+                    { // Mexican Vegetarian Tacos
+                        id: "recipe002",
+                        title: "Quick Black Bean & Corn Vegetarian Tacos",
+                        cuisineId: "mexican",
+                        dishTypeId: "tacos",
+                        dishTypeName: "Tacos",
+                        description: "Easy, flavorful, and highly adaptable vegetarian tacos perfect for a weeknight meal. Pile high with your favorite toppings!",
+                        prepTime: "15 minutes",
+                        cookTime: "10 minutes",
+                        servings: "4 (makes about 8-10 tacos)",
+                        ingredients: [
+                            { item: "Black beans", quantity: "1 can (15 oz)", note: "rinsed and drained" },
+                            { item: "Corn (frozen or canned)", quantity: "1 cup", note: "if canned, drained" },
+                            { item: "Red onion", quantity: "1/2 small", note: "finely chopped" },
+                            { item: "Bell pepper (any color)", quantity: "1/2", note: "chopped" },
+                            { item: "Taco seasoning", quantity: "1 tbsp", note: "or to taste" },
+                            { item: "Lime juice", quantity: "1 tbsp", note: "freshly squeezed" },
+                            { item: "Olive oil", quantity: "1 tbsp" },
+                            { item: "Corn or flour tortillas", quantity: "8-10 small" },
+                            { item: "Optional Toppings:", quantity: "", note: "shredded lettuce, diced tomatoes, avocado/guacamole, salsa, cilantro, sour cream or vegan alternative, shredded cheese or vegan alternative" }
+                        ],
+                        directions: [
+                            "Heat olive oil in a medium skillet over medium heat. Add red onion and bell pepper, sauté until softened, about 3-4 minutes.",
+                            "Stir in the black beans, corn, and taco seasoning. Cook for 5-7 minutes, stirring occasionally, until heated through. If the mixture seems dry, add a tablespoon or two of water.",
+                            "Remove from heat and stir in the fresh lime juice.",
+                            "Warm the tortillas according to package instructions (e.g., in a dry skillet, microwave, or oven).",
+                            "Assemble tacos by spooning the black bean and corn mixture into the warm tortillas.",
+                            "Serve immediately with your favorite toppings."
+                        ],
+                        chefNotes: "For a spicier kick, add a pinch of chili powder or a finely chopped jalapeño with the onions. Roasted sweet potatoes also make a great addition to the filling. This filling is also delicious in burritos or as a salad topper."
+                    },
+                    { // Indian Dal
+                        id: "recipe003",
+                        title: "Simple Red Lentil Dal (Masoor Dal)",
+                        cuisineId: "indian",
+                        dishTypeId: "dal",
+                        dishTypeName: "Dal / Lentils",
+                        description: "A quick, comforting, and nutritious red lentil dal that's easy to make and full of flavor. A staple in Indian cuisine.",
+                        prepTime: "10 minutes",
+                        cookTime: "20-25 minutes",
+                        servings: "3-4",
+                        ingredients: [
+                            { item: "Red lentils (masoor dal)", quantity: "1 cup", note: "rinsed" },
+                            { item: "Water or vegetable broth", quantity: "3 cups" },
+                            { item: "Tomato", quantity: "1 medium", note: "chopped" },
+                            { item: "Onion", quantity: "1/2 medium", note: "finely chopped" },
+                            { item: "Ginger-garlic paste", quantity: "1 tsp" },
+                            { item: "Turmeric powder", quantity: "1/2 tsp" },
+                            { item: "Cumin seeds", quantity: "1 tsp" },
+                            { item: "Mustard seeds", quantity: "1/2 tsp" },
+                            { item: "Dried red chili", quantity: "1-2", note: "optional, adjust to spice preference" },
+                            { item: "Ghee or oil", quantity: "1-2 tbsp" },
+                            { item: "Salt", quantity: "to taste" },
+                            { item: "Fresh cilantro", quantity: "for garnish", note: "chopped" },
+                            { item: "Lemon wedges", quantity: "for serving", note: "optional" }
+                        ],
+                        directions: [
+                            "Combine rinsed red lentils, water/broth, chopped tomato, and turmeric powder in a pot. Bring to a boil, then reduce heat, cover, and simmer for 15-20 minutes, or until lentils are soft and well-cooked. Stir occasionally.",
+                            "While lentils cook, prepare the tempering (tadka). Heat ghee or oil in a small pan over medium heat.",
+                            "Once hot, add cumin seeds and mustard seeds. Let them splutter.",
+                            "Add dried red chili (if using) and finely chopped onion. Sauté until onions turn golden brown.",
+                            "Add ginger-garlic paste and sauté for another minute until the raw smell disappears.",
+                            "Pour this tempering mixture into the cooked dal. Add salt to taste and mix well. Simmer for another 2-3 minutes.",
+                            "Garnish with fresh cilantro.",
+                            "Serve hot with rice, roti, or naan. A squeeze of lemon juice enhances the flavor."
+                        ],
+                        chefNotes: "For a creamier dal, you can mash some of the lentils against the side of the pot. Adjust consistency by adding more water if needed. Other spices like garam masala or coriander powder can be added to the tempering for extra flavor."
+                    },
+                    { // Italian Fish
+                        id: "recipe004",
+                        title: "Simple Lemon Herb Baked Cod",
+                        cuisineId: "italian", 
+                        dishTypeId: "fish",
+                        dishTypeName: "Fish Main",
+                        description: "A light, healthy, and flavorful baked cod seasoned with lemon, herbs, and garlic. Quick to prepare and perfect for a weeknight meal.",
+                        prepTime: "10 minutes",
+                        cookTime: "12-15 minutes",
+                        servings: "2",
+                        ingredients: [
+                            { item: "Cod fillets", quantity: "2 (approx. 6 oz each)", note: "skinless" },
+                            { item: "Olive oil", quantity: "2 tbsp" },
+                            { item: "Lemon", quantity: "1", note: "half sliced, half juiced" },
+                            { item: "Garlic cloves", quantity: "2", note: "minced" },
+                            { item: "Fresh parsley", quantity: "2 tbsp", note: "chopped" },
+                            { item: "Fresh dill or oregano", quantity: "1 tbsp", note: "chopped (or 1 tsp dried)" },
+                            { item: "Salt and black pepper", quantity: "to taste" },
+                            { item: "Optional: pinch of red pepper flakes" }
+                        ],
+                        directions: [
+                            "Preheat oven to 400°F (200°C). Lightly grease a baking dish.",
+                            "Pat the cod fillets dry with a paper towel and place them in the prepared baking dish.",
+                            "In a small bowl, whisk together olive oil, lemon juice, minced garlic, chopped parsley, dill/oregano, salt, pepper, and red pepper flakes (if using).",
+                            "Pour the herb mixture evenly over the cod fillets.",
+                            "Arrange lemon slices on top of and around the fillets.",
+                            "Bake for 12-15 minutes, or until the fish is opaque and flakes easily with a fork. Cooking time will depend on the thickness of the fillets.",
+                            "Serve immediately, spooning any pan juices over the fish."
+                        ],
+                        chefNotes: "This recipe also works well with other white fish like halibut or tilapia. You can add cherry tomatoes or asparagus to the baking dish for a one-pan meal. Serve with roasted vegetables, a simple salad, or rice."
+                    },
+                    // --- NEW RECIPES START HERE ---
+                    { // Mediterranean Salad
+                        id: "recipe005",
+                        title: "Greek Chickpea Salad with Lemon-Herb Dressing",
+                        cuisineId: "mediterranean",
+                        dishTypeId: "salad",
+                        dishTypeName: "Salad / Light Main",
+                        description: "A refreshing and hearty chickpea salad packed with Mediterranean flavors. Great as a light lunch or a side dish.",
+                        prepTime: "20 minutes",
+                        cookTime: "0 minutes",
+                        servings: "4",
+                        ingredients: [
+                            { item: "Chickpeas", quantity: "1 can (15 oz)", note: "rinsed and drained" },
+                            { item: "Cucumber", quantity: "1 medium", note: "diced" },
+                            { item: "Tomatoes (cherry or roma)", quantity: "1 cup", note: "halved or diced" },
+                            { item: "Red onion", quantity: "1/4 cup", note: "thinly sliced" },
+                            { item: "Kalamata olives", quantity: "1/2 cup", note: "pitted and halved" },
+                            { item: "Feta cheese", quantity: "1/2 cup", note: "crumbled (optional, or vegan alternative)" },
+                            { item: "Fresh parsley", quantity: "1/4 cup", note: "chopped" },
+                            { item: "Fresh mint", quantity: "2 tbsp", note: "chopped (optional)" },
+                            { item: "For the Dressing:", quantity: "", note:""},
+                            { item: "Extra virgin olive oil", quantity: "1/4 cup" },
+                            { item: "Lemon juice", quantity: "2 tbsp", note: "freshly squeezed" },
+                            { item: "Red wine vinegar", quantity: "1 tbsp" },
+                            { item: "Dried oregano", quantity: "1 tsp" },
+                            { item: "Garlic clove", quantity: "1", note: "minced or grated" },
+                            { item: "Salt and black pepper", quantity: "to taste" }
+                        ],
+                        directions: [
+                            "In a large bowl, combine the chickpeas, cucumber, tomatoes, red onion, Kalamata olives, feta cheese (if using), parsley, and mint (if using).",
+                            "In a small bowl or jar, whisk together all the dressing ingredients: olive oil, lemon juice, red wine vinegar, oregano, garlic, salt, and pepper.",
+                            "Pour the dressing over the salad ingredients and toss gently to combine.",
+                            "Taste and adjust seasoning if necessary (more salt, pepper, or lemon juice).",
+                            "For best flavor, let the salad sit for at least 10-15 minutes before serving to allow the flavors to meld. It can also be made ahead and chilled."
+                        ],
+                        chefNotes: "Add other veggies like bell peppers or artichoke hearts. Serve with pita bread or as a topping for greens. For a vegan version, omit feta or use a vegan alternative. A pinch of sumac in the dressing adds a nice tang."
+                    },
+                    { // Thai Curry
+                        id: "recipe006",
+                        title: "Simple Green Vegetable Curry with Tofu",
+                        cuisineId: "thai",
+                        dishTypeId: "curry",
+                        dishTypeName: "Curry",
+                        description: "A quick and easy Thai-inspired green curry with tofu and your favorite vegetables. Easily adaptable to what you have on hand.",
+                        prepTime: "15 minutes",
+                        cookTime: "20 minutes",
+                        servings: "3-4",
+                        ingredients: [
+                            { item: "Firm or extra-firm tofu", quantity: "1 block (14-16 oz)", note: "pressed and cubed" },
+                            { item: "Coconut milk (full-fat)", quantity: "1 can (13.5 oz)" },
+                            { item: "Green curry paste", quantity: "2-3 tbsp", note: "adjust to spice preference" },
+                            { item: "Mixed vegetables", quantity: "3-4 cups", note: "e.g., broccoli florets, bell peppers, snap peas, carrots, zucchini, bamboo shoots" },
+                            { item: "Soy sauce or tamari", quantity: "1 tbsp" },
+                            { item: "Brown sugar or maple syrup", quantity: "1 tsp", note: "optional, to balance flavors" },
+                            { item: "Lime juice", quantity: "1 tbsp", note: "freshly squeezed" },
+                            { item: "Oil (coconut or vegetable)", quantity: "1 tbsp" },
+                            { item: "Fresh basil or cilantro", quantity: "for garnish" }
+                        ],
+                        directions: [
+                            "Heat oil in a large skillet or wok over medium-high heat. Add the cubed tofu and cook until lightly browned and crispy on all sides. Remove tofu and set aside.",
+                            "In the same skillet, add the green curry paste and cook for 1-2 minutes, stirring constantly, until fragrant.",
+                            "Pour in the coconut milk and whisk to combine with the curry paste. Bring to a gentle simmer.",
+                            "Add the firmer vegetables (like carrots and broccoli) and cook for 3-5 minutes until slightly tender.",
+                            "Add the softer vegetables (like bell peppers, snap peas, zucchini) and cook for another 3-5 minutes until all vegetables are tender-crisp.",
+                            "Stir in the soy sauce/tamari and brown sugar/maple syrup (if using).",
+                            "Return the cooked tofu to the skillet and stir gently to coat with the curry sauce. Simmer for a couple of minutes to heat through.",
+                            "Remove from heat and stir in the fresh lime juice.",
+                            "Serve hot over jasmine rice or rice noodles, garnished with fresh basil or cilantro."
+                        ],
+                        chefNotes: "Adjust the amount of green curry paste based on its spiciness and your preference. You can substitute tofu with chickpeas or other plant-based protein. Add a kaffir lime leaf or two while simmering for extra authentic flavor if available."
+                    },
+                    { // French Soup
+                        id: "recipe007",
+                        title: "Easy Provençal Vegetable Soup (Simplified Pistou)",
+                        cuisineId: "french",
+                        dishTypeId: "soup",
+                        dishTypeName: "Soup",
+                        description: "A hearty and aromatic vegetable soup inspired by the classic Soupe au Pistou from Provence, made simple for a weeknight.",
+                        prepTime: "20 minutes",
+                        cookTime: "30-35 minutes",
+                        servings: "4-6",
+                        ingredients: [
+                            { item: "Olive oil", quantity: "2 tbsp" },
+                            { item: "Onion", quantity: "1 medium", note: "chopped" },
+                            { item: "Carrots", quantity: "2 medium", note: "peeled and diced" },
+                            { item: "Celery stalks", quantity: "2", note: "diced" },
+                            { item: "Potatoes", quantity: "2 medium", note: "peeled and diced" },
+                            { item: "Green beans", quantity: "1 cup", note: "trimmed and cut into 1-inch pieces" },
+                            { item: "Zucchini or yellow squash", quantity: "1 medium", note: "diced" },
+                            { item: "Diced tomatoes (canned)", quantity: "1 can (14.5 oz)", note: "undrained" },
+                            { item: "Vegetable broth", quantity: "6 cups" },
+                            { item: "Small pasta (like ditalini or shells)", quantity: "1/2 cup", note: "optional" },
+                            { item: "Cannellini or white beans (canned)", quantity: "1 can (15 oz)", note: "rinsed and drained" },
+                            { item: "For Simplified Pistou:", quantity: "", note: ""},
+                            { item: "Fresh basil leaves", quantity: "1 cup packed" },
+                            { item: "Garlic cloves", quantity: "2-3", note: "roughly chopped" },
+                            { item: "Parmesan cheese (grated)", quantity: "1/4 cup", note: "optional, or vegan alternative" },
+                            { item: "Extra virgin olive oil", quantity: "2-3 tbsp" },
+                            { item: "Salt and black pepper", quantity: "to taste" }
+                        ],
+                        directions: [
+                            "Heat 2 tbsp olive oil in a large pot or Dutch oven over medium heat. Add onion, carrots, and celery. Sauté for 5-7 minutes until softened.",
+                            "Add diced potatoes, green beans, zucchini, diced tomatoes (with their juice), and vegetable broth. Bring to a boil, then reduce heat, cover, and simmer for 15 minutes, or until vegetables are tender.",
+                            "If using pasta, add it to the soup and cook according to package directions until al dente.",
+                            "Stir in the rinsed and drained cannellini beans. Season the soup with salt and pepper to taste. Simmer for another 5 minutes.",
+                            "While the soup simmers, prepare the simplified pistou: In a small food processor or blender, combine fresh basil, garlic, Parmesan (if using), and a pinch of salt. Pulse until finely chopped. With the processor running, slowly drizzle in 2-3 tbsp of extra virgin olive oil until a loose paste forms.",
+                            "Ladle the hot soup into bowls. Swirl a spoonful of the pistou into each bowl just before serving, or pass it around for everyone to add themselves."
+                        ],
+                        chefNotes: "Feel free to vary the vegetables based on season and availability. Other great additions include leeks, peas, or bell peppers. The pistou is best made fresh. If you don't have a food processor, finely chop the basil and garlic and mix with olive oil and cheese."
+                    },
+                    { // Mexican Enchiladas
+                        id: "recipe008",
+                        title: "Quick Sweet Potato & Black Bean Enchiladas",
+                        cuisineId: "mexican",
+                        dishTypeId: "enchiladas",
+                        dishTypeName: "Enchiladas",
+                        description: "Flavorful and satisfying vegetarian enchiladas filled with roasted sweet potatoes and black beans, topped with a simple enchilada sauce and cheese.",
+                        prepTime: "25 minutes (plus roasting time)",
+                        cookTime: "20-25 minutes (for baking)",
+                        servings: "4",
+                        ingredients: [
+                            { item: "Sweet potatoes", quantity: "2 medium", note: "peeled and diced into 1/2-inch cubes" },
+                            { item: "Olive oil", quantity: "1 tbsp" },
+                            { item: "Chili powder", quantity: "1 tsp" },
+                            { item: "Cumin", quantity: "1/2 tsp" },
+                            { item: "Black beans (canned)", quantity: "1 can (15 oz)", note: "rinsed and drained" },
+                            { item: "Corn tortillas", quantity: "8-10" },
+                            { item: "Enchilada sauce (canned or homemade)", quantity: "2 cups (approx. 15-20 oz)" },
+                            { item: "Shredded cheese (Monterey Jack, cheddar, or Mexican blend)", quantity: "1.5 cups", note: "or vegan alternative" },
+                            { item: "Optional for filling: chopped green chiles, corn" },
+                            { item: "Optional for garnish: cilantro, sour cream, avocado" }
+                        ],
+                        directions: [
+                            "Preheat oven to 400°F (200°C). On a baking sheet, toss diced sweet potatoes with 1 tbsp olive oil, chili powder, cumin, and a pinch of salt and pepper. Roast for 20-25 minutes, or until tender and slightly caramelized, flipping halfway.",
+                            "Reduce oven temperature to 375°F (190°C).",
+                            "In a bowl, combine the roasted sweet potatoes and rinsed black beans. Add chopped green chiles or corn if using. Mix gently.",
+                            "Prepare tortillas: Briefly warm them to make them pliable (e.g., microwave for 20-30 seconds, or quickly pass through a lightly oiled skillet).",
+                            "Assemble enchiladas: Spread a thin layer (about 1/2 cup) of enchilada sauce on the bottom of a 9x13 inch baking dish.",
+                            "Spoon a portion of the sweet potato and black bean mixture down the center of each tortilla. Roll up tightly and place seam-down in the baking dish.",
+                            "Pour the remaining enchilada sauce evenly over the rolled tortillas. Sprinkle generously with shredded cheese.",
+                            "Bake for 20-25 minutes, or until the sauce is bubbly and the cheese is melted and golden.",
+                            "Let cool for a few minutes before serving. Garnish with cilantro, sour cream, or avocado if desired."
+                        ],
+                        chefNotes: "For a quicker version, you can use canned diced sweet potatoes (drained). Adjust spices in the filling to your liking. A bit of smoked paprika in the sweet potato roasting adds a nice depth."
+                    }
+                    // --- NEW RECIPES END HERE ---
+                ]
+            };
+
+            // --- DOM Elements ---
+            const level1Dropdown = document.getElementById('level1-dropdown');
+            const level2Dropdown = document.getElementById('level2-dropdown');
+            const contentArea = document.getElementById('content-area');
+            const initialMessageElement = document.getElementById('initial-message');
+            const mainTitleElement = document.getElementById('main-title');
+
+            // --- UI Configuration from Data ---
+            document.title = recipeAppData.appTitle;
+            mainTitleElement.textContent = recipeAppData.appTitle;
+            document.querySelector('label[for="level1-dropdown"]').textContent = `${recipeAppData.level1Label}:`;
+            document.querySelector('label[for="level2-dropdown"]').textContent = `${recipeAppData.level2Label}:`;
+
+            // --- Initialize Application ---
+            function initializeApp() {
+                if (!recipeAppData.level1Items || !recipeAppData.level1Items.items) {
+                    handleError("Level 1 data (Cuisines) is missing."); return;
+                }
+                if (!recipeAppData.recipes) {
+                    handleError("Recipe data is missing."); return;
+                }
+                populateLevel1Dropdown();
+                updateInitialMessage(`Please select a ${recipeAppData.level1Label.toLowerCase()} and then a ${recipeAppData.level2Label.toLowerCase()} to see recipes.`);
+            }
+
+            function handleError(message) {
+                console.error(message);
+                contentArea.innerHTML = `<p class="text-red-600 font-semibold p-4 bg-red-100 rounded-md">Error: ${message}</p>`;
+            }
+
+            // --- Populate Dropdowns ---
+            function populateLevel1Dropdown() {
+                // Sort cuisines alphabetically by name for consistent ordering
+                const sortedCuisines = [...recipeAppData.level1Items.items].sort((a, b) => a.name.localeCompare(b.name));
+                
+                sortedCuisines.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.id;
+                    option.textContent = item.name;
+                    option.className = "text-slate-700";
+                    level1Dropdown.appendChild(option);
+                });
+            }
+
+            function populateLevel2Dropdown(selectedLevel1ItemId) {
+                level2Dropdown.innerHTML = `<option value="" class="text-slate-500">-- Select ${recipeAppData.level2Label} --</option>`;
+                level2Dropdown.disabled = true;
+                clearContentArea(true); // Clear content and show initial message for L2
+
+                if (!selectedLevel1ItemId) return;
+
+                const recipesForCuisine = recipeAppData.recipes.filter(recipe => recipe.cuisineId === selectedLevel1ItemId);
+                const uniqueDishTypes = [];
+                const dishTypeMap = new Map();
+
+                recipesForCuisine.forEach(recipe => {
+                    if (!dishTypeMap.has(recipe.dishTypeId)) {
+                        dishTypeMap.set(recipe.dishTypeId, true);
+                        uniqueDishTypes.push({ id: recipe.dishTypeId, name: recipe.dishTypeName });
+                    }
+                });
+                
+                // Sort dish types alphabetically by name for consistent ordering
+                uniqueDishTypes.sort((a, b) => a.name.localeCompare(b.name));
+
+
+                if (uniqueDishTypes.length > 0) {
+                    uniqueDishTypes.forEach(dishType => {
+                        const option = document.createElement('option');
+                        option.value = dishType.id;
+                        option.textContent = dishType.name;
+                        option.className = "text-slate-700";
+                        level2Dropdown.appendChild(option);
+                    });
+                    level2Dropdown.disabled = false;
+                } else {
+                     updateInitialMessage(`No ${recipeAppData.level2Label.toLowerCase()}s found for the selected ${recipeAppData.level1Label.toLowerCase()}.`);
+                }
+            }
+
+            function clearContentArea(showInitialMsgForL2 = false) {
+                contentArea.innerHTML = ''; // Clear previous content
+                if (initialMessageElement) {
+                    if (!contentArea.contains(initialMessageElement)) {
+                        contentArea.appendChild(initialMessageElement);
+                    }
+                    initialMessageElement.style.display = 'block';
+                    if (showInitialMsgForL2) {
+                         updateInitialMessage(`Please select a ${recipeAppData.level2Label.toLowerCase()} to view recipes.`);
+                    } else {
+                        // Default message if nothing is selected or no content
+                        updateInitialMessage(`Please select a ${recipeAppData.level1Label.toLowerCase()} and then a ${recipeAppData.level2Label.toLowerCase()} to see recipes.`);
+                    }
+                }
+            }
+            
+            function updateInitialMessage(message) {
+                if (initialMessageElement) {
+                    initialMessageElement.textContent = message;
+                    initialMessageElement.style.display = 'block';
+                }
+            }
+
+            // --- Display Content ---
+            function displayRecipeList(selectedCuisineId, selectedDishTypeId) {
+                clearContentArea(false);
+                if (!selectedCuisineId || !selectedDishTypeId) {
+                     updateInitialMessage(`Please select a ${recipeAppData.level2Label.toLowerCase()} to view recipes.`);
+                    return;
+                }
+
+                const matchingRecipes = recipeAppData.recipes.filter(
+                    recipe => recipe.cuisineId === selectedCuisineId && recipe.dishTypeId === selectedDishTypeId
+                );
+
+                if (matchingRecipes.length > 0) {
+                    if(initialMessageElement) initialMessageElement.style.display = 'none';
+
+                    const listTitle = document.createElement('h2');
+                    const selectedCuisine = recipeAppData.level1Items.items.find(c => c.id === selectedCuisineId)?.name || selectedCuisineId;
+                    const selectedDish = level2Dropdown.options[level2Dropdown.selectedIndex]?.text || selectedDishTypeId;
+                    listTitle.textContent = `${selectedDish} in ${selectedCuisine} Cuisine`;
+                    listTitle.className = "text-xl font-semibold text-slate-700 mb-4 pb-2 recipe-title-main";
+                    contentArea.appendChild(listTitle);
+
+                    const ul = document.createElement('ul');
+                    ul.className = "space-y-2";
+                    matchingRecipes.forEach(recipe => {
+                        const li = document.createElement('li');
+                        li.textContent = recipe.title;
+                        li.className = "p-3 border border-slate-200 rounded-md recipe-list-item hover:border-orange-400 text-orange-700 font-medium";
+                        li.dataset.recipeId = recipe.id;
+                        li.addEventListener('click', () => displaySingleRecipeDetails(recipe.id));
+                        ul.appendChild(li);
+                    });
+                    contentArea.appendChild(ul);
+                } else {
+                    updateInitialMessage(`No recipes found for this combination.`);
+                }
+            }
+
+            function displaySingleRecipeDetails(recipeId) {
+                clearContentArea(false);
+                const recipe = recipeAppData.recipes.find(r => r.id === recipeId);
+
+                if (recipe) {
+                    if(initialMessageElement) initialMessageElement.style.display = 'none';
+
+                    // Recipe Title
+                    const nameHeader = document.createElement('h2');
+                    nameHeader.textContent = recipe.title;
+                    nameHeader.className = "text-2xl md:text-3xl font-bold text-orange-700 mb-3 pb-2 recipe-title-main";
+                    contentArea.appendChild(nameHeader);
+
+                    // Description
+                    if (recipe.description) {
+                        const descP = document.createElement('p');
+                        descP.textContent = recipe.description;
+                        descP.className = "text-slate-600 mb-4 italic text-sm md:text-base";
+                        contentArea.appendChild(descP);
+                    }
+                    
+                    // Prep, Cook, Servings
+                    const statsDiv = document.createElement('div');
+                    statsDiv.className = "grid grid-cols-1 sm:grid-cols-3 gap-2 mb-6 text-sm text-slate-500";
+                    if(recipe.prepTime) statsDiv.innerHTML += `<div><strong>Prep:</strong> ${recipe.prepTime}</div>`;
+                    if(recipe.cookTime) statsDiv.innerHTML += `<div><strong>Cook:</strong> ${recipe.cookTime}</div>`;
+                    if(recipe.servings) statsDiv.innerHTML += `<div><strong>Servings:</strong> ${recipe.servings}</div>`;
+                    if(statsDiv.innerHTML) contentArea.appendChild(statsDiv);
+
+
+                    // Ingredients Section
+                    const ingredientsSection = document.createElement('div');
+                    ingredientsSection.className = 'recipe-section p-4 rounded-lg shadow mb-6';
+                    const ingredientsHeader = document.createElement('h3');
+                    ingredientsHeader.textContent = "Ingredients";
+                    ingredientsHeader.className = "text-xl font-semibold mb-3";
+                    ingredientsSection.appendChild(ingredientsHeader);
+                    const ingredientsUl = document.createElement('ul');
+                    ingredientsUl.className = "list-none space-y-1 text-slate-700";
+                    recipe.ingredients.forEach(ing => {
+                        const li = document.createElement('li');
+                        li.className = "ingredient-item";
+                        
+                        const nameSpan = document.createElement('span');
+                        nameSpan.className = "name font-medium";
+                        nameSpan.textContent = ing.item;
+                        li.appendChild(nameSpan);
+
+                        const quantitySpan = document.createElement('span');
+                        quantitySpan.className = "quantity";
+                        quantitySpan.textContent = ing.quantity;
+                        li.appendChild(quantitySpan);
+                        
+                        if (ing.note) {
+                            const noteSpan = document.createElement('span');
+                            noteSpan.className = "note";
+                            noteSpan.textContent = `(${ing.note})`;
+                            li.appendChild(noteSpan);
+                        }
+                        ingredientsUl.appendChild(li);
+                    });
+                    ingredientsSection.appendChild(ingredientsUl);
+                    contentArea.appendChild(ingredientsSection);
+
+                    // Directions Section
+                    const directionsSection = document.createElement('div');
+                    directionsSection.className = 'recipe-section p-4 rounded-lg shadow mb-6';
+                    const directionsHeader = document.createElement('h3');
+                    directionsHeader.textContent = "Directions";
+                    directionsHeader.className = "text-xl font-semibold mb-3";
+                    directionsSection.appendChild(directionsHeader);
+                    const directionsOl = document.createElement('ol');
+                    directionsOl.className = "list-decimal list-inside space-y-2 text-slate-700 leading-relaxed";
+                    recipe.directions.forEach(step => {
+                        const li = document.createElement('li');
+                        li.textContent = step;
+                        directionsOl.appendChild(li);
+                    });
+                    directionsSection.appendChild(directionsOl);
+                    contentArea.appendChild(directionsSection);
+
+                    // Chef's Notes Section
+                    if (recipe.chefNotes) {
+                        const notesSection = document.createElement('div');
+                        notesSection.className = 'recipe-section p-4 rounded-lg shadow';
+                        const notesHeader = document.createElement('h3');
+                        notesHeader.textContent = "Chef's Notes & Adaptation Ideas";
+                        notesHeader.className = "text-xl font-semibold mb-3";
+                        notesSection.appendChild(notesHeader);
+                        const notesP = document.createElement('p');
+                        notesP.textContent = recipe.chefNotes;
+                        notesP.className = "text-slate-600 leading-relaxed";
+                        notesSection.appendChild(notesP);
+                        contentArea.appendChild(notesSection);
+                    }
+                } else {
+                    updateInitialMessage(`Recipe details not found.`);
+                }
+            }
+
+
+            // --- Event Listeners ---
+            level1Dropdown.addEventListener('change', (e) => {
+                const selectedLevel1ItemId = e.target.value;
+                populateLevel2Dropdown(selectedLevel1ItemId);
+                // Clear content area or show message to select dish type
+                if (!selectedLevel1ItemId) { // If "-- Select Cuisine --" is chosen
+                    clearContentArea(false);
+                } else {
+                    clearContentArea(true); // Show "Please select dish type"
+                }
+            });
+
+            level2Dropdown.addEventListener('change', (e) => {
+                const selectedLevel1ItemId = level1Dropdown.value;
+                const selectedLevel2ItemId = e.target.value;
+                if (selectedLevel2ItemId) {
+                    displayRecipeList(selectedLevel1ItemId, selectedLevel2ItemId);
+                } else {
+                    clearContentArea(true); // Show "Please select dish type"
+                }
+            });
+
+            // --- Start the app ---
+            initializeApp();
+        });
+    </script>
+</body>
+</html>
