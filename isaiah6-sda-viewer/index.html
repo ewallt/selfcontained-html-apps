@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDA Interpretations of Isaiah 6:5-7</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Tailwind gray-100 */
+            color: #1f2937; /* Tailwind gray-800 */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        #knowledge-display-area {
+             background-color: #ffffff; /* White */
+             border-radius: 8px;
+             padding: 1rem;
+             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .level1-concept-container {
+            background-color: #ffffff; /* White */
+            border: 1px solid #e5e7eb; /* Tailwind gray-200 */
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+        .level1-concept-header {
+            padding: 1rem 1.25rem;
+            background-color: #e0e7ff; /* Tailwind indigo-100 */
+            border-bottom: 1px solid #d1d5db; /* Tailwind gray-300 */
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+        }
+         .level1-concept-header::-webkit-details-marker { display: none; }
+         .level1-concept-header:hover {
+            background-color: #c7d2fe; /* Tailwind indigo-200 */
+         }
+        .level1-concept-header h3 {
+            color: #3730a3; /* Tailwind indigo-700 */
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .level2-topics-wrapper {
+             padding: 0.5rem 1rem 1rem 1rem;
+             background-color: #ffffff; /* White */
+        }
+        .sub-topic-container {
+            background-color: #eef2ff; /* Tailwind indigo-50 */
+            border: 1px solid #e0e7ff; /* Tailwind indigo-100 */
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .sub-topic-header {
+            padding: 0.75rem 1rem;
+            background-color: #eef2ff; /* Tailwind indigo-50 */
+            border-bottom: 1px solid #c7d2fe; /* Tailwind indigo-200 */
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+        }
+        .sub-topic-header::-webkit-details-marker { display: none; }
+        .sub-topic-header:hover {
+            background-color: #c7d2fe; /* Tailwind indigo-200 */
+        }
+        .sub-topic-header h4 {
+            color: #4338ca; /* Tailwind indigo-600 */
+            font-weight: 600;
+            font-size: 1.1rem; /* Slightly larger for sub-topic headers */
+            margin: 0;
+        }
+        .insights-list {
+            padding: 0.75rem 1rem 1rem 1.5rem; /* Adjusted padding */
+            list-style-type: none; /* Remove default bullets */
+            background-color: #eef2ff; /* Tailwind indigo-50 */
+            margin: 0;
+        }
+        .insights-list li {
+            margin-bottom: 0.75rem; /* More space between items */
+            color: #374151; /* Tailwind gray-700 */
+            font-size: 0.95rem; /* Slightly larger insight text */
+            line-height: 1.7; /* Improved readability */
+            padding-left: 1.25rem; /* Space for custom bullet */
+            position: relative;
+        }
+        .insights-list li::before { /* Custom bullet point */
+            content: '•';
+            color: #4f46e5; /* Tailwind indigo-500 */
+            font-weight: bold;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .insights-list li strong { /* Style for emphasizing text like "Quote:" */
+            color: #3730a3; /* Tailwind indigo-700 */
+            font-weight: 600;
+        }
+        .insights-list em { /* Style for cited sources or emphasis within quote */
+            color: #4338ca; /* Tailwind indigo-600 */
+            font-style: italic;
+        }
+        .toggler-icon {
+            transition: transform 0.2s ease-in-out;
+            font-size: 1.2rem;
+            color: #4f46e5; /* Tailwind indigo-500 */
+        }
+        details[open] > summary .toggler-icon {
+            transform: rotate(90deg);
+        }
+        .comparison-table {
+            width: 100%;
+            margin-top: 0.5rem;
+            border-collapse: collapse;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #d1d5db; /* Tailwind gray-300 */
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .comparison-table th {
+            background-color: #e0e7ff; /* Tailwind indigo-100 */
+            color: #3730a3; /* Tailwind indigo-700 */
+            font-weight: 600;
+        }
+        .comparison-table td {
+            background-color: #f9fafb; /* Tailwind gray-50 */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container mx-auto p-4">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-indigo-700">Early SDA Interpretations of Isaiah 6:5-7</h1>
+            <p class="text-lg text-indigo-500 mt-2">Insights on "Woe is me... I am undone..." and the Cleansing Coal</p>
+        </header>
+
+        <section id="knowledge-display-section">
+            <h2 class="text-2xl font-semibold mb-6 text-center text-indigo-600">Key Interpretations and Themes</h2>
+            <div id="knowledge-display-area">
+                </div>
+        </section>
+    </div>
+
+    <script>
+        // --- KNOWLEDGE BASE DATA ---
+        const knowledgeBaseData = [
+          {
+            level1Concept: "Ellen G. White: Corporate Conviction & Sanctification",
+            level2SubTopics: [
+              {
+                name: "Vision of the Last-Day Church",
+                insights: [
+                  "<strong>Theme:</strong> Isaiah’s shock at God’s holiness mirrors 'the condition of God’s people in the last days.' The live coal typifies Christ’s cleansing ministry in the heavenly sanctuary.",
+                  "<strong>Quote:</strong> 'The vision given to Isaiah represents the condition of God’s people in the last days. … As they look by faith into the holy of holies … they perceive that they are a people of unclean lips … But if they, like Isaiah, will humble their souls before God, the work done for Isaiah will be performed in them.' <em>(Ellen G. White Writings)</em>",
+                  "<strong>Interpretation:</strong> White makes Isaiah’s cry “Woe is me” a mirror for the entire Laodicean community. Seeing Christ’s Day-of-Atonement ministry exposes corporate lukewarmness and calls for collective repentance."
+                ]
+              },
+              {
+                name: "Cleansing for Mission",
+                insights: [
+                  "<strong>Emphasis:</strong> Genuine conviction, not 'mock humility,' leads to immediate pardon and a call to service.",
+                  "<strong>Quote:</strong> 'A living coal from the altar was laid upon his lips … ‘Thine iniquity is taken away.’ Then the voice of God was heard saying, ‘Whom shall I send?’ … Isaiah responded, ‘Here am I; send me.’’ <em>(Ellen G. White Writings)</em>",
+                  "<strong>Summary:</strong> White consistently reads the episode as involving (1) corporate heart-searching, (2) personal sanctification, and (3) empowerment for the final proclamation."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "E. J. Waggoner: Instantaneous Righteousness by Faith",
+            level2SubTopics: [
+              {
+                name: "Isaiah 6 as a Gospel Lesson",
+                insights: [
+                  "<strong>Theme:</strong> In his <em>Present Truth</em> series (later <em>Treasures in Isaiah</em>), Waggoner links Isa 6 to John 12:41 and Hebrews 1:3: Isaiah saw the pre-incarnate Christ.",
+                  "<strong>Interpretation:</strong> The 'hem' that fills the temple is Christ’s glory covering the earth; touching that hem (or the coal) brings the same instantaneous forgiveness the bleeding woman received.",
+                  "<strong>Quote on Forgiveness:</strong> '‘This hath touched thy lips; and thine iniquity is taken away, and thy sin purged.’ … Mark how quickly Isaiah’s sins were removed. All he did was to acknowledge that he was a sinner…. Be assured that if you acknowledge yourself to be a sinner, you are forgiven.' <em>(Present Truth, Jan 26 1899 / Ellen G. White Writings)</em>"
+                ]
+              },
+              {
+                name: "The Cleansing and Consuming Fire",
+                insights: [
+                  "<strong>Interpretation:</strong> Confession ('I am a man of unclean lips') is enough for full justification. The fire that purifies the saints will consume those who cling to sin.",
+                  "<strong>Quote on Fire:</strong> 'The same fire that cleanses those who confess their sins consumes those who cling to them. … The saints of God, having been tried in the fire … can dwell amid everlasting burnings (Isa 33:14-15).' <em>(Present Truth / Ellen G. White Writings)</em>",
+                  "<strong>Connection to 'Christ and His Righteousness':</strong> Waggoner later folded the same argument into <em>Christ and His Righteousness</em>, showing that the coal-experience is simply the word of righteousness by faith applied to the believer’s life."
+                ]
+              },
+              {
+                name: "Key Points from Waggoner",
+                insights: [
+                  "<strong>Christ-centred:</strong> 'It was Christ whom Isaiah saw in His glory' (John 12:41).",
+                  "<strong>Justification:</strong> One honest confession leads to complete pardon (1 Jn 1:9).",
+                  "<strong>Sanctification & Mission:</strong> The coal both purges and commissions ('Saved and Sent')."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "A. T. Jones & Contemporaries: The Finishing Fire",
+            level2SubTopics: [
+              {
+                name: "Purifying Fire for a Finishing Work",
+                insights: [
+                  "<strong>Theme:</strong> Preaching at the 1893 General Conference, Jones stressed that the same coal that purges Isaiah equips the remnant who 'dwell amid everlasting burnings' at Christ’s return.",
+                  "<strong>Emphasis:</strong> Power is 'Christ’s personal presence,' not human effort.",
+                  "<strong>Connection to Isaiah 33:</strong> Jones’ 1893 General Conference sermons pick up Waggoner’s 'everlasting burnings' motif. He repeatedly pairs Isaiah 6 with Isaiah 33:14-16, urging the church to 'dwell with the devouring fire' by receiving Christ’s righteousness now.",
+                  "<strong>Quote (paraphrased from GCB):</strong> Jones’ exact phrasing like 'Who shall dwell with the devouring fire? … The same coal that purged Isaiah will fit a people to live with God.' appears throughout his 1893 Bulletin sermons on the third-angel’s message."
+                ]
+              },
+              {
+                name: "Other Pioneers (Uriah Smith, S. N. Haskell)",
+                insights: [
+                  "<strong>General Approach:</strong> They cite Isa 6 mostly in passing—e.g., Smith on Laodicean lukewarmness, Haskell in sanctuary sermons—but without a dedicated exposition like Waggoner’s.",
+                  "<strong>Common Thread:</strong> The Day-of-Atonement motif: a vision of God’s throne exposes personal and corporate sin, leading to cleansing and commission."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "Shared Themes & Distinct Emphases",
+            level2SubTopics: [
+              {
+                name: "Shared Theological Threads",
+                insights: [
+                  "<strong>Holiness Reveals Need:</strong> Seeing the enthroned Lord unmasks self-righteousness; the prophet (and the church) exclaims 'I am undone.'",
+                  "<strong>Live Coal = Christ’s Atoning Ministry:</strong> The coal comes from the altar of incense/sacrifice, symbolising Christ’s righteousness applied to the believer—instant justification (Waggoner) and ongoing sanctification (White).",
+                  "<strong>From Cleansing to Mission:</strong> Forgiveness is never an end in itself: 'Whom shall I send?' follows immediately. Early Adventists framed their own evangelistic mandate in Isa 6’s language.",
+                  "<strong>Last-Day Application:</strong> White and Jones both read the chapter eschatologically: the remnant must experience Isaiah’s humility and cleansing before the loud cry."
+                ]
+              },
+              {
+                name: "Distinct Emphases (Comparison)",
+                isTable: true, // Special flag to render as a table
+                tableData: {
+                  headers: ["Emphasis", "Ellen G. White", "E. J. Waggoner", "A. T. Jones"],
+                  rows: [
+                    ["Problem Unmasked", "Corporate Laodicean self-satisfaction", "Individual guilt", "Lukewarm church in final crisis"],
+                    ["What the Coal Means", "Ongoing sanctuary ministry—purifies & sends", "Instant justification by faith", "End-time “fire” that finishes the work"],
+                    ["Outcome", "Revival & latter-rain witness", "Full assurance → spontaneous service", "A people who can “dwell with everlasting burnings”"]
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            level1Concept: "Significance for Early Adventists",
+            level2SubTopics: [
+              {
+                name: "Core Reasons for its Importance",
+                insights: [
+                  "<strong>Sanctuary Theology:</strong> The scene is set inside the temple; the coal comes from the altar. For White, that anchored the Adventist focus on Christ’s post-1844 high-priestly work.",
+                  "<strong>Righteousness by Faith (1888 Message):</strong> Waggoner used Isaiah 6 to illustrate that justification is present-tense and complete the moment a sinner confesses.",
+                  "<strong>Mission Urgency:</strong> All three (White, Waggoner, Jones) insist the cleansing is for the sake of the message: once lips are touched, they must speak."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "Further Reading (Sources)",
+            level2SubTopics: [
+              {
+                name: "Primary Sources",
+                insights: [
+                  "<strong>Ellen G. White:</strong> <em>Prophets and Kings</em> ch. 25 'The Call of Isaiah'; <em>SDA Bible Commentary</em> Vol. 4, pp. 1138-1141.",
+                  "<strong>E. J. Waggoner:</strong> <em>Present Truth</em> Vol. 15 (1899) pp. 66-68 (later compiled in <em>Treasures in Isaiah</em>); <em>Christ and His Righteousness</em> chap. 5.",
+                  "<strong>A. T. Jones:</strong> <em>General Conference Bulletin</em> (1893) nos. 22-25, especially the section on Isaiah 33."
+                ]
+              }
+            ]
+          }
+        ];
+
+        // --- DOM Elements ---
+        const knowledgeDisplayArea = document.getElementById('knowledge-display-area');
+
+        // --- Functions ---
+        /**
+         * Dynamically builds and injects the HTML for the knowledge base display.
+         */
+        function displayKnowledgeBase() {
+            knowledgeDisplayArea.innerHTML = ''; // Clear previous content
+
+            knowledgeBaseData.forEach((l1ConceptData, l1Index) => {
+                const l1DetailsElement = document.createElement('details');
+                l1DetailsElement.classList.add('level1-concept-container');
+                if (l1Index === 0) l1DetailsElement.open = true; // Open the first L1 concept by default
+
+                const l1SummaryElement = document.createElement('summary');
+                l1SummaryElement.classList.add('level1-concept-header');
+
+                const l1TitleElement = document.createElement('h3');
+                l1TitleElement.textContent = l1ConceptData.level1Concept;
+
+                const l1Icon = document.createElement('span');
+                l1Icon.classList.add('toggler-icon');
+                l1Icon.innerHTML = '&#9654;'; // Right-pointing triangle
+
+                l1SummaryElement.appendChild(l1TitleElement);
+                l1SummaryElement.appendChild(l1Icon);
+                l1DetailsElement.appendChild(l1SummaryElement);
+
+                const l2WrapperDiv = document.createElement('div');
+                l2WrapperDiv.classList.add('level2-topics-wrapper');
+
+                l1ConceptData.level2SubTopics.forEach((subTopic) => {
+                    const l2DetailsElement = document.createElement('details');
+                    l2DetailsElement.classList.add('sub-topic-container');
+                    // Make sub-topics open by default for easier reading, since there's no quiz
+                    l2DetailsElement.open = true;
+
+
+                    const l2SummaryElement = document.createElement('summary');
+                    l2SummaryElement.classList.add('sub-topic-header');
+
+                    const l2TitleElement = document.createElement('h4');
+                    l2TitleElement.textContent = subTopic.name;
+
+                    const l2Icon = document.createElement('span');
+                    l2Icon.classList.add('toggler-icon');
+                    l2Icon.innerHTML = '&#9654;';
+
+                    l2SummaryElement.appendChild(l2TitleElement);
+                    l2SummaryElement.appendChild(l2Icon);
+                    l2DetailsElement.appendChild(l2SummaryElement);
+
+                    if (subTopic.isTable && subTopic.tableData) {
+                        const table = document.createElement('table');
+                        table.classList.add('comparison-table');
+
+                        const thead = table.createTHead();
+                        const headerRow = thead.insertRow();
+                        subTopic.tableData.headers.forEach(headerText => {
+                            const th = document.createElement('th');
+                            th.textContent = headerText;
+                            headerRow.appendChild(th);
+                        });
+
+                        const tbody = table.createTBody();
+                        subTopic.tableData.rows.forEach(rowData => {
+                            const row = tbody.insertRow();
+                            rowData.forEach(cellText => {
+                                const cell = row.insertCell();
+                                cell.textContent = cellText;
+                            });
+                        });
+                        l2DetailsElement.appendChild(table);
+                    } else if (subTopic.insights) {
+                        const insightsUl = document.createElement('ul');
+                        insightsUl.classList.add('insights-list');
+                        subTopic.insights.forEach(insightText => {
+                            const insightLi = document.createElement('li');
+                            // Use innerHTML to allow for <strong> and <em> tags from data
+                            insightLi.innerHTML = insightText;
+                            insightsUl.appendChild(insightLi);
+                        });
+                        l2DetailsElement.appendChild(insightsUl);
+                    }
+                    l2WrapperDiv.appendChild(l2DetailsElement);
+                });
+                l1DetailsElement.appendChild(l2WrapperDiv);
+                knowledgeDisplayArea.appendChild(l1DetailsElement);
+            });
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            displayKnowledgeBase();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Learner: Einstein's Special Relativity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General body and container styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light gray-blue background */
+            color: #1a202c; /* Dark gray text */
+            margin: 0;
+            padding: 0;
+        }
+        /* Main container for responsiveness */
+        .container {
+            max-width: 800px; /* Max width for larger screens */
+            margin: 2rem auto; /* Center the container */
+            padding: 1rem; /* Padding for smaller screens */
+        }
+
+        /* --- Knowledge Display Styles --- */
+        /* Container for the entire knowledge base display area */
+        #knowledge-display-area {
+             background-color: #f9fafb; /* Slightly off-white background */
+             border-radius: 8px;
+             padding: 1rem;
+             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        /* Style for each Level 1 Concept block */
+        .level1-concept-container {
+            background-color: #ffffff; /* White background for L1 blocks */
+            border: 1px solid #e5e7eb; /* Gray 200 border */
+            border-radius: 8px; /* Rounded corners */
+            margin-bottom: 1.5rem; /* Space between L1 blocks */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Subtle shadow */
+            overflow: hidden; /* Ensure children corners are clipped */
+        }
+
+        /* Clickable header for Level 1 Concept */
+        .level1-concept-header {
+            padding: 1rem 1.25rem; /* More padding for L1 header */
+            background-color: #e0f2fe; /* Light Sky Blue 100 background (Tailwind sky-100) */
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none; /* Remove default marker */
+        }
+         .level1-concept-header::-webkit-details-marker { display: none; } /* Hide marker in Webkit */
+         .level1-concept-header:hover {
+            background-color: #bae6fd; /* Light Sky Blue 200 on hover (Tailwind sky-200) */
+         }
+
+        /* Level 1 Concept Title */
+        .level1-concept-header h3 {
+            color: #0369a1; /* Sky Blue 700 (Tailwind sky-700) */
+            font-weight: 700; /* Bold */
+            font-size: 1.25rem; /* Larger font */
+            margin: 0;
+        }
+
+        /* Container for all Level 2 sub-topics within a Level 1 block */
+        .level2-topics-wrapper {
+             padding: 0.5rem 1rem 1rem 1rem; /* Padding around L2 topics */
+             background-color: #ffffff; /* White background */
+        }
+
+        /* Container for each L2 sub-topic (using <details>) */
+        .sub-topic-container {
+            background-color: #f0f9ff; /* Sky Blue 50 background for L2 (Tailwind sky-50) */
+            border: 1px solid #e5e7eb; /* Light gray border */
+            border-radius: 6px; /* Slightly less rounded corners */
+            margin-bottom: 0.75rem; /* Space between L2 topics */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Very subtle shadow */
+            overflow: hidden;
+        }
+
+        /* Clickable header for L2 sub-topic (using <summary>) */
+        .sub-topic-header {
+            padding: 0.75rem 1rem;
+            background-color: #f0f9ff; /* Sky Blue 50 (Tailwind sky-50) */
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none; /* Remove default marker */
+        }
+        .sub-topic-header::-webkit-details-marker { display: none; } /* Hide marker in Webkit */
+        .sub-topic-header:hover {
+            background-color: #e0f2fe; /* Sky Blue 100 on hover (Tailwind sky-100) */
+        }
+
+        /* Level 2 Sub-Topic Title */
+        .sub-topic-header h4 {
+            color: #075985; /* Sky Blue 600 (Tailwind sky-600) */
+            font-weight: 600; /* Semibold */
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        /* List of insights under an L2 sub-topic */
+        .insights-list {
+            padding: 0.75rem 1rem 1rem 2rem; /* Indent insights */
+            list-style-type: disc; /* Use bullet points */
+            background-color: #f0f9ff; /* Match L2 background (Tailwind sky-50) */
+            margin: 0;
+        }
+        .insights-list li { /* Individual insight item */
+            margin-bottom: 0.5rem;
+            color: #4b5563; /* Gray 600 text */
+            font-size: 0.9rem; /* Slightly smaller insight text */
+            line-height: 1.6; /* Improve readability */
+        }
+
+        /* Toggler icon (shared by L1 and L2) */
+        .toggler-icon {
+            transition: transform 0.2s ease-in-out;
+            font-size: 1.2rem;
+            color: #0ea5e9; /* Sky Blue 500 (Tailwind sky-500) */
+        }
+        /* Rotate icon when <details> section is open */
+        details[open] > summary .toggler-icon {
+            transform: rotate(90deg);
+        }
+
+        /* --- Trivia/Quiz App Styles --- */
+        .trivia-container {
+            background-color: #ffffff;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            margin-top: 2rem;
+        }
+        @media (min-width: 640px) {
+            .trivia-container { padding: 32px; }
+        }
+
+        .answer-btn {
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+            border: 1px solid #e2e8f0;
+            min-height: 60px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 500;
+            border-radius: 8px;
+            line-height: 1.4;
+            word-break: break-word;
+            background-color: #ffffff;
+            color: #1a202c;
+            cursor: pointer;
+        }
+        .answer-btn:hover:not(:disabled) {
+            background-color: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .answer-btn.correct {
+            background-color: #10B981 !important; /* Green-500 */
+            color: white !important;
+            border-color: #059669 !important; /* Green-600 */
+        }
+        .answer-btn.incorrect {
+            background-color: #EF4444 !important; /* Red-500 */
+            color: white !important;
+            border-color: #DC2626 !important; /* Red-600 */
+        }
+        .answer-btn:disabled {
+            opacity: 0.8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #feedback {
+            min-height: 24px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .answer-btn.correct span, .answer-btn.incorrect span {
+            color: white;
+        }
+        .answer-btn span {
+            color: inherit;
+        }
+
+        #score, #question-counter, #session-counter {
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        #next-btn:disabled, #practice-btn:disabled {
+            background-color: #9ca3af !important;
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #next-btn:disabled:hover, #practice-btn:disabled:hover {
+            background-color: #9ca3af !important;
+        }
+
+        #practice-btn {
+            background-color: #f59e0b; /* Amber 500 */
+            transition: background-color 0.2s ease;
+        }
+        #practice-btn:hover:not(:disabled) {
+            background-color: #d97706; /* Amber 600 */
+        }
+
+        .action-btn {
+             transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+             padding: 0.75rem 1.5rem;
+             border-radius: 8px;
+             font-weight: 600;
+             color: white;
+             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+             cursor: pointer;
+             display: inline-block;
+        }
+        .action-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.1), 0 3px 5px -1px rgba(0, 0, 0, 0.08);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container mx-auto p-4">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-sky-700">Knowledge Learner: Einstein's Special Relativity</h1>
+        </header>
+
+        <section id="knowledge-display-section" class="mb-12">
+            <h2 class="text-2xl font-semibold mb-6 text-center text-sky-600">Learn: Core Concepts of Special Relativity</h2>
+            <div id="knowledge-display-area">
+                </div>
+        </section>
+
+        <section id="quiz-section">
+            <div id="quiz-area" class="trivia-container text-center">
+                <h2 id="quiz-title" class="text-2xl font-bold mb-4 text-sky-600">Test Your Knowledge!</h2>
+                <div id="score-area" class="mb-4 text-lg flex flex-wrap justify-center items-center gap-x-3 gap-y-1">
+                    <span id="score" class="font-semibold">Score: 0</span>
+                    <span class="text-gray-400 hidden sm:inline">|</span>
+                    <span id="question-counter" class="font-semibold">Question: 0 / 0</span>
+                     <span class="text-gray-400 hidden sm:inline">|</span>
+                    <span id="session-counter" class="font-semibold">Section: 0 / 0</span>
+                </div>
+
+                <div id="question-area" class="mb-6">
+                    <h3 id="question-text" class="text-xl font-semibold mb-4 min-h-[60px] flex items-center justify-center text-gray-700 px-2">
+                        Loading question...
+                    </h3>
+                    <div id="answer-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        </div>
+                </div>
+
+                <div id="feedback" class="mt-4 text-lg font-medium min-h-[24px] mb-4">
+                    &nbsp; </div>
+
+                <button id="next-btn" class="action-btn mt-2 bg-sky-600 hover:bg-sky-700 w-full sm:w-auto">
+                    Next Question
+                </button>
+
+                <div id="game-over-message" class="hidden mt-6 text-xl font-semibold">
+                    <p id="final-score-message" class="mb-4"></p>
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-3">
+                        <button id="restart-btn" class="action-btn bg-green-500 hover:bg-green-600 w-full sm:w-auto">
+                            </button>
+                        <button id="practice-btn" class="action-btn hidden bg-yellow-500 hover:bg-yellow-600 w-full sm:w-auto">
+                            Practice Weak Areas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // --- 1. KNOWLEDGE BASE DATA (Einstein's Special Relativity - Simplified) ---
+        const knowledgeBaseData = [
+          {
+            level1Concept: "The Two Postulates of Special Relativity",
+            level2SubTopics: [
+              {
+                name: "The Principle of Relativity (First Postulate)",
+                insights: [
+                  "The laws of physics are identical in all inertial frames of reference (i.e., for all observers in uniform, non-accelerated motion).",
+                  "This means there's no 'absolute rest' or 'absolute motion'; all uniform motion is relative.",
+                  "It extends Galileo's principle of relativity (for mechanics) to all physical laws, including those of light and electromagnetism."
+                ]
+              },
+              {
+                name: "The Constancy of the Speed of Light (Second Postulate)",
+                insights: [
+                  "The speed of light in a vacuum (denoted as 'c') is the same for all inertial observers, regardless of the motion of the light source or the observer.",
+                  "This was a radical departure from classical physics, where velocities are simply added or subtracted.",
+                  "The speed of light 'c' is a fundamental constant of nature, approximately 299,792 kilometers per second (or 186,282 miles per second)."
+                ]
+              },
+              {
+                name: "Inertial Frames of Reference",
+                insights: [
+                  "An inertial frame is a reference frame where Newton's first law (law of inertia) holds: an object at rest stays at rest, and an object in motion stays in motion with constant velocity, unless acted upon by a net force.",
+                  "Special relativity specifically applies to these non-accelerating frames of reference.",
+                  "Observers in different inertial frames might measure different speeds for an object, but they will agree on the laws of physics."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "Consequences of Special Relativity",
+            level2SubTopics: [
+              {
+                name: "Time Dilation ('Moving Clocks Run Slow')",
+                insights: [
+                  "Time passes slower for an observer who is moving relative to another observer.",
+                  "The faster the relative speed, the greater the time dilation effect. It's significant only at speeds approaching the speed of light.",
+                  "This has been experimentally verified, for example, by comparing atomic clocks flown on airplanes with stationary ones, and through observations of decaying subatomic particles (muons)."
+                ]
+              },
+              {
+                name: "Length Contraction ('Moving Objects Shrink')",
+                insights: [
+                  "The length of an object is measured to be shorter in its direction of motion when it is moving relative to an observer.",
+                  "Like time dilation, this effect is only noticeable at very high speeds (relativistic speeds).",
+                  "An object is always measured to be longest in its own 'rest frame' (this is called its 'proper length')."
+                ]
+              },
+              {
+                name: "Relativity of Simultaneity",
+                insights: [
+                  "Events that appear simultaneous to one observer may not appear simultaneous to another observer who is in relative motion.",
+                  "This means there's no universal 'now' that all observers agree on for spatially separated events.",
+                  "This concept directly challenges our everyday intuition about time and arises from the constancy of the speed of light."
+                ]
+              },
+              {
+                name: "Mass-Energy Equivalence (E=mc²)",
+                insights: [
+                  "Energy (E) and mass (m) are different forms of the same thing and can be converted into one another.",
+                  "The equation E=mc² shows that a small amount of mass can be converted into an enormous amount of energy, because the speed of light squared (c²) is a very large number.",
+                  "This principle is the basis for nuclear power and nuclear weapons, where mass is converted into energy."
+                ]
+              }
+            ]
+          }
+        ];
+
+        // --- 2. QUIZ QUESTIONS DATA (Einstein's Special Relativity - Simplified) ---
+        const allQuizQuestions = [
+            // The Two Postulates of Special Relativity (Section 1)
+            { question: "What is the First Postulate of Special Relativity, also known as the Principle of Relativity?", answers: ["The laws of physics are the same in all inertial frames of reference.#", "The speed of light is constant for all observers.", "Energy and mass are equivalent.", "Time is absolute and universal."], relatedConcept: "The Principle of Relativity (First Postulate)" },
+            { question: "According to the First Postulate, if you are on a smoothly moving train (constant velocity) and drop a ball, how will it appear to fall to you?", answers: ["Straight down, just as if the train were still.#", "Backwards, due to the train's motion.", "Forwards, to keep up with the train.", "It will float due to lack of acceleration."], relatedConcept: "The Principle of Relativity (First Postulate)" },
+            { question: "What does 'inertial frame of reference' mean in Special Relativity?", answers: ["A frame where objects move at constant velocity unless a force acts on them.#", "Any frame that is accelerating.", "A frame that is absolutely at rest in the universe.", "A frame where the speed of light varies."], relatedConcept: "Inertial Frames of Reference" },
+            { question: "What is the Second Postulate of Special Relativity?", answers: ["The speed of light in a vacuum is the same for all inertial observers.#", "The laws of physics change depending on the observer's speed.", "Time slows down for moving objects.", "Objects contract in their direction of motion."], relatedConcept: "The Constancy of the Speed of Light (Second Postulate)" },
+            { question: "If a spaceship traveling at half the speed of light turns on its headlights, how fast will an observer on Earth measure the light from the headlights to be traveling?", answers: ["At the speed of light, c.#", "At 1.5 times the speed of light (c + 0.5c).", "At 0.5 times the speed of light (c - 0.5c).", "It depends on the spaceship's exact speed."], relatedConcept: "The Constancy of the Speed of Light (Second Postulate)" },
+            { question: "Which scientist's earlier principle of relativity (for mechanics) did Einstein extend to all laws of physics?", answers: ["Galileo Galilei#", "Isaac Newton", "James Clerk Maxwell", "Michael Faraday"], relatedConcept: "The Principle of Relativity (First Postulate)" },
+            { question: "Is a car turning a corner at a constant speed an example of an inertial frame of reference?", answers: ["No, because its direction (and thus velocity) is changing, meaning it's accelerating.#", "Yes, because its speed is constant.", "Yes, if the road is perfectly flat.", "No, because cars always experience friction."], relatedConcept: "Inertial Frames of Reference" },
+            { question: "The constancy of the speed of light contradicts which classical idea?", answers: ["That velocities simply add and subtract (Galilean relativity).#", "That energy is conserved.", "That mass is conserved.", "That time is relative."], relatedConcept: "The Constancy of the Speed of Light (Second Postulate)" },
+            { question: "What is the approximate value of 'c', the speed of light in a vacuum?", answers: ["300,000 kilometers per second#", "300,000 meters per second", "3,000 kilometers per second", "30,000,000 kilometers per second"], relatedConcept: "The Constancy of the Speed of Light (Second Postulate)" },
+            { question: "Special Relativity applies specifically to which type of reference frames?", answers: ["Inertial (non-accelerating) frames#", "Accelerating frames only", "Rotating frames only", "All possible frames of reference"], relatedConcept: "Inertial Frames of Reference" },
+
+            // Consequences of Special Relativity (Section 2)
+            { question: "What is 'Time Dilation' in Special Relativity?", answers: ["Time passes slower for moving observers relative to stationary ones.#", "Time speeds up for moving observers.", "Time is the same for all observers.", "The measurement of time becomes impossible at high speeds."], relatedConcept: "Time Dilation ('Moving Clocks Run Slow')" },
+            { question: "If a twin travels in a spaceship at near light speed and returns to Earth, how will their age compare to the twin who stayed on Earth?", answers: ["The traveling twin will be younger.#", "The traveling twin will be older.", "They will be the same age.", "It's impossible to predict."], relatedConcept: "Time Dilation ('Moving Clocks Run Slow')" },
+            { question: "What is 'Length Contraction'?", answers: ["An object appears shorter in its direction of motion to a moving observer.#", "An object appears longer in its direction of motion.", "An object's width contracts, but not its length.", "All dimensions of an object contract equally."], relatedConcept: "Length Contraction ('Moving Objects Shrink')" },
+            { question: "At what speeds do time dilation and length contraction become significant?", answers: ["At speeds approaching the speed of light.#", "At any speed greater than sound.", "Only at speeds exceeding the speed of light.", "They are always significant but hard to measure."], relatedConcept: "Length Contraction ('Moving Objects Shrink')" },
+            { question: "What does 'Relativity of Simultaneity' mean?", answers: ["Events simultaneous for one observer may not be for another in relative motion.#", "All observers agree on which events happen at the same time.", "Time itself is not real.", "Simultaneous events are impossible."], relatedConcept: "Relativity of Simultaneity" },
+            { question: "What is the meaning of Einstein's famous equation E=mc²?", answers: ["Mass and energy are equivalent and can be converted into each other.#", "Energy is mass times the speed of light.", "The maximum energy an object can have is its mass times c squared.", "Electricity equals magnetism times capacitance squared."], relatedConcept: "Mass-Energy Equivalence (E=mc²)" },
+            { question: "Why is a very large amount of energy released in nuclear reactions, according to E=mc²?", answers: ["Because c² (speed of light squared) is a very large number.#", "Because nuclear fuel is very dense.", "Because the mass involved is very large.", "Because the reactions happen very quickly."], relatedConcept: "Mass-Energy Equivalence (E=mc²)" },
+            { question: "Which everyday phenomenon provides experimental evidence for time dilation?", answers: ["The extended lifespan of fast-moving muons from cosmic rays.#", "The changing of seasons.", "The red-shift of distant galaxies (this is more related to General Relativity/Doppler).", "The operation of a GPS system (though this also involves General Relativity)."], relatedConcept: "Time Dilation ('Moving Clocks Run Slow')" },
+            { question: "If you are on a very fast train and measure its length, and someone on the ground also measures its length as it passes, who measures the 'proper length'?", answers: ["You on the train (its rest frame).#", "The person on the ground.", "Both measure the proper length.", "Neither, proper length is a theoretical concept."], relatedConcept: "Length Contraction ('Moving Objects Shrink')" },
+            { question: "The fact that there's no universal 'now' is a consequence of which principle?", answers: ["Relativity of Simultaneity#", "Time Dilation only", "Length Contraction only", "Mass-Energy Equivalence only"], relatedConcept: "Relativity of Simultaneity" }
+        ];
+
+        // --- 3. DOM Elements ---
+        const knowledgeDisplayArea = document.getElementById('knowledge-display-area');
+        const quizTitleElement = document.getElementById('quiz-title');
+        const questionTextElement = document.getElementById('question-text');
+        const answerButtonsElement = document.getElementById('answer-buttons');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const scoreElement = document.getElementById('score');
+        const questionCounterElement = document.getElementById('question-counter');
+        const sessionCounterElement = document.getElementById('session-counter');
+        const gameOverMessageElement = document.getElementById('game-over-message');
+        const finalScoreMessageElement = document.getElementById('final-score-message');
+        const restartButton = document.getElementById('restart-btn');
+        const practiceButton = document.getElementById('practice-btn');
+
+        const quizAreaElements = {
+            quizTitleElement: quizTitleElement,
+            scoreArea: document.getElementById('score-area'),
+            questionArea: document.getElementById('question-area'),
+            feedbackElement: feedbackElement,
+            nextButton: nextButton,
+        };
+
+        // --- 4. Game State ---
+        let questionsForCurrentSession = [];
+        let currentQuestionInSessionIndex = 0;
+        let score = 0;
+        let currentSessionNumber = 1;
+        const QUESTIONS_PER_SESSION = 10; // Now matches the number of questions per section
+        let TOTAL_SESSIONS = 0;
+        let conceptsToPractice = new Set();
+        let isPracticeMode = false;
+
+        // --- 5. Functions ---
+
+        /**
+         * Dynamically builds and injects the HTML for the full knowledge base display.
+         */
+         function displayKnowledgeBase() {
+            knowledgeDisplayArea.innerHTML = '';
+            knowledgeBaseData.forEach((l1ConceptData, l1Index) => {
+                const l1DetailsElement = document.createElement('details');
+                l1DetailsElement.classList.add('level1-concept-container');
+                if (l1Index === 0) l1DetailsElement.open = true;
+
+                const l1SummaryElement = document.createElement('summary');
+                l1SummaryElement.classList.add('level1-concept-header');
+
+                const l1TitleElement = document.createElement('h3');
+                l1TitleElement.textContent = l1ConceptData.level1Concept;
+
+                const l1Icon = document.createElement('span');
+                l1Icon.classList.add('toggler-icon');
+                l1Icon.innerHTML = '&#9654;';
+
+                l1SummaryElement.appendChild(l1TitleElement);
+                l1SummaryElement.appendChild(l1Icon);
+                l1DetailsElement.appendChild(l1SummaryElement);
+
+                const l2WrapperDiv = document.createElement('div');
+                l2WrapperDiv.classList.add('level2-topics-wrapper');
+
+                l1ConceptData.level2SubTopics.forEach((subTopic) => {
+                    const l2DetailsElement = document.createElement('details');
+                    l2DetailsElement.classList.add('sub-topic-container');
+
+                    const l2SummaryElement = document.createElement('summary');
+                    l2SummaryElement.classList.add('sub-topic-header');
+
+                    const l2TitleElement = document.createElement('h4');
+                    l2TitleElement.textContent = subTopic.name;
+
+                    const l2Icon = document.createElement('span');
+                    l2Icon.classList.add('toggler-icon');
+                    l2Icon.innerHTML = '&#9654;';
+
+                    l2SummaryElement.appendChild(l2TitleElement);
+                    l2SummaryElement.appendChild(l2Icon);
+                    l2DetailsElement.appendChild(l2SummaryElement);
+
+                    const insightsUl = document.createElement('ul');
+                    insightsUl.classList.add('insights-list');
+                    subTopic.insights.forEach(insightText => {
+                        const insightLi = document.createElement('li');
+                        insightLi.textContent = insightText;
+                        insightsUl.appendChild(insightLi);
+                    });
+                    l2DetailsElement.appendChild(insightsUl);
+                    l2WrapperDiv.appendChild(l2DetailsElement);
+                });
+                l1DetailsElement.appendChild(l2WrapperDiv);
+                knowledgeDisplayArea.appendChild(l1DetailsElement);
+            });
+        }
+
+        /**
+         * Shuffles an array.
+         * @param {Array} array - The array to shuffle.
+         * @returns {Array} The shuffled array.
+         */
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        /**
+         * Initializes or resets the quiz game.
+         * @param {boolean} practice - If true, starts a practice session.
+         */
+        function startGame(practice = false) {
+            isPracticeMode = practice;
+            score = 0;
+            updateScoreDisplay();
+            TOTAL_SESSIONS = Math.ceil(allQuizQuestions.length / QUESTIONS_PER_SESSION);
+
+            if (isPracticeMode) {
+                quizTitleElement.textContent = "Practice Weak Areas";
+                const practiceQuestions = allQuizQuestions.filter(q => conceptsToPractice.has(q.relatedConcept));
+                questionsForCurrentSession = shuffleArray(practiceQuestions);
+
+                if (questionsForCurrentSession.length === 0) {
+                    finalScoreMessageElement.textContent = "No specific areas marked for practice, or you've mastered them!";
+                    gameOverMessageElement.classList.remove('hidden');
+                    practiceButton.classList.add('hidden');
+                    restartButton.textContent = "Play Full Quiz Again?";
+                    Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+                    quizAreaElements.quizTitleElement.classList.remove('hidden');
+                    return;
+                }
+            } else {
+                quizTitleElement.textContent = "Test Your Knowledge!";
+                currentSessionNumber = 1;
+                conceptsToPractice.clear();
+                prepareNewSession();
+                return;
+            }
+
+            currentQuestionInSessionIndex = 0;
+            feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.add('hidden');
+            practiceButton.classList.add('hidden');
+            Object.values(quizAreaElements).forEach(el => el.classList.remove('hidden'));
+            quizAreaElements.nextButton.style.display = 'inline-block';
+            nextButton.disabled = true;
+            loadQuestion();
+        }
+
+        /**
+         * Sets up a new main quiz session.
+         */
+        function prepareNewSession() {
+            sessionCounterElement.textContent = `Section: ${currentSessionNumber} / ${TOTAL_SESSIONS}`;
+            const start = (currentSessionNumber - 1) * QUESTIONS_PER_SESSION;
+            const end = start + QUESTIONS_PER_SESSION;
+            questionsForCurrentSession = shuffleArray(allQuizQuestions.slice(start, Math.min(end, allQuizQuestions.length)));
+            currentQuestionInSessionIndex = 0;
+
+            feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.add('hidden');
+            practiceButton.classList.add('hidden');
+            Object.values(quizAreaElements).forEach(el => el.classList.remove('hidden'));
+            quizAreaElements.nextButton.style.display = 'inline-block';
+            nextButton.disabled = true;
+            nextButton.textContent = "Next Question";
+
+            if (questionsForCurrentSession.length === 0 && currentSessionNumber <= TOTAL_SESSIONS) {
+                 showFinalThankYouMessage();
+                 return;
+            }
+            loadQuestion();
+        }
+
+        /**
+         * Loads the current question and answers into the UI.
+         */
+        function loadQuestion() {
+            resetStateForNewQuestion();
+            if (currentQuestionInSessionIndex < questionsForCurrentSession.length) {
+                const currentQuestion = questionsForCurrentSession[currentQuestionInSessionIndex];
+                questionTextElement.textContent = currentQuestion.question;
+
+                if (isPracticeMode) {
+                    questionCounterElement.textContent = `Practice Question: ${currentQuestionInSessionIndex + 1} / ${questionsForCurrentSession.length}`;
+                    sessionCounterElement.textContent = `Practicing: ${currentQuestion.relatedConcept}`;
+                } else {
+                    const questionsInThisSession = questionsForCurrentSession.length;
+                    questionCounterElement.textContent = `Question: ${currentQuestionInSessionIndex + 1} / ${questionsInThisSession}`;
+                    sessionCounterElement.textContent = `Section: ${currentSessionNumber} / ${TOTAL_SESSIONS}`;
+                }
+
+                const shuffledAnswerStrings = shuffleArray([...currentQuestion.answers]);
+                shuffledAnswerStrings.forEach(answerString => {
+                    const button = document.createElement('button');
+                    let displayText = answerString;
+                    let isThisAnswerCorrect = false;
+                    if (answerString.endsWith('#')) {
+                        displayText = answerString.slice(0, -1);
+                        isThisAnswerCorrect = true;
+                    }
+                    button.innerHTML = `<span>${displayText}</span>`;
+                    button.dataset.answerText = displayText;
+                    button.classList.add('answer-btn');
+                    button.addEventListener('click', () => selectAnswer(button, isThisAnswerCorrect));
+                    answerButtonsElement.appendChild(button);
+                });
+
+                nextButton.disabled = true;
+                if (currentQuestionInSessionIndex >= questionsForCurrentSession.length - 1) {
+                    if (isPracticeMode) {
+                        nextButton.textContent = "Finish Practice";
+                    } else {
+                        const moreSessionsExist = currentSessionNumber < TOTAL_SESSIONS;
+                        nextButton.textContent = moreSessionsExist ? "Finish Section" : "Finish Quiz";
+                    }
+                } else {
+                    nextButton.textContent = "Next Question";
+                }
+            } else {
+                if(isPracticeMode) endPracticeSession(); else endSession();
+            }
+        }
+
+        /**
+         * Resets UI state for a new question.
+         */
+        function resetStateForNewQuestion() {
+            feedbackElement.innerHTML = '&nbsp;';
+            feedbackElement.classList.remove('text-green-500', 'text-red-500');
+            while (answerButtonsElement.firstChild) {
+                answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+            }
+        }
+
+        /**
+         * Handles answer selection.
+         * @param {HTMLButtonElement} selectedButton - The selected button.
+         * @param {boolean} isClickedAnswerCorrect - If the selected answer is correct.
+         */
+        function selectAnswer(selectedButton, isClickedAnswerCorrect) {
+            const currentQuestionData = questionsForCurrentSession[currentQuestionInSessionIndex];
+            let actualCorrectText = "";
+            currentQuestionData.answers.forEach(ansStr => {
+                if (ansStr.endsWith('#')) {
+                    actualCorrectText = ansStr.slice(0, -1);
+                }
+            });
+
+            Array.from(answerButtonsElement.children).forEach(button => {
+                button.disabled = true;
+                if (button.dataset.answerText === actualCorrectText) {
+                    button.classList.add('correct');
+                }
+            });
+
+            if (isClickedAnswerCorrect) {
+                score++;
+                updateScoreDisplay();
+                feedbackElement.textContent = "Correct!";
+                feedbackElement.classList.add('text-green-500');
+                feedbackElement.classList.remove('text-red-500');
+            } else {
+                selectedButton.classList.add('incorrect');
+                feedbackElement.textContent = "Incorrect!";
+                feedbackElement.classList.add('text-red-500');
+                feedbackElement.classList.remove('text-green-500');
+                if (!isPracticeMode) {
+                    const concept = currentQuestionData.relatedConcept;
+                    if (concept) {
+                        conceptsToPractice.add(concept);
+                    }
+                }
+            }
+            nextButton.disabled = false;
+        }
+
+        /**
+         * Updates the score display.
+         */
+        function updateScoreDisplay() {
+            scoreElement.textContent = `Score: ${score}`;
+        }
+
+        /**
+         * Handles the next button click.
+         */
+        function handleNextButton() {
+            currentQuestionInSessionIndex++;
+            if (currentQuestionInSessionIndex < questionsForCurrentSession.length) {
+                loadQuestion();
+            } else {
+                if(isPracticeMode) endPracticeSession(); else endSession();
+            }
+        }
+
+        /**
+         * Ends the current main quiz session.
+         */
+        function endSession() {
+            Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+            quizAreaElements.feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.remove('hidden');
+            const moreSessionsExist = currentSessionNumber < TOTAL_SESSIONS;
+
+            if (moreSessionsExist) {
+                finalScoreMessageElement.textContent = `Section ${currentSessionNumber} Complete! Current Score: ${score}`;
+                restartButton.textContent = "Start Next Section";
+                practiceButton.classList.add('hidden');
+            } else {
+                showFinalThankYouMessage();
+            }
+        }
+
+        /**
+         * Ends the practice session.
+         */
+        function endPracticeSession() {
+            Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+            quizAreaElements.feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.remove('hidden');
+
+            finalScoreMessageElement.textContent = `Practice Complete! Your score: ${score} / ${questionsForCurrentSession.length}.`;
+            restartButton.textContent = "Play Full Quiz Again?";
+
+            if (questionsForCurrentSession.length > 0 && score < questionsForCurrentSession.length) {
+                practiceButton.textContent = "Practice Again?";
+                practiceButton.classList.remove('hidden');
+                practiceButton.disabled = false;
+            } else {
+                 if (questionsForCurrentSession.length > 0 && score === questionsForCurrentSession.length) {
+                     finalScoreMessageElement.textContent += " You aced the practice!";
+                 }
+                practiceButton.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Displays the final message after the main quiz.
+         */
+        function showFinalThankYouMessage() {
+            const totalMainQuizQuestionsAttempted = allQuizQuestions.length;
+            finalScoreMessageElement.textContent = `Main Quiz Complete! Final Score: ${score} out of ${totalMainQuizQuestionsAttempted}.`;
+            restartButton.textContent = "Play Full Quiz Again?";
+
+            Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+            quizAreaElements.quizTitleElement.classList.remove('hidden');
+            gameOverMessageElement.classList.remove('hidden');
+            quizAreaElements.feedbackElement.innerHTML = '&nbsp;';
+
+            if (conceptsToPractice.size > 0) {
+                practiceButton.textContent = "Practice Weak Areas";
+                practiceButton.classList.remove('hidden');
+                practiceButton.disabled = false;
+            } else {
+                practiceButton.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Handles restart or continue button click.
+         */
+        function handleRestartOrContinue() {
+            const moreSessionsExist = !isPracticeMode && currentSessionNumber < TOTAL_SESSIONS;
+            if (moreSessionsExist) {
+                currentSessionNumber++;
+                prepareNewSession();
+            } else {
+                startGame(false);
+            }
+        }
+
+        /**
+         * Handles practice button click.
+         */
+        function handlePracticeButton() {
+            startGame(true);
+        }
+
+        // --- Event Listeners ---
+        nextButton.addEventListener('click', handleNextButton);
+        restartButton.addEventListener('click', handleRestartOrContinue);
+        practiceButton.addEventListener('click', handlePracticeButton);
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            displayKnowledgeBase();
+            startGame(false);
+        });
+    </script>
+</body>
+</html>

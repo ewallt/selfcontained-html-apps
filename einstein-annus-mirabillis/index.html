@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Learner: Einstein's Miracle Year (1905)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General body and container styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light gray-blue background */
+            color: #1a202c; /* Dark gray text */
+            margin: 0;
+            padding: 0;
+        }
+        /* Main container for responsiveness */
+        .container {
+            max-width: 800px; /* Max width for larger screens */
+            margin: 2rem auto; /* Center the container */
+            padding: 1rem; /* Padding for smaller screens */
+        }
+
+        /* --- Knowledge Display Styles --- */
+        #knowledge-display-area {
+             background-color: #f9fafb;
+             border-radius: 8px;
+             padding: 1rem;
+             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .level1-concept-container {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+        .level1-concept-header {
+            padding: 1rem 1.25rem;
+            background-color: #e0f2fe; /* Tailwind sky-100 */
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+        }
+         .level1-concept-header::-webkit-details-marker { display: none; }
+         .level1-concept-header:hover {
+            background-color: #bae6fd; /* Tailwind sky-200 */
+         }
+        .level1-concept-header h3 {
+            color: #0369a1; /* Tailwind sky-700 */
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .level2-topics-wrapper {
+             padding: 0.5rem 1rem 1rem 1rem;
+             background-color: #ffffff;
+        }
+        .sub-topic-container {
+            background-color: #f0f9ff; /* Tailwind sky-50 */
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .sub-topic-header {
+            padding: 0.75rem 1rem;
+            background-color: #f0f9ff; /* Tailwind sky-50 */
+            border-bottom: 1px solid #e5e7eb;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+        }
+        .sub-topic-header::-webkit-details-marker { display: none; }
+        .sub-topic-header:hover {
+            background-color: #e0f2fe; /* Tailwind sky-100 */
+        }
+        .sub-topic-header h4 {
+            color: #075985; /* Tailwind sky-600 */
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0;
+        }
+        .insights-list {
+            padding: 0.75rem 1rem 1rem 2rem;
+            list-style-type: disc;
+            background-color: #f0f9ff; /* Tailwind sky-50 */
+            margin: 0;
+        }
+        .insights-list li {
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .toggler-icon {
+            transition: transform 0.2s ease-in-out;
+            font-size: 1.2rem;
+            color: #0ea5e9; /* Tailwind sky-500 */
+        }
+        details[open] > summary .toggler-icon {
+            transform: rotate(90deg);
+        }
+
+        /* --- Trivia/Quiz App Styles --- */
+        .trivia-container {
+            background-color: #ffffff; padding: 24px; border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); width: 100%; margin-top: 2rem;
+        }
+        @media (min-width: 640px) { .trivia-container { padding: 32px; } }
+        .answer-btn {
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+            border: 1px solid #e2e8f0; min-height: 60px; padding: 0.75rem 1rem; display: flex;
+            justify-content: center; align-items: center; text-align: center; font-weight: 500;
+            border-radius: 8px; line-height: 1.4; word-break: break-word; background-color: #ffffff;
+            color: #1a202c; cursor: pointer;
+        }
+        .answer-btn:hover:not(:disabled) {
+            background-color: #f8fafc; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .answer-btn.correct {
+            background-color: #10B981 !important; color: white !important; border-color: #059669 !important;
+        }
+        .answer-btn.incorrect {
+            background-color: #EF4444 !important; color: white !important; border-color: #DC2626 !important;
+        }
+        .answer-btn:disabled { opacity: 0.8; cursor: not-allowed; transform: none; box-shadow: none; }
+        #feedback { min-height: 24px; font-weight: 600; margin-bottom: 1rem; font-size: 1.1rem; }
+        .answer-btn.correct span, .answer-btn.incorrect span { color: white; }
+        .answer-btn span { color: inherit; }
+        #score, #question-counter, #session-counter { color: #4a5568; font-weight: 500; }
+        #next-btn:disabled, #practice-btn:disabled {
+            background-color: #9ca3af !important; opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none;
+        }
+        #next-btn:disabled:hover, #practice-btn:disabled:hover { background-color: #9ca3af !important; }
+        #practice-btn { background-color: #f59e0b; transition: background-color 0.2s ease; }
+        #practice-btn:hover:not(:disabled) { background-color: #d97706; }
+        .action-btn {
+             transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+             padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; color: white;
+             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+             cursor: pointer; display: inline-block;
+        }
+        .action-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.1), 0 3px 5px -1px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto p-4">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-sky-700">Knowledge Learner: Einstein's Miracle Year (1905)</h1>
+        </header>
+
+        <section id="knowledge-display-section" class="mb-12">
+            <h2 class="text-2xl font-semibold mb-6 text-center text-sky-600">Learn: The Groundbreaking Papers of 1905</h2>
+            <div id="knowledge-display-area">
+                </div>
+        </section>
+
+        <section id="quiz-section">
+            <div id="quiz-area" class="trivia-container text-center">
+                <h2 id="quiz-title" class="text-2xl font-bold mb-4 text-sky-600">Test Your Knowledge!</h2>
+                <div id="score-area" class="mb-4 text-lg flex flex-wrap justify-center items-center gap-x-3 gap-y-1">
+                    <span id="score" class="font-semibold">Score: 0</span>
+                    <span class="text-gray-400 hidden sm:inline">|</span>
+                    <span id="question-counter" class="font-semibold">Question: 0 / 0</span>
+                     <span class="text-gray-400 hidden sm:inline">|</span>
+                    <span id="session-counter" class="font-semibold">Section: 0 / 0</span>
+                </div>
+
+                <div id="question-area" class="mb-6">
+                    <h3 id="question-text" class="text-xl font-semibold mb-4 min-h-[60px] flex items-center justify-center text-gray-700 px-2">
+                        Loading question...
+                    </h3>
+                    <div id="answer-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        </div>
+                </div>
+
+                <div id="feedback" class="mt-4 text-lg font-medium min-h-[24px] mb-4">
+                    &nbsp; </div>
+
+                <button id="next-btn" class="action-btn mt-2 bg-sky-600 hover:bg-sky-700 w-full sm:w-auto">
+                    Next Question
+                </button>
+
+                <div id="game-over-message" class="hidden mt-6 text-xl font-semibold">
+                    <p id="final-score-message" class="mb-4"></p>
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-3">
+                        <button id="restart-btn" class="action-btn bg-green-500 hover:bg-green-600 w-full sm:w-auto">
+                            </button>
+                        <button id="practice-btn" class="action-btn hidden bg-yellow-500 hover:bg-yellow-600 w-full sm:w-auto">
+                            Practice Weak Areas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // --- 1. KNOWLEDGE BASE DATA (Einstein's Miracle Year - 1905) ---
+        const knowledgeBaseData = [
+          {
+            level1Concept: "Paper 1: The Photoelectric Effect",
+            level2SubTopics: [
+              {
+                name: "Subject: Light as Quanta (Photons)",
+                insights: [
+                  "Proposed that light energy is not continuous but comes in discrete packets (quanta), later called photons.",
+                  "The energy of a photon is proportional to its frequency (E=hf, where h is Planck's constant).",
+                  "Explained why shining light on a metal surface ejects electrons only if the light's frequency is above a certain threshold, regardless of intensity."
+                ]
+              },
+              {
+                name: "Importance: Foundation of Quantum Theory",
+                insights: [
+                  "Provided crucial support for Max Planck's earlier quantum hypothesis.",
+                  "Challenged the purely wave theory of light, suggesting a wave-particle duality.",
+                  "This work was specifically cited for Einstein's Nobel Prize in Physics in 1921."
+                ]
+              },
+              {
+                name: "Timing: March Submission, June Publication",
+                insights: [
+                  "Paper title: 'On a Heuristic Point of View Concerning the Production and Transformation of Light'.",
+                  "Submitted to Annalen der Physik on March 18, 1905.",
+                  "Published on June 9, 1905."
+                ]
+              },
+              {
+                name: "Context: Explaining Experimental Puzzles",
+                insights: [
+                  "Classical physics (wave theory of light) could not explain the details of the photoelectric effect, like the threshold frequency.",
+                  "Einstein's explanation was radical at the time, even for Planck whose work it built upon.",
+                  "The term 'photon' itself was coined later by Gilbert N. Lewis in 1926."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "Paper 2: Brownian Motion",
+            level2SubTopics: [
+              {
+                name: "Subject: Atomic/Molecular Theory of Matter",
+                insights: [
+                  "Explained the observed random, jiggling motion of small particles (like pollen grains) suspended in a liquid or gas.",
+                  "Showed this motion was caused by the particles being constantly bombarded by the unseen atoms or molecules of the fluid.",
+                  "Provided a way to calculate Avogadro's number and the size of atoms/molecules."
+                ]
+              },
+              {
+                name: "Importance: Evidence for Atoms",
+                insights: [
+                  "Provided strong, direct observational evidence for the existence of atoms and molecules, which was still debated by some prominent scientists.",
+                  "Bridged the gap between the microscopic world of atoms and macroscopic observations.",
+                  "Opened up new avenues in statistical mechanics."
+                ]
+              },
+              {
+                name: "Timing: May Submission, July Publication",
+                insights: [
+                  "Paper title: 'On the Movement of Small Particles Suspended in Stationary Liquids Required by the Molecular-Kinetic Theory of Heat'.",
+                  "Received by Annalen der Physik on May 11, 1905 (developed from work started in 1902-1903).",
+                  "Published on July 18, 1905."
+                ]
+              },
+              {
+                name: "Context: Solving an Old Mystery",
+                insights: [
+                  "The phenomenon was first observed by botanist Robert Brown in 1827.",
+                  "Einstein was unaware of some earlier, less complete theoretical treatments.",
+                  "Experimental verification by Jean Perrin (1908-1911) was crucial and earned Perrin the Nobel Prize."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "Paper 3: Special Relativity",
+            level2SubTopics: [
+              {
+                name: "Subject: Space, Time, and Motion",
+                insights: [
+                  "Based on two postulates: 1) The laws of physics are the same in all inertial frames. 2) The speed of light in a vacuum is constant for all observers.",
+                  "Revolutionized understanding of space and time, showing they are not absolute but relative to the observer's motion.",
+                  "Introduced concepts like time dilation (moving clocks run slow) and length contraction (moving objects shorten)."
+                ]
+              },
+              {
+                name: "Importance: New Framework for Physics",
+                insights: [
+                  "Reconciled inconsistencies between Newtonian mechanics and Maxwell's theory of electromagnetism.",
+                  "Replaced the classical notions of absolute space and time with a unified concept of spacetime.",
+                  "Laid the groundwork for General Relativity (Einstein's theory of gravity)."
+                ]
+              },
+              {
+                name: "Timing: June Submission, September Publication",
+                insights: [
+                  "Paper title: 'On the Electrodynamics of Moving Bodies'.",
+                  "Received by Annalen der Physik on June 30, 1905.",
+                  "Published on September 26, 1905."
+                ]
+              },
+              {
+                name: "Context: No Footnotes, Bold Claims",
+                insights: [
+                  "The paper famously lacked footnotes or citations to other contemporary physicists working on similar problems (like Lorentz or Poincaré), presenting its ideas from first principles.",
+                  "It did not immediately overturn Newtonian physics, which remains a good approximation for slow speeds."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "Paper 4: Mass-Energy Equivalence",
+            level2SubTopics: [
+              {
+                name: "Subject: E=mc²",
+                insights: [
+                  "Showed that mass (m) and energy (E) are interconvertible forms of the same thing.",
+                  "The equation E=mc² quantifies this relationship, where 'c' is the speed of light.",
+                  "Implied that a small amount of mass can release a tremendous amount of energy, due to the largeness of c²."
+                ]
+              },
+              {
+                name: "Importance: Profound Consequences",
+                insights: [
+                  "One of the most famous equations in science.",
+                  "Explained the source of energy in radioactive decay and nuclear reactions (e.g., in stars, nuclear power, atomic bombs).",
+                  "Deepened the understanding of inertia and energy within the framework of relativity."
+                ]
+              },
+              {
+                name: "Timing: September Submission, November Publication",
+                insights: [
+                  "Paper title: 'Does the Inertia of a Body Depend Upon Its Energy Content?'.",
+                  "Submitted to Annalen der Physik on September 27, 1905, as a short addendum/follow-up to the Special Relativity paper.",
+                  "Published on November 21, 1905."
+                ]
+              },
+              {
+                name: "Context: A 'Thought Experiment'",
+                insights: [
+                  "Einstein derived this relationship using a thought experiment about an object emitting light.",
+                  "The full implications were not immediately realized by the broader scientific community.",
+                  "It's a direct consequence of the principles of Special Relativity."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "Paper 5: Molecular Dimensions (PhD Thesis)",
+            level2SubTopics: [
+              {
+                name: "Subject: Determining Molecular Size & Avogadro's Number",
+                insights: [
+                  "Presented a new theoretical method to determine the sizes of molecules and Avogadro's number (the number of molecules in a mole).",
+                  "Based on analyzing the viscosity of solutions (e.g., sugar dissolved in water) and diffusion rates.",
+                  "Connected macroscopic, measurable properties of fluids to the microscopic reality of molecules."
+                ]
+              },
+              {
+                name: "Importance: Practical Atomic Physics",
+                insights: [
+                  "Provided another independent method for confirming the atomic hypothesis and estimating fundamental constants.",
+                  "His calculated value for Avogadro's number was remarkably close to modern values.",
+                  "Became one of Einstein's most frequently cited papers, due to its practical applications in chemistry and physics."
+                ]
+              },
+              {
+                name: "Timing: Completed April, Submitted July",
+                insights: [
+                  "Dissertation title: 'A New Determination of Molecular Dimensions'.",
+                  "Completed in Bern on April 30, 1905.",
+                  "Submitted to the University of Zurich on July 20, 1905; accepted in January 1906. Published as a standalone brochure in 1906."
+                ]
+              },
+              {
+                name: "Context: Path to a Doctorate",
+                insights: [
+                  "This work fulfilled the requirements for his PhD, which he hoped would improve his job prospects.",
+                  "It was initially rejected for being too short, so he added a single sentence and resubmitted.",
+                  "Unlike the Annalen der Physik papers, this was a formal academic dissertation."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "The Significance of the Annus Mirabilis",
+            level2SubTopics: [
+              {
+                name: "What Made 1905 Miraculous?",
+                insights: [
+                  "Four (or five, including the thesis work) papers published in a single year, each revolutionary in its own right.",
+                  "Addressed fundamental questions in different areas of physics: quantum theory, atomic theory, relativity, and mass-energy.",
+                  "Collectively, they reshaped the landscape of modern physics."
+                ]
+              },
+              {
+                name: "Einstein's Personal Context",
+                insights: [
+                  "Achieved this while working as a patent clerk (Technical Expert Third Class) at the Swiss Patent Office in Bern.",
+                  "He was relatively isolated from mainstream academic physics at the time.",
+                  "These papers were the product of his independent thought and 'thought experiments' during his spare time."
+                ]
+              },
+              {
+                name: "Long-term Recognition",
+                insights: [
+                  "The papers gradually gained recognition, catapulting Einstein into the academic world and international fame.",
+                  "The Nobel Prize in 1921 was awarded for the photoelectric effect paper, though his work on relativity was equally, if not more, famous.",
+                  "1905 is now celebrated as a pivotal year in the history of science."
+                ]
+              },
+              {
+                name: "Impact on Physics Landscape",
+                insights: [
+                  "The quantum ideas laid groundwork for quantum mechanics.",
+                  "The atomic/molecular work solidified the atomic theory of matter.",
+                  "Special relativity provided a new understanding of space, time, and motion, leading to General Relativity.",
+                  "E=mc² unveiled the immense energy within matter."
+                ]
+              }
+            ]
+          }
+        ];
+
+        // --- 2. QUIZ QUESTIONS DATA (Einstein's Miracle Year - 1905) ---
+        const allQuizQuestions = [
+            // Paper 1: The Photoelectric Effect
+            { question: "What was the core idea of Einstein's 1905 paper on the photoelectric effect?", answers: ["Light energy comes in discrete packets (quanta/photons).#", "Light is purely a wave phenomenon.", "The energy of light depends only on its intensity.", "Electrons emit light when they jump orbits."], relatedConcept: "Paper 1: The Photoelectric Effect" },
+            { question: "Which specific work was Einstein awarded the Nobel Prize in Physics for in 1921?", answers: ["His explanation of the photoelectric effect.#", "His theory of Special Relativity.", "His work on Brownian motion.", "His equation E=mc²."], relatedConcept: "Paper 1: The Photoelectric Effect" },
+            { question: "In which month of 1905 was Einstein's paper on the photoelectric effect submitted?", answers: ["March#", "June", "September", "November"], relatedConcept: "Paper 1: The Photoelectric Effect" },
+
+            // Paper 2: Brownian Motion
+            { question: "What phenomenon did Einstein's 1905 paper on Brownian motion explain?", answers: ["The random jiggling of small particles in a fluid.#", "The motion of planets around the sun.", "The behavior of light in a gravitational field.", "The emission of electrons from a metal surface."], relatedConcept: "Paper 2: Brownian Motion" },
+            { question: "What was a major significance of Einstein's Brownian motion paper?", answers: ["It provided strong evidence for the existence of atoms and molecules.#", "It introduced the concept of spacetime.", "It led to the discovery of the electron.", "It explained radioactivity."], relatedConcept: "Paper 2: Brownian Motion" },
+            { question: "Einstein's paper on Brownian motion was published in Annalen der Physik in which month of 1905?", answers: ["July#", "May", "September", "December"], relatedConcept: "Paper 2: Brownian Motion" },
+
+            // Paper 3: Special Relativity
+            { question: "What is one of the two main postulates of Einstein's Special Relativity theory (1905)?", answers: ["The speed of light in a vacuum is constant for all inertial observers.#", "Gravity is the curvature of spacetime.", "Energy is quantized.", "All motion is relative, including accelerated motion."], relatedConcept: "Paper 3: Special Relativity" },
+            { question: "Which of these concepts was a direct consequence of Special Relativity?", answers: ["Time Dilation (moving clocks run slow).#", "The uncertainty principle.", "Black holes.", "The expansion of the universe."], relatedConcept: "Paper 3: Special Relativity" },
+            { question: "The paper 'On the Electrodynamics of Moving Bodies' (Special Relativity) was published in:", answers: ["September 1905#", "June 1905", "March 1905", "November 1905"], relatedConcept: "Paper 3: Special Relativity" },
+
+            // Paper 4: Mass-Energy Equivalence
+            { question: "What is the central idea of Einstein's 1905 paper that introduced E=mc²?", answers: ["Mass and energy are interconvertible forms of the same thing.#", "Energy is always conserved, but mass is not.", "The speed of light is the ultimate speed limit.", "Inertia depends on an object's volume."], relatedConcept: "Paper 4: Mass-Energy Equivalence" },
+            { question: "The equation E=mc² is fundamental to understanding:", answers: ["The energy released in nuclear reactions.#", "The behavior of electrical circuits.", "The formation of chemical bonds.", "The propagation of sound waves."], relatedConcept: "Paper 4: Mass-Energy Equivalence" },
+            { question: "When was Einstein's paper 'Does the Inertia of a Body Depend Upon Its Energy Content?' published?", answers: ["November 1905#", "September 1905", "July 1905", "December 1905"], relatedConcept: "Paper 4: Mass-Energy Equivalence" },
+
+            // Paper 5: Molecular Dimensions (PhD Thesis)
+            { question: "What was a key achievement of Einstein's 1905 PhD thesis, 'A New Determination of Molecular Dimensions'?", answers: ["Providing a method to determine Avogadro's number and molecular sizes.#", "Discovering new subatomic particles.", "Explaining the structure of the atom.", "Defining the laws of thermodynamics."], relatedConcept: "Paper 5: Molecular Dimensions (PhD Thesis)" },
+            { question: "Einstein's PhD thesis became one of his most cited works primarily due to its:", answers: ["Practical applications in chemistry and physics.#", "Revolutionary philosophical implications.", "Prediction of new astronomical phenomena.", "Mathematical elegance alone."], relatedConcept: "Paper 5: Molecular Dimensions (PhD Thesis)" },
+            { question: "When did Einstein complete his PhD dissertation?", answers: ["April 1905#", "July 1905", "January 1906", "December 1904"], relatedConcept: "Paper 5: Molecular Dimensions (PhD Thesis)" },
+
+            // The Significance of the Annus Mirabilis
+            { question: "Why is 1905 called Einstein's 'Annus Mirabilis' (Miracle Year)?", answers: ["He published multiple revolutionary papers in different areas of physics.#", "He received the Nobel Prize that year.", "He discovered General Relativity.", "He completed his university education with top honors."], relatedConcept: "The Significance of the Annus Mirabilis" },
+            { question: "What was Einstein's professional occupation during his Annus Mirabilis in 1905?", answers: ["Patent clerk in Bern.#", "Professor of Physics at Zurich.", "Research assistant in Berlin.", "Unemployed scholar."], relatedConcept: "The Significance of the Annus Mirabilis" },
+            { question: "Which of the 1905 papers laid the direct foundation for quantum mechanics?", answers: ["The paper on the photoelectric effect.#", "The paper on Special Relativity.", "The paper on Brownian motion.", "The E=mc² paper."], relatedConcept: "The Significance of the Annus Mirabilis" },
+            { question: "The 1905 papers collectively challenged and began to replace which major framework in physics?", answers: ["Classical Newtonian physics and the wave theory of light.#", "Quantum mechanics.", "The theory of electromagnetism.", "Thermodynamics."], relatedConcept: "The Significance of the Annus Mirabilis" },
+            { question: "How many groundbreaking papers (including the work for his PhD) are generally attributed to Einstein's Annus Mirabilis of 1905?", answers: ["Five#", "Three", "Four", "Two"], relatedConcept: "The Significance of the Annus Mirabilis" }
+        ];
+
+        // --- 3. DOM Elements ---
+        const knowledgeDisplayArea = document.getElementById('knowledge-display-area');
+        const quizTitleElement = document.getElementById('quiz-title');
+        const questionTextElement = document.getElementById('question-text');
+        const answerButtonsElement = document.getElementById('answer-buttons');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const scoreElement = document.getElementById('score');
+        const questionCounterElement = document.getElementById('question-counter');
+        const sessionCounterElement = document.getElementById('session-counter');
+        const gameOverMessageElement = document.getElementById('game-over-message');
+        const finalScoreMessageElement = document.getElementById('final-score-message');
+        const restartButton = document.getElementById('restart-btn');
+        const practiceButton = document.getElementById('practice-btn');
+
+        const quizAreaElements = {
+            quizTitleElement: quizTitleElement,
+            scoreArea: document.getElementById('score-area'),
+            questionArea: document.getElementById('question-area'),
+            feedbackElement: feedbackElement,
+            nextButton: nextButton,
+        };
+
+        // --- 4. Game State ---
+        let questionsForCurrentSession = [];
+        let currentQuestionInSessionIndex = 0;
+        let score = 0;
+        let currentSessionNumber = 1;
+        const QUESTIONS_PER_SESSION = 10;
+        let TOTAL_SESSIONS = 0;
+        let conceptsToPractice = new Set();
+        let isPracticeMode = false;
+
+        // --- 5. Functions ---
+        /**
+         * Dynamically builds and injects the HTML for the full knowledge base display.
+         */
+         function displayKnowledgeBase() {
+            knowledgeDisplayArea.innerHTML = '';
+            knowledgeBaseData.forEach((l1ConceptData, l1Index) => {
+                const l1DetailsElement = document.createElement('details');
+                l1DetailsElement.classList.add('level1-concept-container');
+                if (l1Index === 0) l1DetailsElement.open = true; // Open the first L1 concept by default
+
+                const l1SummaryElement = document.createElement('summary');
+                l1SummaryElement.classList.add('level1-concept-header');
+
+                const l1TitleElement = document.createElement('h3');
+                l1TitleElement.textContent = l1ConceptData.level1Concept;
+
+                const l1Icon = document.createElement('span');
+                l1Icon.classList.add('toggler-icon');
+                l1Icon.innerHTML = '&#9654;'; // Right-pointing triangle
+
+                l1SummaryElement.appendChild(l1TitleElement);
+                l1SummaryElement.appendChild(l1Icon);
+                l1DetailsElement.appendChild(l1SummaryElement);
+
+                const l2WrapperDiv = document.createElement('div');
+                l2WrapperDiv.classList.add('level2-topics-wrapper');
+
+                l1ConceptData.level2SubTopics.forEach((subTopic) => {
+                    const l2DetailsElement = document.createElement('details');
+                    l2DetailsElement.classList.add('sub-topic-container');
+                    // By default, L2 topics are closed. Can be set to open specific ones if needed.
+
+                    const l2SummaryElement = document.createElement('summary');
+                    l2SummaryElement.classList.add('sub-topic-header');
+
+                    const l2TitleElement = document.createElement('h4');
+                    l2TitleElement.textContent = subTopic.name;
+
+                    const l2Icon = document.createElement('span');
+                    l2Icon.classList.add('toggler-icon');
+                    l2Icon.innerHTML = '&#9654;';
+
+                    l2SummaryElement.appendChild(l2TitleElement);
+                    l2SummaryElement.appendChild(l2Icon);
+                    l2DetailsElement.appendChild(l2SummaryElement);
+
+                    const insightsUl = document.createElement('ul');
+                    insightsUl.classList.add('insights-list');
+                    subTopic.insights.forEach(insightText => {
+                        const insightLi = document.createElement('li');
+                        insightLi.textContent = insightText;
+                        insightsUl.appendChild(insightLi);
+                    });
+                    l2DetailsElement.appendChild(insightsUl);
+                    l2WrapperDiv.appendChild(l2DetailsElement);
+                });
+                l1DetailsElement.appendChild(l2WrapperDiv);
+                knowledgeDisplayArea.appendChild(l1DetailsElement);
+            });
+        }
+
+        /**
+         * Shuffles an array.
+         * @param {Array} array - The array to shuffle.
+         * @returns {Array} The shuffled array.
+         */
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        /**
+         * Initializes or resets the quiz game.
+         * @param {boolean} practice - If true, starts a practice session.
+         */
+        function startGame(practice = false) {
+            isPracticeMode = practice;
+            score = 0;
+            updateScoreDisplay();
+            TOTAL_SESSIONS = Math.ceil(allQuizQuestions.length / QUESTIONS_PER_SESSION);
+
+            if (isPracticeMode) {
+                quizTitleElement.textContent = "Practice Weak Areas";
+                const practiceQuestions = allQuizQuestions.filter(q => conceptsToPractice.has(q.relatedConcept));
+                questionsForCurrentSession = shuffleArray(practiceQuestions);
+
+                if (questionsForCurrentSession.length === 0) {
+                    finalScoreMessageElement.textContent = "No specific areas marked for practice, or you've mastered them!";
+                    gameOverMessageElement.classList.remove('hidden');
+                    practiceButton.classList.add('hidden');
+                    restartButton.textContent = "Play Full Quiz Again?";
+                    Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+                    quizAreaElements.quizTitleElement.classList.remove('hidden');
+                    return;
+                }
+            } else {
+                quizTitleElement.textContent = "Test Your Knowledge!";
+                currentSessionNumber = 1;
+                conceptsToPractice.clear();
+                prepareNewSession();
+                return;
+            }
+
+            currentQuestionInSessionIndex = 0;
+            feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.add('hidden');
+            practiceButton.classList.add('hidden');
+            Object.values(quizAreaElements).forEach(el => el.classList.remove('hidden'));
+            quizAreaElements.nextButton.style.display = 'inline-block';
+            nextButton.disabled = true;
+            loadQuestion();
+        }
+
+        /**
+         * Sets up a new main quiz session.
+         */
+        function prepareNewSession() {
+            sessionCounterElement.textContent = `Section: ${currentSessionNumber} / ${TOTAL_SESSIONS}`;
+            const start = (currentSessionNumber - 1) * QUESTIONS_PER_SESSION;
+            const end = start + QUESTIONS_PER_SESSION;
+            questionsForCurrentSession = shuffleArray(allQuizQuestions.slice(start, Math.min(end, allQuizQuestions.length)));
+            currentQuestionInSessionIndex = 0;
+
+            feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.add('hidden');
+            practiceButton.classList.add('hidden');
+            Object.values(quizAreaElements).forEach(el => el.classList.remove('hidden'));
+            quizAreaElements.nextButton.style.display = 'inline-block';
+            nextButton.disabled = true;
+            nextButton.textContent = "Next Question";
+
+            if (questionsForCurrentSession.length === 0 && currentSessionNumber <= TOTAL_SESSIONS) {
+                 showFinalThankYouMessage();
+                 return;
+            }
+            loadQuestion();
+        }
+
+        /**
+         * Loads the current question and answers into the UI.
+         */
+        function loadQuestion() {
+            resetStateForNewQuestion();
+            if (currentQuestionInSessionIndex < questionsForCurrentSession.length) {
+                const currentQuestion = questionsForCurrentSession[currentQuestionInSessionIndex];
+                questionTextElement.textContent = currentQuestion.question;
+
+                if (isPracticeMode) {
+                    questionCounterElement.textContent = `Practice Question: ${currentQuestionInSessionIndex + 1} / ${questionsForCurrentSession.length}`;
+                    sessionCounterElement.textContent = `Practicing: ${currentQuestion.relatedConcept}`;
+                } else {
+                    const questionsInThisSession = questionsForCurrentSession.length;
+                    questionCounterElement.textContent = `Question: ${currentQuestionInSessionIndex + 1} / ${questionsInThisSession}`;
+                    sessionCounterElement.textContent = `Section: ${currentSessionNumber} / ${TOTAL_SESSIONS}`;
+                }
+
+                const shuffledAnswerStrings = shuffleArray([...currentQuestion.answers]);
+                shuffledAnswerStrings.forEach(answerString => {
+                    const button = document.createElement('button');
+                    let displayText = answerString;
+                    let isThisAnswerCorrect = false;
+                    if (answerString.endsWith('#')) {
+                        displayText = answerString.slice(0, -1);
+                        isThisAnswerCorrect = true;
+                    }
+                    button.innerHTML = `<span>${displayText}</span>`;
+                    button.dataset.answerText = displayText;
+                    button.classList.add('answer-btn');
+                    button.addEventListener('click', () => selectAnswer(button, isThisAnswerCorrect));
+                    answerButtonsElement.appendChild(button);
+                });
+
+                nextButton.disabled = true;
+                if (currentQuestionInSessionIndex >= questionsForCurrentSession.length - 1) {
+                    if (isPracticeMode) {
+                        nextButton.textContent = "Finish Practice";
+                    } else {
+                        const moreSessionsExist = currentSessionNumber < TOTAL_SESSIONS;
+                        nextButton.textContent = moreSessionsExist ? "Finish Section" : "Finish Quiz";
+                    }
+                } else {
+                    nextButton.textContent = "Next Question";
+                }
+            } else {
+                if(isPracticeMode) endPracticeSession(); else endSession();
+            }
+        }
+
+        /**
+         * Resets UI state for a new question.
+         */
+        function resetStateForNewQuestion() {
+            feedbackElement.innerHTML = '&nbsp;';
+            feedbackElement.classList.remove('text-green-500', 'text-red-500');
+            while (answerButtonsElement.firstChild) {
+                answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+            }
+        }
+
+        /**
+         * Handles answer selection.
+         * @param {HTMLButtonElement} selectedButton - The selected button.
+         * @param {boolean} isClickedAnswerCorrect - If the selected answer is correct.
+         */
+        function selectAnswer(selectedButton, isClickedAnswerCorrect) {
+            const currentQuestionData = questionsForCurrentSession[currentQuestionInSessionIndex];
+            let actualCorrectText = "";
+            currentQuestionData.answers.forEach(ansStr => {
+                if (ansStr.endsWith('#')) {
+                    actualCorrectText = ansStr.slice(0, -1);
+                }
+            });
+
+            Array.from(answerButtonsElement.children).forEach(button => {
+                button.disabled = true;
+                if (button.dataset.answerText === actualCorrectText) {
+                    button.classList.add('correct');
+                }
+            });
+
+            if (isClickedAnswerCorrect) {
+                score++;
+                updateScoreDisplay();
+                feedbackElement.textContent = "Correct!";
+                feedbackElement.classList.add('text-green-500');
+                feedbackElement.classList.remove('text-red-500');
+            } else {
+                selectedButton.classList.add('incorrect');
+                feedbackElement.textContent = "Incorrect!";
+                feedbackElement.classList.add('text-red-500');
+                feedbackElement.classList.remove('text-green-500');
+                if (!isPracticeMode) {
+                    const concept = currentQuestionData.relatedConcept;
+                    if (concept) {
+                        conceptsToPractice.add(concept);
+                    }
+                }
+            }
+            nextButton.disabled = false;
+        }
+
+        /**
+         * Updates the score display.
+         */
+        function updateScoreDisplay() {
+            scoreElement.textContent = `Score: ${score}`;
+        }
+
+        /**
+         * Handles the next button click.
+         */
+        function handleNextButton() {
+            currentQuestionInSessionIndex++;
+            if (currentQuestionInSessionIndex < questionsForCurrentSession.length) {
+                loadQuestion();
+            } else {
+                if(isPracticeMode) endPracticeSession(); else endSession();
+            }
+        }
+
+        /**
+         * Ends the current main quiz session.
+         */
+        function endSession() {
+            Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+            quizAreaElements.feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.remove('hidden');
+            const moreSessionsExist = currentSessionNumber < TOTAL_SESSIONS;
+
+            if (moreSessionsExist) {
+                finalScoreMessageElement.textContent = `Section ${currentSessionNumber} Complete! Current Score: ${score}`;
+                restartButton.textContent = "Start Next Section";
+                practiceButton.classList.add('hidden');
+            } else {
+                showFinalThankYouMessage();
+            }
+        }
+
+        /**
+         * Ends the practice session.
+         */
+        function endPracticeSession() {
+            Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+            quizAreaElements.feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.remove('hidden');
+
+            finalScoreMessageElement.textContent = `Practice Complete! Your score: ${score} / ${questionsForCurrentSession.length}.`;
+            restartButton.textContent = "Play Full Quiz Again?";
+
+            if (questionsForCurrentSession.length > 0 && score < questionsForCurrentSession.length) {
+                practiceButton.textContent = "Practice Again?";
+                practiceButton.classList.remove('hidden');
+                practiceButton.disabled = false;
+            } else {
+                 if (questionsForCurrentSession.length > 0 && score === questionsForCurrentSession.length) {
+                     finalScoreMessageElement.textContent += " You aced the practice!";
+                 }
+                practiceButton.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Displays the final message after the main quiz.
+         */
+        function showFinalThankYouMessage() {
+            const totalMainQuizQuestionsAttempted = allQuizQuestions.length;
+            finalScoreMessageElement.textContent = `Main Quiz Complete! Final Score: ${score} out of ${totalMainQuizQuestionsAttempted}.`;
+            restartButton.textContent = "Play Full Quiz Again?";
+
+            Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+            quizAreaElements.quizTitleElement.classList.remove('hidden'); // Keep title visible
+            gameOverMessageElement.classList.remove('hidden');
+            quizAreaElements.feedbackElement.innerHTML = '&nbsp;';
+
+            if (conceptsToPractice.size > 0) {
+                practiceButton.textContent = "Practice Weak Areas";
+                practiceButton.classList.remove('hidden');
+                practiceButton.disabled = false;
+            } else {
+                practiceButton.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Handles restart or continue button click.
+         */
+        function handleRestartOrContinue() {
+            const moreSessionsExist = !isPracticeMode && currentSessionNumber < TOTAL_SESSIONS;
+            if (moreSessionsExist) {
+                currentSessionNumber++;
+                prepareNewSession();
+            } else {
+                startGame(false);
+            }
+        }
+
+        /**
+         * Handles practice button click.
+         */
+        function handlePracticeButton() {
+            startGame(true);
+        }
+
+        // --- Event Listeners ---
+        nextButton.addEventListener('click', handleNextButton);
+        restartButton.addEventListener('click', handleRestartOrContinue);
+        practiceButton.addEventListener('click', handlePracticeButton);
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            displayKnowledgeBase();
+            startGame(false);
+        });
+    </script>
+</body>
+</html>
