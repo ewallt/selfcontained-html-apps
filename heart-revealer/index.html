@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Great Unveiling</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        header {
+            background-color: #4a3125; /* Deep, rich brown */
+            color: #fff;
+            padding: 1.2em 1em;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.6em;
+            font-weight: 500;
+        }
+        .container {
+            padding: 10px;
+        }
+
+        /* --- Top-Level Accordion Styles --- */
+        .accordion-item {
+            background-color: #fff;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .accordion-header {
+            background-color: #6f4e37; /* Warm, medium brown */
+            color: #fff;
+            padding: 18px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover {
+            background-color: #5a3f2e;
+        }
+        .accordion-content {
+            padding: 10px 15px; /* Adjusted padding for nesting */
+            display: none;
+            border-top: 1px solid #e0e0e0;
+            background-color: #fdfdfd; /* Slightly off-white for content area */
+        }
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.8em;
+            font-weight: normal;
+            line-height: 1;
+            transition: transform 0.2s ease;
+        }
+        .accordion-item.active > .accordion-header::after { /* Target direct child */
+            content: '−';
+        }
+        .accordion-item.active > .accordion-header { /* Target direct child */
+             border-bottom-left-radius: 0;
+             border-bottom-right-radius: 0;
+        }
+
+        /* --- Sub-Level Accordion Styles --- */
+        .sub-accordion-item {
+            background-color: #fff;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0; /* Border for sub-items */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+             overflow: hidden;
+        }
+        .sub-accordion-item:first-child {
+            margin-top: 0;
+        }
+        .sub-accordion-header {
+            background-color: #f0f0f0; /* Lighter background for sub-headers */
+            color: #444; /* Darker text for contrast */
+            padding: 12px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em; /* Slightly smaller font */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+        .sub-accordion-header:hover {
+            background-color: #e6e6e6;
+        }
+        .sub-accordion-content {
+            padding: 15px;
+            display: none;
+            line-height: 1.7;
+            background-color: #fff; /* White background for sub-content */
+            font-size: 0.95em; /* Slightly smaller font for sub-content */
+        }
+         .sub-accordion-header::after {
+            content: '+';
+            font-size: 1.5em; /* Slightly smaller indicator */
+            font-weight: normal;
+            line-height: 1;
+             color: #555;
+            transition: transform 0.2s ease;
+        }
+        .sub-accordion-item.active > .sub-accordion-header::after { /* Target direct child */
+            content: '−';
+        }
+         .sub-accordion-item.active > .sub-accordion-header { /* Target direct child */
+             border-bottom-left-radius: 0;
+             border-bottom-right-radius: 0;
+             border-bottom: none;
+        }
+
+
+        /* --- General Content Styles --- */
+        .accordion-content h3, .sub-accordion-content h3 { /* Consolidate h3 if needed, or keep separate for sub-content specific styling */
+            font-size: 1.1em; /* Adjusted for sub-content if needed */
+            color: #4a3125;
+            margin-top: 0px; /* Remove top margin for h3 if it's the first element */
+            margin-bottom: 8px;
+            /* border-bottom: 1px solid #eee; */ /* Optional: border for h3 in sub-content */
+            padding-bottom: 3px;
+        }
+        .sub-accordion-content p, .sub-accordion-content ul {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .sub-accordion-content ul {
+            padding-left: 20px;
+        }
+        .sub-accordion-content li {
+            margin-bottom: 8px;
+        }
+        .sub-accordion-content strong {
+            color: #333;
+        }
+        .source {
+            font-style: italic;
+            font-size: 0.85em;
+            color: #555;
+            display: block;
+            margin-top: 3px;
+        }
+        .intro-text { /* For the intro text in the first main accordion */
+            margin-bottom: 15px;
+            font-style: italic;
+            color: #444;
+            padding: 0 5px; /* Slight padding if it's directly in accordion-content */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>The Great Unveiling: Christ Reveals Every Heart</h1>
+    </header>
+    <div class="container">
+
+        <div class="accordion-item">
+            <div class="accordion-header">Core Theme: "Thoughts of Many Hearts Revealed"</div>
+            <div class="accordion-content">
+                
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Scripture & Central Idea</div>
+                    <div class="sub-accordion-content">
+                        <p><strong>Scriptural Basis:</strong> "...that the thoughts of many hearts may be revealed." <span class="source">(Luke 2:35)</span></p>
+                        <p><strong>Central Idea:</strong> In the light of the Saviour's life and death, the true characters and motives of all—from God to Satan to humanity—are exposed.</p>
+                    </div>
+                </div>
+
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Ellen G. White</div>
+                    <div class="sub-accordion-content">
+                        <ul>
+                            <li>"In the light of the Saviour's life, the hearts of all, even from the Creator to the prince of darkness, are revealed.” <span class="source">(Desire of Ages)</span></li>
+                            <li>Simeon’s prophecy frames the cross as the spotlight that exposes every being—from God to Satan to humankind.</li>
+                            <li>Application of Simeon's prophecy: "The hearts of the persecutors, the revilers, the murderers, were indeed revealed… Unbelieving Israel took sides with the first great apostate." <span class="source">(EGW Writings)</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Sabbath School Lesson Insights</div>
+                    <div class="sub-accordion-content">
+                        <ul>
+                            <li>The entire conflict, culminating in the final events, serves as an "even greater revelation of God’s goodness and love than had existed prior to Lucifer’s fall." <span class="source">(Further Thought, SS Lesson)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Other Christian Writers</div>
+                    <div class="sub-accordion-content">
+                        <p><strong>René Girard:</strong> The cross "exposes the scapegoat mechanism” and reveals a God who identifies with victims, not persecutors. <span class="source">(I See Satan Fall Like Lightning)</span></p>
+                        <p><strong>N.T. Wright:</strong> The cross reveals God’s love and justice, showing "what the world’s true King is like.” <span class="source">(The Day the Revolution Began)</span></p>
+                        <p><strong>Greg Boyd:</strong> The cross is "the event that most decisively reveals God’s wisdom and power" and love. <span class="source">(ReKnew blog)</span></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">God's Character: Misrepresented vs. Revealed</div>
+            <div class="accordion-content">
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Ellen G. White</div>
+                    <div class="sub-accordion-content">
+                        <h3>Satan's Misrepresentation of God:</h3>
+                        <ul>
+                            <li>"Satan has represented God as selfish and oppressive, as claiming all, and giving nothing, as requiring the service of His creatures for His own glory, and making no sacrifice for their good." <span class="source">(Desire of Ages)</span></li>
+                        </ul>
+                        <h3>God's True Character Revealed by Christ:</h3>
+                        <ul>
+                            <li>"But the gift of Christ reveals the Father's heart." <span class="source">(Desire of Ages)</span></li>
+                            <li>"It testifies that the thoughts of God toward us are “thoughts of peace, and not of evil.” <span class="source">(Jeremiah 29:11, quoted in Desire of Ages)</span></li>
+                            <li>"While God's hatred of sin is as strong as death, His love for the sinner is stronger than death." <span class="source">(Desire of Ages)</span></li>
+                            <li>"Having undertaken our redemption, He will spare nothing, however dear, which is necessary to the completion of His work." <span class="source">(Desire of Ages)</span></li>
+                            <li>"No truth essential to our salvation is withheld, no miracle of mercy is neglected, no divine agency is left unemployed. Favor is heaped upon favor, gift upon gift." <span class="source">(Desire of Ages)</span></li>
+                            <li>"The whole treasury of heaven is open to those He seeks to save... Having collected the riches of the universe... He gives them all into the hands of Christ, and says, All these are for man." <span class="source">(Desire of Ages)</span></li>
+                            <li>"Use these gifts to convince him that there is no love greater than Mine in earth or heaven." <span class="source">(Desire of Ages)</span></li>
+                            <li>"By pouring the whole treasury of heaven into this world… God has purchased the will, the affections, the mind, the soul, of every human being.” <span class="source">(Christ’s Object Lessons 326)</span></li>
+                            <li>"All men have been bought with this infinite price.” <span class="source">(God’s Amazing Grace 173)</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Sabbath School Lesson Insights</div>
+                    <div class="sub-accordion-content">
+                        <ul>
+                            <li>Satan sought to "destroy confidence in God’s throne." <span class="source">(Further Thought, SS Lesson)</span></li>
+                            <li>God allowed rebellion to continue to "show the universe the depths of wickedness that come from self-exaltation," thus highlighting His own justice and patience. <span class="source">(Further Thought, SS Lesson)</span></li>
+                            <li>Ultimately, "the goodness of and love of God will be revealed in ways it otherwise never would have been." <span class="source">(Further Thought, SS Lesson)</span></li>
+                            <li>The heavenly host proclaims Christ's worthiness because He was slain and "with your blood you purchased for God, persons from every tribe..." <span class="source">(Revelation 5:9, quoted in SS Lesson)</span> – This reveals God's redemptive character.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Other Christian Writers</div>
+                    <div class="sub-accordion-content">
+                        <p><strong>Graham Maxwell:</strong> “Christ’s death on the cross is the most costly and convincing evidence in favor of the loving character of God.”</p>
+                        <p><strong>Greg Boyd:</strong> "The cross is the fullness of God’s love... every portrait of God... must be read through Calvary’s self-giving love."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Satan (Lucifer): His Fall, Motives & Unmasking</div>
+            <div class="accordion-content">
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Ellen G. White</div>
+                    <div class="sub-accordion-content">
+                        <ul>
+                            <li>Satan's representation of God as selfish and oppressive actually reflects his own desires and character.</li>
+                            <li>He is "the first great apostate." <span class="source">(EGW Writings)</span></li>
+                            <li>His murderous intent was fully revealed at the cross.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Sabbath School Lesson Insights</div>
+                    <div class="sub-accordion-content">
+                        <h3>Original state & Motive for fall:</h3>
+                        <ul>
+                            <li>"Lucifer once held the position of covering cherub." <span class="source">(SS Lesson)</span></li>
+                            <li>"He began to consider his own glory, not the glory of his Creator... imagined that he was not being given the deference due to him." <span class="source">(SS Lesson, referencing Ezekiel 28:11-17, Isaiah 14:12-14)</span></li>
+                        </ul>
+                        <h3>Consequence & Ongoing agenda:</h3>
+                        <ul>
+                            <li>"Lucifer was removed from the holy mountain... Lucifer is said to have been in Eden [but was cast out]." <span class="source">(SS Lesson)</span></li>
+                            <li>"Satan... sought to destroy confidence in God’s throne" and "managed to deceive the human race." <span class="source">(Further Thought, SS Lesson)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Other Christian Writers</div>
+                    <div class="sub-accordion-content">
+                        <p><strong>René Girard:</strong> The cross exposes the "scapegoat mechanism," often reflecting a Satanic principle of accusation and violence. <span class="source">(I See Satan Fall Like Lightning)</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Christ: The Divine Revealer, Sacrifice & Victor</div>
+            <div class="accordion-content">
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Ellen G. White</div>
+                    <div class="sub-accordion-content">
+                         <ul>
+                            <li>"But the gift of Christ reveals the Father's heart." <span class="source">(Desire of Ages)</span></li>
+                            <li>Through Christ, it's testified that God's "thoughts toward us are 'thoughts of peace, and not of evil.'" <span class="source">(Desire of Ages)</span></li>
+                            <li>In undertaking redemption, God, through Christ, "will spare nothing, however dear, which is necessary to the completion of His work." <span class="source">(Desire of Ages)</span></li>
+                            <li>Christ "looks upon the redeemed, renewed in His own image... He beholds in them the result of the travail of His soul, and He is satisfied. Then... He declares, ‘Behold the purchase of My blood! For these I suffered, for these I died...'" <span class="source">(Great Controversy, p. 671)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Sabbath School Lesson Insights</div>
+                    <div class="sub-accordion-content">
+                        <ul>
+                            <li>"Christ utterly defeated him [Satan] at the cross, securing a place for humanity where fallen angels once stood." <span class="source">(Further Thought, SS Lesson)</span></li>
+                            <li>The redeemed declare Christ worthy because He "was slain, and with your blood you purchased for God, persons from every tribe..." <span class="source">(Revelation 5:9, quoted in SS Lesson)</span></li>
+                            <li>"There is not a human being in all earth’s history for whom Christ has not died." <span class="source">(SS Lesson)</span></li>
+                            <li>The song of the redeemed: "Worthy is the Lamb that was slain..." <span class="source">(Revelation 5:12, quoted in SS Lesson)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Other Christian Writers</div>
+                    <div class="sub-accordion-content">
+                         <p><strong>N.T. Wright:</strong> The cross is Christ's "enthronement and revelation: it shows what the world’s true King is like." <span class="source">(The Day the Revolution Began)</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="accordion-item">
+            <div class="accordion-header">Humanity: Impact, Invitation & Restoration</div>
+            <div class="accordion-content">
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Ellen G. White</div>
+                    <div class="sub-accordion-content">
+                        <ul>
+                            <li>The Invitation: "His greatest happiness will be found in loving Me." <span class="source">(Desire of Ages)</span></li>
+                            <li>God's Provision: "The whole treasury of heaven is open to those He seeks to save." <span class="source">(Desire of Ages)</span></li>
+                            <li>Universal Purchase: "All men have been bought with this infinite price." <span class="source">(God’s Amazing Grace 173)</span></li>
+                            <li>Complete Purchase: "God has purchased the will, the affections, the mind, the soul, of every human being.” <span class="source">(Christ’s Object Lessons 326)</span></li>
+                            <li>Glorious Restoration: "The vacancies made in heaven by the fall of Satan and his angels will be filled by the redeemed of the Lord.” <span class="source">(Review & Herald, May 29, 1900)</span></li>
+                            <li>Transformation: The redeemed are "renewed in His own image, every heart bearing the perfect impress of the divine, every face reflecting the likeness of their King." <span class="source">(Great Controversy, p. 671)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Sabbath School Lesson Insights</div>
+                    <div class="sub-accordion-content">
+                        <ul>
+                            <li>Humanity's destiny contrasted with Satan's: "Humanity is being restored to paradise through Christ," and the redeemed "stand on Mount Zion with the Lamb of God." <span class="source">(SS Lesson)</span></li>
+                            <li>Basis of Restoration: The redeemed "are there, in heaven, only because of the gospel." <span class="source">(SS Lesson)</span></li>
+                            <li>Universal Opportunity: "There is not a human being... for whom Christ has not died. They just need to learn about it and choose to accept it." <span class="source">(SS Lesson)</span></li>
+                            <li>Humanity's Stand: "Sinners, in Christ, publicly turn against Lucifer’s claims." <span class="source">(Further Thought, SS Lesson)</span></li>
+                            <li>Our Call to Action: "What role do we have as a church, and as individuals, in letting people know about what Christ has done for them?" <span class="source">(SS Lesson)</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sub-accordion-item">
+                    <div class="sub-accordion-header">Other Christian Writers</div>
+                    <div class="sub-accordion-content">
+                        <p><strong>E.J. Waggoner:</strong> On the human response to God's revealed grace (referencing Isaiah 6): "‘This hath touched thy lips; and thine iniquity is taken away.’ … One honest confession—and the same fire that cleanses the saint will consume the sin that clings to the impenitent.” <span class="source">(Present Truth, 1899)</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Key Scriptures for Quick Reference</div>
+            <div class="accordion-content">
+                <ul style="padding-left: 5px; list-style-type: none;">
+                    <li><strong>Luke 2:35:</strong> "...that the thoughts of many hearts may be revealed."</li>
+                    <li><strong>Jeremiah 29:11:</strong> "For I know the thoughts that I think toward you, says the Lord, thoughts of peace and not of evil, to give you a future and a hope."</li>
+                    <li><strong>Isaiah 14:12-14:</strong> (Lucifer's ambition) "How you are fallen from heaven, O Lucifer, son of the morning! ... For you have said in your heart: ‘I will ascend into heaven, I will exalt my throne above the stars of God... I will be like the Most High.’"</li>
+                    <li><strong>Ezekiel 28:15, 17:</strong> (Lucifer's perfection and pride) "You were perfect in your ways from the day you were created, Till iniquity was found in you. ... Your heart was lifted up because of your beauty; You corrupted your wisdom for the sake of your splendor..."</li>
+                    <li><strong>John 3:16:</strong> "For God so loved the world that He gave His only begotten Son, that whoever believes in Him should not perish but have everlasting life."</li>
+                    <li><strong>Romans 5:8:</strong> "But God demonstrates His own love toward us, in that while we were still sinners, Christ died for us."</li>
+                    <li><strong>Revelation 5:9:</strong> "You are worthy to take the scroll, And to open its seals; For You were slain, And have redeemed us to God by Your blood Out of every tribe and tongue and people and nation."</li>
+                    <li><strong>Revelation 5:12:</strong> "Worthy is the Lamb who was slain To receive power and riches and wisdom, And strength and honor and glory and blessing!"</li>
+                    <li><strong>Revelation 12:9:</strong> "So the great dragon was cast out, that serpent of old, called the Devil and Satan, who deceives the whole world; he was cast to the earth, and his angels were cast out with him."</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Top-level accordion logic
+        const topLevelAccordionItems = document.querySelectorAll('.container > .accordion-item');
+
+        topLevelAccordionItems.forEach(item => {
+            const header = item.querySelector(':scope > .accordion-header'); // Direct child header
+            const content = item.querySelector(':scope > .accordion-content'); // Direct child content
+
+            if (header && content) { // Ensure header and content exist at this level
+                header.addEventListener('click', () => {
+                    // Close other open top-level items
+                    topLevelAccordionItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                            const otherContent = otherItem.querySelector(':scope > .accordion-content');
+                            if (otherContent) otherContent.style.display = 'none';
+                            // Also close any active sub-accordions within the one being closed
+                            const activeSubItems = otherItem.querySelectorAll('.sub-accordion-item.active');
+                            activeSubItems.forEach(sub => {
+                                sub.classList.remove('active');
+                                const subContent = sub.querySelector(':scope > .sub-accordion-content');
+                                if (subContent) subContent.style.display = 'none';
+                            });
+                        }
+                    });
+
+                    // Toggle current top-level item
+                    item.classList.toggle('active');
+                    if (item.classList.contains('active')) {
+                        content.style.display = 'block';
+                    } else {
+                        content.style.display = 'none';
+                        // If closing top-level, also close its active sub-items
+                        const activeSubItems = item.querySelectorAll('.sub-accordion-item.active');
+                        activeSubItems.forEach(sub => {
+                            sub.classList.remove('active');
+                            const subContent = sub.querySelector(':scope > .sub-accordion-content');
+                           if (subContent) subContent.style.display = 'none';
+                        });
+                    }
+                });
+            }
+        });
+
+        // Sub-level accordion logic
+        const subAccordionItems = document.querySelectorAll('.sub-accordion-item');
+
+        subAccordionItems.forEach(subItem => {
+            const subHeader = subItem.querySelector(':scope > .sub-accordion-header');
+            const subContent = subItem.querySelector(':scope > .sub-accordion-content');
+            
+            if (subHeader && subContent) { // Ensure sub-header and sub-content exist
+                subHeader.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent click from bubbling to parent accordion header
+
+                    const parentTopLevelContent = subItem.closest('.accordion-content'); // Find the parent top-level content area
+                    const siblingSubItems = parentTopLevelContent ? parentTopLevelContent.querySelectorAll('.sub-accordion-item') : [];
+
+                    // Close other open sub-level items within the same parent
+                    siblingSubItems.forEach(otherSubItem => {
+                        if (otherSubItem !== subItem && otherSubItem.classList.contains('active')) {
+                            otherSubItem.classList.remove('active');
+                            const otherSubContent = otherSubItem.querySelector(':scope > .sub-accordion-content');
+                            if (otherSubContent) otherSubContent.style.display = 'none';
+                        }
+                    });
+
+                    // Toggle current sub-level item
+                    subItem.classList.toggle('active');
+                    if (subItem.classList.contains('active')) {
+                        subContent.style.display = 'block';
+                    } else {
+                        subContent.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

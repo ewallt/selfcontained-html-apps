@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cross‑Centered Revelation ‑ Topic → Author → Points</title>
+<style>
+  :root{
+    --teal-dark:#006d6d;
+    --teal:#009e9e;
+    --teal-light:#e6f7f7;
+    --text:#082c2c;
+    --bg:#f4fcfc;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;}
+  body{background:var(--bg);color:var(--text);line-height:1.55;padding:1rem 0 4rem;}
+  h1{color:var(--teal-dark);text-align:center;margin-bottom:1rem;font-size:1.8rem;}
+  details{border:1px solid var(--teal);border-radius:6px;margin:0.5rem 1rem;background:#fff;}
+  details[open]{box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+  summary{cursor:pointer;padding:0.6rem 1rem;font-weight:600;color:var(--teal-dark);}
+  summary::-webkit-details-marker{display:none;} /* removes default triangle in Chrome */
+  summary::before{content:"▸";margin-right:0.6rem;transition:transform .2s ease;display:inline-block;color:var(--teal);}
+  details[open]>summary::before{transform:rotate(90deg);}
+  .inner{padding:0 1rem 1rem;}
+  .author-title{font-weight:600;color:var(--teal);}
+  ul{margin-top:0.5rem;margin-left:1.2rem;}
+  li{margin-bottom:0.4rem;}
+  footer{margin-top:2.5rem;text-align:center;font-size:0.85rem;color:var(--teal-dark);}
+  a{color:var(--teal-dark);}
+</style>
+</head>
+<body>
+<h1>“Cross‑Centered Revelation of Character”<br><span style="font-size:1rem;font-weight:400;">Topic → Author → Key Points</span></h1>
+
+<!-- The app will render here -->
+<div id="app"></div>
+
+<footer>Hierarchical study aid &bull; Built with plain HTML + JS + CSS (teal theme)</footer>
+
+<script>
+/* ---------- data ---------- */
+const data = [
+  {
+    topic: "Cross Reveals God",
+    authors: [
+      {
+        name: "Ellen G. White",
+        points: [
+          "The life and death of Christ expose the Father’s heart, contradicting Satan’s charges of selfishness.",
+          "No truth essential to salvation is withheld; the whole treasury of heaven is poured out for humanity.",
+          "God’s love for sinners is stronger than death, even while His hatred of sin is as strong as death."
+        ]
+      },
+      {
+        name: "Graham Maxwell",
+        points: [
+          "Calvary is “the most costly and convincing evidence” of God’s trustworthy character.",
+          "Only demonstration—not assertion—could settle the cosmic questions about God’s government.",
+          "The great controversy is won by the persuasive power of self‑sacrificing love."
+        ]
+      },
+      {
+        name: "N. T. Wright",
+        points: [
+          "The cross simultaneously reveals God’s love and justice, enthroning the world’s true King.",
+          "In Christ’s death the power‑structures of the age are unmasked and overthrown.",
+          "The revolution begun at Calvary redefines power as self‑giving service."
+        ]
+      }
+    ]
+  },
+  {
+    topic: "Satan’s Misrepresentation Exposed",
+    authors: [
+      {
+        name: "Ellen G. White",
+        points: [
+          "Satan projected his own motives onto God—self‑seeking, oppressive, withholding good.",
+          "Christ’s self‑emptying exposes these lies, revealing Satan’s murderous intent.",
+          "At the cross the universe sees the unmasked contrast between God’s love and Satan’s hate."
+        ]
+      },
+      {
+        name: "René Girard",
+        points: [
+          "The cross unmasks the scapegoat mechanism and reveals a God who sides with victims, not executioners.",
+          "Mythic violence is dethroned as the gospel exposes the lie that victims deserve their fate.",
+          "“I see Satan fall like lightning” frames Calvary as the decisive revelation of satanic violence."
+        ]
+      },
+      {
+        name: "Greg Boyd",
+        points: [
+          "Boyd’s cruciform hermeneutic: every portrait of God—and every satanic accusation—must be read through the cross.",
+          "The omnipotent bicep of God looks like enemy‑loving, self‑sacrificial love at Calvary.",
+          "Dark powers are disarmed by the very act that seemed to secure their victory."
+        ]
+      }
+    ]
+  },
+  {
+    topic: "Treasury of Heaven / Divine Generosity",
+    authors: [
+      {
+        name: "Ellen G. White",
+        points: [
+          "The Father places the riches of the universe in Christ’s hands for the rescue of humanity.",
+          "Favor is heaped upon favor—gift upon gift—revealing that God withholds nothing necessary for our salvation.",
+          "Every divine agency is employed in the work of redemption."
+        ]
+      },
+      {
+        name: "E. J. Waggoner",
+        points: [
+          "Justification is instantaneous: one honest confession and Christ’s righteousness is credited fully.",
+          "The same fire that purifies the penitent will consume sin where it is cherished.",
+          "God’s gifts are irrevocable; unbelief alone can refuse them."
+        ]
+      }
+    ]
+  },
+  {
+    topic: "Fire that Purifies and Consumes",
+    authors: [
+      {
+        name: "E. J. Waggoner",
+        points: [
+          "The coal from the altar both cleanses the believer and foreshadows the final destruction of sin.",
+          "Isaiah’s experience is the paradigm of righteousness by faith: purged lips → commissioned lips.",
+          "The saints who accept this fire can dwell with the everlasting burnings of God’s presence."
+        ]
+      },
+      {
+        name: "A. T. Jones",
+        points: [
+          "Jones links Isaiah 6 with Isaiah 33:14–16—God’s blazing presence sustains the redeemed while destroying sin.",
+          "The same righteousness that justifies must also sanctify, fitting believers to live with consuming fire.",
+          "The finishing work is accomplished by Christ’s personal presence, not human effort."
+        ]
+      }
+    ]
+  },
+  {
+    topic: "Invitation to Human Response",
+    authors: [
+      {
+        name: "Ellen G. White",
+        points: [
+          "Our greatest happiness is found in loving the God whose love is proven beyond dispute.",
+          "Cleansing is immediately followed by commission—“Here am I; send me.”",
+          "Laodicea must experience Isaiah’s humility and cleansing before the final loud cry."
+        ]
+      },
+      {
+        name: "E. J. Waggoner",
+        points: [
+          "Assurance of forgiveness produces spontaneous service; faith works by love.",
+          "The believer is called to reflect the same self‑giving character now unveiled.",
+          "Righteousness is not merely imputed but imparted as Christ lives within."
+        ]
+      }
+    ]
+  }
+];
+
+/* ---------- builder ---------- */
+const app = document.getElementById('app');
+
+data.forEach(topicObj=>{
+  const topicDetails=document.createElement('details');
+  const topicSummary=document.createElement('summary');
+  topicSummary.textContent=topicObj.topic;
+  topicDetails.appendChild(topicSummary);
+
+  const authorsContainer=document.createElement('div');
+  authorsContainer.className='inner';
+
+  topicObj.authors.forEach(author=>{
+    const authorDetails=document.createElement('details');
+    const authorSummary=document.createElement('summary');
+    authorSummary.innerHTML=`<span class="author-title">${author.name}</span>`;
+    authorDetails.appendChild(authorSummary);
+
+    const pointsContainer=document.createElement('div');
+    pointsContainer.className='inner';
+
+    const ul=document.createElement('ul');
+    author.points.forEach(pt=>{
+      const li=document.createElement('li');
+      li.textContent=pt;
+      ul.appendChild(li);
+    });
+    pointsContainer.appendChild(ul);
+    authorDetails.appendChild(pointsContainer);
+    authorsContainer.appendChild(authorDetails);
+  });
+
+  topicDetails.appendChild(authorsContainer);
+  app.appendChild(topicDetails);
+});
+</script>
+</body>
+</html>
