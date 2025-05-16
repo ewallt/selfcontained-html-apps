@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heavenly Ministers: Seraphim & Cherubim</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Tailwind gray-100 */
+            color: #1f2937; /* Tailwind gray-800 */
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        #knowledge-display-area {
+             background-color: #ffffff; /* White */
+             border-radius: 8px;
+             padding: 1rem;
+             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .level1-concept-container {
+            background-color: #ffffff; /* White */
+            border: 1px solid #e5e7eb; /* Tailwind gray-200 */
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+        .level1-concept-header {
+            padding: 1rem 1.25rem;
+            background-color: #dbeafe; /* Tailwind blue-100, slightly different for this app */
+            border-bottom: 1px solid #bfdbfe; /* Tailwind blue-200 */
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+        }
+         .level1-concept-header::-webkit-details-marker { display: none; }
+         .level1-concept-header:hover {
+            background-color: #bfdbfe; /* Tailwind blue-200 */
+         }
+        .level1-concept-header h3 {
+            color: #1e3a8a; /* Tailwind blue-800 */
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .level2-topics-wrapper {
+             padding: 0.5rem 1rem 1rem 1rem;
+             background-color: #ffffff; /* White */
+        }
+        .sub-topic-container {
+            background-color: #eff6ff; /* Tailwind blue-50 */
+            border: 1px solid #dbeafe; /* Tailwind blue-100 */
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .sub-topic-header {
+            padding: 0.75rem 1rem;
+            background-color: #eff6ff; /* Tailwind blue-50 */
+            border-bottom: 1px solid #bfdbfe; /* Tailwind blue-200 */
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+        }
+        .sub-topic-header::-webkit-details-marker { display: none; }
+        .sub-topic-header:hover {
+            background-color: #dbeafe; /* Tailwind blue-100 */
+        }
+        .sub-topic-header h4 {
+            color: #1e40af; /* Tailwind blue-700 */
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        .insights-list {
+            padding: 0.75rem 1rem 1rem 1.5rem;
+            list-style-type: none;
+            background-color: #eff6ff; /* Tailwind blue-50 */
+            margin: 0;
+        }
+        .insights-list li {
+            margin-bottom: 0.75rem;
+            color: #374151; /* Tailwind gray-700 */
+            font-size: 0.95rem;
+            line-height: 1.7;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+        .insights-list li::before {
+            content: '•';
+            color: #2563eb; /* Tailwind blue-600 */
+            font-weight: bold;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .insights-list li strong {
+            color: #1e3a8a; /* Tailwind blue-800 */
+            font-weight: 600;
+        }
+        .insights-list em {
+            color: #1d4ed8; /* Tailwind blue-700 */
+            font-style: italic;
+        }
+        .toggler-icon {
+            transition: transform 0.2s ease-in-out;
+            font-size: 1.2rem;
+            color: #2563eb; /* Tailwind blue-600 */
+        }
+        details[open] > summary .toggler-icon {
+            transform: rotate(90deg);
+        }
+        .scripture-ref {
+            font-style: italic;
+            color: #1e40af; /* Tailwind blue-700 */
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto p-4">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-blue-800">Heavenly Ministers: Seraphim & Cherubim</h1>
+            <p class="text-lg text-blue-600 mt-2">Exploring God's Throne Room Attendants in Prophetic Vision</p>
+        </header>
+
+        <section id="knowledge-display-section">
+            <h2 class="text-2xl font-semibold mb-6 text-center text-blue-700">Understanding Seraphim and Cherubim</h2>
+            <div id="knowledge-display-area">
+                </div>
+        </section>
+    </div>
+
+    <script>
+        // --- KNOWLEDGE BASE DATA ---
+        const knowledgeBaseData = [
+          {
+            level1Concept: "The Seraphim of Isaiah's Vision (Isaiah 6)",
+            level2SubTopics: [
+              {
+                name: "Context: Isaiah's Call (Isaiah 6:1)",
+                insights: [
+                  "<strong>Setting the Scene:</strong> Isaiah's profound vision occurred 'in the year that King Uzziah died,' a time of national uncertainty and transition for Judah.",
+                  "<strong>Divine Encounter:</strong> The vision was a direct call from God, commissioning Isaiah for his prophetic ministry amidst challenging circumstances."
+                ]
+              },
+              {
+                name: "Appearance & Reverence (Isaiah 6:2)",
+                insights: [
+                  "<strong>Six Wings:</strong> 'Above it stood the seraphim; each one had six wings: with two he covered his face, and with two he covered his feet, and with two he did fly.'",
+                  "<strong>Covering Faces:</strong> This act signifies profound reverence, awe, and humility in the direct presence of God's overwhelming glory and holiness. Even these exalted beings shield themselves.",
+                  "<strong>Covering Feet:</strong> Interpreted as an act of humility, veiling their created being, or possibly a euphemism for their entire form, showing respect in God's presence.",
+                  "<strong>Flying:</strong> Two wings were used for flight, indicating their readiness and swiftness to do God's will and minister in His court.",
+                  "<strong>'Seraphim' - Burning Ones:</strong> The name itself (plural of Hebrew *saraph*) means 'burning ones' or 'fiery ones.' This suggests their radiant purity, intense zeal for God, and association with divine light and fire."
+                ]
+              },
+              {
+                name: "Worship & Proclamation (Isaiah 6:3-4)",
+                insights: [
+                  "<strong>The Trisagion (Thrice Holy):</strong> 'And one cried unto another, and said, Holy, holy, holy, is the LORD of hosts: the whole earth is full of his glory.'",
+                  "<strong>Emphasis on God's Holiness:</strong> The threefold repetition powerfully emphasizes the absolute, supreme, and all-encompassing holiness of God—His separateness from sin and His moral perfection.",
+                  "<strong>God's Universal Glory:</strong> Their song acknowledges that God's glory isn't confined to the temple but fills the entire earth, highlighting His sovereignty and majesty.",
+                  "<strong>Impact of Their Worship:</strong> 'And the posts of the door moved at the voice of him that cried, and the house was filled with smoke.' This demonstrates the tangible power and presence of God evoked by true worship."
+                ]
+              },
+              {
+                name: "Ministry of Purification (Isaiah 6:6-7)",
+                insights: [
+                  "<strong>A Seraph as Divine Agent:</strong> 'Then flew one of the seraphims unto me, having a live coal in his hand, which he had taken with the tongs from off the altar.'",
+                  "<strong>The Live Coal:</strong> Taken from the altar (likely the altar of incense or sacrifice), symbolizing atonement, divine purification, and the sanctifying power of God that comes through sacrifice.",
+                  "<strong>Cleansing for Service:</strong> 'And he laid it upon my mouth, and said, Lo, this hath touched thy lips; and thine iniquity is taken away, and thy sin purged.' This act prepared Isaiah for his prophetic commission by cleansing his 'unclean lips.'"
+                ]
+              },
+              {
+                name: "E.G. White on the Seraphim in Isaiah 6",
+                insights: [
+                  "<strong>Reverence and Adoration:</strong> 'On each side of the throne hovered the seraphim, their faces veiled in adoration, as they ministered before their Maker...' <em>(Prophets and Kings, p. 307)</em>.",
+                  "<strong>Fervent Praise:</strong> 'These holy beings sang forth the praise and glory of God with lips unpolluted with sin. The contrast between the feeble praise which he [Isaiah] had been accustomed to bestow upon the Creator and the fervid praises of seraphim astonished and humiliated the prophet.' <em>(Reflecting Christ, Nov 20; Review and Herald, Oct 16, 1888)</em>.",
+                  "<strong>Integral to God's Revealed Glory:</strong> The seraphim are part of the majestic vision that reveals God's character and leads to an understanding of human unworthiness and the need for divine cleansing."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "The Cherubim: Guardians of God's Throne & Glory",
+            level2SubTopics: [
+              {
+                name: "General Role and Biblical Descriptions",
+                insights: [
+                  "<strong>Guardians of Sacredness:</strong> Cherubim are often depicted as guardians of holy places and God's presence, from the entrance to Eden <span class='scripture-ref'>(Genesis 3:24)</span> to the Ark of the Covenant in the earthly sanctuary <span class='scripture-ref'>(Exodus 25:18-22)</span>.",
+                  "<strong>Associated with God's Throne:</strong> Visions like Ezekiel's <span class='scripture-ref'>(Ezekiel 1, 10)</span> and John's <span class='scripture-ref'>(Revelation 4)</span> place cherubim (often referred to as 'living creatures') in the immediate vicinity of God's throne, upholding or surrounding it.",
+                  "<strong>Symbols of God's Presence and Power:</strong> Their imagery often conveys God's majesty, sovereignty, and the unapproachability of His holiness."
+                ]
+              },
+              {
+                name: "The Four Living Creatures: Symbolism of Faces",
+                insights: [
+                  "<strong>Biblical Basis:</strong> Ezekiel 1:10 describes each cherub having four faces: 'As for the likeness of their faces, they four had the face of a man, and the face of a lion, on the right side: and they four had the face of an ox on the left side; they four also had the face of an eagle.' Revelation 4:7 describes four distinct living creatures, each with one of these faces.",
+                  "<strong>Traditional Interpretations of the Faces:</strong>",
+                  "  - <strong>Lion:</strong> Represents royalty, power, dominion, and courage. Often associated with the tribe of Judah (the royal tribe).",
+                  "  - <strong>Ox/Calf:</strong> Symbolizes strength, patient service, sacrifice, and labor. Often associated with the tribe of Ephraim (representing a leading camp).",
+                  "  - <strong>Man:</strong> Represents intelligence, reason, wisdom, and humanity in its highest form. Often associated with the tribe of Reuben.",
+                  "  - <strong>Eagle:</strong> Symbolizes sovereignty, swiftness, keen vision, and a heavenly perspective. Often associated with the tribe of Dan.",
+                  "<strong>Collective Representation:</strong> Together, these faces can signify God's dominion over all aspects of creation: wild animals (lion), domesticated animals (ox), humanity (man), and the fowls of the air (eagle)."
+                ]
+              },
+              {
+                name: "Theological Applications & Deeper Symbolism of Cherubim",
+                insights: [
+                  "<strong>Symbolism of the Four Faces in God's Government:</strong> The four faces represent the completeness of God's creation and His sovereign rule over every part of it. They can also symbolize different facets of God's character and the diverse ways His attributes are manifested.",
+                  "  - The <strong>Lion</strong> (Judah's standard) speaks of Christ's kingship and power as the 'Lion of the tribe of Judah' <span class='scripture-ref'>(Revelation 5:5)</span>.",
+                  "  - The <strong>Ox/Calf</strong> (Ephraim's standard) can represent Christ's patient strength, sacrificial service, and burden-bearing.",
+                  "  - The <strong>Man</strong> (Reuben's standard) may point to Christ's humanity, intelligence, and sympathetic understanding as the Son of Man.",
+                  "  - The <strong>Eagle</strong> (Dan's standard) can symbolize Christ's divinity, His heavenly perspective, swiftness in judgment or salvation, and His ability to soar above earthly limitations.",
+                  "<strong>The Four Directions & Israel's Encampment <span class='scripture-ref'>(Numbers 2)</span>:</strong> The arrangement of Israel's camp around the Tabernacle, with the Tabernacle at the center and the four leading tribal divisions (Judah - East/Lion; Reuben - South/Man; Ephraim - West/Ox; Dan - North/Eagle) on each side, is seen as an earthly reflection of the heavenly order around God's throne. This symbolized God dwelling among His people, His protective presence, and the organized nature of His kingdom.",
+                  "<strong>Guardians of Holiness & Access to God:</strong> Cherubim at Eden's gate <span class='scripture-ref'>(Genesis 3:24)</span> guarded the way to the tree of life, signifying that sin had barred direct access to God's life-giving presence. E.G. White notes, 'At the cherubim-guarded gate of Paradise the divine glory was revealed. Hither came Adam and his sons to worship God.' <em>(Patriarchs and Prophets, p. 62)</em>. This suggests they also marked a place of continued, albeit mediated, divine manifestation and hope.",
+                  "<strong>Upholding God's Law & Government:</strong> Their placement over the Ark of the Covenant, containing the Decalogue <span class='scripture-ref'>(Exodus 25:18-22)</span>, highlights their role in witnessing to and upholding the eternal principles of God's law and government. 'These cherubs had wings...Their faces were turned toward each other, and were looking reverentially downward toward the mercy-seat, which represents all the heavenly angels looking with interest and reverence to the law of God deposited in the ark...' <em>(E.G. White, The Spirit of Prophecy, Vol. 1, p. 272)</em>.",
+                  "<strong>Revelation of Divine Attributes:</strong> The descriptions in Ezekiel—full of eyes (symbolizing God's omniscience and constant watchfulness), their swift, direct movement ('each one went straight forward'), and their association with the 'wheels within wheels' (representing the intricate and unerring operations of divine providence)—reveal aspects of God's all-knowing, all-powerful, and ever-present nature.",
+                  "<strong>Preparation for Divine Service (Ezekiel's Commission):</strong> Though not a direct 'cleansing' by a cherub, Ezekiel's profound and overwhelming vision of God's glory, borne by the cherubim <span class='scripture-ref'>(Ezekiel 1-3)</span>, was essential in preparing him for his prophetic ministry. The vision humbled him and impressed upon him the majesty of the God for whom he was to speak.",
+                  "<strong>A Call to Reverent Worship:</strong> The continuous worship of the four living creatures in Revelation ('Day and night they never stop saying: “Holy, holy, holy is the Lord God Almighty, who was, and is, and is to come.”' <span class='scripture-ref'>(Revelation 4:8)</span>) serves as a model and a call for humanity to engage in ceaseless, reverent worship and adoration of God."
+                ]
+              },
+              {
+                name: "Lucifer: The Anointed Covering Cherub (Ezekiel 28)",
+                insights: [
+                  "<strong>Original Exalted Position:</strong> 'Thou art the anointed cherub that covereth; and I have set thee so: thou wast upon the holy mountain of God; thou hast walked up and down in the midst of the stones of fire.' <span class='scripture-ref'>(Ezekiel 28:14)</span>.",
+                  "<strong>'Covering Cherub':</strong> This suggests a position of immense honor and proximity to God's throne, perhaps overshadowing the mercy seat or being a chief guardian of God's glory. E.G. White describes Lucifer as the 'highest of all created beings,' and 'first of the covering cherubs, holy and undefiled' before his fall <em>(Patriarchs and Prophets, p. 35)</em>.",
+                  "<strong>Perfection and Fall:</strong> 'Thou wast perfect in thy ways from the day that thou wast created, till iniquity was found in thee.' <span class='scripture-ref'>(Ezekiel 28:15)</span>. His fall was due to pride, self-exaltation, and the desire to be like God.",
+                  "<strong>Lesson Connection - Contrast with Holy Angels:</strong> Understanding Lucifer's original role as a high cherub provides a stark contrast to the humility and worship of the seraphim and faithful cherubim, highlighting the nature of sin as a corruption of divine order and service."
+                ]
+              },
+              {
+                name: "E.G. White on Cherubim and Lucifer's Role",
+                insights: [
+                  "<strong>Guardians of the Law:</strong> 'The cherubim on either side of the mercy seat knew the glory of God. They had been with Him when the foundations of the earth were laid. They had seen His glory. They were the guardians of His law.' <em>(The Signs of the Times, August 25, 1887)</em>.",
+                  "<strong>Lucifer's Proximity to God:</strong> 'Lucifer, son of the morning, who stood first in the presence of God, who had been highest in honor among the heavenly intelligences...' <em>(The Great Controversy, p. 493)</em>.",
+                  "<strong>The Nature of Covering Cherubs:</strong> 'The position which Lucifer had occupied, as covering cherub, was one of the highest honor. He stood nearest to the throne of the Eternal.' <em>(The Spirit of Prophecy, Vol. 1, p. 20)</em>."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "Distinguishing Seraphim and Cherubim",
+            level2SubTopics: [
+              {
+                name: "Primary Biblical Mentions",
+                insights: [
+                  "<strong>Seraphim:</strong> Primarily and most vividly described in Isaiah 6. The term *saraph* (singular) also appears in Numbers 21:6 referring to 'fiery serpents,' but their angelic form is unique to Isaiah's vision.",
+                  "<strong>Cherubim:</strong> Mentioned much more frequently throughout the Old Testament, starting with Genesis 3:24 (guarding Eden), extensively in relation to the Ark of the Covenant and Tabernacle/Temple furnishings <span class='scripture-ref'>(Exodus, 1 Kings, 1 Chronicles)</span>, and in the visions of Ezekiel <span class='scripture-ref'>(Ezekiel 1, 10)</span>. They are also identified with the 'four living creatures' in Revelation 4-6, etc."
+                ]
+              },
+              {
+                name: "Appearance and Characteristics",
+                insights: [
+                  "<strong>Seraphim (Isaiah 6):</strong> Each has <strong>six wings</strong> (two covering face, two covering feet, two for flying). Their name means 'burning' or 'fiery ones,' implying a radiant, intensely pure appearance. They are not described with multiple faces in Isaiah.",
+                  "<strong>Cherubim (Ezekiel 1, 10; Revelation 4):</strong> Often described with <strong>four wings</strong> (Ezekiel) or <strong>six wings</strong> (Revelation, like seraphim). Ezekiel's cherubim distinctively have <strong>four faces</strong> (man, lion, ox, eagle). They are associated with wheels full of eyes and complex movements. The cherubim on the Ark were likely more stylized representations without such detailed features."
+                ]
+              },
+              {
+                name: "Primary Roles and Functions",
+                insights: [
+                  "<strong>Seraphim:</strong> In Isaiah 6, their primary roles are the unceasing worship and proclamation of God's holiness ('Holy, holy, holy') and acting as agents of purification (the live coal). Their focus is on the immediate adoration and ministry around God's throne, emphasizing God's holiness.",
+                  "<strong>Cherubim:</strong> Their roles are more diverse. They are consistently depicted as <strong>guardians</strong> of God's holiness, His throne, and sacred spaces (Eden, Ark). They are bearers of God's throne/chariot in Ezekiel's vision, symbolizing God's mobile majesty and omnipresence. They are also involved in worship (Revelation 4). Lucifer was an 'anointed covering cherub,' indicating a high protective and honorific role, particularly in relation to God's law."
+                ]
+              },
+              {
+                name: "Etymology and Meaning of Names",
+                insights: [
+                  "<strong>Seraphim:</strong> From Hebrew *saraph*, meaning 'to burn.' This points to their fiery nature, zeal, purity, and perhaps a role in purification or judgment.",
+                  "<strong>Cherubim:</strong> The etymology of *keruv* is less certain. Some link it to Akkadian *karibu*, meaning 'intercessor' or 'blessed one,' suggesting a role of mediating or bestowing blessings. Others suggest 'guardian' or 'mighty one.' Their diverse roles reflect this broader range of possible meanings."
+                ]
+              },
+              {
+                name: "E.G. White on Distinctions (Implied)",
+                insights: [
+                  "While E.G. White often speaks of angels collectively, her descriptions of specific scenes align with biblical distinctions. Seraphim in Isaiah 6 are highlighted for their reverent worship and role in Isaiah's cleansing.",
+                  "Cherubim are consistently described in their guardian roles (Eden, Ark) and Lucifer's original status as a 'covering cherub' is emphasized for its high honor and proximity to God's law and throne.",
+                  "She notes the distinct functions: 'Cherubim were on either side of the mercy seat... These holy beings sang forth the praise and glory of God with lips unpolluted with sin [referring to seraphim in context of Isaiah's experience].' While both worship, the emphasis in Isaiah 6 is the seraphim's song and specific act of purification, while cherubim are more directly associated with guarding the law and God's throne."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "Themes from the Heavenly Throne Room",
+            level2SubTopics: [
+              {
+                name: "God's Transcendent Holiness & Majesty",
+                insights: [
+                  "The reactions of both Isaiah and the heavenly beings (seraphim covering faces/feet) underscore the unapproachable and overwhelming holiness of God.",
+                  "The descriptions of glory filling the temple and the powerful effects of worship point to God's supreme majesty and sovereignty."
+                ]
+              },
+              {
+                name: "The Ministry of Angels",
+                insights: [
+                  "Both seraphim and cherubim are depicted as active ministers in God's presence, engaged in worship, guardianship, and carrying out divine commands.",
+                  "They serve as intermediaries and agents of God's purposes, as seen in the seraph's role in Isaiah's cleansing."
+                ]
+              },
+              {
+                name: "Divine Order and Worship in Heaven",
+                insights: [
+                  "The structured scene around the throne, with different orders of beings performing specific roles, suggests a divine order and harmony in heaven.",
+                  "The primary activity around the throne is worship, highlighting its centrality in the heavenly realm and as a model for believers."
+                ]
+              },
+              {
+                name: "The Great Controversy: Loyalty vs. Rebellion",
+                insights: [
+                  "The faithful, reverent service of the seraphim and holy cherubim stands in stark contrast to the pride and rebellion of Lucifer, the fallen covering cherub.",
+                  "The throne room scene implicitly highlights the themes of loyalty to God versus self-exaltation, which are central to the Great Controversy narrative."
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "Sabbath School Lesson Connections (Illustrative)",
+            level2SubTopics: [
+              {
+                name: "Applying Lesson Insights (Example: Q2 2025, Lesson 7 - 'Foundations for Prophecy')",
+                insights: [
+                  "<strong>Reverence in God's Presence:</strong> The lesson might emphasize how the seraphim's actions (covering faces/feet) teach us about the reverence due to God, especially when studying prophecy and approaching sacred things.",
+                  "<strong>Holiness as a Foundation:</strong> The seraphim's cry, 'Holy, holy, holy,' could be linked in the lesson to understanding God's character as fundamental to interpreting His prophetic messages.",
+                  "<strong>Cherubim and God's Government:</strong> The lesson might discuss the cherubim (especially the four living creatures) as representing aspects of God's character and the principles of His government, which are revealed through prophecy.",
+                  "<strong>Lucifer's Fall and Prophetic Conflict:</strong> The story of the covering cherub's fall could be used in the lesson to illustrate the origin of the conflict that prophecy often details, and the importance of humility versus pride.",
+                  "<em>(Note: These are illustrative points; actual lesson content would be integrated here based on the specific teachings of the current Sabbath School quarterly.)</em>"
+                ]
+              }
+            ]
+          },
+          {
+            level1Concept: "Further Study & Sources",
+            level2SubTopics: [
+              {
+                name: "Key Bible Passages",
+                insights: [
+                  "<strong>Isaiah 6:</strong> Isaiah's vision of the seraphim.",
+                  "<strong>Ezekiel 1 & 10:</strong> Ezekiel's visions of the cherubim/living creatures.",
+                  "<strong>Revelation 4-5:</strong> John's vision of the heavenly throne room and the four living creatures.",
+                  "<strong>Exodus 25:</strong> Instructions for the cherubim on the Ark of the Covenant.",
+                  "<strong>Numbers 2:</strong> Arrangement of the camp of Israel.",
+                  "<strong>Ezekiel 28:11-19:</strong> Prophecy concerning the King of Tyre, often interpreted as describing Lucifer's original state and fall."
+                ]
+              },
+              {
+                name: "Selected E.G. White Readings",
+                insights: [
+                  "<em>Patriarchs and Prophets</em>, chapters on 'The Creation,' 'The Plan of Salvation,' 'The Fall of Man,' and 'The Tabernacle and Its Services.'",
+                  "<em>Prophets and Kings</em>, chapter 25 'The Call of Isaiah.'",
+                  "<em>The Great Controversy</em>, chapters on 'The Origin of Evil' and 'The First Great Deception.'",
+                  "<em>SDA Bible Commentary</em>, Vol. 4, comments on Isaiah 6, Ezekiel 1, 10, 28."
+                ]
+              }
+            ]
+          }
+        ];
+
+        // --- DOM Elements ---
+        const knowledgeDisplayArea = document.getElementById('knowledge-display-area');
+
+        // --- Functions ---
+        function displayKnowledgeBase() {
+            knowledgeDisplayArea.innerHTML = '';
+
+            knowledgeBaseData.forEach((l1ConceptData, l1Index) => {
+                const l1DetailsElement = document.createElement('details');
+                l1DetailsElement.classList.add('level1-concept-container');
+                // Open the first L1 concept, the Cherubim section, and the new Distinguishing section by default
+                if (l1Index === 0 || l1ConceptData.level1Concept.includes("Cherubim") || l1ConceptData.level1Concept.includes("Distinguishing")) {
+                     l1DetailsElement.open = true;
+                }
+
+                const l1SummaryElement = document.createElement('summary');
+                l1SummaryElement.classList.add('level1-concept-header');
+
+                const l1TitleElement = document.createElement('h3');
+                l1TitleElement.textContent = l1ConceptData.level1Concept;
+
+                const l1Icon = document.createElement('span');
+                l1Icon.classList.add('toggler-icon');
+                l1Icon.innerHTML = '&#9654;';
+
+                l1SummaryElement.appendChild(l1TitleElement);
+                l1SummaryElement.appendChild(l1Icon);
+                l1DetailsElement.appendChild(l1SummaryElement);
+
+                const l2WrapperDiv = document.createElement('div');
+                l2WrapperDiv.classList.add('level2-topics-wrapper');
+
+                l1ConceptData.level2SubTopics.forEach((subTopic) => {
+                    const l2DetailsElement = document.createElement('details');
+                    l2DetailsElement.classList.add('sub-topic-container');
+                    // Open sub-topics by default
+                    l2DetailsElement.open = true;
+
+
+                    const l2SummaryElement = document.createElement('summary');
+                    l2SummaryElement.classList.add('sub-topic-header');
+
+                    const l2TitleElement = document.createElement('h4');
+                    l2TitleElement.textContent = subTopic.name;
+
+                    const l2Icon = document.createElement('span');
+                    l2Icon.classList.add('toggler-icon');
+                    l2Icon.innerHTML = '&#9654;';
+
+                    l2SummaryElement.appendChild(l2TitleElement);
+                    l2SummaryElement.appendChild(l2Icon);
+                    l2DetailsElement.appendChild(l2SummaryElement);
+
+                    if (subTopic.insights) {
+                        const insightsUl = document.createElement('ul');
+                        insightsUl.classList.add('insights-list');
+                        subTopic.insights.forEach(insightText => {
+                            const insightLi = document.createElement('li');
+                            insightLi.innerHTML = insightText; // Allows for <strong>, <em>, <span>
+                            insightsUl.appendChild(insightLi);
+                        });
+                        l2DetailsElement.appendChild(insightsUl);
+                    }
+                    l2WrapperDiv.appendChild(l2DetailsElement);
+                });
+                l1DetailsElement.appendChild(l2WrapperDiv);
+                knowledgeDisplayArea.appendChild(l1DetailsElement);
+            });
+        }
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            displayKnowledgeBase();
+        });
+    </script>
+</body>
+</html>
