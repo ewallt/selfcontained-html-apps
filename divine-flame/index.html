@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>God's Love as Fire</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #8C1C13; /* Deep Red */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        /* Styles for Level 1 (main collapsible sections) */
+        .level1-container {
+            margin-bottom: 15px;
+            border: 1px solid #B32D24; /* Lighter Red border */
+            border-radius: 5px;
+            overflow: hidden; /* Ensures rounded corners clip content */
+        }
+        .level1-summary {
+            background-color: #8C1C13; /* Deep Red background */
+            color: white;
+            padding: 12px 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            display: block; /* Important for summary to behave like a block */
+            transition: background-color 0.2s ease;
+        }
+        .level1-summary:hover {
+            background-color: #B32D24; /* Darker shade on hover */
+        }
+        .level1-details-content {
+            padding: 15px;
+            background-color: #FFF8F0; /* Very light cream for content area */
+            border-top: 1px solid #B32D24; /* Separator line */
+        }
+
+        /* Styles for Level 2 (sub-sections) */
+        .level2-container {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            background-color: #fff; /* White background for L2 details */
+            border: 1px solid #F0E0D0; /* Creamy border */
+            border-radius: 4px;
+        }
+        .level2-summary {
+            padding: 10px 12px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #D95430; /* Orange text for L2 summary */
+            background-color: #FDF2E3; /* Slightly darker cream for L2 summary */
+            border-bottom: 1px solid #F0E0D0; /* Separator for L2 summary */
+            transition: background-color 0.2s ease;
+            display: block; /* Important for summary */
+        }
+        .level2-summary:hover {
+            background-color: #F0E0D0; /* Lighter cream on hover */
+        }
+        .level2-details-content {
+            padding: 12px;
+            background-color: #fff;
+        }
+
+        /* Styles for insights list */
+        .insights-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 0;
+        }
+        .insights-list li {
+            margin-bottom: 12px;
+            padding-left: 25px; /* Increased padding for emoji */
+            position: relative;
+            line-height: 1.5;
+        }
+        .insights-list li::before {
+            content: "🔥";
+            position: absolute;
+            left: 0;
+            top: 0px; /* Adjust vertical alignment if needed */
+            color: #D95430; /* Orange emoji color */
+            font-size: 1.1em;
+        }
+        blockquote {
+            border-left: 4px solid #D95430; /* Orange border for quotes */
+            padding-left: 15px;
+            margin: 10px 0px 10px 0px; /* Adjusted margins */
+            font-style: italic;
+            color: #555;
+        }
+        .reference {
+            font-size: 0.85em;
+            color: #777;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>God's Love as Fire: A Purifying Presence</h1>
+        <div id="app-content">
+            </div>
+    </div>
+
+    <script>
+        const appData = {
+            title: "Understanding God's Love as Fire",
+            sections: [
+                {
+                    level1Concept: "Key Scriptures: The Divine Fire of Love",
+                    level2SubTopics: [
+                        {
+                            name: "Song of Solomon 8:6-7",
+                            insights: [
+                                { text: "\"Set me as a seal upon your heart, as a seal upon your arm, for love is as strong as death, jealousy as fierce as the grave. Its flashes are flashes of fire, the very flame of the LORD. Many waters cannot quench love, neither can floods drown it.\"", reference: "Song of Solomon 8:6-7" },
+                                { text: "This passage emphasizes love's incredible intensity, its unquenchable nature, and its divine origin, referring to it as 'the very flame of the LORD' (or 'a flame of Yah')." }
+                            ]
+                        },
+                        {
+                            name: "Deuteronomy 4:24 & Hebrews 12:29",
+                            insights: [
+                                { text: "\"For the LORD your God is a consuming fire, a jealous God.\"", reference: "Deuteronomy 4:24" },
+                                { text: "\"For our God is a consuming fire.\"", reference: "Hebrews 12:29" },
+                                { text: "These verses connect God's consuming fire to His holiness, His 'jealousy' (understood as His passionate, covenant love), and His purifying presence that cannot abide sin." }
+                            ]
+                        },
+                        {
+                            name: "Malachi 3:2-3",
+                            insights: [
+                                { text: "\"But who can endure the day of his coming, and who can stand when he appears? For he is like a refiner's fire and like fullers' soap. He will sit as a refiner and purifier of silver, and he will purify the sons of Levi and refine them like gold and silver...\"", reference: "Malachi 3:2-3" },
+                                { text: "God's presence is described as a refiner's fire, which purifies His people as precious metals are refined. This is an act of love to remove impurities and restore them." }
+                            ]
+                        },
+                        {
+                            name: "Matthew 3:11 / Luke 3:16",
+                            insights: [
+                                { text: "\"He will baptize you with the Holy Spirit and fire.\"", reference: "Matthew 3:11; Luke 3:16" },
+                                { text: "The fire associated with the Holy Spirit's baptism is often interpreted as a purifying, sanctifying work in the believer's life, an expression of God's passionate love to make His people holy." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    level1Concept: "Ellen G. White: The Refining Fire of Divine Love",
+                    level2SubTopics: [
+                        {
+                            name: "God's Nature of Love and Consuming Holiness",
+                            insights: [
+                                { text: "\"God's love is represented as a fire. His love is so broad, so full, so perfect, that it is a consuming fire to sin. God is love. His nature, His law, is love. It ever has been; it ever will be. 'The high and lofty One that inhabiteth eternity,' whose 'ways are everlasting,' changeth not. With Him 'is no variableness, neither shadow of turning.'\"", reference: "Based on themes in The Ministry of Healing, p. 415 & Patriarchs and Prophets, p. 311" },
+                                { text: "\"God is a consuming fire to sin. His holiness is of such a nature that it cannot tolerate sin. But He loves the sinner, and He gave His only-begotten Son, that whosoever believeth in Him should not perish, but have everlasting life.\"", reference: "Based on principles from The Desire of Ages, p. 761 & Steps to Christ, p. 37" },
+                                { text: "Ellen White emphasizes that God's very nature is love, and this loving, holy nature acts as a consuming fire against sin, not against the sinner whom He desires to save and purify." }
+                            ]
+                        },
+                        {
+                            name: "Purification Through Trials: Love's Discipline",
+                            insights: [
+                                { text: "\"The trials of life are God’s workmen, to remove the impurities and roughness from our character. Their hewing, squaring, and chiseling, and their burnishing and polishing, is a painful process... But the stone is brought forth prepared to fill its place in the heavenly temple. Upon no useless material does the Master bestow such careful, thorough work. Only His precious stones are polished after the similitude of a palace.\"", reference: "Thoughts From the Mount of Blessing, p. 10" },
+                                { text: "\"God often permits us to pass through the fiery ordeal of affliction, that we may be purified. He would not bring these trials upon us unless He saw that they were necessary to purify and refine us, and fit us for His kingdom.\"", reference: "Testimonies for the Church, Vol. 3, p. 115" },
+                                { text: "These trials, likened to a 'fiery ordeal,' are permitted by a loving God as a means of purification, essential for developing a Christlike character fit for heaven. This is an expression of His disciplinary love."}
+                            ]
+                        },
+                         {
+                            name: "The Live Coal and Divine Cleansing (Isaiah 6)",
+                            insights: [
+                                { text: "\"As the prophet Isaiah beheld the glory of the Lord, he was astonished and overwhelmed... But a seraph came to him to fit him for his mission. A living coal from the altar was laid upon his lips, with the words, ‘Lo, this hath touched thy lips; and thine iniquity is taken away, and thy sin purged.’\"", reference: "Prophets and Kings, p. 307"},
+                                { text: "This act of purification, symbolized by the fiery coal, was a divine provision stemming from God's desire to cleanse and commission Isaiah. The removal of iniquity is an act of redemptive love."}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    level1Concept: "Ty Gibson: Love's Purifying Power",
+                    level2SubTopics: [
+                        {
+                            name: "God's Love as a Direct Purifying Agent",
+                            insights: [
+                                { text: "\"...their wicked speeches and hard feelings be burned out of their souls by the purifying fire of God's love….\"", reference: "Ty Gibson, 'Women's Ordination: Shall Angels or Demons Guide Us?' Light Bearers" },
+                                { text: "Ty Gibson directly articulates God's love as an active, fiery force that has the power to purge sin, such as negative attitudes and harmful words, from individuals." }
+                            ]
+                        },
+                        {
+                            name: "The Nature of God's Fiery Love",
+                            insights: [
+                                { text: "Gibson consistently emphasizes that God's fundamental character is 'extravagant love.' Therefore, any 'fire' associated with God, including His consuming or purifying fire, must be understood as an expression of this love, not in contradiction to it." },
+                                { text: "The 'fire' of God's presence, when viewed through the lens of His perfect love, naturally consumes sin because sin is inherently destructive and opposed to love. This act protects and restores His creation." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    level1Concept: "Perspectives from Other Voices",
+                    level2SubTopics: [
+                        {
+                            name: "Christian Mystics: Experiencing Divine Love as Fire",
+                            insights: [
+                                { text: "Many Christian mystics throughout history have described their direct and intense experiences of God's love in terms of a burning, consuming, and purifying fire." },
+                                { text: "St. John of the Cross, in 'The Living Flame of Love,' speaks of divine love as a transforming flame that purifies the soul and unites it with God." },
+                                { text: "Richard Rolle, in 'The Fire of Love,' describes experiencing divine love as a literal warmth or fire within the soul, burning away sin and filling it with spiritual delight." }
+                            ]
+                        },
+                        {
+                            name: "Theologians and Writers on Purifying Love",
+                            insights: [
+                                { text: "F.B. Meyer (1847-1929) wrote that 'The love of God, the purity of God... burn out of us the evils,' directly linking God's love and purity to a purifying, fire-like action.", reference: "F.B. Meyer" },
+                                { text: "Andrew Murray (1828-1917) described the necessity of casting sin 'into the fiery oven of God's holy love which burns against sin like a fire,' portraying God's holy love itself as the purifying agent.", reference: "Andrew Murray" },
+                                { text: "A modern Adventist resource ('Talmido') states: 'The fire of God's furnace is a loving fire, for God is love and the divine fire of His presence is Love.' This clearly articulates the purifying fire as an expression of God's love.", reference: "Talmido (Adventist source)" }
+                            ]
+                        },
+                        {
+                            name: "George Fifield (Early SDA Pioneer - Contextual Link)",
+                            insights: [
+                                { text: "George Fifield taught that 'The measure of his love for the sinner is the measure of his wrath against the sin.' This implies that God's intense love fuels a 'fiery' opposition to sin, aiming to save the sinner by consuming the sin that harms them.", reference: "George Fifield (interpretation of his views)"}
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        function displayContent() {
+            const appContentDiv = document.getElementById('app-content');
+            if (!appContentDiv) {
+                console.error("Error: 'app-content' div not found!");
+                return;
+            }
+
+            appData.sections.forEach(section => {
+                try {
+                    const level1Container = document.createElement('details');
+                    level1Container.classList.add('level1-container');
+                    level1Container.open = true; // Keep Level 1 sections open by default
+
+                    const level1Summary = document.createElement('summary');
+                    level1Summary.classList.add('level1-summary');
+                    level1Summary.textContent = section.level1Concept || "Unnamed Section";
+                    level1Container.appendChild(level1Summary);
+
+                    const level1DetailsContent = document.createElement('div');
+                    level1DetailsContent.classList.add('level1-details-content');
+
+                    if (section.level2SubTopics && Array.isArray(section.level2SubTopics)) {
+                        section.level2SubTopics.forEach(subTopic => {
+                            const level2Container = document.createElement('details');
+                            level2Container.classList.add('level2-container');
+                            level2Container.open = true; // Keep Level 2 sections open by default
+
+                            const level2Summary = document.createElement('summary');
+                            level2Summary.classList.add('level2-summary');
+                            level2Summary.textContent = subTopic.name || "Unnamed Sub-Topic";
+                            level2Container.appendChild(level2Summary);
+
+                            const level2DetailsContent = document.createElement('div');
+                            level2DetailsContent.classList.add('level2-details-content');
+
+                            if (subTopic.insights && Array.isArray(subTopic.insights)) {
+                                const insightsList = document.createElement('ul');
+                                insightsList.classList.add('insights-list');
+                                subTopic.insights.forEach(insight => {
+                                    const listItem = document.createElement('li');
+                                    const insightText = (typeof insight.text === 'string') ? insight.text : "";
+                                    const insightReference = (typeof insight.reference === 'string') ? insight.reference : "";
+
+                                    if (insightText.startsWith('"') && insightText.endsWith('"')) {
+                                        const blockquote = document.createElement('blockquote');
+                                        blockquote.textContent = insightText.substring(1, insightText.length - 1);
+                                        if (insightReference) {
+                                            const refSpan = document.createElement('span');
+                                            refSpan.classList.add('reference');
+                                            refSpan.textContent = `— ${insightReference}`;
+                                            blockquote.appendChild(refSpan);
+                                        }
+                                        listItem.appendChild(blockquote);
+                                    } else {
+                                        const textSpan = document.createElement('span');
+                                        textSpan.textContent = insightText;
+                                        listItem.appendChild(textSpan);
+
+                                        if (insightReference) {
+                                            listItem.appendChild(document.createTextNode(" ")); // Add a space before reference
+                                            const refSpan = document.createElement('span');
+                                            refSpan.classList.add('reference');
+                                            refSpan.textContent = `(${insightReference})`;
+                                            listItem.appendChild(refSpan);
+                                        }
+                                    }
+                                    insightsList.appendChild(listItem);
+                                });
+                                level2DetailsContent.appendChild(insightsList);
+                            }
+                            level2Container.appendChild(level2DetailsContent);
+                            level1DetailsContent.appendChild(level2Container);
+                        });
+                    }
+                    level1Container.appendChild(level1DetailsContent);
+                    appContentDiv.appendChild(level1Container);
+                } catch (e) {
+                    console.error("Error processing section:", section.level1Concept, e);
+                     const errorDiv = document.createElement('div');
+                     errorDiv.textContent = `Error rendering section: ${section.level1Concept || 'Unknown Section'}. Check console for details.`;
+                     errorDiv.style.color = 'red';
+                     errorDiv.style.border = '1px solid red';
+                     errorDiv.style.padding = '10px';
+                     errorDiv.style.marginBottom = '10px';
+                     appContentDiv.appendChild(errorDiv);
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', displayContent);
+    </script>
+</body>
+</html>

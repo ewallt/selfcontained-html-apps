@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Learner: Thinking, Fast and Slow (Heuristics Focus)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General body and container styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light gray-blue background */
+            color: #1a202c; /* Dark gray text */
+            margin: 0;
+            padding: 0;
+        }
+        /* Main container for responsiveness */
+        .container {
+            max-width: 800px; /* Max width for larger screens */
+            margin: 2rem auto; /* Center the container */
+            padding: 1rem; /* Padding for smaller screens */
+        }
+
+        /* --- Knowledge Display Styles --- */
+        #knowledge-display-area {
+             background-color: #f9fafb; /* Slightly off-white background */
+             border-radius: 8px;
+             padding: 1rem;
+             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .level1-concept-container { /* This is the <details> for L1 */
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb; /* gray-200 */
+            border-radius: 8px; /* rounded-lg */
+            margin-bottom: 1.5rem; /* mb-6 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-lg */
+            overflow: hidden;
+        }
+
+        .level1-concept-header { /* This is the <summary> for L1 */
+            padding: 1rem 1.25rem; /* py-4 px-5 */
+            background-color: #eef2ff; /* indigo-100 */
+            border-bottom: 1px solid #e5e7eb; /* gray-200 */
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+        }
+         .level1-concept-header::-webkit-details-marker { display: none; }
+         .level1-concept-header:hover {
+            background-color: #e0e7ff; /* indigo-200 */
+         }
+
+        .level1-concept-header h3 {
+            color: #4338ca; /* indigo-700 */
+            font-weight: 700; /* font-bold */
+            font-size: 1.25rem; /* text-xl */
+            margin: 0;
+        }
+
+        .level2-topics-wrapper { /* This div is inside L1 <details>, wraps L2 <details> elements */
+             padding: 0.75rem; /* p-3. Reduced slightly as L2 containers now have more internal structure */
+             background-color: #ffffff; /* White background for the area holding L2 items */
+        }
+
+        .sub-topic-container { /* This is the <details> for L2 */
+            background-color: #f9fafb; /* gray-50 - background for the L2 <details> itself */
+            border: 1px solid #e5e7eb; /* gray-200 */
+            border-radius: 6px; /* rounded-md */
+            margin-bottom: 0.75rem; /* mb-3 */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+            overflow: hidden;
+        }
+
+        .sub-topic-header { /* This is the <summary> for L2 */
+            padding: 0.75rem 1rem; /* py-3 px-4 */
+            background-color: #f9fafb; /* gray-50 */
+            /* border-bottom: 1px solid #e5e7eb; */ /* Removed: border will be handled by open/closed state */
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+            border-bottom: 1px solid #e5e7eb; /* Default border when closed */
+        }
+        .sub-topic-header::-webkit-details-marker { display: none; }
+        .sub-topic-header:hover {
+            background-color: #f3f4f6; /* gray-100 */
+        }
+
+        /* Remove bottom border from L2 header ONLY IF its <details> is open AND it's not the last L2 item */
+        details[open] > .sub-topic-header {
+             border-bottom-color: transparent; /* Hide border when open to merge with card below */
+        }
+
+
+        .sub-topic-header h4 {
+            color: #4f46e5; /* indigo-600 */
+            font-weight: 600; /* font-semibold */
+            font-size: 1rem; /* text-base */
+            margin: 0;
+        }
+
+        /* Styles for paragraph-based insights - now a "card" */
+        .insights-paragraph-container {
+            background-color: #ffffff;    /* White background for the card */
+            border-top: 1px solid #e5e7eb; /* gray-200 border on top to separate from header */
+            padding: 1rem;                /* p-4, consistent padding inside the card */
+            /* Removed margin-top as border-top now handles separation */
+        }
+
+        .insight-paragraph {
+            margin-bottom: 1rem; /* mb-4, Space between paragraphs */
+            color: #374151;      /* gray-700, Slightly darker gray for better readability */
+            font-size: 0.95rem;   /* Slightly larger for paragraph readability */
+            line-height: 1.65;    /* Improved line height for paragraphs */
+        }
+        .insight-paragraph:last-child {
+            margin-bottom: 0; /* No margin for the last paragraph in a set */
+        }
+
+
+        .toggler-icon {
+            transition: transform 0.2s ease-in-out;
+            font-size: 1.2rem;
+            color: #6366f1; /* indigo-500 */
+        }
+        details[open] > summary .toggler-icon {
+            transform: rotate(90deg);
+        }
+
+        /* --- Trivia/Quiz App Styles (largely unchanged) --- */
+        .trivia-container {
+            background-color: #ffffff;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            margin-top: 2rem;
+        }
+        @media (min-width: 640px) {
+            .trivia-container { padding: 32px; }
+        }
+        .answer-btn {
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+            border: 1px solid #e2e8f0;
+            min-height: 60px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 500;
+            border-radius: 8px;
+            line-height: 1.4;
+            word-break: break-word;
+            background-color: #ffffff;
+            color: #1a202c;
+            cursor: pointer;
+        }
+        .answer-btn:hover:not(:disabled) {
+            background-color: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .answer-btn.correct {
+            background-color: #10B981 !important;
+            color: white !important;
+            border-color: #059669 !important;
+        }
+        .answer-btn.incorrect {
+            background-color: #EF4444 !important;
+            color: white !important;
+            border-color: #DC2626 !important;
+        }
+        .answer-btn:disabled {
+            opacity: 0.8;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #feedback {
+            min-height: 24px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        .answer-btn.correct span, .answer-btn.incorrect span {
+            color: white;
+        }
+        .answer-btn span {
+            color: inherit;
+        }
+        #score, #question-counter {
+            color: #4a5568;
+            font-weight: 500;
+        }
+        #session-counter {
+            display: none;
+        }
+        #next-btn:disabled, #practice-btn:disabled {
+            background-color: #9ca3af !important;
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #next-btn:disabled:hover, #practice-btn:disabled:hover {
+            background-color: #9ca3af !important;
+        }
+        #practice-btn {
+            background-color: #f59e0b;
+            transition: background-color 0.2s ease;
+        }
+        #practice-btn:hover:not(:disabled) {
+            background-color: #d97706;
+        }
+        .action-btn {
+             transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+             padding: 0.75rem 1.5rem;
+             border-radius: 8px;
+             font-weight: 600;
+             color: white;
+             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+             cursor: pointer;
+             display: inline-block;
+        }
+        .action-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.1), 0 3px 5px -1px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto p-4">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-indigo-700">Knowledge Learner: Thinking, Fast and Slow (Heuristics)</h1>
+        </header>
+
+        <section id="knowledge-display-section" class="mb-12">
+            <h2 class="text-2xl font-semibold mb-6 text-center text-indigo-600">Learn: Heuristics - Cognitive Shortcuts</h2>
+            <div id="knowledge-display-area">
+                </div>
+        </section>
+
+        <section id="quiz-section">
+            <div id="quiz-area" class="trivia-container text-center">
+                <h2 id="quiz-title" class="text-2xl font-bold mb-4 text-indigo-600">Test Your Knowledge!</h2>
+                <div id="score-area" class="mb-4 text-lg flex flex-wrap justify-center items-center gap-x-3 gap-y-1">
+                    <span id="score" class="font-semibold">Score: 0</span>
+                    <span class="text-gray-400 hidden sm:inline">|</span>
+                    <span id="question-counter" class="font-semibold">Question: 0 / 0</span>
+                    <span id="session-counter" class="font-semibold">Section: 0 / 0</span> </div>
+                <div id="question-area" class="mb-6">
+                    <h3 id="question-text" class="text-xl font-semibold mb-4 min-h-[60px] flex items-center justify-center text-gray-700 px-2">
+                        Loading question...
+                    </h3>
+                    <div id="answer-buttons" class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        </div>
+                </div>
+                <div id="feedback" class="mt-4 text-lg font-medium min-h-[24px] mb-4">
+                    &nbsp; </div>
+                <button id="next-btn" class="action-btn mt-2 bg-indigo-600 hover:bg-indigo-700 w-full sm:w-auto">
+                    Next Question
+                </button>
+                <div id="game-over-message" class="hidden mt-6 text-xl font-semibold">
+                    <p id="final-score-message" class="mb-4"></p>
+                    <div class="flex flex-col sm:flex-row justify-center items-center gap-3">
+                        <button id="restart-btn" class="action-btn bg-green-500 hover:bg-green-600 w-full sm:w-auto">
+                            </button>
+                        <button id="practice-btn" class="action-btn hidden bg-yellow-500 hover:bg-yellow-600 w-full sm:w-auto">
+                            Practice Weak Areas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // --- 1. KNOWLEDGE BASE DATA (Simplified to Heuristics Only) ---
+        const knowledgeBaseData = [
+          {
+            level1Concept: "Heuristics - Cognitive Shortcuts",
+            level2SubTopics: [
+              { name: "The Anchoring Effect", insights: [ "Initial pieces of information (anchors) disproportionately influence subsequent judgments, even if irrelevant. This occurs because our minds tend to 'anchor' onto the first piece of information offered and then adjust insufficiently from that starting point. Even when we know an anchor is random, it can still sway our thinking.", "People adjust insufficiently from an initial anchor value. For example, if asked whether Gandhi was older or younger than 114 when he died, and then asked for his actual age of death, the high anchor (114) will lead to higher estimates than if the anchor was, say, 35.", "This heuristic is commonly exploited in various real-world scenarios, such as in negotiations where the first offer sets the stage, in retail pricing where an initial high price makes a sale price seem more attractive, and even in legal sentencing where initial recommendations can heavily sway final decisions." ] },
+              { name: "The Availability Heuristic", insights: [ "We judge the frequency or probability of an event by the ease with which instances or occurrences can be brought to mind. If examples come to mind readily, we presume such events are common. This is often a useful shortcut, but can lead to errors.", "Vivid, recent, or emotionally charged events are more 'available' in our memory and thus often overestimated in their likelihood. For instance, after seeing several news reports about plane crashes, people might overestimate the danger of flying compared to more common but less sensational risks like car accidents.", "This heuristic can significantly lead to misjudgments in risk assessment. Public concern about certain risks (e.g., terrorism, rare diseases) can be amplified by media coverage, making these threats seem more prevalent than statistical data would suggest, while less 'available' risks are underestimated." ] },
+              { name: "The Representativeness Heuristic", insights: [ "We judge the likelihood of something belonging to a category, or an event stemming from a process, by how much it resembles a typical case or stereotype, often ignoring crucial base rates (statistical probabilities). We ask ourselves if X 'looks like' a Y.", "A classic example is the 'Linda problem': given a detailed description of Linda as outspoken, bright, and concerned with social justice, people often judge it more probable that 'Linda is a bank teller and active in the feminist movement' than simply 'Linda is a bank teller,' because the description is more representative of the former, even though it's statistically less probable.", "This can lead to flawed predictions and neglect of valuable statistical information. For example, a doctor might diagnose a rare disease because the patient's symptoms perfectly match the textbook description, even if the disease is extremely uncommon in that population." ] },
+              { name: "The Affect Heuristic", insights: [ "Emotional responses—our likes and dislikes—guide our judgments and decisions, often substituting for a more deliberate analysis of risks and benefits. If we feel good about something, we tend to judge its risks as low and benefits as high.", "People let their feelings about something (e.g., nuclear power, a particular food additive) determine their beliefs about its objective properties. If they have a negative affective response to 'nuclear power,' they are more likely to believe its risks are high and its benefits low, regardless of scientific evidence.", "If we like an activity or technology, we tend to perceive its risks as low and its benefits as high. Conversely, if we dislike it, we perceive risks as high and benefits as low. This can make objective risk-benefit analysis very challenging." ] },
+              { name: "The Law of Small Numbers", insights: [ "People have a strong tendency to exaggerate the consistency and coherence of what they see in small samples of data. We expect small samples to be highly representative of the larger population from which they are drawn.", "This leads to drawing strong (and often erroneous) conclusions from insufficient evidence. For example, if a new drug helps the first three patients in a trial, researchers might become overly optimistic about its efficacy, even though such a small sample is highly susceptible to random variation.", "This heuristic underlies many research fallacies and misinterpretations of statistical clusters or streaks as meaningful patterns. For instance, believing a basketball player has a 'hot hand' after a few successful shots often ignores the role of chance and regression to the mean." ] }
+            ]
+          }
+        ];
+
+        // --- 2. QUIZ QUESTIONS DATA (Simplified to Heuristics Only) ---
+        const allQuizQuestions = [
+            // Heuristics
+            { question: "If a car salesman starts negotiations with a very high price, they are likely trying to use the:", answers: ["Anchoring Effect#", "Availability Heuristic", "Representativeness Heuristic", "Affect Heuristic"], relatedConcept: "The Anchoring Effect" },
+            { question: "Overestimating the risk of shark attacks after watching a week of 'Shark Week' is an example of:", answers: ["Availability Heuristic#", "Anchoring Effect", "Planning Fallacy", "Hindsight Bias"], relatedConcept: "The Availability Heuristic" },
+            { question: "Judging a quiet, studious person as more likely to be a librarian than a salesperson, despite many more salespeople, is an example of:", answers: ["Representativeness Heuristic#", "Affect Heuristic", "Sunk-Cost Fallacy", "Anchoring Effect"], relatedConcept: "The Representativeness Heuristic" },
+            { question: "If you dislike a particular technology, you might also judge its risks as high and its benefits as low. This is the:", answers: ["Affect Heuristic#", "Confirmation Bias", "Availability Heuristic", "Law of Small Numbers"], relatedConcept: "The Affect Heuristic" },
+            { question: "Believing a basketball player is on a 'hot streak' after making three shots in a row, ignoring statistical randomness, relates to:", answers: ["The Law of Small Numbers#", "Anchoring Effect", "Prospect Theory", "Framing Effect"], relatedConcept: "The Law of Small Numbers" },
+            { question: "The anchoring effect demonstrates that our judgments can be swayed by:", answers: ["Initial, even irrelevant, information#", "The ease of recalling examples", "Emotional reactions", "Stereotypical thinking"], relatedConcept: "The Anchoring Effect" },
+            { question: "The availability heuristic relies on the assumption that if something is easy to recall, it must be:", answers: ["Frequent or probable#", "Important", "True", "Recent"], relatedConcept: "The Availability Heuristic" },
+            { question: "Ignoring base-rate information is a key feature of the:", answers: ["Representativeness Heuristic#", "Anchoring Effect", "Affect Heuristic", "Law of Small Numbers"], relatedConcept: "The Representativeness Heuristic" },
+            { question: "When people's judgments are based on their emotional evaluation of an object or proposal, they are using the:", answers: ["Affect Heuristic#", "Availability Heuristic", "Anchoring Effect", "Representativeness Heuristic"], relatedConcept: "The Affect Heuristic" },
+            { question: "Drawing strong conclusions from a small, unrepresentative sample of data is a mistake associated with:", answers: ["The Law of Small Numbers#", "The Planning Fallacy", "The Halo Effect", "Loss Aversion"], relatedConcept: "The Law of Small Numbers" }
+        ];
+
+
+        // --- 3. DOM Elements ---
+        const knowledgeDisplayArea = document.getElementById('knowledge-display-area');
+        const quizTitleElement = document.getElementById('quiz-title');
+        const questionTextElement = document.getElementById('question-text');
+        const answerButtonsElement = document.getElementById('answer-buttons');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const scoreElement = document.getElementById('score');
+        const questionCounterElement = document.getElementById('question-counter');
+        const gameOverMessageElement = document.getElementById('game-over-message');
+        const finalScoreMessageElement = document.getElementById('final-score-message');
+        const restartButton = document.getElementById('restart-btn');
+        const practiceButton = document.getElementById('practice-btn');
+        const quizAreaElements = {
+            quizTitleElement: quizTitleElement,
+            scoreArea: document.getElementById('score-area'),
+            questionArea: document.getElementById('question-area'),
+            feedbackElement: feedbackElement,
+            nextButton: nextButton,
+        };
+
+        // --- 4. Game State ---
+        let questionsForCurrentSession = [];
+        let currentQuestionInSessionIndex = 0;
+        let score = 0;
+        let conceptsToPractice = new Set();
+        let isPracticeMode = false;
+
+        // --- 5. Functions ---
+
+        function displayKnowledgeBase() {
+            knowledgeDisplayArea.innerHTML = ''; 
+
+            knowledgeBaseData.forEach((l1ConceptData, l1Index) => {
+                const l1DetailsElement = document.createElement('details');
+                l1DetailsElement.classList.add('level1-concept-container');
+                if (l1Index === 0) l1DetailsElement.open = true; 
+
+                const l1SummaryElement = document.createElement('summary');
+                l1SummaryElement.classList.add('level1-concept-header');
+
+                const l1TitleElement = document.createElement('h3');
+                l1TitleElement.textContent = l1ConceptData.level1Concept;
+
+                const l1Icon = document.createElement('span');
+                l1Icon.classList.add('toggler-icon');
+                l1Icon.innerHTML = '&#9654;'; 
+
+                l1SummaryElement.appendChild(l1TitleElement);
+                l1SummaryElement.appendChild(l1Icon);
+                l1DetailsElement.appendChild(l1SummaryElement);
+
+                const l2WrapperDiv = document.createElement('div');
+                l2WrapperDiv.classList.add('level2-topics-wrapper');
+
+                l1ConceptData.level2SubTopics.forEach((subTopic) => {
+                    const l2DetailsElement = document.createElement('details');
+                    l2DetailsElement.classList.add('sub-topic-container');
+                    
+                    const l2SummaryElement = document.createElement('summary');
+                    l2SummaryElement.classList.add('sub-topic-header');
+
+                    const l2TitleElement = document.createElement('h4');
+                    l2TitleElement.textContent = subTopic.name;
+
+                    const l2Icon = document.createElement('span');
+                    l2Icon.classList.add('toggler-icon');
+                    l2Icon.innerHTML = '&#9654;';
+
+                    l2SummaryElement.appendChild(l2TitleElement);
+                    l2SummaryElement.appendChild(l2Icon);
+                    l2DetailsElement.appendChild(l2SummaryElement);
+
+                    const insightsContainerDiv = document.createElement('div');
+                    insightsContainerDiv.classList.add('insights-paragraph-container');
+
+                    subTopic.insights.forEach(insightText => {
+                        const insightP = document.createElement('p'); 
+                        insightP.classList.add('insight-paragraph');   
+                        insightP.textContent = insightText;
+                        insightsContainerDiv.appendChild(insightP);    
+                    });
+                    l2DetailsElement.appendChild(insightsContainerDiv); 
+                    l2WrapperDiv.appendChild(l2DetailsElement);
+                });
+                l1DetailsElement.appendChild(l2WrapperDiv);
+                knowledgeDisplayArea.appendChild(l1DetailsElement);
+            });
+        }
+
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function startGame(practice = false) {
+            isPracticeMode = practice;
+            score = 0;
+            updateScoreDisplay();
+
+            if (isPracticeMode) {
+                quizTitleElement.textContent = "Practice Weak Areas";
+                const practiceQuestions = allQuizQuestions.filter(q => conceptsToPractice.has(q.relatedConcept));
+                questionsForCurrentSession = shuffleArray(practiceQuestions);
+
+                if (questionsForCurrentSession.length === 0) {
+                    finalScoreMessageElement.textContent = "No specific areas marked for practice, or you've mastered them!";
+                    gameOverMessageElement.classList.remove('hidden');
+                    practiceButton.classList.add('hidden');
+                    restartButton.textContent = "Play Full Quiz Again?";
+                    Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+                    quizAreaElements.quizTitleElement.classList.remove('hidden');
+                    return;
+                }
+            } else {
+                quizTitleElement.textContent = "Test Your Knowledge: Heuristics";
+                questionsForCurrentSession = shuffleArray(allQuizQuestions);
+                conceptsToPractice.clear();
+            }
+
+            currentQuestionInSessionIndex = 0;
+            feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.add('hidden');
+            practiceButton.classList.add('hidden');
+            Object.values(quizAreaElements).forEach(el => el.classList.remove('hidden'));
+            quizAreaElements.nextButton.style.display = 'inline-block';
+            nextButton.disabled = true;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            resetStateForNewQuestion();
+
+            if (currentQuestionInSessionIndex < questionsForCurrentSession.length) {
+                const currentQuestion = questionsForCurrentSession[currentQuestionInSessionIndex];
+                questionTextElement.textContent = currentQuestion.question;
+
+                if (isPracticeMode) {
+                    questionCounterElement.textContent = `Practice Question: ${currentQuestionInSessionIndex + 1} / ${questionsForCurrentSession.length}`;
+                } else {
+                    questionCounterElement.textContent = `Question: ${currentQuestionInSessionIndex + 1} / ${questionsForCurrentSession.length}`;
+                }
+
+                const shuffledAnswerStrings = shuffleArray([...currentQuestion.answers]);
+                shuffledAnswerStrings.forEach(answerString => {
+                    const button = document.createElement('button');
+                    let displayText = answerString;
+                    let isThisAnswerCorrect = false;
+                    if (answerString.endsWith('#')) {
+                        displayText = answerString.slice(0, -1);
+                        isThisAnswerCorrect = true;
+                    }
+                    button.innerHTML = `<span>${displayText}</span>`;
+                    button.dataset.answerText = displayText;
+                    button.classList.add('answer-btn');
+                    button.addEventListener('click', () => selectAnswer(button, isThisAnswerCorrect));
+                    answerButtonsElement.appendChild(button);
+                });
+
+                nextButton.disabled = true;
+                if (currentQuestionInSessionIndex >= questionsForCurrentSession.length - 1) {
+                    nextButton.textContent = isPracticeMode ? "Finish Practice" : "Finish Quiz";
+                } else {
+                    nextButton.textContent = "Next Question";
+                }
+            } else {
+                endQuiz();
+            }
+        }
+
+        function resetStateForNewQuestion() {
+            feedbackElement.innerHTML = '&nbsp;';
+            feedbackElement.classList.remove('text-green-500', 'text-red-500');
+            while (answerButtonsElement.firstChild) {
+                answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+            }
+        }
+
+        function selectAnswer(selectedButton, isClickedAnswerCorrect) {
+            const currentQuestionData = questionsForCurrentSession[currentQuestionInSessionIndex];
+            let actualCorrectText = "";
+            currentQuestionData.answers.forEach(ansStr => {
+                if (ansStr.endsWith('#')) {
+                    actualCorrectText = ansStr.slice(0, -1);
+                }
+            });
+
+            Array.from(answerButtonsElement.children).forEach(button => {
+                button.disabled = true;
+                if (button.dataset.answerText === actualCorrectText) {
+                    button.classList.add('correct');
+                }
+            });
+
+            if (isClickedAnswerCorrect) {
+                score++;
+                updateScoreDisplay();
+                feedbackElement.textContent = "Correct!";
+                feedbackElement.classList.add('text-green-500');
+            } else {
+                selectedButton.classList.add('incorrect');
+                feedbackElement.textContent = "Incorrect!";
+                feedbackElement.classList.add('text-red-500');
+                if (!isPracticeMode) {
+                    const concept = currentQuestionData.relatedConcept;
+                    if (concept) {
+                        conceptsToPractice.add(concept);
+                    }
+                }
+            }
+            nextButton.disabled = false;
+        }
+
+        function updateScoreDisplay() {
+            scoreElement.textContent = `Score: ${score}`;
+        }
+
+        function handleNextButton() {
+            currentQuestionInSessionIndex++;
+            if (currentQuestionInSessionIndex < questionsForCurrentSession.length) {
+                loadQuestion();
+            } else {
+                endQuiz();
+            }
+        }
+
+        function endQuiz() {
+            Object.values(quizAreaElements).forEach(el => el.classList.add('hidden'));
+            quizAreaElements.feedbackElement.innerHTML = '&nbsp;';
+            gameOverMessageElement.classList.remove('hidden');
+
+            const totalQuestionsInQuiz = questionsForCurrentSession.length;
+            if (isPracticeMode) {
+                finalScoreMessageElement.textContent = `Practice Complete! Your score: ${score} / ${totalQuestionsInQuiz}.`;
+                if (totalQuestionsInQuiz > 0 && score < totalQuestionsInQuiz && conceptsToPractice.size > 0) {
+                    practiceButton.textContent = "Practice Again?";
+                    practiceButton.classList.remove('hidden');
+                    practiceButton.disabled = false;
+                } else {
+                    if (totalQuestionsInQuiz > 0 && score === totalQuestionsInQuiz) {
+                         finalScoreMessageElement.textContent += " You aced the practice items!";
+                    }
+                    practiceButton.classList.add('hidden');
+                }
+            } else {
+                finalScoreMessageElement.textContent = `Quiz Complete! Final Score: ${score} / ${totalQuestionsInQuiz}.`;
+                if (conceptsToPractice.size > 0) {
+                    practiceButton.textContent = "Practice Weak Areas";
+                    practiceButton.classList.remove('hidden');
+                    practiceButton.disabled = false;
+                } else {
+                    finalScoreMessageElement.textContent += " Excellent! No specific weak areas identified.";
+                    practiceButton.classList.add('hidden');
+                }
+            }
+            restartButton.textContent = "Play Quiz Again?";
+        }
+
+
+        function handleRestartOrContinue() {
+            startGame(false);
+        }
+
+        function handlePracticeButton() {
+            startGame(true);
+        }
+
+        // --- Event Listeners ---
+        nextButton.addEventListener('click', handleNextButton);
+        restartButton.addEventListener('click', handleRestartOrContinue);
+        practiceButton.addEventListener('click', handlePracticeButton);
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            displayKnowledgeBase();
+            startGame(false);
+        });
+    </script>
+</body>
+</html>
