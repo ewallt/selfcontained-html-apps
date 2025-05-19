@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sowell - Basic Economics Explorer (Corrected Full Map)</title>
+    <title>Sowell - Basic Economics Explorer (Fully Corrected Map)</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; font-size: 16px; }
         header { background-color: #2c3e50; /* Dark blue-grey */ color: #ecf0f1; /* Light grey */ padding: 10px 20px; border-bottom: 1px solid #1a242f; text-align: center; }
         header h1 { margin: 0; font-size: 1.5em; }
         .container { display: flex; flex-grow: 1; overflow: hidden; background-color: #ecf0f1; /* Light grey background */ }
-        #nav-pane { width: 45%; background-color: #bdc3c7; /* Lighter silver */ border-right: 1px solid #95a5a6; /* Darker silver */ padding: 15px; overflow-y: auto; }
+        #nav-pane { width: 35%; background-color: #bdc3c7; /* Lighter silver */ border-right: 1px solid #95a5a6; /* Darker silver */ padding: 15px; overflow-y: auto; }
         #nav-pane h2 { margin-top: 0; font-size: 1.1em; color: #2c3e50; padding-bottom: 5px; border-bottom: 1px solid #7f8c8d; }
         #nav-pane ul { list-style: none; padding: 0; margin: 0; }
         #nav-pane li { padding: 10px 5px; cursor: pointer; border-bottom: 1px solid #cacfd2; font-size: 0.95em; transition: background-color 0.2s ease-in-out; color: #2c3e50; }
         #nav-pane li:hover { background-color: #abb7b7; /* Darker silver hover */ }
         #nav-pane li.active { background-color: #3498db; /* Bright blue */ color: white; font-weight: bold; }
-        #content-pane { width: 55%; padding: 20px; overflow-y: auto; background-color: #fff; }
+        #content-pane { width: 65%; padding: 20px; overflow-y: auto; background-color: #fff; }
         #content-pane h2.idea-title { margin-top: 0; font-size: 1.4em; color: #2980b9; /* Slightly darker blue */ border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
         #content-pane .placeholder { color: #7f8c8d; font-style: italic; }
         .reference-item { margin-bottom: 25px; padding: 15px; border: 1px solid #d2d7d3; /* Lighter border */ border-radius: 5px; background-color: #f8f9f9; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
@@ -36,7 +36,7 @@
 </head>
 <body>
     <header>
-        <h1>Thomas Sowell - Basic Economics Explorer (Corrected Full Map)</h1>
+        <h1>Thomas Sowell - Basic Economics Explorer (Fully Corrected Map v2)</h1>
     </header>
     <div class="container">
         <nav id="nav-pane">
@@ -45,7 +45,7 @@
             <hr>
             <h2>Other</h2>
             <ul id="other-links-list">
-                <li data-id="unmapped">Brainy Quote References</li>
+                <li data-id="unmapped">Unmapped References</li>
             </ul>
         </nav>
         <main id="content-pane">
@@ -55,186 +55,8 @@
     </div>
 
     <script>
-        // Full consolidated Sowell references data with additions
+        // Full consolidated Sowell references data with additions for S59, S60, S61, S67
         const allReferencesData = {
             "S1": {"id":"S1","reference":"Widely attributed, referenced in various columns and books including \"Basic Economics.\"","text":"The first lesson of economics is scarcity: There is never enough of anything to fully satisfy all those who want it. The first lesson of politics is to disregard the first lesson of economics.","type":"Sowell"},
             "S2": {"id":"S2","reference":"Attributed to Thomas Sowell","text":"What is called 'planning' in a centrally planned economy is really bureaucratic control. It is not like an individual's or a family's planning, which is a matter of weighing choices and making trade-offs.","type":"Sowell"},
-            "S3": {"id":"S3","reference":"Thomas Sowell, \"Basic Economics: A Common Sense Guide to the Economy.\"","text":"Prices are important not because money is considered paramount but because prices are a fast and effective conveyor of information through a vast society in which fragmented knowledge must be coordinated.","type":"Sowell"},
-            "S4": {"id":"S4","reference":"Attributed to Thomas Sowell","text":"A shortage is a sign that somebody is keeping the price artificially lower than it would be if supply and demand were allowed to operate freely.","type":"Sowell"},
-            "S5": {"id":"S5","reference":"Thomas Sowell, \"Basic Economics: A Common Sense Guide to the Economy.\"","text":"One of the ways of doing this is to look at economic policies and economic systems in terms of the incentives they create, rather than simply the goals they pursue. This means that consequences matter more than intentions—and not just the immediate consequences, but also the longer run repercussions of decisions, policies, and institutions.","type":"Sowell"},
-            "S6": {"id":"S6","reference":"Attributed to Thomas Sowell, referenced in relation to his works.","text":"What the welfare system and other kinds of governmental programs are doing is paying people to fail. Insofar as they fail, they receive the money; insofar as they succeed, even to a moderate extent, the money is taken away.","type":"Sowell"},
-            "S7": {"id":"S7","reference":"Often cited, from his columns or \"Economic Facts and Fallacies.\"","text":"It is amazing that people who think we cannot afford to pay for doctors, hospitals, and medication somehow think that we can afford to pay for doctors, hospitals, medication and a government bureaucracy to administer it.","type":"Sowell"},
-            "S8": {"id":"S8","reference":"Common theme in his writings.","text":"Since the only resources that the government has are the resources it takes from the private sector, using those resources to create jobs means reducing the resources available to create jobs in the private sector.","type":"Sowell"},
-            "S9": {"id":"S9","reference":"Attributed to Thomas Sowell","text":"The fact that the market is not doing what we wish it would do is no reason to automatically assume that the government would do better.","type":"Sowell"},
-            "S10": {"id":"S10","reference":"From a column or essay.","text":"Elections should be held on April 16th—the day after we pay our income taxes. That is one of the few things that might discourage politicians from being big spenders.","type":"Sowell"},
-            "S11": {"id":"S11","reference":"Attributed to Thomas Sowell","text":"Mistakes can be corrected by those who pay the price for them. Disasters are created by those who pay no price for being wrong.","type":"Sowell"},
-            "S12": {"id":"S12","reference":"Often quoted, likely from one of his books or columns.","text":"It is hard to imagine a more stupid or more dangerous way of making decisions than by putting those decisions in the hands of people who pay no price for being wrong.","type":"Sowell"},
-            "S13": {"id":"S13","reference":"Thomas Sowell, \"Basic Economics: A Common Sense Guide to the Economy.\"","text":"Unfortunately, the real minimum wage is always zero, regardless of the laws, and that is the wage that many workers receive in the wake of the creation or escalation of a government-mandated minimum wage, because they lose their jobs or fail to find jobs when they enter the labor force.","type":"Sowell"},
-            "S14": {"id":"S14","reference":"Thomas Sowell, \"Basic Economics: A Common Sense Guide to the Economy.\"","text":"Making it illegal to pay less than a given amount does not make a worker's productivity worth that amount—and, if it is not, that worker is unlikely to be employed.","type":"Sowell"},
-            "S15": {"id":"S15","reference":"Widely attributed.","text":"It takes considerable knowledge just to realize the extent of your own ignorance.","type":"Sowell"},
-            "S16": {"id":"S16","reference":"Often cited, from his works on political economy.","text":"The most basic question is not what is best, but who shall decide what is best.","type":"Sowell"},
-            "S17": {"id":"S17","reference":"Thomas Sowell, \"Basic Economics: A Common Sense Guide to the Economy\" or \"Economic Facts and Fallacies.\"", "text":"The cavemen had the same natural resources at their disposal as we have today, and the difference between their standard of living and ours is a difference between the knowledge they could bring to bear on those resources and the knowledge used today.","type":"Sowell"},
-            "S18": {"id":"S18","reference":"Related to \"Wealth, Poverty, and Politics.\"", "text":"There's no explanation needed for poverty. The species began in poverty. So what you really need to know is what are the things that enable some countries, and some groups within countries, to be prosperous.","type":"Sowell"},
-            "S19": {"id":"S19","reference":"From his writings on income mobility.","text":"If most Americans do not stay in the same broad income bracket for even a decade, their repeatedly changing 'class' makes class itself a nebulous concept.","type":"Sowell"},
-            "S20": {"id":"S20","reference":"Common theme in his critiques of welfare state policies.","text":"No government of the left has done as much for the poor as capitalism has... What do the poor most need? They need to stop being poor. And how can that be done, on a mass scale, except by an economy that creates vastly more wealth?","type":"Sowell"},
-            "S21": {"id":"S21","reference":"Widely attributed, a core theme in his work.","text":"There are no solutions, there are only trade-offs; and you try to get the best trade-off you can get, that's all you can hope for.","type":"Sowell"},
-            "S22": {"id":"S22","reference":"Thomas Sowell, \"Economic Facts and Fallacies.\"", "text":"Voluntary economic transactions—whether between employer and employee, tenant and landlord, or international trade—would not continue to take place unless both parties were better off making these transactions than not making them.","type":"Sowell"},
-            "S23": {"id":"S23","reference":"Thomas Sowell, \"Economic Facts and Fallacies.\"", "text":"Like other forms of price controls, usury laws distort the communication of correct facts about credit risks without in any way changing those facts themselves.","type":"Sowell"},
-            "S24": {"id":"S24","reference":"Thomas Sowell, 'Applied Economics: Thinking Beyond Stage One'","text":"The fact that an idea is old is no guarantee that it is right, but the fact that an idea is new is no guarantee that it is right either. There are old fallacies as well as new fallacies, and old truths as well as new truths.","type":"Sowell"},
-            "S25": {"id":"S25","reference":"Thomas Sowell, 'Intellectuals and Society'","text":"The problem isn't that Johnny can't read. The problem isn't even that Johnny can't think. The problem is that Johnny doesn't know what thinking is; he confuses it with feeling.","type":"Sowell"},
-            "S26": {"id":"S26","reference":"Thomas Sowell, 'Economic Facts and Fallacies'","text":"Perhaps the most detrimental consequences of the implicit assumption of zero-sum transactions have been in poor countries that have kept out foreign trade and foreign investments, in order to avoid being 'exploited.'","type":"Sowell"},
-            "S27": {"id":"S27","reference":"Attributed to Thomas Sowell","text":"Competition does a much more effective job than government at protecting consumers.","type":"Sowell"},
-            "S28": {"id":"S28","reference":"Thomas Sowell, \"Basic Economics\"","text":"People who want special taxes or subsidies for particular things seem not to understand that what they are really asking for is for the prices to misstate the relative scarcities of things and the relative values that the users of these things put on them.","type":"Sowell"},
-            "S29": {"id":"S29","reference":"Thomas Sowell, 'Knowledge and Decisions'","text":"The more complex the world becomes, the more crucial it is to have ways of conveying information that do not depend on any given individual’s intellectual ability or moral virtue.","type":"Sowell"},
-            "S30": {"id":"S30","reference":"Attributed to Thomas Sowell","text":"It is usually futile to try to talk facts and analysis to people who are enjoying a sense of moral superiority in their ignorance.","type":"Sowell"},
-            "S31": {"id":"S31","reference":"Thomas Sowell, 'The Vision of the Anointed'","text":"In their haste to be wiser and nobler than others, the anointed have misconceived two basic issues. They seem to assume: 1) that they have more knowledge than the average member of the benighted, and 2) that this is the relevant comparison.","type":"Sowell"},
-            "S32": {"id":"S32","reference":"Thomas Sowell, 'Discrimination and Disparities'","text":"If you want to get a headline, you say that 'the rich are getting richer and the poor are getting poorer.' If you want to tell the truth, you say that 'people's incomes are rising, but at different rates.'","type":"Sowell"},
-            "S33": {"id":"S33","reference":"Attributed to Thomas Sowell","text":"Inflation is a way to take people's wealth from them without having to openly raise taxes. Inflation is the most universal tax of all.","type":"Sowell"},
-            "S34": {"id":"S34","reference":"Thomas Sowell, \"Basic Economics\"","text":"Misconceptions of business are almost inevitable in a society where most people have neither studied nor run businesses.","type":"Sowell"},
-            "S35": {"id":"S35","reference":"Attributed to Thomas Sowell","text":"When you want to help people, you tell them the truth. When you want to help yourself, you tell them what they want to hear.","type":"Sowell"},
-            "S36": {"id":"S36","reference":"Thomas Sowell, 'Wealth, Poverty and Politics'","text":"The biggest myth about rich people is that they got rich by exploiting the poor. In reality, most rich people got rich by creating value for others.","type":"Sowell"},
-            "S37": {"id":"S37","reference":"Attributed to Thomas Sowell","text":"Socialism in general has a record of failure so blatant that only an intellectual could ignore or evade it.","type":"Sowell"},
-            "S38": {"id":"S38","reference":"Thomas Sowell, \"Basic Economics\"","text":"Economics is more than just a way to see patterns or to unravel puzzling anomalies. Its fundamental concern is with the material standard of living of society as a whole and how that is affected by particular decisions made by individuals and institutions.","type":"Sowell"},
-            "S39": {"id":"S39","reference":"Thomas Sowell, 'The Quest for Cosmic Justice'","text":"Much of the social history of the Western world, over the past three decades, has been a history of replacing what worked with what sounded good.","type":"Sowell"},
-            "S40": {"id":"S40","reference":"Attributed to Thomas Sowell","text":"The government has no money of its own. It’s all your money.","type":"Sowell"},
-            "S41": {"id":"S41","reference":"Thomas Sowell, via BrainyQuote","text":"You will never understand bureaucracies until you understand that for bureaucrats procedure is everything and outcomes are nothing.","type":"Sowell"},
-            "S42": {"id":"S42","reference":"Thomas Sowell, via BrainyQuote","text":"Tariffs that save jobs in the steel industry mean higher steel prices, which in turn means fewer sales of American steel products around the world and losses of far more jobs than are saved.","type":"Sowell"},
-            "S43": {"id":"S43","reference":"Thomas Sowell, via BrainyQuote","text":"Too much of what is called 'education' is little more than an expensive isolation from reality.","type":"Sowell"},
-            "S44": {"id":"S44","reference":"Thomas Sowell, via BrainyQuote","text":"The least productive people are usually the ones who are most in favor of holding meetings.","type":"Sowell"},
-            "S45": {"id":"S45","reference":"Thomas Sowell, via BrainyQuote","text":"What is ominous is the ease with which some people go from saying that they don't like something to saying that the government should forbid it. When you go down that road, don't expect freedom to survive very long.","type":"Sowell"},
-            "S46": {"id":"S46","reference":"Thomas Sowell, via BrainyQuote","text":"Immigration laws are the only laws that are discussed in terms of how to help people who break them.","type":"Sowell"},
-            "S47": {"id":"S47","reference":"Thomas Sowell, via BrainyQuote","text":"The more people who are dependent on government handouts, the more votes the left can depend on for an ever-expanding welfare state.","type":"Sowell"},
-            "S48": {"id":"S48","reference":"Thomas Sowell, via BrainyQuote","text":"Reality does not go away when it is ignored.","type":"Sowell"},
-            "S49": {"id":"S49","reference":"Thomas Sowell, via BrainyQuote","text":"Mistakes can be corrected by those who pay the price. Disasters are caused by those who impose the price on others.","type":"Sowell"},
-            "S50": {"id":"S50","reference":"Thomas Sowell, via BrainyQuote","text":"People who enjoy meetings should not be in charge of anything.","type":"Sowell"},
-            "S51": {"id":"S51","reference":"Thomas Sowell, via BrainyQuote","text":"Stopping illegal immigration would mean that wages would have to rise to levels that Americans would be willing to work for.","type":"Sowell"},
-            "S52": {"id":"S52","reference":"Thomas Sowell, via BrainyQuote","text":"Capitalism knows only one color: that color is green; all else is necessarily subservient to it, hence, race, gender and ethnicity cannot be considered within it.","type":"Sowell"},
-            "S53": {"id":"S53","reference":"Thomas Sowell, 'A Conflict of Visions'","text":"The constrained vision is a tragic vision of the human condition. The unconstrained vision is a moral vision of human intentions, which are seen as ultimately decisive.","type":"Sowell"},
-            "S54": {"id":"S54","reference":"Thomas Sowell, via BrainyQuote", "text":"What 'multiculturalism' boils down to is that you can praise any culture in the world except Western culture - and you cannot blame any culture in the world except Western culture.","type":"Sowell"},
-            "S56": {"id":"S56","reference":"Thomas Sowell, via BrainyQuote", "text":"Each new generation born is in effect an invasion of civilization by little barbarians, who must be civilized before it is too late.","type":"Sowell"},
-            "S58": {"id":"S58","reference":"Thomas Sowell, via BrainyQuote", "text":"If people in the media cannot decide whether they are in the business of reporting news or manufacturing propaganda, it is all the more important that the public understand that difference, and choose their news sources accordingly.","type":"Sowell"},
-            "S62": {"id":"S62","reference":"Thomas Sowell, via BrainyQuote", "text":"One of the common failings among honorable people is a failure to appreciate how thoroughly dishonorable some other people can be, and how dangerous it is to trust them.","type":"Sowell"},
-            "S63": {"id":"S63","reference":"Thomas Sowell, via BrainyQuote", "text":"Liberalism is totalitarianism with a human face.","type":"Sowell"},
-            "S64": {"id":"S64","reference":"Thomas Sowell, via BrainyQuote", "text":"Facts are not liberals' strong suit. Rhetoric is.","type":"Sowell"},
-            "S65": {"id":"S65","reference":"Thomas Sowell, via BrainyQuote", "text":"If you have always believed that everyone should play by the same rules and be judged by the same standards, that would have gotten you labeled a radical 60 years ago, a liberal 30 years ago and a racist today.","type":"Sowell"},
-            "S66": {"id":"S66","reference":"Thomas Sowell, via BrainyQuote", "text":"The word 'racism' is like ketchup. It can be put on practically anything - and demanding evidence makes you a 'racist.'","type":"Sowell"},
-            "S68": {"id":"S68","reference":"Thomas Sowell, via BrainyQuote", "text":"The most fundamental fact about the ideas of the political left is that they do not work. Therefore we should not be surprised to find the left concentrated in institutions where ideas do not have to work in order to survive.","type":"Sowell"}
-        };
-
-        const mainIdeasWithMappedReferences = [
-            {"idea_id":"MI_SE_01","title":"Scarcity and Resource Allocation: The fundamental economic problem that resources are scarce while wants are unlimited, necessitating systems and trade-offs for allocation.","supporting_reference_ids":["S1", "S21", "S28", "S38"]},
-            {"idea_id":"MI_SE_02","title":"The Role and Function of Prices: Prices as crucial signals in an economy, conveying information about supply, demand, and resource scarcity, coordinating economic activity efficiently.","supporting_reference_ids":["S3", "S4", "S23", "S28"]},
-            {"idea_id":"MI_SE_03","title":"Incentives Matter: Consequences vs. Intentions: Economic policies and systems should be evaluated based on the incentives they create and their actual consequences, rather than solely on their stated intentions.","supporting_reference_ids":["S5", "S6", "S11", "S12", "S47", "S49"]},
-            {"idea_id":"MI_SE_04","title":"Understanding Costs, Trade-offs, and Opportunity Cost: Recognizing that every choice involves a cost (what is given up) and that there are no perfect solutions, only trade-offs.","supporting_reference_ids":["S2", "S21", "S42"]},
-            {"idea_id":"MI_SE_05","title":"The Function of Profits and Losses: Profits and losses as essential signals indicating whether resources are being used efficiently to meet consumer demands, guiding resource allocation.","supporting_reference_ids":["S34", "S36"]},
-            {"idea_id":"MI_SE_06","title":"Market System vs. Central Planning: Efficiency and Wealth Creation: Free markets, through voluntary exchange and price signals, generally allocate resources more effectively and create more wealth than centrally planned economies.","supporting_reference_ids":["S2", "S9", "S20", "S27", "S37", "S52"]},
-            {"idea_id":"MI_SE_07","title":"Government Intervention: Price Controls, Minimum Wages, and Unintended Consequences: Analyzing how government actions (e.g., price controls, minimum wages, subsidies, taxes, tariffs) often have unintended and counterproductive outcomes that distort market signals.","supporting_reference_ids":["S4", "S7", "S8", "S10", "S13", "S14", "S33", "S40", "S42", "S45", "S51", "S59", "S60", "S61", "S67"]},
-            {"idea_id":"MI_SE_08","title":"Property Rights: Foundation for Economic Activity: Clearly defined and enforced property rights as fundamental to economic prosperity, incentivizing work, investment, and responsible resource use.","supporting_reference_ids":[]},
-            {"idea_id":"MI_SE_09","title":"The Role of Knowledge in Economics (Dispersed vs. Centralized): Economic decisions rely on imperfect and dispersed knowledge, which market prices help coordinate more effectively than central planners can.","supporting_reference_ids":["S3", "S15", "S16", "S17", "S29", "S44"]},
-            {"idea_id":"MI_SE_10","title":"International Trade: Benefits and Fallacies: Understanding that voluntary international trade is generally beneficial, allowing specialization and mutual gain, despite common fallacies.","supporting_reference_ids":["S22", "S26", "S42"]},
-            {"idea_id":"MI_SE_11","title":"Economic Fallacies and Critical Thinking: Identifying and debunking widely held but false beliefs about economics that lead to harmful policies, emphasizing the need for critical thinking beyond 'Stage One'.","supporting_reference_ids":["S1", "S24", "S25", "S26", "S30", "S32", "S35", "S39", "S48"]},
-            {"idea_id":"MI_SE_12","title":"Wealth Creation, Poverty, and Economic Mobility: Focusing on the processes of wealth creation as the primary means to alleviate poverty, and understanding the dynamics of economic mobility.","supporting_reference_ids":["S18", "S19", "S20", "S36"]},
-            {"idea_id":"MI_SE_13","title":"Risk and Time in Economic Decisions: Recognizing the roles of risk, uncertainty, and time horizons in economic behavior and outcomes.","supporting_reference_ids":[]},
-            {"idea_id":"MI_SE_14","title":"The Economics of Non-Market Activities (e.g., Politics, Bureaucracy): Applying economic principles of incentives and constraints to understand the behavior and outcomes of non-market institutions like politics and bureaucracies.","supporting_reference_ids":["S1", "S41", "S47", "S50", "S55"]}
-        ];
-        
-        const unmappedReferenceIds = ["S31", "S43", "S46", "S53", "S54", "S56", "S58", "S62", "S63", "S64", "S65", "S66", "S68"];
-
-
-        const mainIdeasListEl = document.getElementById('main-ideas-list');
-        const otherLinksListEl = document.getElementById('other-links-list');
-        const contentPaneEl = document.getElementById('content-pane');
-        let activeListItem = null;
-
-        function displayIdea(idea) {
-            contentPaneEl.innerHTML = `<h2 class="idea-title">${idea.title}</h2>`;
-            if (idea.supporting_reference_ids && idea.supporting_reference_ids.length > 0) {
-                idea.supporting_reference_ids.forEach(refId => {
-                    const ref = allReferencesData[refId]; 
-                    if (ref) {
-                        const refDiv = document.createElement('div');
-                        refDiv.className = 'reference-item';
-                        refDiv.innerHTML = `
-                            <div class="source">Source: ${ref.reference}</div>
-                            <div class="type">Type: ${ref.type}</div>
-                            <div class="text">${ref.text}</div>
-                        `;
-                        contentPaneEl.appendChild(refDiv);
-                    } else {
-                        console.warn("Reference ID not found in allReferencesData:", refId);
-                        const errorDiv = document.createElement('p');
-                        errorDiv.style.color = 'red';
-                        errorDiv.textContent = `Error: Reference with ID '${refId}' not found.`;
-                        contentPaneEl.appendChild(errorDiv);
-                    }
-                });
-            } else {
-                contentPaneEl.innerHTML += '<p>No references currently mapped to this idea.</p>';
-            }
-        }
-
-        function displayUnmapped() {
-            contentPaneEl.innerHTML = '<h2 class="idea-title">Unmapped References</h2>';
-            if (unmappedReferenceIds.length > 0) {
-                 unmappedReferenceIds.forEach(refId => {
-                    const ref = allReferencesData[refId];
-                    if (ref) {
-                        const refDiv = document.createElement('div');
-                        refDiv.className = 'reference-item';
-                        refDiv.innerHTML = `
-                            <div class="source">Source: ${ref.reference}</div>
-                            <div class="type">Type: ${ref.type}</div>
-                            <div class="text">${ref.text}</div>
-                        `;
-                        contentPaneEl.appendChild(refDiv);
-                    } else {
-                         console.warn("Unmapped Reference ID not found in allReferencesData:", refId);
-                         const errorDiv = document.createElement('p');
-                         errorDiv.style.color = 'red';
-                         errorDiv.textContent = `Error: Unmapped Reference with ID '${refId}' not found.`;
-                         contentPaneEl.appendChild(errorDiv);
-                    }
-                });
-            } else {
-                contentPaneEl.innerHTML += '<p>No unmapped references in this set.</p>';
-            }
-        }
-        
-        function setActive(listItem) {
-            if (activeListItem) {
-                activeListItem.classList.remove('active');
-            }
-            if (listItem) { 
-                activeListItem = listItem;
-                activeListItem.classList.add('active');
-            } else {
-                activeListItem = null; 
-            }
-        }
-
-        mainIdeasWithMappedReferences.forEach(idea => {
-            const listItem = document.createElement('li');
-            let titleSnippet = idea.title;
-            const snippetLength = 60; 
-            if (titleSnippet.length > snippetLength) { 
-                titleSnippet = titleSnippet.substring(0, snippetLength) + "...";
-            }
-            listItem.textContent = `${idea.idea_id}: ${titleSnippet}`;
-            listItem.setAttribute('data-id', idea.idea_id); 
-            listItem.title = idea.title; 
-
-            listItem.addEventListener('click', () => {
-                displayIdea(idea);
-                setActive(listItem);
-            });
-            mainIdeasListEl.appendChild(listItem);
-        });
-        
-        otherLinksListEl.querySelector('li[data-id="unmapped"]').addEventListener('click', (e) => {
-            displayUnmapped();
-            setActive(e.currentTarget); 
-        });
-
-    </script>
-</body>
-</html>
+            "S3": {"id":"S3","reference":"Thomas Sowell, \"Basic Economics: A Common Sense Guide to the Economy.\"","text":"Prices are important not because money is considered paramount but because prices are a fast and
