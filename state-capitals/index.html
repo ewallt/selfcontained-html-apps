@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>State Capitals - Dropdown View with Ranks</title>
+    <title>State Capitals - Dropdown View with CSA/MSA Ranks</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #eef1f5; color: #333; }
         .container { max-width: 800px; margin: 0 auto; background-color: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.07); }
@@ -20,7 +20,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>U.S. State Capitals - Ranks Included</h1>
+        <h1>U.S. State Capitals - Regional Populations & Ranks</h1>
         
         <label for="stateSelector">Select a State:</label>
         <select id="stateSelector">
@@ -35,11 +35,14 @@
     <script>
         const capitalsData = {
           "capitals": [
+            // Data will be populated by parsing user's table and then enriching
+            // For brevity, I will show the structure and the key updated population fields
+            // The full data below IS updated based on the table you provided.
             {
               "state": "Alabama",
               "capitalCity": "Montgomery",
               "capitolBuildingHeight": "Approx. 97 ft (to top of dome)",
-              "cityPopulation": "200,603 (2020 census)",
+              "cityPopulation": "CSA: 476,207 (latest est.)", // Updated from your table
               "yearDesignated": "1846",
               "cityNickname": "Capital of Dreams, The Gump",
               "trivia": "Montgomery was the first capital of the Confederate States of America in 1861."
@@ -48,7 +51,7 @@
               "state": "Alaska",
               "capitalCity": "Juneau",
               "capitolBuildingHeight": "Approx. 94 ft (6 stories)",
-              "cityPopulation": "31,555 (2023 estimate)",
+              "cityPopulation": "MSA: 32,255 (latest est.)", // Updated (CSA same as MSA/City)
               "yearDesignated": "1906 (Territorial capital)",
               "cityNickname": "N/A (often simply Juneau)",
               "trivia": "Juneau is the only U.S. state capital that borders a foreign country (Canada) and is not accessible by road."
@@ -56,17 +59,17 @@
             {
               "state": "Arizona",
               "capitalCity": "Phoenix",
-              "capitolBuildingHeight": "76 ft (23.2 m) (to top of dome of 1901 building)", // Updated
-              "cityPopulation": "1,673,164 (2024 estimate)",
+              "capitolBuildingHeight": "76 ft (23.2 m) (to top of dome of 1901 building)",
+              "cityPopulation": "CSA: 4,899,104 (latest est.)", // Updated
               "yearDesignated": "1889 (Territorial capital)",
               "cityNickname": "Valley of the Sun, The VOS",
-              "trivia": "Phoenix is the most populous state capital in the United States."
+              "trivia": "Phoenix is the most populous state capital in the United States (by city proper)." // Trivia might need update based on CSA rank
             },
             {
               "state": "Arkansas",
               "capitalCity": "Little Rock",
               "capitolBuildingHeight": "213 ft (to top of cupola)",
-              "cityPopulation": "204,405 (2022 estimate)",
+              "cityPopulation": "CSA: 912,604 (latest est.)", // Updated
               "yearDesignated": "1821 (Territorial capital)",
               "cityNickname": "The Rock, Rock Town",
               "trivia": "The Arkansas State Capitol's front entrance doors are made of bronze, 10 feet tall, four inches thick, and were purchased from Tiffany & Company for $10,000."
@@ -75,7 +78,7 @@
               "state": "California",
               "capitalCity": "Sacramento",
               "capitolBuildingHeight": "247 ft (75.3 m)",
-              "cityPopulation": "528,001 (2023 estimate)",
+              "cityPopulation": "CSA: 2,680,831 (latest est.)", // Updated
               "yearDesignated": "1854 (selected as permanent capital)",
               "cityNickname": "Sactown, City of Trees, River City",
               "trivia": "The California State Capitol building underwent one of the most extensive restoration projects in U.S. history from 1976 to 1982."
@@ -84,8 +87,8 @@
               "state": "Colorado",
               "capitalCity": "Denver",
               "capitolBuildingHeight": "272 ft (to top of dome)",
-              "cityPopulation": "716,577 (2023 estimate)",
-              "yearDesignated": "1881 (chosen by voters)",
+              "cityPopulation": "CSA: 3,623,560 (latest est.)", // Updated
+              "yearDesignated": "1867", // Year from user table
               "cityNickname": "Mile High City",
               "trivia": "The 13th step on the west side of the Colorado State Capitol building is exactly 5,280 feet (one mile) above sea level."
             },
@@ -93,7 +96,7 @@
               "state": "Connecticut",
               "capitalCity": "Hartford",
               "capitolBuildingHeight": "257 ft (overall tower height)",
-              "cityPopulation": "120,576 (2023 estimate)",
+              "cityPopulation": "CSA: 1,482,086 (latest est.)", // Updated
               "yearDesignated": "1875 (became sole capital)",
               "cityNickname": "Insurance Capital of the World, The Hartbeat",
               "trivia": "The original statue on the Connecticut State Capitol dome, 'The Genius of Connecticut,' was damaged in the 1938 hurricane and later melted down for ammunition during WWII."
@@ -101,8 +104,8 @@
             {
               "state": "Delaware",
               "capitalCity": "Dover",
-              "capitolBuildingHeight": "127 ft (38.7 m)", // Updated
-              "cityPopulation": "39,403 (2020 census)",
+              "capitolBuildingHeight": "127 ft (38.7 m)",
+              "cityPopulation": "CSA: 7,379,700 (latest est.)", // Updated (Philadelphia CSA)
               "yearDesignated": "1777",
               "cityNickname": "Capital of the First State",
               "trivia": "Dover is home to Barratt's Chapel, the oldest Methodist Church in the United States still in continuous use (built 1780)."
@@ -111,7 +114,7 @@
               "state": "Florida",
               "capitalCity": "Tallahassee",
               "capitolBuildingHeight": "345 ft (105 m) (New Capitol building)",
-              "cityPopulation": "201,731 (2023 estimate)",
+              "cityPopulation": "MSA: 384,298 (latest est.)", // Updated (No CSA in user table)
               "yearDesignated": "1824",
               "cityNickname": "Tally, The 850",
               "trivia": "Tallahassee was chosen as the capital of Florida because it was the midway point between St. Augustine and Pensacola, then the state's two largest cities."
@@ -120,7 +123,7 @@
               "state": "Georgia",
               "capitalCity": "Atlanta",
               "capitolBuildingHeight": "272.3 ft (83 m) (from foundation to top of Miss Freedom's torch)",
-              "cityPopulation": "499,127 (2023 estimate city proper)",
+              "cityPopulation": "CSA: 6,930,423 (latest est.)", // Updated
               "yearDesignated": "1868",
               "cityNickname": "ATL, The A, City in a Forest",
               "trivia": "The dome of the Georgia State Capitol is gilded with gold leaf from Dahlonega, Georgia, the site of America's first major gold rush in 1829."
@@ -129,7 +132,7 @@
               "state": "Hawaii",
               "capitalCity": "Honolulu",
               "capitolBuildingHeight": "Approx. 100 ft (30 m), 6 stories, unique open-air design",
-              "cityPopulation": "350,964 (2020 census)",
+              "cityPopulation": "MSA: 1,016,508 (latest est.)", // Updated (No CSA in user table)
               "yearDesignated": "1845 (Hawaiian Kingdom)",
               "cityNickname": "Crossroads of the Pacific, Sheltered Bay",
               "trivia": "The Hawaii State Capitol's architecture symbolizes a volcano, with cone-shaped legislative chambers and columns resembling royal palms."
@@ -138,8 +141,8 @@
               "state": "Idaho",
               "capitalCity": "Boise",
               "capitolBuildingHeight": "208 ft (63 m)",
-              "cityPopulation": "237,446 (2022 estimate)",
-              "yearDesignated": "1864 (Territorial capital)",
+              "cityPopulation": "CSA: 850,341 (latest est.)", // Updated
+              "yearDesignated": "1865", // Year from user table
               "cityNickname": "City of Trees",
               "trivia": "The Idaho State Capitol is the only one in the U.S. heated by naturally sourced geothermal energy."
             },
@@ -147,7 +150,7 @@
               "state": "Illinois",
               "capitalCity": "Springfield",
               "capitolBuildingHeight": "361 ft (110 m)",
-              "cityPopulation": "113,273 (2023 estimate)",
+              "cityPopulation": "CSA: 308,523 (latest est.)", // Updated
               "yearDesignated": "1837",
               "cityNickname": "Flower City, Home of Abraham Lincoln",
               "trivia": "The Illinois State Capitol is taller than the U.S. Capitol in Washington D.C."
@@ -156,8 +159,8 @@
               "state": "Indiana",
               "capitalCity": "Indianapolis",
               "capitolBuildingHeight": "234 ft (71 m) (to top of dome)",
-              "cityPopulation": "880,621 (2023 estimate)",
-              "yearDesignated": "1821",
+              "cityPopulation": "CSA: 2,492,514 (latest est.)", // Updated
+              "yearDesignated": "1825", // Year from user table
               "cityNickname": "Indy, Circle City, Crossroads of America",
               "trivia": "Indianapolis was an entirely planned city, designed from scratch to be the new state capital in a central location."
             },
@@ -165,7 +168,7 @@
               "state": "Iowa",
               "capitalCity": "Des Moines",
               "capitolBuildingHeight": "275 ft (84 m) (to top of gold dome)",
-              "cityPopulation": "210,330 (2023 estimate)",
+              "cityPopulation": "CSA: 890,322 (latest est.)", // Updated
               "yearDesignated": "1857",
               "cityNickname": "Hartford of the West (historical), DSM",
               "trivia": "The Iowa State Capitol's dome is covered in 23-karat gold leaf, so thin that 250,000 sheets would only be an inch thick."
@@ -174,8 +177,8 @@
               "state": "Kansas",
               "capitalCity": "Topeka",
               "capitolBuildingHeight": "304 ft (93 m) (dome is taller than U.S. Capitol's)",
-              "cityPopulation": "126,587 (2023 estimate)",
-              "yearDesignated": "1861",
+              "cityPopulation": "MSA: 233,152 (latest est.)", // Updated (No CSA in user table)
+              "yearDesignated": "1856", // Year from user table
               "cityNickname": "Top City, Golden City (historical)",
               "trivia": "Visitors can climb 296 steps to the top of the Kansas State Capitol dome for a panoramic view."
             },
@@ -183,7 +186,7 @@
               "state": "Kentucky",
               "capitalCity": "Frankfort",
               "capitolBuildingHeight": "212 ft (65 m) (to top of dome)",
-              "cityPopulation": "28,391 (2020 census)",
+              "cityPopulation": "CSA: 746,045 (latest est.)", // Updated
               "yearDesignated": "1792",
               "cityNickname": "Frank's Ford (historical)",
               "trivia": "Frankfort retained its capital status despite two fires in its early capitol buildings and attempts by larger cities to claim the title."
@@ -192,8 +195,8 @@
               "state": "Louisiana",
               "capitalCity": "Baton Rouge",
               "capitolBuildingHeight": "450 ft (137 m), 34 floors (tallest U.S. state capitol)",
-              "cityPopulation": "220,236 (2023 estimate)",
-              "yearDesignated": "1849 (current continuous designation 1882)",
+              "cityPopulation": "MSA: 870,569 (latest est.)", // Updated (No CSA in user table)
+              "yearDesignated": "1880", // Year from user table (differs from my prev, using table)
               "cityNickname": "Red Stick, B.R.",
               "trivia": "The Louisiana State Capitol is the tallest state capitol in the U.S. and was championed by Governor Huey P. Long, who was assassinated there in 1935."
             },
@@ -201,8 +204,8 @@
               "state": "Maine",
               "capitalCity": "Augusta",
               "capitolBuildingHeight": "185 ft (56 m) (to top of copper-clad dome/statue)",
-              "cityPopulation": "18,954 (2023 estimate)",
-              "yearDesignated": "1827 (selected)",
+              "cityPopulation": "MSA: 123,642 (latest est.)", // Updated (No CSA in user table)
+              "yearDesignated": "1832", // Year from user table
               "cityNickname": "The Kennebec Capital",
               "trivia": "The Maine State Capitol dome is topped by a statue of 'Lady Wisdom' made of copper."
             },
@@ -210,7 +213,7 @@
               "state": "Maryland",
               "capitalCity": "Annapolis",
               "capitolBuildingHeight": "181 ft (55 m) (wooden dome, largest of its kind in U.S.)",
-              "cityPopulation": "40,812 (2020 census)",
+              "cityPopulation": "CSA: 9,973,383 (latest est.)", // Updated (Washington-Baltimore CSA)
               "yearDesignated": "1694",
               "cityNickname": "America's Sailing Capital, Naptown",
               "trivia": "The Maryland State House is the oldest U.S. state capitol in continuous legislative use and served as the U.S. capital from 1783-1784."
@@ -219,8 +222,8 @@
               "state": "Massachusetts",
               "capitalCity": "Boston",
               "capitolBuildingHeight": "Approx. 208 ft (63.4 m) (to top of golden dome's lantern)",
-              "cityPopulation": "650,706 (2023 estimate)",
-              "yearDesignated": "1630 (Colonial), 1780 (State)",
+              "cityPopulation": "CSA: 8,466,186 (latest est.)", // Updated
+              "yearDesignated": "1630", // Year from user table
               "cityNickname": "Beantown, The Hub, City on a Hill",
               "trivia": "The Massachusetts State House dome was originally wooden, later sheathed in copper by Paul Revere's company, and first gilded in 1874."
             },
@@ -228,7 +231,7 @@
               "state": "Michigan",
               "capitalCity": "Lansing",
               "capitolBuildingHeight": "267 ft (81 m)",
-              "cityPopulation": "112,537 (2023 estimate)",
+              "cityPopulation": "MSA: 541,297 (latest est.)", // Updated (No CSA in user table)
               "yearDesignated": "1847",
               "cityNickname": "L-Town, Capital City",
               "trivia": "Lansing was chosen as Michigan's capital over Detroit partly due to its more central and defensible location."
@@ -237,7 +240,7 @@
               "state": "Minnesota",
               "capitalCity": "Saint Paul",
               "capitolBuildingHeight": "220 ft (67 m) (large unsupported marble dome)",
-              "cityPopulation": "307,469 (2023 estimate)",
+              "cityPopulation": "CSA: 4,078,788 (latest est.)", // Updated (Minneapolis-St. Paul CSA)
               "yearDesignated": "1849 (Territorial capital)",
               "cityNickname": "The Capital City, Pig's Eye (historical), Saintly City",
               "trivia": "The Minnesota State Capitol's dome is the second-largest self-supported marble dome in the world, after St. Peter's Basilica."
@@ -246,7 +249,7 @@
               "state": "Mississippi",
               "capitalCity": "Jackson",
               "capitolBuildingHeight": "180 ft (55 m) (to top of dome)",
-              "cityPopulation": "145,995 (2023 estimate)",
+              "cityPopulation": "CSA: 671,607 (latest est.)", // Updated
               "yearDesignated": "1821",
               "cityNickname": "City with Soul, J-Town",
               "trivia": "The current Mississippi State Capitol (1903) was funded by a million-dollar lawsuit settlement from a railroad for back taxes."
@@ -255,8 +258,8 @@
               "state": "Missouri",
               "capitalCity": "Jefferson City",
               "capitolBuildingHeight": "262 ft (80 m) (to apex of dome)",
-              "cityPopulation": "42,709 (2023 estimate)",
-              "yearDesignated": "1821 (selected)",
+              "cityPopulation": "MSA: 150,309 (latest est.)", // Updated (No CSA in user table)
+              "yearDesignated": "1826", // Year from user table
               "cityNickname": "Jeff City, JC",
               "trivia": "The Missouri State Capitol is topped with a bronze statue of Ceres, the Roman goddess of agriculture."
             },
@@ -264,7 +267,7 @@
               "state": "Montana",
               "capitalCity": "Helena",
               "capitolBuildingHeight": "165 ft (50.3 m) (to top of 'Liberty' statue)",
-              "cityPopulation": "32,091 (2020 census)",
+              "cityPopulation": "MSA: 83,058 (latest est.)", // Updated (No CSA in user table)
               "yearDesignated": "1875 (Territorial capital)",
               "cityNickname": "Queen City of the Rockies",
               "trivia": "Helena became wealthy during the gold rush, with about 50 millionaires residing there by 1888."
@@ -273,7 +276,7 @@
               "state": "Nebraska",
               "capitalCity": "Lincoln",
               "capitolBuildingHeight": "400 ft (122 m) (central tower)",
-              "cityPopulation": "294,757 (2023 estimate)",
+              "cityPopulation": "CSA: 361,921 (latest est.)", // Updated
               "yearDesignated": "1867",
               "cityNickname": "Star City, LNK",
               "trivia": "The Nebraska State Capitol, often called the 'Tower of the Plains,' is unique for its 400-foot office tower design."
@@ -282,7 +285,7 @@
               "state": "Nevada",
               "capitalCity": "Carson City",
               "capitolBuildingHeight": "Approx. 120 ft (36.6 m) (to top of silver dome)",
-              "cityPopulation": "58,036 (2023 estimate)",
+              "cityPopulation": "CSA: 657,958 (latest est.)", // Updated (Reno-Carson City-Fernley CSA)
               "yearDesignated": "1861 (Territorial capital)",
               "cityNickname": "The Capital of the Silver State",
               "trivia": "Carson City is named after explorer Kit Carson and features the historic Carson City Mint, which once produced silver coins."
@@ -291,7 +294,7 @@
               "state": "New Hampshire",
               "capitalCity": "Concord",
               "capitolBuildingHeight": "148 ft (45 m) (to top of lantern on golden dome)",
-              "cityPopulation": "44,648 (2023 estimate)",
+              "cityPopulation": "CSA: 8,466,186 (latest est.)", // Updated (Boston-Worcester-Providence CSA)
               "yearDesignated": "1808",
               "cityNickname": "The Capital City",
               "trivia": "The New Hampshire State House is the oldest state capitol in the U.S. where the legislature still meets in its original chambers."
@@ -300,17 +303,17 @@
               "state": "New Jersey",
               "capitalCity": "Trenton",
               "capitolBuildingHeight": "145 ft (44 m) (to top of dome)",
-              "cityPopulation": "89,620 (2023 estimate)",
-              "yearDesignated": "1790",
+              "cityPopulation": "CSA: 23,582,649 (latest est.)", // Updated (New York-Newark CSA)
+              "yearDesignated": "1784", // Year from user table (differs from my prev 1790)
               "cityNickname": "The Capital City, Turning Point of the Revolution",
               "trivia": "Trenton served as the U.S. capital for a short period in 1784 and was the site of Washington's pivotal victory in the Battle of Trenton."
             },
             {
               "state": "New Mexico",
               "capitalCity": "Santa Fe",
-              "capitolBuildingHeight": "60 ft (18 m) (height of central Rotunda)", // Updated
-              "cityPopulation": "89,596 (2023 estimate)",
-              "yearDesignated": "1610 (Spanish colonial), 1851 (U.S. Territory)",
+              "capitolBuildingHeight": "60 ft (18 m) (height of central Rotunda)",
+              "cityPopulation": "CSA: 1,162,523 (latest est.)", // Updated (Albuquerque-Santa Fe-Las Vegas CSA)
+              "yearDesignated": "1610 (Spanish colonial)",
               "cityNickname": "The City Different",
               "trivia": "Santa Fe is the oldest state capital in the U.S. and the highest, at over 7,000 feet elevation."
             },
@@ -318,7 +321,7 @@
               "state": "New York",
               "capitalCity": "Albany",
               "capitolBuildingHeight": "Approx. 220 ft (67 m) (distinctive for no dome, massive stone structure)",
-              "cityPopulation": "97,098 (2023 estimate)",
+              "cityPopulation": "CSA: 1,190,727 (latest est.)", // Updated (Albany-Schenectady CSA)
               "yearDesignated": "1797",
               "cityNickname": "Cradle of the Union, Smallbany",
               "trivia": "The New York State Capitol took 32 years (1867-1899) and $25 million to build, an enormous sum for its time, and lacks a dome."
@@ -327,7 +330,7 @@
               "state": "North Carolina",
               "capitalCity": "Raleigh",
               "capitolBuildingHeight": "97.5 ft (29.7 m) (to top of dome)",
-              "cityPopulation": "482,295 (2023 estimate)",
+              "cityPopulation": "CSA: 2,106,463 (latest est.)", // Updated (Raleigh-Durham-Cary CSA)
               "yearDesignated": "1792",
               "cityNickname": "City of Oaks",
               "trivia": "Raleigh was one of the first planned cities in the U.S., established specifically to serve as the state capital."
@@ -336,7 +339,7 @@
               "state": "North Dakota",
               "capitalCity": "Bismarck",
               "capitolBuildingHeight": "241.67 ft (73.7 m) (19-story Art Deco skyscraper)",
-              "cityPopulation": "75,034 (2023 estimate)",
+              "cityPopulation": "MSA: 133,626 (latest est.)", // Updated (No CSA in user table)
               "yearDesignated": "1883 (Territorial capital)",
               "cityNickname": "The Bismarck",
               "trivia": "North Dakota's Capitol is an Art Deco skyscraper known as 'The Skyscraper on the Prairie,' built after a fire destroyed the original capitol in 1930."
@@ -345,7 +348,7 @@
               "state": "Ohio",
               "capitalCity": "Columbus",
               "capitolBuildingHeight": "158 ft (48 m) (to top of cupola, Greek Revival style, no external dome)",
-              "cityPopulation": "913,175 (2023 estimate)",
+              "cityPopulation": "CSA: 2,544,048 (latest est.)", // Updated
               "yearDesignated": "1816",
               "cityNickname": "The Discovery City, Cbus, Arch City",
               "trivia": "The Ohio Statehouse is a rare example of Greek Revival architecture for a capitol building and notably lacks an external dome."
@@ -354,7 +357,7 @@
               "state": "Oklahoma",
               "capitalCity": "Oklahoma City",
               "capitolBuildingHeight": "255 ft (77.7 m) (to top of Guardian statue on dome, dome added in 2002)",
-              "cityPopulation": "702,938 (2023 estimate)",
+              "cityPopulation": "CSA: 1,498,149 (latest est.)", // Updated
               "yearDesignated": "1910",
               "cityNickname": "OKC, The Big Friendly, City of Gushers",
               "trivia": "The Oklahoma State Capitol is unique for having a working oil well on its grounds."
@@ -363,8 +366,8 @@
               "state": "Oregon",
               "capitalCity": "Salem",
               "capitolBuildingHeight": "168 ft (51 m) (to top of 'Oregon Pioneer' statue)",
-              "cityPopulation": "180,013 (2023 estimate)",
-              "yearDesignated": "1851 (Territorial capital)",
+              "cityPopulation": "CSA: 3,280,736 (latest est.)", // Updated (Portland-Vancouver-Salem CSA)
+              "yearDesignated": "1855", // Year from user table
               "cityNickname": "Cherry City",
               "trivia": "The Oregon State Capitol features a distinctive Art Deco Modernist design and is topped by a gilded bronze statue called the 'Oregon Pioneer'."
             },
@@ -372,7 +375,7 @@
               "state": "Pennsylvania",
               "capitalCity": "Harrisburg",
               "capitolBuildingHeight": "272 ft (83 m) (to top of dome)",
-              "cityPopulation": "50,183 (2023 estimate)",
+              "cityPopulation": "CSA: 1,295,259 (latest est.)", // Updated (Harrisburg-York-Lebanon CSA)
               "yearDesignated": "1812",
               "cityNickname": "Seat of Pennsylvania",
               "trivia": "The Pennsylvania State Capitol is famed for its lavish Renaissance design, often called a 'Palace of Art,' with a dome inspired by St. Peter's Basilica."
@@ -381,7 +384,7 @@
               "state": "Rhode Island",
               "capitalCity": "Providence",
               "capitolBuildingHeight": "235 ft (71.6 m) (to top of 'Independent Man' statue)",
-              "cityPopulation": "189,563 (2023 estimate)",
+              "cityPopulation": "CSA: 8,466,186 (latest est.)", // Updated (Boston-Worcester-Providence CSA)
               "yearDesignated": "1900 (current building; Providence was one of several co-capitals before)",
               "cityNickname": "The Creative Capital, PVD",
               "trivia": "The Rhode Island State House features the fourth-largest self-supporting marble dome in the world, after St. Peter's Basilica, the Minnesota State Capitol, and the Taj Mahal."
@@ -390,7 +393,7 @@
               "state": "South Carolina",
               "capitalCity": "Columbia",
               "capitolBuildingHeight": "180 ft (55 m)",
-              "cityPopulation": "140,055 (2023 estimate)",
+              "cityPopulation": "CSA: 951,412 (latest est.)", // Updated
               "yearDesignated": "1786",
               "cityNickname": "Cola Town, The Capital of Southern Hospitality, Soda City",
               "trivia": "The South Carolina State House bears six bronze stars marking hits from Union Army cannon fire during the Civil War in February 1865."
@@ -399,17 +402,17 @@
               "state": "South Dakota",
               "capitalCity": "Pierre",
               "capitolBuildingHeight": "161 ft (49 m) (to top of dome)",
-              "cityPopulation": "13,909 (2023 estimate)",
+              "cityPopulation": "MSA: 20,745 (latest est.)", // Updated (No CSA in user table)
               "yearDesignated": "1889",
               "cityNickname": "The Capital City",
-              "trivia": "Pierre (pronounced 'Peer') is the second smallest state capital by population in the U.S."
+              "trivia": "Pierre (pronounced 'Peer') is the second smallest state capital by population in the U.S. (based on city proper)."
             },
             {
               "state": "Tennessee",
               "capitalCity": "Nashville",
               "capitolBuildingHeight": "206.7 ft (63 m) (tower, no dome)",
-              "cityPopulation": "687,788 (2023 estimate)",
-              "yearDesignated": "1843",
+              "cityPopulation": "CSA: 2,118,233 (latest est.)", // Updated
+              "yearDesignated": "1826", // Year from user table
               "cityNickname": "Music City, Nashvegas, Athens of the South",
               "trivia": "The Tennessee State Capitol, designed by William Strickland, is one of the oldest working capitols in the nation, and Strickland himself is entombed within its walls."
             },
@@ -417,7 +420,7 @@
               "state": "Texas",
               "capitalCity": "Austin",
               "capitolBuildingHeight": "302.64 ft (92.24 m) (taller than U.S. Capitol)",
-              "cityPopulation": "979,882 (2023 estimate)",
+              "cityPopulation": "MSA: 2,283,371 (latest est.)", // Updated (No CSA in user table for Austin)
               "yearDesignated": "1839 (Republic of Texas capital)",
               "cityNickname": "Live Music Capital of the World, ATX, Silicon Hills",
               "trivia": "The Texas State Capitol, built of 'sunset red' granite, is notably taller than the U.S. Capitol in Washington, D.C."
@@ -426,7 +429,7 @@
               "state": "Utah",
               "capitalCity": "Salt Lake City",
               "capitolBuildingHeight": "286 ft (87 m) (to top of dome)",
-              "cityPopulation": "204,654 (2023 estimate)",
+              "cityPopulation": "CSA: 2,701,129 (latest est.)", // Updated (Salt Lake City-Provo-Orem CSA)
               "yearDesignated": "1858 (Territorial capital)",
               "cityNickname": "SLC, Crossroads of the West, Ski City",
               "trivia": "The Utah State Capitol is constructed primarily of Utah granite and marble and sits on a hill overlooking the city."
@@ -435,16 +438,16 @@
               "state": "Vermont",
               "capitalCity": "Montpelier",
               "capitolBuildingHeight": "135.5 ft (41.3 m) (to top of Ceres statue on dome)",
-              "cityPopulation": "8,013 (2023 estimate)",
+              "cityPopulation": "CSA: 285,369 (latest est.)", // Updated (Burlington-South Burlington-Barre CSA)
               "yearDesignated": "1805",
               "cityNickname": "The Green Mountain Capital",
-              "trivia": "Montpelier is the least populous state capital in the United States."
+              "trivia": "Montpelier is the least populous state capital in the United States (based on city proper)."
             },
             {
               "state": "Virginia",
               "capitalCity": "Richmond",
               "capitolBuildingHeight": "Approx. 85 ft (26 m) (central portico of historic building designed by Thomas Jefferson)",
-              "cityPopulation": "229,395 (2023 estimate)",
+              "cityPopulation": "MSA: 1,314,434 (latest est.)", // Updated (No CSA in user table)
               "yearDesignated": "1780",
               "cityNickname": "RVA, River City, The 804",
               "trivia": "The Virginia State Capitol, designed by Thomas Jefferson and Charles-Louis Clérisseau, served as the Capitol of the Confederate States of America during the Civil War."
@@ -453,7 +456,7 @@
               "state": "Washington",
               "capitalCity": "Olympia",
               "capitolBuildingHeight": "287 ft (87 m) (Legislative Building dome)",
-              "cityPopulation": "56,536 (2023 estimate)",
+              "cityPopulation": "CSA: 4,953,421 (latest est.)", // Updated (Seattle-Tacoma CSA)
               "yearDesignated": "1853 (Territorial capital)",
               "cityNickname": "Oly",
               "trivia": "The dome of the Washington State Legislative Building is the fifth tallest masonry dome in the world."
@@ -462,8 +465,8 @@
               "state": "West Virginia",
               "capitalCity": "Charleston",
               "capitolBuildingHeight": "292 ft (89 m) (to top of gold dome)",
-              "cityPopulation": "46,997 (2023 estimate)",
-              "yearDesignated": "1877 (permanent after several changes)",
+              "cityPopulation": "CSA: 779,969 (latest est.)", // Updated (Charleston-Huntington-Ashland CSA)
+              "yearDesignated": "1885", // Year from user table
               "cityNickname": "Charlie West, The Chemical Valley",
               "trivia": "The dome of the West Virginia State Capitol is five feet taller than the U.S. Capitol's dome and is adorned with 23.5 karat gold leaf."
             },
@@ -471,7 +474,7 @@
               "state": "Wisconsin",
               "capitalCity": "Madison",
               "capitolBuildingHeight": "284.4 ft (86.7 m) (to top of 'Wisconsin' statue on dome)",
-              "cityPopulation": "277,060 (2023 estimate)",
+              "cityPopulation": "CSA: 910,246 (latest est.)", // Updated
               "yearDesignated": "1838 (Territorial capital)",
               "cityNickname": "Madtown, City of Four Lakes",
               "trivia": "The Wisconsin State Capitol is the only U.S. state capitol built on an isthmus. A city ordinance protects its view by limiting building heights nearby."
@@ -480,7 +483,7 @@
               "state": "Wyoming",
               "capitalCity": "Cheyenne",
               "capitolBuildingHeight": "146 ft (45 m) (to top of gold dome)",
-              "cityPopulation": "65,051 (2023 estimate)",
+              "cityPopulation": "MSA: 100,512 (latest est.)", // Updated (No CSA in user table)
               "yearDesignated": "1869 (Territorial capital)",
               "cityNickname": "Magic City of the Plains, The Frontier City",
               "trivia": "The Wyoming State Capitol's dome was originally copper but was gilded with gold leaf in 1900. It is a National Historic Landmark."
@@ -492,6 +495,7 @@
         const detailsDisplayDiv = document.getElementById('capitalDetailsDisplay');
 
         function getOrdinal(n) {
+            if (n === null || n === undefined) return "N/A";
             const s = ["th", "st", "nd", "rd"];
             const v = n % 100;
             return n + (s[(v - 20) % 10] || s[v] || s[0]);
@@ -499,102 +503,78 @@
 
         function parseHeightInFeet(heightStr) {
             if (!heightStr) return null;
-            let match = heightStr.match(/(\d+(\.\d+)?)\s*ft/); // Matches "X ft" or "X.Y ft"
-            if (match && match[1]) {
-                return parseFloat(match[1]);
-            }
-            match = heightStr.match(/(\d+(\.\d+)?)\s*m/); // Matches "X m" or "X.Y m"
-            if (match && match[1]) {
-                return parseFloat(match[1]) * 3.28084; // Convert meters to feet
-            }
-            return null; // No parsable ft or m value
+            let match = heightStr.match(/(\d+(\.\d+)?)\s*ft/);
+            if (match && match[1]) return parseFloat(match[1]);
+            match = heightStr.match(/(\d+(\.\d+)?)\s*m/);
+            if (match && match[1]) return parseFloat(match[1]) * 3.28084;
+            return null;
         }
 
-        function parsePopulation(populationStr) {
+        function parseRegionalPopulation(populationStr) { // Updated parser name
             if (!populationStr) return null;
-            const match = populationStr.match(/^(\d{1,3}(,\d{3})*)/); // Matches numbers with commas
-            if (match && match[1]) {
-                return parseInt(match[1].replace(/,/g, ''), 10);
+            // Assumes format "TYPE: NUMBER (latest est.)" or just "TYPE: NUMBER"
+            // Or directly the number if from the table
+            const parts = populationStr.split(':');
+            let numStr = parts.length > 1 ? parts[1] : parts[0]; // Get part after TYPE: or whole string
+            numStr = numStr.replace(/\(.*\)/g, '').trim(); // Remove (latest est.) or similar
+            numStr = numStr.replace(/,/g, '').trim(); // Remove commas
+
+            if (/^\d+$/.test(numStr)) { // Check if it's purely a number
+                 return parseInt(numStr, 10);
             }
             return null;
         }
 
         function parseYear(yearStr) {
             if (!yearStr) return null;
-            const match = yearStr.match(/^\d{4}/); // Matches the first 4-digit number
-            if (match) {
-                return parseInt(match[0], 10);
-            }
+            const match = String(yearStr).match(/^\d{4}/); // Convert to string in case it's a number
+            if (match) return parseInt(match[0], 10);
             return null;
         }
 
         function calculateRanks() {
             const data = capitalsData.capitals;
 
-            // Add parsed values and original index
             data.forEach((item, index) => {
-                item.originalIndex = index; // Keep track of original position
+                item.originalIndex = index;
                 item.parsedHeight = parseHeightInFeet(item.capitolBuildingHeight);
-                item.parsedPopulation = parsePopulation(item.cityPopulation);
+                item.parsedPopulation = parseRegionalPopulation(item.cityPopulation); // Use updated parser
                 item.parsedYear = parseYear(item.yearDesignated);
             });
 
-            // --- Rank Heights (Tallest = 1st) ---
-            const validHeights = data.filter(item => item.parsedHeight !== null)
-                                     .sort((a, b) => b.parsedHeight - a.parsedHeight);
-            validHeights.forEach((item, index, arr) => {
-                if (index > 0 && item.parsedHeight === arr[index - 1].parsedHeight) {
-                    data[item.originalIndex].heightRank = data[arr[index - 1].originalIndex].heightRank;
-                } else {
-                    data[item.originalIndex].heightRank = index + 1;
+            const rankCategory = (categoryKey, sortOrder) => {
+                const validItems = data.filter(item => item[categoryKey] !== null && item[categoryKey] !== undefined)
+                                       .sort((a, b) => sortOrder === 'asc' ? a[categoryKey] - b[categoryKey] : b[categoryKey] - a[categoryKey]);
+                
+                let rank = 1;
+                for (let i = 0; i < validItems.length; i++) {
+                    const item = validItems[i];
+                    if (i > 0 && item[categoryKey] !== validItems[i-1][categoryKey]) {
+                        rank = i + 1;
+                    }
+                    // Assign rank back to the original data object using originalIndex
+                    data.find(d => d.originalIndex === item.originalIndex)[categoryKey + 'Rank'] = rank;
                 }
-            });
+            };
 
-            // --- Rank Populations (Most Populous = 1st) ---
-            const validPopulations = data.filter(item => item.parsedPopulation !== null)
-                                         .sort((a, b) => b.parsedPopulation - a.parsedPopulation);
-            validPopulations.forEach((item, index, arr) => {
-                if (index > 0 && item.parsedPopulation === arr[index - 1].parsedPopulation) {
-                    data[item.originalIndex].populationRank = data[arr[index - 1].originalIndex].populationRank;
-                } else {
-                    data[item.originalIndex].populationRank = index + 1;
-                }
-            });
-            
-            // --- Rank Years Designated (Oldest = 1st) ---
-            const validYears = data.filter(item => item.parsedYear !== null)
-                                   .sort((a, b) => a.parsedYear - b.parsedYear);
-            validYears.forEach((item, index, arr) => {
-                if (index > 0 && item.parsedYear === arr[index - 1].parsedYear) {
-                    data[item.originalIndex].yearDesignatedRank = data[arr[index - 1].originalIndex].yearDesignatedRank;
-                } else {
-                    data[item.originalIndex].yearDesignatedRank = index + 1;
-                }
-            });
+            rankCategory('parsedHeight', 'desc'); // Tallest = 1st
+            rankCategory('parsedPopulation', 'desc'); // Most Populous = 1st
+            rankCategory('parsedYear', 'asc'); // Oldest = 1st
 
-            // Add ordinal ranks
-             data.forEach(item => {
-                item.heightRankOrdinal = item.heightRank ? getOrdinal(item.heightRank) : "N/A";
-                item.populationRankOrdinal = item.populationRank ? getOrdinal(item.populationRank) : "N/A";
-                item.yearDesignatedRankOrdinal = item.yearDesignatedRank ? getOrdinal(item.yearDesignatedRank) : "N/A";
+            data.forEach(item => {
+                item.heightRankOrdinal = getOrdinal(item.parsedHeightRank);
+                item.populationRankOrdinal = getOrdinal(item.parsedPopulationRank);
+                item.yearDesignatedRankOrdinal = getOrdinal(item.parsedYearRank);
             });
         }
 
-        // Calculate ranks when the script loads
         calculateRanks();
 
-        // Sort capitals by state name for the dropdown
-        const sortedCapitals = [...capitalsData.capitals].sort((a, b) => {
-            if (a.state < b.state) return -1;
-            if (a.state > b.state) return 1;
-            return 0;
-        });
+        const sortedCapitalsForDropdown = [...capitalsData.capitals].sort((a, b) => a.state.localeCompare(b.state));
 
-        // Populate dropdown (using the sorted list but referencing original data via state name or a more robust ID if we had one)
-        // For simplicity here, we'll populate with sorted states, and selection will find it in the original `capitalsData`
-        sortedCapitals.forEach((capitalInfo) => {
+        sortedCapitalsForDropdown.forEach((capitalInfo) => {
             const option = document.createElement('option');
-            option.value = capitalInfo.state; // Use state name as value to lookup in original data
+            option.value = capitalInfo.state;
             option.textContent = capitalInfo.state;
             stateSelector.appendChild(option);
         });
@@ -606,14 +586,13 @@
                 return;
             }
 
-            // Find the selected capital from the original (now rank-enriched) capitalsData
             const capitalInfo = capitalsData.capitals.find(c => c.state === selectedStateName);
 
             if (capitalInfo) {
                 detailsDisplayDiv.innerHTML = `
                     <h3>${capitalInfo.capitalCity}, ${capitalInfo.state}</h3>
                     <p><strong>Capitol Building Height:</strong> ${capitalInfo.capitolBuildingHeight} <span class="rank-info">(Rank: ${capitalInfo.heightRankOrdinal})</span></p>
-                    <p><strong>City Population:</strong> ${capitalInfo.cityPopulation} <span class="rank-info">(Rank: ${capitalInfo.populationRankOrdinal})</span></p>
+                    <p><strong>Regional Population:</strong> ${capitalInfo.cityPopulation} <span class="rank-info">(Rank: ${capitalInfo.populationRankOrdinal})</span></p>
                     <p><strong>Year Designated:</strong> ${capitalInfo.yearDesignated} <span class="rank-info">(Rank: ${capitalInfo.yearDesignatedRankOrdinal})</span></p>
                     <p><strong>Nickname(s):</strong> ${capitalInfo.cityNickname || 'N/A'}</p>
                     <p><strong>Trivia:</strong> ${capitalInfo.trivia}</p>
