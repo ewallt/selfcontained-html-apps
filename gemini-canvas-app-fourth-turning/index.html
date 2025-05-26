@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fourth Turning: Interactive Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Visualization & Content Choices:
+        - Saeculum & Turnings: Goal: Inform, Organize. Method: HTML/CSS for a visual cycle representation (e.g., four quadrants). Clickable cards for each Turning displaying details (description, mood, examples). Interaction: Click to reveal. Justification: Clear, structured presentation of the core model. No Chart.js needed here, custom HTML/CSS is better for the static cyclical concept.
+        - Generational Archetypes: Goal: Inform, Compare. Method: Clickable cards for each Archetype (Prophet, Nomad, Hero, Artist) showing characteristics, role, and examples. HTML/CSS diagram for Crisis alignment. Interaction: Click to reveal. Justification: Easy comparison of archetypes.
+        - The Fourth Turning (Crisis Details): Goal: Inform. Method: Accordion sections for catalyst, progression, historical examples, and current crisis details. Interaction: Expand/collapse. Justification: Manages large amounts of text effectively.
+        - Current Saeculum Timeline: Goal: Inform, Show Change. Method: Chart.js horizontal bar chart (acting as a timeline) showing Turnings from post-WWII High to predicted Crisis end (~1946-2030s). Markers for key events (e.g., 1960s Awakening, 2008 GFC, COVID-19). Interaction: Hover/click on timeline segments/markers to display brief info. Justification: Visually anchors the theory to recent history and future predictions. Library: Chart.js.
+        - Predictions & Critiques: Goal: Inform, Compare. Method: Two-column layout or tabbed interface for Predictions vs. Critiques. Bullet points for key arguments. Interaction: Toggle/Tab selection. Justification: Balanced presentation of the theory's reception.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-button.active {
+            border-bottom-width: 2px;
+            border-color: #0ea5e9; /* sky-500 */
+            color: #0ea5e9;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .turning-card, .archetype-card {
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .turning-card:hover, .archetype-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* Adjusted for better timeline display */
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px; /* Base height */
+            max-height: 500px; /* Max height */
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 450px;
+            }
+        }
+        .timeline-info-box {
+            transition: opacity 0.3s ease-in-out;
+        }
+         .cycle-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 1rem;
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+            position: relative;
+        }
+        .cycle-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+        }
+        .cycle-item-high { grid-area: 1 / 1 / 2 / 2; }
+        .cycle-item-awakening { grid-area: 1 / 2 / 2 / 3; }
+        .cycle-item-unraveling { grid-area: 2 / 2 / 3 / 3; }
+        .cycle-item-crisis { grid-area: 2 / 1 / 3 / 2; }
+
+        .cycle-arrow {
+            position: absolute;
+            font-size: 1.5rem;
+            color: #38bdf8; /* sky-500 */
+        }
+        .arrow-high-awakening { top: 25%; left: 46%; transform: translateY(-50%) rotate(0deg); }
+        .arrow-awakening-unraveling { top: 46%; left: 75%; transform: translateX(-50%) rotate(90deg); }
+        .arrow-unraveling-crisis { top: 75%; left: 46%; transform: translateY(-50%) rotate(180deg); }
+        .arrow-crisis-high { top: 46%; left: 25%; transform: translateX(-50%) rotate(270deg); }
+
+        .archetype-alignment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800">
+    <header class="bg-stone-800 text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold text-center">The Fourth Turning: An Interactive Explorer</h1>
+            <p class="text-center text-stone-300 mt-1">Exploring the Cycles of History by Strauss & Howe</p>
+        </div>
+    </header>
+
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center space-x-2 sm:space-x-4 py-3 overflow-x-auto">
+                <button data-tab="overview" class="tab-button text-sm sm:text-base font-medium text-stone-600 hover:text-sky-500 py-2 px-3 sm:px-4 rounded-t-lg active">Overview</button>
+                <button data-tab="cycle" class="tab-button text-sm sm:text-base font-medium text-stone-600 hover:text-sky-500 py-2 px-3 sm:px-4 rounded-t-lg">The Cycle</button>
+                <button data-tab="archetypes" class="tab-button text-sm sm:text-base font-medium text-stone-600 hover:text-sky-500 py-2 px-3 sm:px-4 rounded-t-lg">Archetypes</button>
+                <button data-tab="crisis" class="tab-button text-sm sm:text-base font-medium text-stone-600 hover:text-sky-500 py-2 px-3 sm:px-4 rounded-t-lg">The Crisis</button>
+                <button data-tab="predictions" class="tab-button text-sm sm:text-base font-medium text-stone-600 hover:text-sky-500 py-2 px-3 sm:px-4 rounded-t-lg">Predictions & Critiques</button>
+                <button data-tab="timeline" class="tab-button text-sm sm:text-base font-medium text-stone-600 hover:text-sky-500 py-2 px-3 sm:px-4 rounded-t-lg">Current Timeline</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <section id="overview" class="content-section active">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold text-sky-600 mb-4">Understanding the Fourth Turning Theory</h2>
+                <p class="mb-4 text-stone-700 leading-relaxed">
+                    This application provides an interactive exploration of the generational theory developed by William Strauss and Neil Howe, most famously presented in their 1997 book, "The Fourth Turning." The theory posits that modern history moves in recurring cycles, called saecula, each lasting approximately 80-100 years. Each saeculum is composed of four distinct "Turnings" – High, Awakening, Unraveling, and Crisis – which shape societal mood and direction.
+                </p>
+                <p class="mb-4 text-stone-700 leading-relaxed">
+                    Navigate through the sections using the tabs above to learn about the saecular cycle, the four Turnings, the generational archetypes (Prophet, Nomad, Hero, Artist) that drive these cycles, the nature of the climactic Fourth Turning (Crisis), and the theory's predictions and critiques. An interactive timeline also allows you to visualize the current saeculum. The goal is to make this complex theory more accessible and understandable.
+                </p>
+                <div class="mt-6 p-4 bg-sky-50 border-l-4 border-sky-500 rounded-r-lg">
+                    <p class="text-stone-700 italic">"At the core of modern history lies this remarkable pattern: Over the past five centuries, Anglo-American society has entered a new era – a new turning – every two decades or so. ... Each cycle spans the length of a long human life, roughly eighty to one hundred years, a unit of time the ancients called the saeculum."</p>
+                    <p class="text-right text-sm text-stone-500 mt-2">- Strauss & Howe, The Fourth Turning</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="cycle" class="content-section">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold text-sky-600 mb-4">The Saeculum and the Four Turnings</h2>
+                <p class="mb-4 text-stone-700 leading-relaxed">
+                    Strauss and Howe define a "saeculum" as a long human life (about 80–100 years) that encapsulates a full cycle of societal change. Each saeculum is divided into Four Turnings, each lasting roughly 20-25 years and characterized by a distinct mood and cultural trajectory. Like seasons, the turnings always follow the same order: High → Awakening → Unraveling → Crisis, before the cycle renews. Click on each Turning below to learn more.
+                </p>
+
+                <div class="cycle-container mb-6">
+                    <div class="cycle-item turning-card bg-green-100 border-2 border-green-300 rounded-lg p-3 cycle-item-high" data-turning="high">High (Spring)</div>
+                    <div class="cycle-item turning-card bg-yellow-100 border-2 border-yellow-300 rounded-lg p-3 cycle-item-awakening" data-turning="awakening">Awakening (Summer)</div>
+                    <div class="cycle-item turning-card bg-orange-100 border-2 border-orange-300 rounded-lg p-3 cycle-item-unraveling" data-turning="unraveling">Unraveling (Autumn)</div>
+                    <div class="cycle-item turning-card bg-red-100 border-2 border-red-300 rounded-lg p-3 cycle-item-crisis" data-turning="crisis">Crisis (Winter)</div>
+                    <div class="cycle-arrow arrow-high-awakening">➔</div>
+                    <div class="cycle-arrow arrow-awakening-unraveling">➔</div>
+                    <div class="cycle-arrow arrow-unraveling-crisis">➔</div>
+                    <div class="cycle-arrow arrow-crisis-high">➔</div>
+                </div>
+
+                <div id="turning-details" class="mt-6 space-y-4">
+                    </div>
+            </div>
+        </section>
+
+        <section id="archetypes" class="content-section">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold text-sky-600 mb-4">Generational Archetypes</h2>
+                <p class="mb-4 text-stone-700 leading-relaxed">
+                    Central to the theory is the idea that generations come in recurring "archetypes," each with a distinct collective persona shaped by its historical context. There are four archetypes – Prophet, Nomad, Hero, and Artist – that repeat in a fixed order. Each is defined by the era in which they are born and come of age. Click on an archetype to explore its characteristics and role.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="archetype-card bg-purple-100 border-2 border-purple-300 p-4 rounded-lg text-center" data-archetype="prophet">
+                        <h3 class="text-lg font-semibold text-purple-700">Prophet (Idealist)</h3>
+                        <p class="text-sm text-purple-600">Values-driven, Visionary</p>
+                    </div>
+                    <div class="archetype-card bg-gray-100 border-2 border-gray-300 p-4 rounded-lg text-center" data-archetype="nomad">
+                        <h3 class="text-lg font-semibold text-gray-700">Nomad (Reactive)</h3>
+                        <p class="text-sm text-gray-600">Pragmatic, Resilient</p>
+                    </div>
+                    <div class="archetype-card bg-blue-100 border-2 border-blue-300 p-4 rounded-lg text-center" data-archetype="hero">
+                        <h3 class="text-lg font-semibold text-blue-700">Hero (Civic)</h3>
+                        <p class="text-sm text-blue-600">Community-oriented, Builder</p>
+                    </div>
+                    <div class="archetype-card bg-teal-100 border-2 border-teal-300 p-4 rounded-lg text-center" data-archetype="artist">
+                        <h3 class="text-lg font-semibold text-teal-700">Artist (Adaptive)</h3>
+                        <p class="text-sm text-teal-600">Process-oriented, Mediator</p>
+                    </div>
+                </div>
+                <div id="archetype-details" class="mt-6 space-y-4">
+                    </div>
+                 <h3 class="text-xl font-semibold text-sky-600 mt-8 mb-3">Archetype Alignment in a Crisis</h3>
+                <p class="mb-4 text-stone-700 leading-relaxed">
+                    During a Fourth Turning (Crisis), the four archetypes align in a specific way across the age ladder, which Strauss and Howe argue is crucial for navigating the era:
+                </p>
+                <div class="archetype-alignment-grid bg-stone-50 p-4 rounded-lg border border-stone-200">
+                    <div class="p-3 bg-purple-50 rounded-md shadow">
+                        <h4 class="font-semibold text-purple-700">Elder Prophets</h4>
+                        <p class="text-sm text-stone-600">Provide guiding vision and moral leadership.</p>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-md shadow">
+                        <h4 class="font-semibold text-gray-700">Midlife Nomads</h4>
+                        <p class="text-sm text-stone-600">Offer pragmatic execution and tough leadership.</p>
+                    </div>
+                    <div class="p-3 bg-blue-50 rounded-md shadow">
+                        <h4 class="font-semibold text-blue-700">Young Adult Heroes</h4>
+                        <p class="text-sm text-stone-600">Supply collective energy, sacrifice, and action.</p>
+                    </div>
+                    <div class="p-3 bg-teal-50 rounded-md shadow">
+                        <h4 class="font-semibold text-teal-700">Child Artists</h4>
+                        <p class="text-sm text-stone-600">Are protected and absorb the lessons of the Crisis.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="crisis" class="content-section">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold text-sky-600 mb-4">The Nature of the Fourth Turning (Crisis)</h2>
+                <p class="mb-4 text-stone-700 leading-relaxed">
+                    The Fourth Turning, or Crisis, is the decisive era of the saeculum. It's a period of secular upheaval where the old civic order is destroyed and a new one is born. History's "winter," it's a time of trial, destruction, sacrifice, and ultimately, renewal. Explore the typical characteristics and progression below.
+                </p>
+                <div id="crisis-accordion" class="space-y-3">
+                    </div>
+            </div>
+        </section>
+
+        <section id="predictions" class="content-section">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold text-sky-600 mb-4">Predictions & Critiques</h2>
+                <p class="mb-4 text-stone-700 leading-relaxed">
+                    The Fourth Turning theory is notable for its predictions about America's future, some of which have appeared prescient. However, it has also faced significant criticism from academics and commentators. This section explores both aspects.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                        <h3 class="text-xl font-semibold text-green-700 mb-3">Key Predictions</h3>
+                        <ul id="predictions-list" class="list-disc list-inside space-y-2 text-stone-700">
+                            </ul>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                        <h3 class="text-xl font-semibold text-red-700 mb-3">Major Critiques</h3>
+                        <ul id="critiques-list" class="list-disc list-inside space-y-2 text-stone-700">
+                            </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline" class="content-section">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-semibold text-sky-600 mb-4">Timeline of the Current Saeculum</h2>
+                <p class="mb-4 text-stone-700 leading-relaxed">
+                    This interactive timeline visualizes the current saeculum, from the post-World War II High to the predicted end of the ongoing Fourth Turning Crisis. Hover over or click on segments and event markers for more information. According to Strauss and Howe, the current Crisis began around 2008 and is expected to resolve by the early 2030s.
+                </p>
+                <div class="chart-container">
+                    <canvas id="saeculumTimelineChart"></canvas>
+                </div>
+                <div id="timeline-info-box" class="mt-4 p-4 bg-sky-50 border border-sky-200 rounded-lg min-h-[50px] text-stone-700 opacity-0">
+                    Hover over or click timeline elements for details.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-stone-800 text-stone-300 py-8 mt-12 text-center">
+        <p class="text-sm">&copy; <span id="currentYear"></span> Interactive Explorer. Based on the work of Strauss & Howe.</p>
+        <p class="text-xs mt-1">This application is for educational purposes only.</p>
+    </footer>
+
+    <script>
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const contentSections = document.querySelectorAll('.content-section');
+        const turningCards = document.querySelectorAll('.turning-card');
+        const turningDetailsContainer = document.getElementById('turning-details');
+        const archetypeCards = document.querySelectorAll('.archetype-card');
+        const archetypeDetailsContainer = document.getElementById('archetype-details');
+        const crisisAccordionContainer = document.getElementById('crisis-accordion');
+        const predictionsList = document.getElementById('predictions-list');
+        const critiquesList = document.getElementById('critiques-list');
+        const timelineInfoBox = document.getElementById('timeline-info-box');
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const appData = {
+            turnings: {
+                high: {
+                    name: "First Turning – High (Spring)",
+                    colorClass: "bg-green-100 border-green-500",
+                    description: "A post-Crisis era of renewal, an upbeat time of strengthening institutions and weakening individualism. Society is unified and confident, public institutions are rebuilt, and authority is respected. Communitarian values are strong.",
+                    mood: "Confident, Optimistic, Conformist",
+                    example: "Post-World War II American High (c. 1946–early 1960s): Booming prosperity, new international order, high social conformity."
+                },
+                awakening: {
+                    name: "Second Turning – Awakening (Summer)",
+                    colorClass: "bg-yellow-100 border-yellow-500",
+                    description: "A passionate era of cultural or spiritual upheaval, when the civic order comes under attack from a new values regime. Young adults challenge established institutions in the name of freedom and authenticity.",
+                    mood: "Passionate, Rebellious, Idealistic",
+                    example: "The 'Consciousness Revolution' (c. 1960s–1970s): Cultural upheaval, youth rebellion, civil rights movements, identity politics."
+                },
+                unraveling: {
+                    name: "Third Turning – Unraveling (Autumn)",
+                    colorClass: "bg-orange-100 border-orange-500",
+                    description: "A downcast era of strengthening individualism and weakening institutions. The collective high gives way to distrust and fragmentation. Institutions are weak, society is polarized and cynical.",
+                    mood: "Cynical, Individualistic, Polarized",
+                    example: "The 'Culture Wars' Era (c. 1980s–early 2000s): Plummeting trust in government, partisan divisions, social fabric frayed, rise of individual enterprise."
+                },
+                crisis: {
+                    name: "Fourth Turning – Crisis (Winter)",
+                    colorClass: "bg-red-100 border-red-500",
+                    description: "A decisive era of secular upheaval, when an existential crisis (often war or revolution) destroys obsolete institutions and ushers in a new social order. A time of trial, heroism, and rebirth.",
+                    mood: "Urgent, Collective, Sacrificial",
+                    example: "Great Depression & World War II (c. 1929–1945): Economic collapse, total war, and ultimately a new global order."
+                }
+            },
+            archetypes: {
+                prophet: {
+                    name: "Prophet (Idealist)",
+                    colorClass: "bg-purple-100 border-purple-500",
+                    description: "Born during a High, Prophets are values-driven and often become moralistic leaders. They champion principles, instigate Awakenings as young adults, and provide visionary (or dogmatic) guidance during Crises as elders.",
+                    keywords: "Principled, Moralistic, Visionary, Transformative",
+                    exampleGenerations: "Boomer Generation (born 1943-60), Missionary Generation (FDR's elders), Transcendental Generation (Lincoln's elders)."
+                },
+                nomad: {
+                    name: "Nomad (Reactive)",
+                    colorClass: "bg-gray-100 border-gray-500",
+                    description: "Born during an Awakening, Nomads grow up under-protected and alienated, learning to be resourceful and skeptical. They are pragmatic, tough leaders in midlife during a Crisis, focused on survival and liberty.",
+                    keywords: "Pragmatic, Resilient, Skeptical, Self-reliant",
+                    exampleGenerations: "Generation X (born 1961-81), Lost Generation (WWII junior leaders), Liberty Generation (pre-Revolution)."
+                },
+                hero: {
+                    name: "Hero (Civic)",
+                    colorClass: "bg-blue-100 border-blue-500",
+                    description: "Born during an Unraveling, Heroes are often protected children who develop a collective orientation. They come of age during a Crisis, becoming the energetic foot soldiers and builders of new institutions in the subsequent High.",
+                    keywords: "Civic-minded, Team-oriented, Confident, Builder",
+                    exampleGenerations: "Millennial Generation (born c. 1982-2004), G.I. Generation ('Greatest Generation'), Republican Generation (American Revolution patriots)."
+                },
+                artist: {
+                    name: "Artist (Adaptive)",
+                    colorClass: "bg-teal-100 border-teal-500",
+                    description: "Born during a Crisis, Artists are often over-protected children who become risk-averse, conformist young adults during the High. They are pragmatic mediators and experts, bringing balance and refinement.",
+                    keywords: "Adaptive, Compromising, Sensitive, Process-oriented",
+                    exampleGenerations: "Silent Generation (born 1925-42), 'Homeland' Generation / Gen Z (current youth), Progressive Generation (post-Civil War)."
+                }
+            },
+            crisisDetails: [
+                {
+                    title: "Secular Upheaval and War",
+                    content: "Fourth Turnings typically involve massive societal upheaval, often manifesting as major wars (external or civil) or revolutions. Examples include the American Revolution, Civil War, and WWII. Society mobilizes, individualism wanes, and collectivism surges to confront existential threats."
+                },
+                {
+                    title: "Catalyst and Progression",
+                    content: "A Crisis often begins with a 'Catalyst' (e.g., market crash, attack) that ends the Unraveling mood. This is followed by 'Regeneracy' as civic cohesion forms around the emergency. The Crisis intensifies towards a 'Climax' (epic confrontation), and finally a 'Resolution' establishes a new order. For WWII: 1929 crash (catalyst), New Deal/mobilization (regeneracy), D-Day/atomic bombs (climax), Allied victory/Bretton Woods (resolution)."
+                },
+                {
+                    title: "The Current Fourth Turning (Millennial Crisis)",
+                    content: "According to Neil Howe, the current Crisis began with the 2008 financial meltdown (Catalyst). It has since encompassed economic recession, populism, political discord, global terrorism, and the COVID-19 pandemic. Howe predicts a climax in the late 2020s and resolution by the early 2030s, potentially involving major geopolitical or internal conflict."
+                },
+                {
+                    title: "Common Themes of Crisis Eras",
+                    content: "Recurring themes include: a sense of now-or-never urgency where history accelerates; collective solidarity and acceptance of stronger authority (sometimes authoritarianism); moral clarity (often binary choices); youthful heroism as a young adult generation meets the challenge; and major institutional overhaul by the end."
+                }
+            ],
+            predictions: [
+                "Around 2005 (± few years), America would enter a Fourth Turning, with a climax around 2020 and resolution by ~2026 (original prediction, timeline now extended by Howe to early 2030s).",
+                "Hypothetical scenarios included global terrorism (prefiguring 9/11), debt/constitutional crises (echoing 2010s shutdowns), pandemics (like COVID-19), and geopolitical confrontations with Russia.",
+                "The current Crisis (began ~2008) will likely climax in the late 2020s with resolution by early 2030s.",
+                "The climax may involve major external conflict (e.g., great-power war) and/or internal conflict (e.g., civil strife, constitutional crisis).",
+                "A new American 'High' is expected by the mid-2030s, with renewed unity and stronger institutions, led by Millennials."
+            ],
+            critiques: [
+                "Lack of Empirical Rigor & Unfalsifiability: Theory relies on cherry-picked evidence and is difficult to test or disprove scientifically.",
+                "Generational Stereotyping: Broad archetypes can overlook vast diversity within generations (class, race, gender, etc.) and be ethnocentric.",
+                "Arbitrary Selection of Turnings/Events: Critics argue the historical cycles and key events are defined retrospectively to fit the model.",
+                "Determinism & Millenarianism: The theory can sound fatalistic, and some worry it could become a self-fulfilling prophecy if leaders expect/welcome crisis.",
+                "Overly Optimistic Outcomes: The theory tends to assume crises lead to renewal, but history shows crises can also lead to collapse or darker outcomes.",
+                "Influence on Political Extremism: Concerns that the theory has been co-opted by some to justify radical or disruptive actions."
+            ]
+        };
+
+        function displayTurningDetails(turningKey) {
+            const turning = appData.turnings[turningKey];
+            if (!turning) return;
+
+            turningDetailsContainer.innerHTML = `
+                <div class="p-4 rounded-lg border-l-4 ${turning.colorClass} shadow">
+                    <h3 class="text-xl font-semibold text-stone-700 mb-2">${turning.name}</h3>
+                    <p class="text-sm text-stone-600 mb-1"><strong>Mood:</strong> ${turning.mood}</p>
+                    <p class="text-stone-700 mb-2 leading-relaxed">${turning.description}</p>
+                    <p class="text-sm text-stone-600"><strong>Historical Example:</strong> ${turning.example}</p>
+                </div>
+            `;
+            turningDetailsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function displayArchetypeDetails(archetypeKey) {
+            const archetype = appData.archetypes[archetypeKey];
+            if (!archetype) return;
+
+            archetypeDetailsContainer.innerHTML = `
+                <div class="p-4 rounded-lg border-l-4 ${archetype.colorClass} shadow">
+                    <h3 class="text-xl font-semibold text-stone-700 mb-2">${archetype.name}</h3>
+                    <p class="text-sm text-stone-600 mb-1"><strong>Keywords:</strong> ${archetype.keywords}</p>
+                    <p class="text-stone-700 mb-2 leading-relaxed">${archetype.description}</p>
+                    <p class="text-sm text-stone-600"><strong>Example Generations:</strong> ${archetype.exampleGenerations}</p>
+                </div>
+            `;
+             archetypeDetailsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                contentSections.forEach(section => section.classList.remove('active'));
+                document.getElementById(button.dataset.tab).classList.add('active');
+            });
+        });
+
+        turningCards.forEach(card => {
+            card.addEventListener('click', () => {
+                turningCards.forEach(c => c.classList.remove('ring-2', 'ring-sky-500', 'scale-105'));
+                card.classList.add('ring-2', 'ring-sky-500', 'scale-105');
+                displayTurningDetails(card.dataset.turning);
+            });
+        });
+        
+        archetypeCards.forEach(card => {
+            card.addEventListener('click', () => {
+                 archetypeCards.forEach(c => c.classList.remove('ring-2', 'ring-sky-500', 'scale-105'));
+                card.classList.add('ring-2', 'ring-sky-500', 'scale-105');
+                displayArchetypeDetails(card.dataset.archetype);
+            });
+        });
+
+        function populateCrisisAccordion() {
+            appData.crisisDetails.forEach((item, index) => {
+                const accordionItem = `
+                    <div>
+                        <button class="accordion-toggle w-full flex justify-between items-center text-left p-3 bg-stone-200 hover:bg-stone-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500">
+                            <span class="font-medium text-stone-700">${item.title}</span>
+                            <span class="transform transition-transform duration-300 text-sky-600">&#9660;</span>
+                        </button>
+                        <div class="accordion-content bg-white p-4 rounded-b-md border border-t-0 border-stone-200">
+                            <p class="text-stone-700 leading-relaxed">${item.content}</p>
+                        </div>
+                    </div>
+                `;
+                crisisAccordionContainer.innerHTML += accordionItem;
+            });
+
+            document.querySelectorAll('.accordion-toggle').forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const arrow = button.querySelector('span:last-child');
+                    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                        content.style.maxHeight = '0px';
+                        arrow.style.transform = 'rotate(0deg)';
+                    } else {
+                        // Close other open accordions
+                        document.querySelectorAll('.accordion-content').forEach(ac => {
+                            if (ac !== content) {
+                                ac.style.maxHeight = '0px';
+                                ac.previousElementSibling.querySelector('span:last-child').style.transform = 'rotate(0deg)';
+                            }
+                        });
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        arrow.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+        }
+        
+        function populatePredictionsAndCritiques() {
+            appData.predictions.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                predictionsList.appendChild(li);
+            });
+            appData.critiques.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                critiquesList.appendChild(li);
+            });
+        }
+
+        function createSaeculumTimeline() {
+            const ctx = document.getElementById('saeculumTimelineChart').getContext('2d');
+            const timelineData = {
+                labels: ['Post-WWII High', 'Awakening', 'Unraveling', 'Crisis (Current)'],
+                datasets: [{
+                    label: 'Turning Duration (approx. years)',
+                    data: [
+                        { x: [1946, 1964], y: 'Post-WWII High', turning: 'High', info: 'Post-WWII High (1946-1964): Era of prosperity, strong institutions, and social conformity. Key events: Cold War begins, Civil Rights movement gains momentum early on.' },
+                        { x: [1964, 1984], y: 'Awakening', turning: 'Awakening', info: 'Awakening (1964-1984): Cultural upheaval, Vietnam War, Watergate, stagflation. Rise of individualism and spiritual seeking.' },
+                        { x: [1984, 2008], y: 'Unraveling', turning: 'Unraveling', info: 'Unraveling (1984-2008): End of Cold War, tech boom, culture wars, rising inequality, 9/11 attacks. Weakening institutions.' },
+                        { x: [2008, 2032], y: 'Crisis (Current)', turning: 'Crisis', info: 'Crisis (2008-c.2032): Global Financial Crisis, Great Recession, COVID-19 pandemic, rising populism, geopolitical tensions. Expected climax late 2020s.' }
+                    ],
+                    backgroundColor: [
+                        'rgba(74, 222, 128, 0.7)', // green-400
+                        'rgba(250, 204, 21, 0.7)',  // yellow-400
+                        'rgba(251, 146, 60, 0.7)', // orange-400
+                        'rgba(239, 68, 68, 0.7)'   // red-500
+                    ],
+                    borderColor: [
+                        'rgba(34, 197, 94, 1)',
+                        'rgba(234, 179, 8, 1)',
+                        'rgba(249, 115, 22, 1)',
+                        'rgba(220, 38, 38, 1)'
+                    ],
+                    borderWidth: 1,
+                    barPercentage: 0.8,
+                    categoryPercentage: 0.8
+                }]
+            };
+
+            const eventMarkers = [
+                { year: 1955, label: 'Early Civil Rights', info: 'Key Supreme Court decisions and activism mark growing momentum.' },
+                { year: 1968, label: 'Peak Awakening Turmoil', info: 'Assassinations, protests, widespread social unrest.' },
+                { year: 1989, label: 'End of Cold War', info: 'Fall of Berlin Wall symbolizes shift in global order.' },
+                { year: 2001, label: '9/11 Attacks', info: 'Major catalyst deepening the Unraveling mood and foreshadowing Crisis.' },
+                { year: 2008, label: 'Global Financial Crisis', info: 'Considered by Howe as the start of the current Fourth Turning.' },
+                { year: 2020, label: 'COVID-19 Pandemic', info: 'Global health crisis with profound economic and social impacts.' },
+                { year: 2028, label: 'Predicted Climax (approx.)', info: 'Strauss & Howe theories suggest a potential climax of the current crisis around this time.' },
+            ];
+            
+            const timelineChart = new Chart(ctx, {
+                type: 'bar',
+                data: timelineData,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            min: 1940,
+                            max: 2040,
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            },
+                            ticks: {
+                                stepSize: 10
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                             title: {
+                                display: true,
+                                text: 'Turning'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false // Disable default tooltip, using custom info box
+                        },
+                        annotation: {
+                            annotations: eventMarkers.map(event => ({
+                                type: 'line',
+                                xMin: event.year,
+                                xMax: event.year,
+                                borderColor: 'rgba(100, 100, 100, 0.5)',
+                                borderWidth: 2,
+                                borderDash: [6, 6],
+                                label: {
+                                    content: event.label,
+                                    enabled: true,
+                                    position: 'start',
+                                    backgroundColor: 'rgba(100,100,100,0.1)',
+                                    color: '#333',
+                                    font: { size: 9 },
+                                    yAdjust: (eventMarkers.indexOf(event) % 2 === 0) ? -10 : 10, // Alternate label position
+                                }
+                            }))
+                        }
+                    },
+                    onClick: (event, elements) => {
+                        if (elements.length > 0) {
+                            const datasetIndex = elements[0].datasetIndex;
+                            const index = elements[0].index;
+                            const info = timelineData.datasets[datasetIndex].data[index].info;
+                            timelineInfoBox.textContent = info;
+                            timelineInfoBox.classList.remove('opacity-0');
+                        } else {
+                            // Check if click is near an event marker (simplified check)
+                            const chartArea = timelineChart.chartArea;
+                            const clickX = timelineChart.scales.x.getValueForPixel(event.x);
+                            
+                            let closestEvent = null;
+                            let minDistance = Infinity;
+
+                            eventMarkers.forEach(marker => {
+                                const distance = Math.abs(clickX - marker.year);
+                                if (distance < 2 && distance < minDistance) { // Click within ~2 years of marker
+                                    minDistance = distance;
+                                    closestEvent = marker;
+                                }
+                            });
+
+                            if (closestEvent) {
+                                timelineInfoBox.textContent = `${closestEvent.label} (${closestEvent.year}): ${closestEvent.info}`;
+                                timelineInfoBox.classList.remove('opacity-0');
+                            } else {
+                                timelineInfoBox.textContent = 'Hover over or click timeline elements for details.';
+                                timelineInfoBox.classList.add('opacity-0');
+                            }
+                        }
+                    },
+                    onHover: (event, elements) => {
+                         if (elements.length > 0) {
+                            const datasetIndex = elements[0].datasetIndex;
+                            const index = elements[0].index;
+                            const info = timelineData.datasets[datasetIndex].data[index].info;
+                            timelineInfoBox.textContent = info;
+                            timelineInfoBox.classList.remove('opacity-0');
+                        } else {
+                             const chartArea = timelineChart.chartArea;
+                            const hoverX = timelineChart.scales.x.getValueForPixel(event.x);
+                            
+                            let closestEvent = null;
+                            let minDistance = Infinity;
+
+                            eventMarkers.forEach(marker => {
+                                const distance = Math.abs(hoverX - marker.year);
+                                if (distance < 2 && distance < minDistance) { 
+                                    minDistance = distance;
+                                    closestEvent = marker;
+                                }
+                            });
+
+                            if (closestEvent) {
+                                timelineInfoBox.textContent = `${closestEvent.label} (${closestEvent.year}): ${closestEvent.info}`;
+                                timelineInfoBox.classList.remove('opacity-0');
+                            } else {
+                                timelineInfoBox.textContent = 'Hover over or click timeline elements for details.';
+                                timelineInfoBox.classList.add('opacity-0');
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Initializations
+        if (turningCards.length > 0) displayTurningDetails(turningCards[0].dataset.turning); // Show first turning details initially
+        if (archetypeCards.length > 0) displayArchetypeDetails(archetypeCards[0].dataset.archetype); // Show first archetype details
+        populateCrisisAccordion();
+        populatePredictionsAndCritiques();
+        createSaeculumTimeline();
+
+    </script>
+</body>
+</html>

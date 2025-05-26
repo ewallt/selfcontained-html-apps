@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fourth Turning: A Cyclical Theory of History - Infographic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Visualization & Content Choices:
+        - Hero Section Cycle Graphic: Goal: Inform. Method: HTML/CSS stylized "4" or cycle. Justification: Visual hook for the four turnings. NO SVG/Mermaid.
+        - Saecular Cycle Diagram: Goal: Organize. Method: HTML/CSS circular representation. Justification: Clearly shows the cyclical nature and order of Turnings. NO SVG/Mermaid.
+        - Four Turnings Characteristics (e.g., Institutional Strength vs. Individualism): Goal: Compare. Method: Chart.js Bar Charts. Justification: Visual comparison of key attributes per turning. Library: Chart.js. NO SVG/Mermaid.
+        - Generational Archetypes (Key Traits): Goal: Compare. Method: Chart.js Radar Charts. Justification: Multi-dimensional view of archetype personas. Library: Chart.js. NO SVG/Mermaid.
+        - Crisis Progression (Catalyst to Resolution): Goal: Organize. Method: HTML/CSS Flow Chart. Justification: Illustrates the stages of a crisis. NO SVG/Mermaid.
+        - Current Saeculum Timeline: Goal: Change. Method: Chart.js Horizontal Bar Chart. Justification: Visualizes the progression of recent/current turnings with key events. Library: Chart.js. NO SVG/Mermaid.
+        - Predictions (Scenarios): Goal: Inform/Compare. Method: HTML/CSS Cards or List. Justification: Clearly present predicted scenarios. NO SVG/Mermaid.
+        - Critiques vs. Implications: Goal: Compare/Organize. Method: HTML/CSS Two-Column Layout. Justification: Balanced view of the theory's reception and impact. NO SVG/Mermaid.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8F9FA; color: #495057; }
+        .hero-bg { background-color: #0052CC; color: #FFFFFF; }
+        .accent-orange { color: #FF6F00; }
+        .accent-orange-bg { background-color: #FF6F00; }
+        .secondary-blue-text { color: #007BFF; }
+        .section-title { color: #0052CC; border-bottom: 2px solid #FFA000; padding-bottom: 0.5rem; }
+        .card { background-color: #FFFFFF; border-radius: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 1.5rem; margin-bottom: 1.5rem; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .stat-big { font-size: 3rem; font-weight: bold; color: #FF6F00; }
+        .timeline-bar { background-color: #007BFF; color: white; text-align: center; padding: 0.5rem; border-radius: 0.25rem; margin-bottom: 0.25rem; font-size: 0.9rem;}
+        .flowchart-step { border: 2px solid #007BFF; padding: 1rem; border-radius: 0.5rem; text-align: center; background-color: #E7F1FF; }
+        .flowchart-arrow { text-align: center; font-size: 2rem; color: #007BFF; margin: 0.5rem 0; }
+        .nav-sticky { position: sticky; top: 0; z-index: 50; background-color: rgba(255,255,255,0.95); backdrop-filter: blur(5px); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .nav-link { padding: 0.75rem 1rem; color: #0052CC; font-weight: 500; text-decoration: none; border-bottom: 2px solid transparent; }
+        .nav-link:hover, .nav-link.active { color: #FF6F00; border-bottom-color: #FF6F00; }
+        .cycle-graphic { width: 150px; height: 150px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 1rem auto; background: linear-gradient(135deg, #007BFF, #0052CC); color: white; font-size: 4rem; font-weight: bold; box-shadow: 0 0 15px rgba(0,0,0,0.2); }
+        .turning-quadrant { border: 2px solid #FFA000; padding: 1rem; border-radius: 0.5rem; text-align: center; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav id="navbar" class="nav-sticky py-2 hidden md:block">
+        <div class="container mx-auto px-4 flex justify-center space-x-4">
+            <a href="#introduction" class="nav-link">Introduction</a>
+            <a href="#saeculum-cycle" class="nav-link">The Saeculum</a>
+            <a href="#four-turnings" class="nav-link">Four Turnings</a>
+            <a href="#archetypes" class="nav-link">Archetypes</a>
+            <a href="#crisis-focus" class="nav-link">Crisis Focus</a>
+            <a href="#predictions" class="nav-link">Predictions</a>
+            <a href="#critiques" class="nav-link">Critiques</a>
+        </div>
+    </nav>
+
+    <header id="introduction" class="hero-bg py-12 md:py-20 text-center">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">The Fourth Turning</h1>
+            <p class="text-xl md:text-2xl mb-6">A Cyclical Theory of History by Strauss & Howe</p>
+            <div class="cycle-graphic">4</div>
+            <p class="text-lg max-w-2xl mx-auto">
+                William Strauss and Neil Howe's theory proposes that modern history moves in recurring 80-100 year cycles (saecula), each comprised of four distinct "Turnings": High, Awakening, Unraveling, and Crisis. This infographic explores these concepts.
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section id="saeculum-cycle" class="my-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">The Saecular Cycle: History's Seasons</h2>
+            <div class="card">
+                <p class="text-lg mb-4 leading-relaxed">
+                    A "saeculum" is a full cycle of societal change, roughly the length of a long human life (80-100 years). It's divided into Four Turnings, each lasting about 20-25 years, progressing like seasons: High (Spring) → Awakening (Summer) → Unraveling (Autumn) → Crisis (Winter), before renewing.
+                </p>
+                <div class="text-center my-6">
+                    <p class="stat-big">80-100</p>
+                    <p class="text-xl text-gray-700">Years in a typical Saeculum</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center mt-6">
+                    <div class="turning-quadrant bg-green-50">
+                        <h3 class="text-xl font-semibold text-green-700 mb-2">1. High (Spring)</h3>
+                        <p class="text-sm text-green-600">Renewal, strong institutions, weak individualism, societal confidence.</p>
+                    </div>
+                    <div class="turning-quadrant bg-yellow-50">
+                        <h3 class="text-xl font-semibold text-yellow-700 mb-2">2. Awakening (Summer)</h3>
+                        <p class="text-sm text-yellow-600">Cultural upheaval, spiritual focus, challenge to institutions.</p>
+                    </div>
+                    <div class="turning-quadrant bg-orange-50">
+                        <h3 class="text-xl font-semibold text-orange-700 mb-2">3. Unraveling (Autumn)</h3>
+                        <p class="text-sm text-orange-600">Strengthening individualism, weakening institutions, cynicism.</p>
+                    </div>
+                    <div class="turning-quadrant bg-red-50">
+                        <h3 class="text-xl font-semibold text-red-700 mb-2">4. Crisis (Winter)</h3>
+                        <p class="text-sm text-red-600">Secular upheaval, old order destroyed, new order born, collective action.</p>
+                    </div>
+                </div>
+                <p class="mt-6 text-center italic text-gray-600">"Together, the four turnings of the saeculum comprise history’s seasonal rhythm of growth, maturation, entropy, and destruction." - Strauss & Howe</p>
+            </div>
+        </section>
+
+        <section id="four-turnings" class="my-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">Deep Dive: The Four Turnings</h2>
+            <p class="text-lg text-center mb-8 leading-relaxed">Each Turning has a distinct societal mood and characteristic shifts in institutional strength versus individual focus. The chart below illustrates these relative shifts based on the theory's descriptions.</p>
+            <div class="card">
+                <h3 class="text-xl font-semibold mb-4 text-center secondary-blue-text">Institutional Strength vs. Individualism Across Turnings</h3>
+                 <p class="text-sm text-center text-gray-600 mb-4">(Illustrative representation based on theory descriptions)</p>
+                <div class="chart-container">
+                    <canvas id="turningsComparisonChart"></canvas>
+                </div>
+                <p class="mt-4 text-sm text-gray-700 leading-relaxed">
+                    During a <strong class="text-green-700">High</strong>, institutional strength is paramount and individualism is subdued. An <strong class="text-yellow-700">Awakening</strong> sees a rise in individualism challenging those institutions. The <strong class="text-orange-700">Unraveling</strong> is characterized by peak individualism and weak institutions. Finally, a <strong class="text-red-700">Crisis</strong> forces a surge in collective action (reasserting institutional focus out of necessity) to navigate the upheaval, eventually leading to a reset.
+                </p>
+            </div>
+        </section>
+
+        <section id="archetypes" class="my-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">Generational Archetypes</h2>
+            <p class="text-lg text-center mb-6 leading-relaxed">
+                Strauss & Howe identify four recurring generational archetypes—Prophet, Nomad, Hero, and Artist—each shaped by the Turning they come of age in. Their collective personas drive the historical drama.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-2 text-purple-700">Prophet (Idealist)</h3>
+                    <p class="text-sm mb-3">Born in a High. Values-driven, visionary, moralistic. Leads Awakenings, guides Crises as elders.</p>
+                    <div class="chart-container h-64 max-h-80">
+                        <canvas id="prophetArchetypeChart"></canvas>
+                    </div>
+                    <p class="mt-2 text-xs text-gray-600">Example: Boomer Generation.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-2 text-gray-700">Nomad (Reactive)</h3>
+                    <p class="text-sm mb-3">Born in an Awakening. Pragmatic, resilient, skeptical. Provides tough leadership during Crises.</p>
+                    <div class="chart-container h-64 max-h-80">
+                        <canvas id="nomadArchetypeChart"></canvas>
+                    </div>
+                     <p class="mt-2 text-xs text-gray-600">Example: Generation X.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-2 text-blue-700">Hero (Civic)</h3>
+                    <p class="text-sm mb-3">Born in an Unraveling. Community-oriented, builder, confident. Fights Crises, builds new order.</p>
+                    <div class="chart-container h-64 max-h-80">
+                        <canvas id="heroArchetypeChart"></canvas>
+                    </div>
+                     <p class="mt-2 text-xs text-gray-600">Example: Millennial Generation, G.I. Generation.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-2 text-teal-700">Artist (Adaptive)</h3>
+                    <p class="text-sm mb-3">Born in a Crisis. Process-oriented, mediator, sensitive. Refines culture, provides balance.</p>
+                    <div class="chart-container h-64 max-h-80">
+                        <canvas id="artistArchetypeChart"></canvas>
+                    </div>
+                    <p class="mt-2 text-xs text-gray-600">Example: Silent Generation, Gen Z (Homeland).</p>
+                </div>
+            </div>
+             <p class="mt-6 text-center italic text-gray-600">"Generations shaped by similar early-life experiences develop similar collective personas and follow similar life trajectories." - Strauss & Howe</p>
+        </section>
+
+        <section id="crisis-focus" class="my-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">The Fourth Turning: Crisis in Focus</h2>
+            <div class="card">
+                <p class="text-lg mb-4 leading-relaxed">
+                    The Fourth Turning (Crisis) is the decisive era of upheaval where the old civic order is destroyed and a new one is born. It's a period of trial, destruction, sacrifice, and ultimately, renewal.
+                </p>
+                <div class="text-center my-6">
+                    <p class="stat-big">~20-25</p>
+                    <p class="text-xl text-gray-700">Typical length of a Crisis era (in years)</p>
+                </div>
+                <h3 class="text-xl font-semibold mb-4 text-center secondary-blue-text">Progression of a Crisis</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-2 items-stretch">
+                    <div class="flowchart-step"><strong>Catalyst</strong><p class="text-sm">Event sparks crisis, ends Unraveling mood.</p></div>
+                    <div class="flowchart-arrow hidden md:block">➔</div>
+                    <div class="flowchart-step"><strong>Regeneracy</strong><p class="text-sm">Civic cohesion forms around emergency.</p></div>
+                     <div class="flowchart-arrow md:hidden">↓</div>
+                    <div class="flowchart-arrow hidden md:block">➔</div>
+                    <div class="flowchart-step"><strong>Climax</strong><p class="text-sm">Epic confrontation, peak of crisis.</p></div>
+                     <div class="flowchart-arrow md:hidden">↓</div>
+                    <div class="flowchart-arrow hidden md:block">➔</div>
+                    <div class="flowchart-step"><strong>Resolution</strong><p class="text-sm">Conflict ends, new order established.</p></div>
+                </div>
+                <p class="mt-6 text-sm text-gray-700 leading-relaxed">
+                    Historical examples of Fourth Turnings include the American Revolution, the Civil War, and the Great Depression/World War II. Each involved massive societal upheaval and resulted in a profound reshaping of the nation and its institutions. The theory suggests we are currently in such a Crisis.
+                </p>
+            </div>
+        </section>
+
+        <section id="predictions" class="my-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">Predictions & The Current Saeculum</h2>
+            <div class="card">
+                <p class="text-lg mb-4 leading-relaxed">
+                    Strauss & Howe predicted America's next Crisis would begin around 2005 and climax in the 2020s. Neil Howe's 2023 update affirms we are in this Fourth Turning, potentially resolving by the early 2030s.
+                </p>
+                <h3 class="text-xl font-semibold mb-4 text-center secondary-blue-text">Timeline of the Current Saeculum (Illustrative)</h3>
+                <div class="chart-container h-96 max-h-[500px]">
+                    <canvas id="currentSaeculumTimeline"></canvas>
+                </div>
+                <p class="mt-4 text-sm text-gray-700 leading-relaxed">
+                    The timeline above visualizes the current cycle: the post-WWII <strong class="text-green-700">High</strong> (c. 1946-1964), the <strong class="text-yellow-700">Awakening</strong> of the 60s/70s (c. 1964-1984), the <strong class="text-orange-700">Unraveling</strong> from the 80s to early 2000s (c. 1984-2008), and the current <strong class="text-red-700">Crisis</strong> (c. 2008-early 2030s). Key events like 9/11, the 2008 financial crisis, and the COVID-19 pandemic are seen as markers within this Crisis era.
+                </p>
+                 <div class="mt-6 bg-sky-50 p-4 rounded-lg border-l-4 border-sky-500">
+                    <h4 class="text-lg font-semibold text-sky-700 mb-2">Prescient Scenarios (from 1997)</h4>
+                    <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                        <li>Global terrorism leading to preemptive strikes and domestic emergency.</li>
+                        <li>Federal budget impasse triggering government shutdown and financial panic.</li>
+                        <li>New communicable virus leading to quarantines and societal disruption.</li>
+                        <li>Geopolitical confrontation involving Russia and former Soviet republics.</li>
+                    </ul>
+                    <p class="mt-2 text-xs text-gray-600">These hypothetical scenarios outlined in "The Fourth Turning" bear striking resemblances to actual events of the 21st century.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="critiques" class="my-12">
+            <h2 class="text-3xl font-bold section-title mb-6 text-center">Critiques & Implications</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-3 accent-orange">Major Critiques</h3>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-gray-700">
+                        <li><strong>Lack of Empirical Rigor:</strong> Accused of cherry-picking evidence and being non-falsifiable.</li>
+                        <li><strong>Generational Stereotyping:</strong> Overlooks diversity within generations (class, race, gender).</li>
+                        <li><strong>Arbitrary Timelines:</strong> Selection of Turning start/end dates can seem subjective.</li>
+                        <li><strong>Determinism:</strong> Concerns it promotes fatalism or could be a self-fulfilling prophecy.</li>
+                        <li><strong>Overly Optimistic Outcomes:</strong> Tends to assume crises lead to positive renewal.</li>
+                        <li><strong>Influence on Extremism:</strong> Theory co-opted by some to justify radical actions.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-3 secondary-blue-text">Societal Implications</h3>
+                    <ul class="list-disc list-inside space-y-2 text-sm text-gray-700">
+                        <li><strong>Preparedness:</strong> Encourages shoring up institutions and community ties for resilience.</li>
+                        <li><strong>Leadership:</strong> Suggests different generations play to their archetypal strengths during a crisis.</li>
+                        <li><strong>Opportunity for Change:</strong> Crisis energy can be harnessed for major civic reforms.</li>
+                        <li><strong>National Unity:</strong> Highlights the need to balance collective action with preserving liberty.</li>
+                        <li><strong>Global Synchronization:</strong> This Crisis may be global, requiring international cooperation or risking wider conflict.</li>
+                        <li><strong>Individual Mindset:</strong> Offers a long-term perspective, fostering hope and proactive engagement.</li>
+                    </ul>
+                </div>
+            </div>
+             <p class="mt-6 text-center italic text-gray-600">"History is seasonal, and winter is coming… But winter can be the harshest season or the crucible of regeneration." - Strauss & Howe</p>
+        </section>
+
+        <footer class="text-center py-8 border-t mt-12">
+            <p class="text-sm text-gray-600">Infographic based on the works of William Strauss and Neil Howe.</p>
+            <p class="text-xs text-gray-500">Designed for illustrative and educational purposes.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        const processLabel = (label) => {
+            if (label.length > 16) {
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + word).length > 16 && currentLine.length > 0) {
+                        lines.push(currentLine.trim());
+                        currentLine = word + ' ';
+                    } else {
+                        currentLine += word + ' ';
+                    }
+                }
+                lines.push(currentLine.trim());
+                return lines;
+            }
+            return label;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { title: tooltipTitleCallback } }
+            }
+        };
+        
+        const commonRadarOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: { display: true },
+                    suggestedMin: 0,
+                    suggestedMax: 5,
+                    ticks: { stepSize: 1, display: false },
+                    pointLabels: { font: { size: 10 } }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                 tooltip: { callbacks: { title: tooltipTitleCallback } }
+            }
+        };
+
+        // Turnings Comparison Chart
+        const turningsCtx = document.getElementById('turningsComparisonChart')?.getContext('2d');
+        if (turningsCtx) {
+            new Chart(turningsCtx, {
+                type: 'bar',
+                data: {
+                    labels: [processLabel('High'), processLabel('Awakening'), processLabel('Unraveling'), processLabel('Crisis (Initial Surge)')],
+                    datasets: [
+                        {
+                            label: 'Institutional Strength',
+                            data: [4, 2, 1, 4], // Relative illustrative values
+                            backgroundColor: '#007BFF', // Azure
+                        },
+                        {
+                            label: 'Individualism Focus',
+                            data: [1, 4, 5, 2], // Relative illustrative values
+                            backgroundColor: '#FFA000', // Amber
+                        }
+                    ]
+                },
+                options: { ...commonChartOptions, plugins: { ...commonChartOptions.plugins, legend: {display: true, position: 'top'} }, scales: { y: { suggestedMin: 0, suggestedMax: 5, title: { display: true, text: 'Relative Strength/Focus'} } } }
+            });
+        }
+
+        // Archetype Charts (Radar)
+        const prophetCtx = document.getElementById('prophetArchetypeChart')?.getContext('2d');
+        if (prophetCtx) {
+            new Chart(prophetCtx, {
+                type: 'radar',
+                data: {
+                    labels: [processLabel('Visionary'), processLabel('Principled'), processLabel('Moralistic'), processLabel('Idealistic'), processLabel('Transformative')],
+                    datasets: [{ label: 'Prophet Traits', data: [5, 4, 4, 5, 3], backgroundColor: 'rgba(128, 0, 128, 0.2)', borderColor: 'rgb(128,0,128)', pointBackgroundColor: 'rgb(128,0,128)' }]
+                },
+                options: commonRadarOptions
+            });
+        }
+
+        const nomadCtx = document.getElementById('nomadArchetypeChart')?.getContext('2d');
+        if (nomadCtx) {
+            new Chart(nomadCtx, {
+                type: 'radar',
+                data: {
+                    labels: [processLabel('Pragmatic'), processLabel('Resilient'), processLabel('Skeptical'), processLabel('Self-reliant'), processLabel('Reactive')],
+                    datasets: [{ label: 'Nomad Traits', data: [5, 4, 4, 5, 3], backgroundColor: 'rgba(108, 117, 125, 0.2)', borderColor: 'rgb(108,117,125)', pointBackgroundColor: 'rgb(108,117,125)' }]
+                },
+                options: commonRadarOptions
+            });
+        }
+        
+        const heroCtx = document.getElementById('heroArchetypeChart')?.getContext('2d');
+        if (heroCtx) {
+            new Chart(heroCtx, {
+                type: 'radar',
+                data: {
+                    labels: [processLabel('Civic-minded'), processLabel('Team-oriented'), processLabel('Confident'), processLabel('Builder'), processLabel('Collective')],
+                    datasets: [{ label: 'Hero Traits', data: [5, 5, 4, 4, 5], backgroundColor: 'rgba(0, 123, 255, 0.2)', borderColor: 'rgb(0,123,255)', pointBackgroundColor: 'rgb(0,123,255)' }]
+                },
+                options: commonRadarOptions
+            });
+        }
+
+        const artistCtx = document.getElementById('artistArchetypeChart')?.getContext('2d');
+        if (artistCtx) {
+            new Chart(artistCtx, {
+                type: 'radar',
+                data: {
+                    labels: [processLabel('Adaptive'), processLabel('Compromising'), processLabel('Sensitive'), processLabel('Process-oriented'), processLabel('Refining')],
+                    datasets: [{ label: 'Artist Traits', data: [5, 4, 4, 5, 3], backgroundColor: 'rgba(32, 201, 151, 0.2)', borderColor: 'rgb(32,201,151)', pointBackgroundColor: 'rgb(32,201,151)' }]
+                },
+                options: commonRadarOptions
+            });
+        }
+        
+        // Current Saeculum Timeline
+        const timelineCtx = document.getElementById('currentSaeculumTimeline')?.getContext('2d');
+        if (timelineCtx) {
+            new Chart(timelineCtx, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        processLabel('Post-WWII High (1946-1964)'),
+                        processLabel('Awakening (1964-1984)'),
+                        processLabel('Unraveling (1984-2008)'),
+                        processLabel('Crisis (2008-c.2032)')
+                    ],
+                    datasets: [{
+                        label: 'Turning Duration',
+                        data: [
+                            { x: [1946, 1964], y: processLabel('Post-WWII High (1946-1964)')}, // Duration: 18
+                            { x: [1964, 1984], y: processLabel('Awakening (1964-1984)')},     // Duration: 20
+                            { x: [1984, 2008], y: processLabel('Unraveling (1984-2008)')},   // Duration: 24
+                            { x: [2008, 2032], y: processLabel('Crisis (2008-c.2032)')}      // Duration: 24 (projected)
+                        ],
+                        backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 205, 86, 0.6)', 'rgba(255, 159, 64, 0.6)', 'rgba(255, 99, 132, 0.6)'],
+                        borderColor: ['rgb(75, 192, 192)', 'rgb(255, 205, 86)', 'rgb(255, 159, 64)', 'rgb(255, 99, 132)'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { 
+                            min: 1940, 
+                            max: 2040, 
+                            title: { display: true, text: 'Year' },
+                            ticks: { stepSize: 10 }
+                        },
+                        y: { stacked: true }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    // For this specific chart, the y-axis label is already processed.
+                                    return tooltipItems[0].label;
+                                },
+                                label: function(tooltipItem) {
+                                    const dataPoint = tooltipItem.raw;
+                                    return `Years: ${dataPoint.x[0]} - ${dataPoint.x[1]}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Sticky Nav active link highlighting
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('section[id]');
+
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
+
+        const updateActiveLink = () => {
+            let currentSectionId = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - sectionHeight / 3) && pageYOffset < (sectionTop + sectionHeight - sectionHeight / 3)) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', throttle(updateActiveLink, 100));
+        document.addEventListener('DOMContentLoaded', updateActiveLink);
+
+
+    </script>
+</body>
+</html>

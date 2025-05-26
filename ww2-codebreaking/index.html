@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WWII Codebreaking: Interactive Historical Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans">
+<div class="min-h-screen">
+    <header class="bg-white shadow-sm border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <h1 class="text-2xl font-bold text-stone-900 mb-4">WWII Codebreaking: Breaking the Unbreakable</h1>
+            <nav class="space-y-2">
+                <div class="flex flex-wrap gap-2 justify-center">
+                    <button onclick="showSection('overview', this)" class="nav-btn bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-200 transition-colors">Overview</button>
+                    <button onclick="showSection('polish-foundation', this)" class="nav-btn bg-amber-100 text-amber-800 px-4 py-2 rounded-lg hover:bg-amber-200 transition-colors">Polish Foundation</button>
+                    <button onclick="showSection('bletchley-park', this)" class="nav-btn bg-amber-100 text-amber-800 px-4 py-2 rounded-lg hover:bg-amber-200 transition-colors">Bletchley Park</button>
+                    <button onclick="showSection('technologies', this)" class="nav-btn bg-amber-100 text-amber-800 px-4 py-2 rounded-lg hover:bg-amber-200 transition-colors">Key Technologies</button>
+                    <button onclick="showSection('pacific-theater', this)" class="nav-btn bg-amber-100 text-amber-800 px-4 py-2 rounded-lg hover:bg-amber-200 transition-colors">Pacific Theater</button>
+                </div>
+                <div class="flex flex-wrap gap-2 justify-center">
+                    <button onclick="showSection('atlantic-war', this)" class="nav-btn bg-amber-100 text-amber-800 px-4 py-2 rounded-lg hover:bg-amber-200 transition-colors">Atlantic War</button>
+                    <button onclick="showSection('intelligence-ops', this)" class="nav-btn bg-amber-100 text-amber-800 px-4 py-2 rounded-lg hover:bg-amber-200 transition-colors">Intelligence Operations</button>
+                    <button onclick="showSection('countermeasures', this)" class="nav-btn bg-amber-100 text-amber-800 px-4 py-2 rounded-lg hover:bg-amber-200 transition-colors">Countermeasures</button>
+                    <button onclick="showSection('quiz', this)" class="nav-btn bg-emerald-100 text-emerald-800 px-4 py-2 rounded-lg hover:bg-emerald-200 transition-colors">Interactive Quiz</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <section id="overview" class="content-section">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-stone-900 mb-6">The Codebreaking Revolution</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <h3 class="text-xl font-semibold mb-4 text-amber-800">War's Hidden Battle</h3>
+                        <p class="text-stone-700 leading-relaxed">World War II wasn't just fought with guns and tanks—it was won through mathematics, ingenuity, and the breaking of seemingly unbreakable codes. From Polish mathematicians who first cracked Enigma to the electronic computers of Bletchley Park, codebreaking shortened the war by an estimated two years.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <h3 class="text-xl font-semibold mb-4 text-amber-800">Global Impact</h3>
+                        <p class="text-stone-700 leading-relaxed">The intelligence gathered from broken codes influenced every major theater of war—from routing Atlantic convoys away from U-boat wolfpacks to setting the perfect ambush at Midway. These breakthroughs laid the foundation for modern computer science and cybersecurity.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-stone-900">Timeline of Major Breakthroughs</h3>
+                <div class="space-y-4">
+                    <div class="timeline-item flex items-center space-x-4 p-4 bg-stone-50 rounded-lg">
+                        <div class="timeline-date bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-semibold">1932</div>
+                        <div class="timeline-content">
+                            <h4 class="font-semibold">Polish Breakthrough</h4>
+                            <p class="text-stone-600">Marian Rejewski reconstructs Enigma rotor wiring using permutation theory</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item flex items-center space-x-4 p-4 bg-stone-50 rounded-lg">
+                        <div class="timeline-date bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-semibold">1939</div>
+                        <div class="timeline-content">
+                            <h4 class="font-semibold">Knowledge Transfer</h4>
+                            <p class="text-stone-600">Polish methods shared with Britain and France at Pyry</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item flex items-center space-x-4 p-4 bg-stone-50 rounded-lg">
+                        <div class="timeline-date bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-semibold">1940</div>
+                        <div class="timeline-content">
+                            <h4 class="font-semibold">Turing's Bombe</h4>
+                            <p class="text-stone-600">Electromechanical computers begin automated Enigma breaking</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item flex items-center space-x-4 p-4 bg-stone-50 rounded-lg">
+                        <div class="timeline-date bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-semibold">1941</div>
+                        <div class="timeline-content">
+                            <h4 class="font-semibold">U-110 Capture</h4>
+                            <p class="text-stone-600">Royal Navy seizes Enigma materials from German submarine</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item flex items-center space-x-4 p-4 bg-stone-50 rounded-lg">
+                        <div class="timeline-date bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-semibold">1942</div>
+                        <div class="timeline-content">
+                            <h4 class="font-semibold">Midway Victory</h4>
+                            <p class="text-stone-600">JN-25 decrypts enable devastating ambush of Japanese fleet</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item flex items-center space-x-4 p-4 bg-stone-50 rounded-lg">
+                        <div class="timeline-date bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-semibold">1943</div>
+                        <div class="timeline-content">
+                            <h4 class="font-semibold">Colossus Computer</h4>
+                            <p class="text-stone-600">World's first electronic computer breaks Lorenz cipher</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item flex items-center space-x-4 p-4 bg-stone-50 rounded-lg">
+                        <div class="timeline-date bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-semibold">1944</div>
+                        <div class="timeline-content">
+                            <h4 class="font-semibold">D-Day Deception</h4>
+                            <p class="text-stone-600">Tunny decrypts confirm German belief in false invasion plans</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="polish-foundation" class="content-section hidden">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">Polish Cipher Bureau: The Foundation</h2>
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="key-figure-card bg-white p-6 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-shadow" onclick="toggleDetails(this)">
+                    <div class="text-center mb-4">
+                        <div class="text-4xl mb-2">🧮</div>
+                        <h3 class="text-xl font-semibold text-amber-800">Marian Rejewski</h3>
+                        <p class="text-stone-600">Mathematical Genius</p>
+                    </div>
+                    <div class="details hidden">
+                        <p class="text-stone-700">Used permutation theory to reconstruct Enigma rotor wiring in 1932. His mathematical approach proved that supposedly unbreakable machines could be defeated through analysis rather than brute force.</p>
+                    </div>
+                    <div class="summary">
+                        <p class="text-stone-700">Reconstructed Enigma rotor wiring using advanced mathematics</p>
+                    </div>
+                </div>
+
+                <div class="key-figure-card bg-white p-6 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-shadow" onclick="toggleDetails(this)">
+                    <div class="text-center mb-4">
+                        <div class="text-4xl mb-2">🕳️</div>
+                        <h3 class="text-xl font-semibold text-amber-800">Henryk Zygalski</h3>
+                        <p class="text-stone-600">Sheet Method Pioneer</p>
+                    </div>
+                    <div class="details hidden">
+                        <p class="text-stone-700">Devised perforated sheets that revealed Enigma indicator patterns. His method could break daily keys without advance knowledge of rotor settings, providing a systematic approach to daily decryption.</p>
+                    </div>
+                    <div class="summary">
+                        <p class="text-stone-700">Created perforated sheets to expose Enigma patterns</p>
+                    </div>
+                </div>
+
+                <div class="key-figure-card bg-white p-6 rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-shadow" onclick="toggleDetails(this)">
+                    <div class="text-center mb-4">
+                        <div class="text-4xl mb-2">⚙️</div>
+                        <h3 class="text-xl font-semibold text-amber-800">Bomba Kryptologiczna</h3>
+                        <p class="text-stone-600">Mechanical Marvel</p>
+                    </div>
+                    <div class="details hidden">
+                        <p class="text-stone-700">The Polish 'bomba' was an electromechanical device that automated rotor-setting searches. Six bombas working together could recover Enigma keys in under two hours before Germany's 1938 rotor changes.</p>
+                    </div>
+                    <div class="summary">
+                        <p class="text-stone-700">Electromechanical device for automated Enigma attacks</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-xl font-semibold mb-4 text-stone-900">The Pyry Conference (1939)</h3>
+                <div class="bg-amber-50 p-4 rounded-lg">
+                    <p class="text-stone-700 leading-relaxed">In July 1939, with war looming, Polish codebreakers made a crucial decision. At a secret meeting in Pyry, they shared their Enigma-breaking methods with British and French intelligence. This knowledge transfer jump-started Bletchley Park's later successes and ensured that years of Polish mathematical breakthroughs wouldn't be lost to the coming invasion.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="bletchley-park" class="content-section hidden">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">Bletchley Park: The Codebreaking Factory</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800">🏢 Hut 6 - Army & Air Force</h3>
+                    <ul class="space-y-2 text-stone-700">
+                        <li>• Handled German Army and Luftwaffe messages</li>
+                        <li>• Focused on Red and Blue Enigma networks</li>
+                        <li>• Supported RAF Fighter Command operations</li>
+                        <li>• Crucial for North African campaign intelligence</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800">🚢 Hut 8 - Naval Enigma</h3>
+                    <ul class="space-y-2 text-stone-700">
+                        <li>• Led initially by Alan Turing</li>
+                        <li>• Later commanded by Hugh Alexander</li>
+                        <li>• Focused on Naval Enigma (Heimisch and TRITON)</li>
+                        <li>• Directly influenced Battle of the Atlantic</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm mb-6">
+                <h3 class="text-xl font-semibold mb-4 text-stone-900">Operations Structure</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold mb-2 text-amber-800">Shift Operations</h4>
+                        <p class="text-stone-700">Bletchley operated around the clock with continuous day and night shifts. Rigid document-handling rules ensured security while index cards and cross-referencing systems enabled rapid crib searches.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2 text-amber-800">Banburismus Method</h4>
+                        <p class="text-stone-700">Turing's statistical attack used hand-scored "Banbury sheets" to reduce rotor-order possibilities, cutting bombe run-time by exploiting letter-frequency statistics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="technologies" class="content-section hidden">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">Revolutionary Technologies</h2>
+            
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-stone-900">Machine Comparison</h3>
+                <div class="chart-container bg-white p-6 rounded-xl shadow-sm" style="max-width: 800px; height: 400px; margin: 0 auto;">
+                    <canvas id="machineChart" width="800" height="400"></canvas>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-red-800">🔐 The Bombe</h3>
+                    <div class="space-y-3">
+                        <p class="text-stone-700"><strong>Purpose:</strong> Simulated Enigma rotors in parallel to test crib-based hypotheses</p>
+                        <p class="text-stone-700"><strong>Method:</strong> Used logical contradictions to eliminate impossible settings</p>
+                        <p class="text-stone-700"><strong>Speed:</strong> Could test thousands of settings per hour</p>
+                        <p class="text-stone-700"><strong>Evolution:</strong> US Navy/Army bombes used vacuum tubes for even higher speeds</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-purple-800">💻 Colossus</h3>
+                    <div class="space-y-3">
+                        <p class="text-stone-700"><strong>Innovation:</strong> World's first large-scale electronic computer</p>
+                        <p class="text-stone-700"><strong>Components:</strong> Used 1,500 vacuum tubes</p>
+                        <p class="text-stone-700"><strong>Target:</strong> Broke Lorenz SZ40/42 (Tunny) cipher</p>
+                        <p class="text-stone-700"><strong>Impact:</strong> Reduced key-finding from weeks to hours</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-xl font-semibold mb-4 text-stone-900">Key Innovations Timeline</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4 p-3 bg-stone-50 rounded-lg">
+                        <div class="bg-red-600 text-white px-3 py-1 rounded text-sm font-semibold">1940</div>
+                        <div><strong>Turing Bombe:</strong> Electromechanical computer for Enigma</div>
+                    </div>
+                    <div class="flex items-center space-x-4 p-3 bg-stone-50 rounded-lg">
+                        <div class="bg-blue-600 text-white px-3 py-1 rounded text-sm font-semibold">1942</div>
+                        <div><strong>Heath Robinson:</strong> First attempt at electronic Lorenz breaking</div>
+                    </div>
+                    <div class="flex items-center space-x-4 p-3 bg-stone-50 rounded-lg">
+                        <div class="bg-purple-600 text-white px-3 py-1 rounded text-sm font-semibold">1943</div>
+                        <div><strong>Colossus Mark I:</strong> First programmable electronic computer</div>
+                    </div>
+                    <div class="flex items-center space-x-4 p-3 bg-stone-50 rounded-lg">
+                        <div class="bg-green-600 text-white px-3 py-1 rounded text-sm font-semibold">1944</div>
+                        <div><strong>US High-Speed Bombes:</strong> Vacuum tube technology at NCR Dayton</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pacific-theater" class="content-section hidden">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">Breaking Japanese Codes</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-red-800">🏛️ PURPLE Diplomatic Cipher</h3>
+                    <div class="space-y-3">
+                        <p class="text-stone-700">American cryptanalysts successfully replicated Japan's PURPLE diplomatic encryption machine using stepping switches, without ever seeing the original device.</p>
+                        <div class="bg-red-50 p-3 rounded">
+                            <p class="text-stone-700"><strong>"Magic" Intelligence:</strong> Diplomatic decrypts revealed Japanese intentions and negotiations, distributed only to top dozen officials.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800">⚓ JN-25 Naval Code</h3>
+                    <div class="space-y-3">
+                        <p class="text-stone-700">A book-based code system with additive numerical super-encipherments. Continuous traffic analysis allowed Allied codebreakers to anticipate Japanese fleet movements.</p>
+                        <div class="bg-blue-50 p-3 rounded">
+                            <p class="text-stone-700"><strong>Station HYPO:</strong> Pearl Harbor's cryptographic unit played the crucial role in breaking JN-25.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm mb-6">
+                <h3 class="text-xl font-semibold mb-4 text-stone-900">The Battle of Midway: Intelligence Victory</h3>
+                <div class="bg-yellow-50 p-6 rounded-lg">
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-yellow-800 mb-2">The "AF" Mystery</h4>
+                        <p class="text-stone-700">Japanese intercepts mentioned an impending attack on "AF," but what was AF? Station HYPO devised a clever test—they had Midway radio that their water purification system was broken. Soon after, Japanese traffic mentioned "AF" having water problems.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-semibold text-yellow-800 mb-2">The Ambush</h4>
+                            <p class="text-stone-700">Armed with advance knowledge, Admiral Nimitz positioned his forces perfectly. On June 4, 1942, four Japanese aircraft carriers were sunk, halting Japanese expansion in the Pacific.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-yellow-800 mb-2">Strategic Impact</h4>
+                            <p class="text-stone-700">This intelligence victory marked the turning point in the Pacific War, demonstrating the decisive power of codebreaking in modern warfare.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="atlantic-war" class="content-section hidden">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">Naval Enigma and the Atlantic War</h2>
+            
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-stone-900">U-Boat Losses Over Time</h3>
+                <div class="chart-container bg-white p-6 rounded-xl shadow-sm" style="max-width: 800px; height: 400px; margin: 0 auto;">
+                    <canvas id="atlanticChart" width="800" height="400"></canvas>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800">🚢 U-110 Capture (May 1941)</h3>
+                    <p class="text-stone-700 mb-4">HMS Bulldog's boarding party seized crucial Enigma materials from the damaged German submarine U-110, including:</p>
+                    <ul class="space-y-1 text-stone-700">
+                        <li>• Current key lists and codebooks</li>
+                        <li>• Short-signal encryption book</li>
+                        <li>• Operating procedures</li>
+                        <li>• Spare rotor wheels</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-red-800">🦈 Four-Rotor "Shark" Enigma</h3>
+                    <p class="text-stone-700 mb-4">In early 1942, the Kriegsmarine added a fourth rotor, creating "Shark" traffic that temporarily blinded Allied intelligence.</p>
+                    <div class="bg-red-50 p-3 rounded">
+                        <p class="text-stone-700"><strong>The Blackout:</strong> For nearly a year, U-boat positions were unknown, leading to devastating convoy losses until US bombes restored access.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-xl font-semibold mb-4 text-stone-900">Technologies and Tactics</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-stone-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-amber-800">📡 HF/DF (Huff-Duff)</h4>
+                        <p class="text-stone-700">High-Frequency Direction Finding equipment could locate U-boat radio transmissions within minutes, allowing convoy rerouting.</p>
+                    </div>
+                    <div class="bg-stone-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-amber-800">🔍 Traffic Analysis</h4>
+                        <p class="text-stone-700">Even when codes couldn't be broken, analyzing message patterns revealed U-boat patrol areas and wolfpack formations.</p>
+                    </div>
+                    <div class="bg-stone-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-amber-800">⚡ Black May 1943</h4>
+                        <p class="text-stone-700">43 U-boats lost in one month while sinking fewer Allied ships. Dönitz withdrew submarines from the North Atlantic.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="intelligence-ops" class="content-section hidden">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">Intelligence Operations & Security</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-purple-800">🔒 ULTRA Distribution</h3>
+                    <div class="space-y-3">
+                        <p class="text-stone-700">The most closely guarded secret of the war:</p>
+                        <ul class="space-y-2 text-stone-700">
+                            <li>• Hand-carried in locked pouches to senior commanders</li>
+                            <li>• Recipients signed "loose-minute" cover sheets</li>
+                            <li>• All documents returned for immediate destruction</li>
+                            <li>• Classified as "Most Secret" - above Top Secret</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-green-800">🎭 Double Cross System</h3>
+                    <div class="space-y-3">
+                        <p class="text-stone-700">MI5's masterpiece of deception:</p>
+                        <ul class="space-y-2 text-stone-700">
+                            <li>• Turned German agents into double agents</li>
+                            <li>• Fed false intelligence back to Germany</li>
+                            <li>• ULTRA intercepts verified German belief in false data</li>
+                            <li>• Critical for D-Day deception operations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm mb-6">
+                <h3 class="text-xl font-semibold mb-4 text-stone-900">Maintaining the Secret</h3>
+                <div class="bg-amber-50 p-4 rounded-lg mb-4">
+                    <h4 class="font-semibold mb-2 text-amber-800">Y-Service Cover</h4>
+                    <p class="text-stone-700">Allied units with radio-direction finding stations provided plausible alternative sources for intelligence, masking ULTRA's true origin when explaining sudden convoy reroutes or tactical decisions.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="font-semibold mb-2 text-stone-800">Strategic Sacrifices</h4>
+                        <p class="text-stone-700">Sometimes convoys were allowed to be attacked to prevent German suspicion that their codes were broken. The secret was more valuable than individual losses.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-2 text-stone-800">Post-War Security</h4>
+                        <p class="text-stone-700">The ULTRA secret remained classified for nearly 30 years after the war, with participants sworn to lifetime secrecy about their contributions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-xl font-semibold mb-4 text-stone-900">Impact Assessment</h3>
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <p class="text-stone-700 text-lg"><strong>Eisenhower's Assessment:</strong> "ULTRA shortened World War II by at least two years and saved countless Allied lives."</p>
+                    <p class="text-stone-700 mt-2">The intelligence shaped major campaigns including El Alamein and the Normandy breakout, fundamentally altering the course of history.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="countermeasures" class="content-section hidden">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">Countermeasures and Responses</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-red-800">🛡️ Axis Security Measures</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold mb-2 text-stone-800">Rotor Order Changes</h4>
+                            <p class="text-stone-700">The Kriegsmarine issued new daily rotor order sheets to disrupt Allied crib usage, forcing constant adaptation of breaking methods.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2 text-stone-800">Re-Keying Procedures</h4>
+                            <p class="text-stone-700">German operators received instructions to change message keys more frequently, though operator haste often reintroduced predictable patterns.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-800">🔐 Allied Security Success</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold mb-2 text-stone-800">SIGABA Cipher Machine</h4>
+                            <p class="text-stone-700">Used irregular rotor stepping that defeated German and Japanese cryptanalysis attempts, securing top-level communications between Roosevelt, Churchill, and field commanders.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2 text-stone-800">Compartmentalization</h4>
+                            <p class="text-stone-700">Strict need-to-know policies and multiple security layers prevented compromise of breaking operations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-xl font-semibold mb-4 text-stone-900">German Security Failures</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-red-800">Operator Errors</h4>
+                        <p class="text-stone-700">Predictable message keys like "SSS" or "AAA" provided easy entry points for Allied codebreakers.</p>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-red-800">Reused Keys</h4>
+                        <p class="text-stone-700">Repeated use of the same daily keys across different networks allowed cross-correlation attacks.</p>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <h4 class="font-semibold mb-2 text-red-800">Weather Reports</h4>
+                        <p class="text-stone-700">Navy weather messages ("Wetterkurzschlüssel") provided reliable, predictable cribs for breaking daily keys.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="content-section hidden">
+            <h2 class="text-3xl font-bold text-stone-900 mb-6">Test Your Knowledge</h2>
+            
+            <div id="quiz-container" class="bg-white p-6 rounded-xl shadow-sm">
+                <div id="quiz-question" class="mb-6">
+                    <h3 class="text-xl font-semibold mb-4 text-stone-900">Question <span id="question-number">1</span> of <span id="total-questions">10</span></h3>
+                    <p id="question-text" class="text-stone-700 mb-4 text-lg"></p>
+                    <div id="answer-options" class="space-y-3"></div>
+                </div>
+                
+                <div class="flex justify-between items-center">
+                    <div id="progress-bar" class="flex-1 bg-stone-200 rounded-full h-2 mr-4">
+                        <div id="progress-fill" class="bg-emerald-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <button id="next-question" class="bg-emerald-600 text-white px-6 py-2 rounded-lg hover:bg-emerald-700 transition-colors disabled:bg-stone-300 disabled:cursor-not-allowed" disabled>Next</button>
+                </div>
+            </div>
+
+            <div id="quiz-results" class="hidden bg-white p-6 rounded-xl shadow-sm">
+                <h3 class="text-2xl font-bold mb-4 text-stone-900">Quiz Complete!</h3>
+                <div id="score-display" class="text-center mb-6">
+                    <div id="score-circle" class="inline-flex items-center justify-center w-32 h-32 rounded-full border-8 mb-4">
+                        <span id="score-text" class="text-2xl font-bold"></span>
+                    </div>
+                    <p id="score-message" class="text-lg text-stone-700"></p>
+                </div>
+                <button onclick="restartQuiz()" class="w-full bg-emerald-600 text-white py-3 rounded-lg hover:bg-emerald-700 transition-colors">Take Quiz Again</button>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script>
+    const quizData = [
+        {
+            question: "Which Polish mathematician reconstructed Enigma rotor wiring in 1932?",
+            options: ["Marian Rejewski", "Henryk Zygalski", "Jerzy Różycki", "Hans Thilo Schmidt"],
+            correct: 0
+        },
+        {
+            question: "What were Zygalski sheets primarily used to discover?",
+            options: ["Rotor wiring", "Daily Enigma keys", "Plugboard layouts", "Lorenz wheel patterns"],
+            correct: 1
+        },
+        {
+            question: "Where did the Polish Cipher Bureau reveal its Enigma methods to Britain and France?",
+            options: ["Warsaw", "Pyry", "Paris", "Bletchley Park"],
+            correct: 1
+        },
+        {
+            question: "Which hut at Bletchley Park handled German Army and Luftwaffe Enigma traffic?",
+            options: ["Hut 8", "Hut 6", "Hut 3", "Hut 4"],
+            correct: 1
+        },
+        {
+            question: "Who initially led Hut 8, focused on Naval Enigma?",
+            options: ["Hugh Alexander", "Alan Turing", "Gordon Welchman", "Dilly Knox"],
+            correct: 1
+        },
+        {
+            question: "The British nicknamed the Lorenz SZ40/42 machine what?",
+            options: ["Shark", "Fish", "Tunny", "Dolphin"],
+            correct: 2
+        },
+        {
+            question: "Who engineered the Colossus computer?",
+            options: ["Alan Turing", "Tommy Flowers", "John Atanasoff", "Konrad Zuse"],
+            correct: 1
+        },
+        {
+            question: "Which Japanese cipher produced the U.S. 'Magic' diplomatic intercepts?",
+            options: ["JN-25", "PURPLE", "RED", "Bamboo"],
+            correct: 1
+        },
+        {
+            question: "The Battle of Midway ambush was set after determining 'AF' referred to what?",
+            options: ["Aleutian Islands", "Midway", "Australia", "Alaska"],
+            correct: 1
+        },
+        {
+            question: "Eisenhower estimated ULTRA shortened World War II by approximately how long?",
+            options: ["Six months", "One year", "Two years", "Three years"],
+            correct: 2
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedAnswer = null;
+
+    function showSection(sectionId, clickedButton) {
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.add('hidden');
+        });
+        document.getElementById(sectionId).classList.remove('hidden');
+        
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('bg-amber-600', 'text-white', 'bg-emerald-600');
+            if (btn.textContent.toLowerCase().includes('quiz')) {
+                btn.classList.add('bg-emerald-100', 'text-emerald-800');
+            } else {
+                btn.classList.add('bg-amber-100', 'text-amber-800');
+            }
+        });
+        
+        if (clickedButton) {
+            clickedButton.classList.remove('bg-amber-100', 'text-amber-800', 'bg-emerald-100', 'text-emerald-800');
+            if (sectionId === 'quiz') {
+                clickedButton.classList.add('bg-emerald-600', 'text-white');
+            } else {
+                clickedButton.classList.add('bg-amber-600', 'text-white');
+            }
+        }
+
+        if (sectionId === 'quiz') {
+            initializeQuiz();
+        }
+    }
+
+    function toggleDetails(card) {
+        const details = card.querySelector('.details');
+        const summary = card.querySelector('.summary');
+        
+        if (details.classList.contains('hidden')) {
+            details.classList.remove('hidden');
+            summary.classList.add('hidden');
+        } else {
+            details.classList.add('hidden');
+            summary.classList.remove('hidden');
+        }
+    }
+
+    function initializeQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        selectedAnswer = null;
+        document.getElementById('quiz-container').classList.remove('hidden');
+        document.getElementById('quiz-results').classList.add('hidden');
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const question = quizData[currentQuestionIndex];
+        document.getElementById('question-number').textContent = currentQuestionIndex + 1;
+        document.getElementById('total-questions').textContent = quizData.length;
+        document.getElementById('question-text').textContent = question.question;
+        
+        const optionsContainer = document.getElementById('answer-options');
+        optionsContainer.innerHTML = '';
+        
+        question.options.forEach((option, index) => {
+            const button = document.createElement('button');
+            button.className = 'answer-option w-full text-left p-4 rounded-lg border-2 border-stone-200 hover:border-amber-300 hover:bg-amber-50 transition-colors';
+            button.textContent = option;
+            button.onclick = () => selectAnswer(index, button);
+            optionsContainer.appendChild(button);
+        });
+        
+        const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+        document.getElementById('progress-fill').style.width = progress + '%';
+        
+        document.getElementById('next-question').disabled = true;
+        selectedAnswer = null;
+    }
+
+    function selectAnswer(answerIndex, button) {
+        document.querySelectorAll('.answer-option').forEach(btn => {
+            btn.classList.remove('border-amber-500', 'bg-amber-100', 'border-red-500', 'bg-red-100', 'border-green-500', 'bg-green-100');
+            btn.classList.add('border-stone-200');
+        });
+        
+        selectedAnswer = answerIndex;
+        const question = quizData[currentQuestionIndex];
+        
+        document.querySelectorAll('.answer-option').forEach((btn, index) => {
+            if (index === question.correct) {
+                btn.classList.add('border-green-500', 'bg-green-100');
+            } else if (index === answerIndex && index !== question.correct) {
+                btn.classList.add('border-red-500', 'bg-red-100');
+            }
+        });
+        
+        if (answerIndex === question.correct) {
+            score++;
+        }
+        
+        document.getElementById('next-question').disabled = false;
+    }
+
+    function nextQuestion() {
+        if (currentQuestionIndex < quizData.length - 1) {
+            currentQuestionIndex++;
+            showQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quiz-container').classList.add('hidden');
+        document.getElementById('quiz-results').classList.remove('hidden');
+        
+        const percentage = Math.round((score / quizData.length) * 100);
+        const scoreCircle = document.getElementById('score-circle');
+        const scoreText = document.getElementById('score-text');
+        const scoreMessage = document.getElementById('score-message');
+        
+        scoreText.textContent = percentage + '%';
+        
+        if (percentage >= 90) {
+            scoreCircle.className = 'inline-flex items-center justify-center w-32 h-32 rounded-full border-8 border-green-500 text-green-600';
+            scoreMessage.textContent = 'Excellent! You\'re a true codebreaking expert!';
+        } else if (percentage >= 70) {
+            scoreCircle.className = 'inline-flex items-center justify-center w-32 h-32 rounded-full border-8 border-blue-500 text-blue-600';
+            scoreMessage.textContent = 'Great job! You have a solid understanding of WWII codebreaking.';
+        } else if (percentage >= 50) {
+            scoreCircle.className = 'inline-flex items-center justify-center w-32 h-32 rounded-full border-8 border-yellow-500 text-yellow-600';
+            scoreMessage.textContent = 'Good effort! Review the material to improve your knowledge.';
+        } else {
+            scoreCircle.className = 'inline-flex items-center justify-center w-32 h-32 rounded-full border-8 border-red-500 text-red-600';
+            scoreMessage.textContent = 'Keep studying! There\'s much more to learn about codebreaking history.';
+        }
+    }
+
+    function restartQuiz() {
+        initializeQuiz();
+    }
+
+    document.getElementById('next-question').onclick = nextQuestion;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        showSection('overview');
+        
+        const machineCtx = document.getElementById('machineChart').getContext('2d');
+        new Chart(machineCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Polish Bomba', 'Turing Bombe', 'US High-Speed Bombe', 'Colossus'],
+                datasets: [{
+                    label: 'Processing Speed (relative)',
+                    data: [10, 50, 200, 1000],
+                    backgroundColor: ['#f59e0b', '#ef4444', '#3b82f6', '#8b5cf6'],
+                    borderColor: ['#d97706', '#dc2626', '#2563eb', '#7c3aed'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Codebreaking Machine Evolution'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Relative Processing Power'
+                        }
+                    }
+                }
+            }
+        });
+
+        const atlanticCtx = document.getElementById('atlanticChart').getContext('2d');
+        new Chart(atlanticCtx, {
+            type: 'line',
+            data: {
+                labels: ['1940', '1941', '1942', '1943', '1944', '1945'],
+                datasets: [{
+                    label: 'U-Boats Sunk',
+                    data: [2, 35, 85, 237, 241, 153],
+                    borderColor: '#dc2626',
+                    backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: 'Allied Ships Sunk',
+                    data: [1059, 1299, 1664, 597, 247, 105],
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Battle of the Atlantic: The Turning Tide'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Vessels'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
