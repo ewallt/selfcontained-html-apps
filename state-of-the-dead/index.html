@@ -164,32 +164,35 @@
             line-height: 1.6;
         }
 
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .comparison-table th,
-        .comparison-table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .comparison-table th {
-            background: #667eea;
-            color: white;
-            font-weight: 600;
-        }
-
-        .comparison-table tr:nth-child(even) {
+        /* NEW STYLES for Module 4 Cards */
+        .comparison-card {
             background: #f7fafc;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 4px solid #764ba2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
+        .comparison-card h3 {
+            color: #2d3748;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .comparison-card p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .comparison-card p:last-child {
+            margin-bottom: 0;
+        }
+        .comparison-card strong {
+            color: #2d3748;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
 
         .quote-card {
             background: linear-gradient(135deg, #667eea, #764ba2);
@@ -273,15 +276,6 @@
 
             .tab-button {
                 width: 100%;
-            }
-
-            .comparison-table {
-                font-size: 0.9em;
-            }
-
-            .comparison-table th,
-            .comparison-table td {
-                padding: 10px;
             }
         }
     </style>
@@ -437,30 +431,38 @@
         <div id="contrasting-views" class="content-panel">
             <h2 style="color: #2d3748; margin-bottom: 25px; font-size: 2em;">Module 4 – Contrasting Views</h2>
             
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>View</th>
-                        <th>Core Claim</th>
-                        <th>Biblical Response</th>
-                        <th>Issue Addressed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Natural Immortality</strong></td>
-                        <td>Soul is inherently immortal, survives death</td>
-                        <td>Only God "has immortality" <span class="verse-reference" title="Who only hath immortality, dwelling in the light which no man can approach unto; whom no man hath seen, nor can see: to whom be honour and power everlasting. Amen.">1 Tim 6:16</span>; immortality is "put on" at resurrection <span class="verse-reference" title="For this corruptible must put on incorruption, and this mortal must put on immortality. So when this corruptible shall have put on incorruption, and this mortal shall have put on immortality, then shall be brought to pass the saying that is written, Death is swallowed up in victory.">1 Cor 15:53-54</span></td>
-                        <td>Undermines need of resurrection</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Eternal Conscious Torment (ECT)</strong></td>
-                        <td>Wicked suffer forever in conscious pain</td>
-                        <td>"The wages of sin is death" <span class="verse-reference" title="For the wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord.">Rom 6:23</span>; "both soul and body" destroyed <span class="verse-reference" title="And fear not them which kill the body, but are not able to kill the soul: but rather fear him which is able to destroy both soul and body in hell.">Matt 10:28</span>; "second death" ends existence <span class="verse-reference" title="And death and hell were cast into the lake of fire. This is the second death.">Rev 20:14</span></td>
-                        <td>Presents God as perpetually torturing</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="comparison-card">
+                <h3>Natural Immortality</h3>
+                <p>
+                    <strong>Core Claim:</strong>
+                    Soul is inherently immortal, survives death.
+                </p>
+                <p>
+                    <strong>Biblical Response:</strong>
+                    Only God "has immortality" <span class="verse-reference" title="Who only hath immortality, dwelling in the light which no man can approach unto; whom no man hath seen, nor can see: to whom be honour and power everlasting. Amen.">1 Tim 6:16</span>; immortality is "put on" at resurrection <span class="verse-reference" title="For this corruptible must put on incorruption, and this mortal must put on immortality. So when this corruptible shall have put on incorruption, and this mortal shall have put on immortality, then shall be brought to pass the saying that is written, Death is swallowed up in victory.">1 Cor 15:53-54</span>.
+                </p>
+                <p>
+                    <strong>Issue Addressed:</strong>
+                    Undermines need of resurrection.
+                </p>
+            </div>
+
+            <div class="comparison-card">
+                <h3>Eternal Conscious Torment (ECT)</h3>
+                <p>
+                    <strong>Core Claim:</strong>
+                    Wicked suffer forever in conscious pain.
+                </p>
+                <p>
+                    <strong>Biblical Response:</strong>
+                    "The wages of sin is death" <span class="verse-reference" title="For the wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord.">Rom 6:23</span>; "both soul and body" destroyed <span class="verse-reference" title="And fear not them which kill the body, but are not able to kill the soul: but rather fear him which is able to destroy both soul and body in hell.">Matt 10:28</span>; "second death" ends existence <span class="verse-reference" title="And death and hell were cast into the lake of fire. This is the second death.">Rev 20:14</span>.
+                </p>
+                <p>
+                    <strong>Issue Addressed:</strong>
+                    Presents God as perpetually torturing.
+                </p>
+            </div>
+
         </div>
 
         <div id="prophecy" class="content-panel">
