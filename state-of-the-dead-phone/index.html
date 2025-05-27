@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life, Death & Resurrection Study Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 1.2em;
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #4a5568;
+            border-color: #667eea;
+        }
+
+        .content-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .content-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .doctrine-point {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .doctrine-point h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .doctrine-point p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .verse-reference {
+            background: #e6fffa;
+            color: #234e52;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 0 4px;
+            display: inline-block;
+            cursor: pointer; /* Added for better mobile UX */
+        }
+
+        .evidence-category {
+            margin: 25px 0;
+        }
+
+        .evidence-category h3 {
+            color: #2d3748;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .verse-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .faq-item {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .faq-question {
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 1.2em;
+            margin-bottom: 12px;
+        }
+
+        .faq-answer {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        .comparison-card {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 4px solid #764ba2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .comparison-card h3 {
+            color: #2d3748;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .comparison-card p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .comparison-card p:last-child {
+            margin-bottom: 0;
+        }
+        .comparison-card strong {
+            color: #2d3748;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .quote-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quote-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 4em;
+            opacity: 0.3;
+            color: white;
+        }
+
+        .quote-text {
+            font-style: italic;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .quote-source {
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .glossary-term {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid #48bb78;
+        }
+
+        .glossary-term h4 {
+            color: #2d3748;
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+
+        .glossary-hebrew {
+            color: #48bb78;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* NEW STYLES for Tap Tooltip */
+        .verse-tooltip {
+            position: absolute;
+            background-color: #2d3748;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            max-width: 300px;
+            font-size: 0.9em;
+            line-height: 1.5;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none; /* Allows clicks to pass through if needed, handled by JS anyway */
+        }
+
+        .verse-tooltip.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .verse-tooltip::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -5px;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid #2d3748;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Life, Death & Resurrection</h1>
+            <p>A Biblical Study Guide on the Core Doctrine</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="tab-button active" onclick="showTab('core-doctrine')">Core Doctrine</button>
+            <button class="tab-button" onclick="showTab('biblical-evidence')">Biblical Evidence</button>
+            <button class="tab-button" onclick="showTab('faq')">FAQ</button>
+            <button class="tab-button" onclick="showTab('contrasting-views')">Contrasting Views</button>
+            <button class="tab-button" onclick="showTab('prophecy')">Spirit of Prophecy</button>
+            <button class="tab-button" onclick="showTab('glossary')">Glossary</button>
+        </div>
+
+        <div id="core-doctrine" class="content-panel active">
+            <h2 style="color: #2d3748; margin-bottom: 25px; font-size: 2em;">Module 1 – The Core Doctrine</h2>
+            
+            <div class="doctrine-point">
+                <h3>Natural State of Humanity (Mortality)</h3>
+                <p>Humanity is mortal by nature 
+                    <span class="verse-reference" title="And the LORD God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living soul.">Gen 2:7</span>
+                    <span class="verse-reference" title="What is man, that thou art mindful of him? and the son of man, that thou visitest him?">Ps 8:4</span>
+                    <span class="verse-reference" title="His breath goeth forth, he returneth to his earth; in that very day his thoughts perish.">Ps 146:4</span>
+                    <span class="verse-reference" title="Which in his times he shall shew, who is the blessed and only Potentate, the King of kings, and Lord of lords; Who only hath immortality, dwelling in the light which no man can approach unto; whom no man hath seen, nor can see: to whom be honour and power everlasting. Amen.">1 Tim 6:15-16</span>
+                </p>
+            </div>
+
+            <div class="doctrine-point">
+                <h3>Death as Unconscious Sleep</h3>
+                <p>The dead know nothing, their thoughts have perished; Jesus likens death to sleep 
+                    <span class="verse-reference" title="For the living know that they shall die: but the dead know not any thing, neither have they any more a reward; for the memory of them is forgotten. Also their love, and their hatred, and their envy, is now perished; neither have they any more a portion for ever in any thing that is done under the sun. Whatsoever thy hand findeth to do, do it with thy might; for there is no work, nor device, nor knowledge, nor wisdom, in the grave, whither thou goest.">Eccl 9:5-6, 10</span>
+                    <span class="verse-reference" title="The dead praise not the LORD, neither any that go down into silence.">Ps 115:17</span>
+                    <span class="verse-reference" title="These things said he: and after that he saith unto them, Our friend Lazarus sleepeth; but I go, that I may awake him out of sleep. Then said his disciples, Lord, if he sleep, he shall do well. Howbeit Jesus spake of his death: but they thought that he had spoken of taking of rest in sleep. Then said Jesus unto them plainly, Lazarus is dead.">John 11:11-14</span>
+                    <span class="verse-reference" title="But I would not have you to be ignorant, brethren, concerning them which are asleep, that ye sorrow not, even as others which have no hope. For if we believe that Jesus died and rose again, even so them also which sleep in Jesus will God bring with him. For this we say unto you by the word of the Lord, that we which are alive and remain unto the coming of the Lord shall not prevent them which are asleep.">1 Thess 4:13-15</span>
+                </p>
+            </div>
+
+            <div class="doctrine-point">
+                <h3>Two Resurrections</h3>
+                <p>Resurrection "of life" for the righteous, "of damnation" for the lost 
+                    <span class="verse-reference" title="Marvel not at this: for the hour is coming, in the which all that are in the graves shall hear his voice, And shall come forth; they that have done good, unto the resurrection of life; and they that have done evil, unto the resurrection of damnation.">John 5:28-29</span>
+                    <span class="verse-reference" title="And many of them that sleep in the dust of the earth shall awake, some to everlasting life, and some to shame and everlasting contempt.">Dan 12:2</span>
+                    <span class="verse-reference" title="And I saw thrones, and they sat upon them, and judgment was given unto them: and I saw the souls of them that were beheaded for the witness of Jesus, and for the word of God, and which had not worshipped the beast, neither his image, neither had received his mark upon their foreheads, or in their hands; and they lived and reigned with Christ a thousand years. But the rest of the dead lived not again until the thousand years were finished. This is the first resurrection. Blessed and holy is he that hath part in the first resurrection: on such the second death hath no power, but they shall be priests of God and of Christ, and shall reign with him a thousand years. And I saw a great white throne, and him that sat on it, from whose face the earth and the heaven fled away; and there was found no place for them. And I saw the dead, small and great, stand before God; and the books were opened: and another book was opened, which is the book of life: and the dead were judged out of those things which were written in the books, according to their works. And the sea gave up the dead which were in it; and death and hell delivered up the dead which were in them: and they were judged every man according to their works. And death and hell were cast into the lake of fire. This is the second death. And whosoever was not found written in the book of life was cast into the lake of fire.">Rev 20:4-6, 11-15</span>
+                </p>
+            </div>
+
+            <div class="doctrine-point">
+                <h3>Conditional Immortality</h3>
+                <p>Immortality is granted only to the righteous at Christ's return 
+                    <span class="verse-reference" title="To them who by patient continuance in well doing seek for glory and honour and immortality, eternal life:">Rom 2:7</span>
+                    <span class="verse-reference" title="Behold, I shew you a mystery; We shall not all sleep, but we shall all be changed, In a moment, in the twinkling of an eye, at the last trump: for the trumpet shall sound, and the dead shall be raised incorruptible, and we shall be changed. For this corruptible must put on incorruption, and this mortal must put on immortality. So when this corruptible shall have put on incorruption, and this mortal shall have put on immortality, then shall be brought to pass the saying that is written, Death is swallowed up in victory.">1 Cor 15:51-54</span>
+                    <span class="verse-reference" title="For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God: and the dead in Christ shall rise first: Then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air: and so shall we ever be with the Lord.">1 Thess 4:16-17</span>
+                    <span class="verse-reference" title="But is now made manifest by the appearing of our Saviour Jesus Christ, who hath abolished death, and hath brought life and immortality to light through the gospel:">2 Tim 1:10</span>
+                </p>
+            </div>
+        </div>
+
+        <div id="biblical-evidence" class="content-panel">
+            <h2 style="color: #2d3748; margin-bottom: 25px; font-size: 2em;">Module 2 – Biblical Evidence</h2>
+            
+            <div class="evidence-category">
+                <h3>Immortality Is a Gift</h3>
+                <div class="verse-list">
+                    <span class="verse-reference" title="Who only hath immortality, dwelling in the light which no man can approach unto; whom no man hath seen, nor can see: to whom be honour and power everlasting. Amen.">1 Tim 6:16</span>
+                    <span class="verse-reference" title="To them who by patient continuance in well doing seek for glory and honour and immortality, eternal life:">Rom 2:7</span>
+                    <span class="verse-reference" title="For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.">John 3:16</span>
+                    <span class="verse-reference" title="For this corruptible must put on incorruption, and this mortal must put on immortality. So when this corruptible shall have put on incorruption, and this mortal shall have put on immortality, then shall be brought to pass the saying that is written, Death is swallowed up in victory.">1 Cor 15:53-54</span>
+                    <span class="verse-reference" title="But is now made manifest by the appearing of our Saviour Jesus Christ, who hath abolished death, and hath brought life and immortality to light through the gospel:">2 Tim 1:10</span>
+                </div>
+            </div>
+
+            <div class="evidence-category">
+                <h3>Death as Unconscious Sleep</h3>
+                <div class="verse-list">
+                    <span class="verse-reference" title="For the living know that they shall die: but the dead know not any thing, neither have they any more a reward; for the memory of them is forgotten. Also their love, and their hatred, and their envy, is now perished; neither have they any more a portion for ever in any thing that is done under the sun. ... Whatsoever thy hand findeth to do, do it with thy might; for there is no work, nor device, nor knowledge, nor wisdom, in the grave, whither thou goest.">Eccl 9:5-6,10</span>
+                    <span class="verse-reference" title="His breath goeth forth, he returneth to his earth; in that very day his thoughts perish.">Ps 146:4</span>
+                    <span class="verse-reference" title="So man lieth down, and riseth not: till the heavens be no more, they shall not awake, nor be raised out of their sleep. O that thou wouldest hide me in the grave, that thou wouldest keep me secret, until thy wrath be past, that thou wouldest appoint me a set time, and remember me! If a man die, shall he live again? all the days of my appointed time will I wait, till my change come.">Job 14:12-14</span>
+                    <span class="verse-reference" title="These things said he: and after that he saith unto them, Our friend Lazarus sleepeth; but I go, that I may awake him out of sleep. Then said his disciples, Lord, if he sleep, he shall do well. Howbeit Jesus spake of his death: but they thought that he had spoken of taking of rest in sleep. Then said Jesus unto them plainly, Lazarus is dead.">John 11:11-14</span>
+                    <span class="verse-reference" title="And he kneeled down, and cried with a loud voice, Lord, lay not this sin to their charge. And when he had said this, he fell asleep.">Acts 7:60</span>
+                    <span class="verse-reference" title="But I would not have you to be ignorant, brethren, concerning them which are asleep, that ye sorrow not, even as others which have no hope. For if we believe that Jesus died and rose again, even so them also which sleep in Jesus will God bring with him. For this we say unto you by the word of the Lord, that we which are alive and remain unto the coming of the Lord shall not prevent them which are asleep. For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God: and the dead in Christ shall rise first:">1 Thess 4:13-16</span>
+                </div>
+            </div>
+
+            <div class="evidence-category">
+                <h3>The Resurrection Event</h3>
+                <div class="verse-list">
+                    <span class="verse-reference" title="Marvel not at this: for the hour is coming, in the which all that are in the graves shall hear his voice, And shall come forth; they that have done good, unto the resurrection of life; and they that have done evil, unto the resurrection of damnation.">John 5:28-29</span>
+                    <span class="verse-reference" title="And many of them that sleep in the dust of the earth shall awake, some to everlasting life, and some to shame and everlasting contempt.">Dan 12:2</span>
+                    <span class="verse-reference" title="But now is Christ risen from the dead, and become the firstfruits of them that slept. For since by man came death, by man came also the resurrection of the dead. For as in Adam all die, even so in Christ shall all be made alive. But every man in his own order: Christ the firstfruits; afterward they that are Christ's at his coming. ... So also is the resurrection of the dead. It is sown in corruption; it is raised in incorruption: It is sown in dishonour; it is raised in glory: it is sown in weakness; it is raised in power: It is sown a natural body; it is raised a spiritual body. There is a natural body, and there is a spiritual body. ... Behold, I shew you a mystery; We shall not all sleep, but we shall all be changed, In a moment, in the twinkling of an eye, at the last trump: for the trumpet shall sound, and the dead shall be raised incorruptible, and we shall be changed. For this corruptible must put on incorruption, and this mortal must put on immortality. So when this corruptible shall have put on incorruption, and this mortal shall have put on immortality, then shall be brought to pass the saying that is written, Death is swallowed up in victory.">1 Cor 15:20-23,42-44,51-54</span>
+                    <span class="verse-reference" title="For our conversation is in heaven; from whence also we look for the Saviour, the Lord Jesus Christ: Who shall change our vile body, that it may be fashioned like unto his glorious body, according to the working whereby he is able even to subdue all things unto himself.">Phil 3:20-21</span>
+                    <span class="verse-reference" title="And I saw thrones, and they sat upon them, and judgment was given unto them: and I saw the souls of them that were beheaded for the witness of Jesus, and for the word of God, and which had not worshipped the beast, neither his image, neither had received his mark upon their foreheads, or in their hands; and they lived and reigned with Christ a thousand years. But the rest of the dead lived not again until the thousand years were finished. This is the first resurrection. Blessed and holy is he that hath part in the first resurrection: on such the second death hath no power, but they shall be priests of God and of Christ, and shall reign with him a thousand years. ... And I saw the dead, small and great, stand before God; and the books were opened: and another book was opened, which is the book of life: and the dead were judged out of those things which were written in the books, according to their works. And the sea gave up the dead which were in it; and death and hell delivered up the dead which were in them: and they were judged every man according to their works.">Rev 20:4-6,12-13</span>
+                </div>
+            </div>
+
+            <div class="evidence-category">
+                <h3>Fate of the Wicked is Destruction</h3>
+                <div class="verse-list">
+                    <span class="verse-reference" title="For, behold, the day cometh, that shall burn as an oven; and all the proud, yea, and all that do wickedly, shall be stubble: and the day that cometh shall burn them up, saith the LORD of hosts, that it shall leave them neither root nor branch. But unto you that fear my name shall the Sun of righteousness arise with healing in his wings; and ye shall go forth, and grow up as calves of the stall. And ye shall tread down the wicked; for they shall be ashes under the soles of your feet in the day that I shall do this, saith the LORD of hosts.">Mal 4:1-3</span>
+                    <span class="verse-reference" title="And fear not them which kill the body, but are not able to kill the soul: but rather fear him which is able to destroy both soul and body in hell.">Matt 10:28</span>
+                    <span class="verse-reference" title="For the wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord.">Rom 6:23</span>
+                    <span class="verse-reference" title="Who shall be punished with everlasting destruction from the presence of the Lord, and from the glory of his power; When he shall come to be glorified in his saints, and to be admired in all them that believe (because our testimony among you was believed) in that day.">2 Thess 1:8-9</span>
+                    <span class="verse-reference" title="But the fearful, and unbelieving, and the abominable, and murderers, and whoremongers, and sorcerers, and idolaters, and all liars, shall have their part in the lake which burneth with fire and brimstone: which is the second death.">Rev 21:8</span>
+                    <span class="verse-reference" title="For as ye have drunk upon my holy mountain, so shall all the heathen drink continually, yea, they shall drink, and they shall swallow down, and they shall be as though they had not been.">Obad 16</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="faq" class="content-panel">
+            <h2 style="color: #2d3748; margin-bottom: 25px; font-size: 2em;">Module 3 – Answering Common Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">Rich Man & Lazarus (Luke 16:19-31)</div>
+                <div class="faq-answer">
+                    A parable employing current Jewish imagery; its purpose is moral warning. Literal-sleep texts interpret figurative passages, not vice-versa 
+                    <span class="verse-reference" title="For the living know that they shall die: but the dead know not any thing, neither have they any more a reward; for the memory of them is forgotten. Also their love, and their hatred, and their envy, is now perished; neither have they any more a portion for ever in any thing that is done under the sun.">Eccl 9:5-6</span>
+                    <span class="verse-reference" title="These things said he: and after that he saith unto them, Our friend Lazarus sleepeth; but I go, that I may awake him out of sleep. Then said his disciples, Lord, if he sleep, he shall do well. Howbeit Jesus spake of his death: but they thought that he had spoken of taking of rest in sleep. Then said Jesus unto them plainly, Lazarus is dead.">John 11:11-14</span>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Thief on the Cross (Luke 23:43)</div>
+                <div class="faq-answer">
+                    Greek manuscripts had no punctuation; reading, "Truly I say to you today, you will be with Me in Paradise," matches Christ's own burial-to-resurrection timeline 
+                    <span class="verse-reference" title="Jesus saith unto her, Touch me not; for I am not yet ascended to my Father: but go to my brethren, and say unto them, I ascend unto my Father, and your Father; and to my God, and your God.">John 20:17</span> and the corporate resurrection hope 
+                    <span class="verse-reference" title="For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God: and the dead in Christ shall rise first: Then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air: and so shall we ever be with the Lord.">1 Thess 4:16-17</span>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">"Eternal Punishment" (Matthew 25:46)</div>
+                <div class="faq-answer">
+                    Aiōnios describes the lasting result, not an unending process: "punishment" = "second death" 
+                    <span class="verse-reference" title="And death and hell were cast into the lake of fire. This is the second death. And whosoever was not found written in the book of life was cast into the lake of fire.">Rev 20:14-15</span>. Parallel usage in 
+                    <span class="verse-reference" title="Even as Sodom and Gomorrha, and the cities about them in like manner, giving themselves over to fornication, and going after strange flesh, are set forth for an example, suffering the vengeance of eternal fire.">Jude 7</span> ("eternal fire" already ashes) shows outcome, not ongoing torment.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">"Absent from the Body…present with the Lord" (2 Corinthians 5:8)</div>
+                <div class="faq-answer">
+                    Paul contrasts mortal present with resurrected "house from heaven" (vs 1-4); presence with the Lord is realized at the resurrection 
+                    <span class="verse-reference" title="Henceforth there is laid up for me a crown of righteousness, which the Lord, the righteous judge, shall give me at that day: and not to me only, but unto all them also that love his appearing.">2 Tim 4:8</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="contrasting-views" class="content-panel">
+            <h2 style="color: #2d3748; margin-bottom: 25px; font-size: 2em;">Module 4 – Contrasting Views</h2>
+            
+            <div class="comparison-card">
+                <h3>Natural Immortality</h3>
+                <p>
+                    <strong>Core Claim:</strong>
+                    Soul is inherently immortal, survives death.
+                </p>
+                <p>
+                    <strong>Biblical Response:</strong>
+                    Only God "has immortality" <span class="verse-reference" title="Who only hath immortality, dwelling in the light which no man can approach unto; whom no man hath seen, nor can see: to whom be honour and power everlasting. Amen.">1 Tim 6:16</span>; immortality is "put on" at resurrection <span class="verse-reference" title="For this corruptible must put on incorruption, and this mortal must put on immortality. So when this corruptible shall have put on incorruption, and this mortal shall have put on immortality, then shall be brought to pass the saying that is written, Death is swallowed up in victory.">1 Cor 15:53-54</span>.
+                </p>
+                <p>
+                    <strong>Issue Addressed:</strong>
+                    Undermines need of resurrection.
+                </p>
+            </div>
+
+            <div class="comparison-card">
+                <h3>Eternal Conscious Torment (ECT)</h3>
+                <p>
+                    <strong>Core Claim:</strong>
+                    Wicked suffer forever in conscious pain.
+                </p>
+                <p>
+                    <strong>Biblical Response:</strong>
+                    "The wages of sin is death" <span class="verse-reference" title="For the wages of sin is death; but the gift of God is eternal life through Jesus Christ our Lord.">Rom 6:23</span>; "both soul and body" destroyed <span class="verse-reference" title="And fear not them which kill the body, but are not able to kill the soul: but rather fear him which is able to destroy both soul and body in hell.">Matt 10:28</span>; "second death" ends existence <span class="verse-reference" title="And death and hell were cast into the lake of fire. This is the second death.">Rev 20:14</span>.
+                </p>
+                <p>
+                    <strong>Issue Addressed:</strong>
+                    Presents God as perpetually torturing.
+                </p>
+            </div>
+
+        </div>
+
+        <div id="prophecy" class="content-panel">
+            <h2 style="color: #2d3748; margin-bottom: 25px; font-size: 2em;">Module 5 – Spirit of Prophecy on the Resurrection</h2>
+            
+            <div class="quote-card">
+                <div class="quote-text">
+                    "To the believer, death is but a small matter… to them death is but a sleep, a moment of silence and darkness."
+                </div>
+                <div class="quote-source">— Desire of Ages, p. 787</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">
+                    "Our personal identity is preserved in the resurrection, though not the same particles of matter or material substance as went into the grave."
+                </div>
+                <div class="quote-source">— Counsels on Health, p. 109</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">
+                    "The voice that cried from the cross, 'It is finished,' is heard among the sleeping saints. It is a voice of victory and deliverance."
+                </div>
+                <div class="quote-source">— Great Controversy, p. 644</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">
+                    "Satan's work of ruin is forever ended… sin and sinners are no more."
+                </div>
+                <div class="quote-source">— Great Controversy, p. 673</div>
+            </div>
+
+            <div class="quote-card">
+                <div class="quote-text">
+                    "Christ will come… and raise the righteous dead, changing the living saints to immortality."
+                </div>
+                <div class="quote-source">— Early Writings, p. 15</div>
+            </div>
+        </div>
+
+        <div id="glossary" class="content-panel">
+            <h2 style="color: #2d3748; margin-bottom: 25px; font-size: 2em;">Module 6 – Glossary of Key Terms</h2>
+            
+            <input type="text" class="search-box" placeholder="Search glossary terms..." onkeyup="searchGlossary(this.value)">
+
+            <div class="glossary-term" data-term="soul">
+                <h4>Soul <span class="glossary-hebrew">(nephesh / psyche)</span></h4>
+                <p>The living person as a whole <span class="verse-reference" title="And the LORD God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living soul.">Gen 2:7</span> <span class="verse-reference" title="Then they that gladly received his word were baptized: and the same day there were added unto them about three thousand souls.">Acts 2:41</span>. Not an immortal entity separate from the body.</p>
+            </div>
+
+            <div class="glossary-term" data-term="spirit">
+                <h4>Spirit <span class="glossary-hebrew">(ruach / pneuma)</span></h4>
+                <p>Breath or life-spark that returns to God at death <span class="verse-reference" title="Then shall the dust return to the earth as it was: and the spirit shall return unto God who gave it.">Eccl 12:7</span> <span class="verse-reference" title="And when Jesus had cried with a loud voice, he said, Father, into thy hands I commend my spirit: and having said thus, he gave up the ghost.">Luke 23:46</span>.</p>
+            </div>
+
+            <div class="glossary-term" data-term="hell">
+                <h4>Hell <span class="glossary-hebrew">(Gehenna)</span></h4>
+                <p>Final place of total destruction for the wicked, named after the Valley of Hinnom <span class="verse-reference" title="And fear not them which kill the body, but are not able to kill the soul: but rather fear him which is able to destroy both soul and body in hell.">Matt 10:28</span> <span class="verse-reference" title="And if thy hand offend thee, cut it off: it is better for thee to enter into life maimed, than having two hands to go into hell, into the fire that never shall be quenched: Where their worm dieth not, and the fire is not quenched. And if thy foot offend thee, cut it off: it is better for thee to enter halt into life, than having two feet to be cast into hell, into the fire that never shall be quenched: Where their worm dieth not, and the fire is not quenched. And if thine eye offend thee, pluck it out: it is better for thee to enter into the kingdom of God with one eye, than having two eyes to be cast into hell fire: Where their worm dieth not, and the fire is not quenched.">Mk 9:43-48</span>.</p>
+            </div>
+
+            <div class="glossary-term" data-term="hades sheol">
+                <h4>Hades / Sheol</h4>
+                <p>The grave, realm of the dead, a state of silence and unconsciousness <span class="verse-reference" title="For thou wilt not leave my soul in hell; neither wilt thou suffer thine Holy One to see corruption.">Ps 16:10</span> <span class="verse-reference" title="I am he that liveth, and was dead; and, behold, I am alive for evermore, Amen; and have the keys of hell and of death.">Rev 1:18</span>.</p>
+            </div>
+
+            <div class="glossary-term" data-term="second death">
+                <h4>Second Death</h4>
+                <p>Irreversible extinction of the wicked after the final judgment <span class="verse-reference" title="And death and hell were cast into the lake of fire. This is the second death. And whosoever was not found written in the book of life was cast into the lake of fire.">Rev 20:14-15</span> <span class="verse-reference" title="But the fearful, and unbelieving, and the abominable, and murderers, and whoremongers, and sorcerers, and idolaters, and all liars, shall have their part in the lake which burneth with fire and brimstone: which is the second death.">Rev 21:8</span>.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all content panels
+            const panels = document.querySelectorAll('.content-panel');
+            panels.forEach(panel => {
+                panel.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected panel
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function searchGlossary(searchTerm) {
+            const terms = document.querySelectorAll('.glossary-term');
+            const search = searchTerm.toLowerCase();
+
+            terms.forEach(term => {
+                const termData = term.getAttribute('data-term').toLowerCase();
+                const termText = term.textContent.toLowerCase();
+                
+                if (termData.includes(search) || termText.includes(search)) {
+                    term.style.display = 'block';
+                } else {
+                    term.style.display = 'none';
+                }
+            });
+        }
+
+        // --- NEW SCRIPT FOR VERSE TOOLTIPS ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to remove any existing tooltips
+            function removeTooltip() {
+                const existingTooltip = document.querySelector('.verse-tooltip');
+                if (existingTooltip) {
+                    existingTooltip.classList.remove('visible');
+                    // Remove the element after the transition ends
+                    setTimeout(() => {
+                        existingTooltip.remove();
+                    }, 200);
+                }
+            }
+
+            // Add tap/click listener to all verse references
+            const verseRefs = document.querySelectorAll('.verse-reference');
+            verseRefs.forEach(ref => {
+                // Desktop hover effects
+                ref.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05)';
+                    this.style.transition = 'transform 0.2s ease';
+                });
+                
+                ref.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+
+                // Mobile tap effect
+                ref.addEventListener('click', function(event) {
+                    event.stopPropagation(); // Prevent the click from bubbling up to the document
+                    removeTooltip(); // Remove any tooltip that might be open
+
+                    // Create the tooltip element
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'verse-tooltip';
+                    tooltip.innerHTML = this.getAttribute('title');
+                    document.body.appendChild(tooltip);
+
+                    // Position the tooltip
+                    const rect = this.getBoundingClientRect();
+                    const tooltipRect = tooltip.getBoundingClientRect();
+                    
+                    let top = rect.top - tooltipRect.height - 10; // 10px spacing
+                    let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+
+                    // Adjust if tooltip goes off-screen
+                    if (left < 10) left = 10;
+                    if (left + tooltipRect.width > window.innerWidth - 10) {
+                        left = window.innerWidth - tooltipRect.width - 10;
+                    }
+                    if (top < 10) { // If it goes off the top, display below
+                        top = rect.bottom + 10;
+                        tooltip.classList.add('upside-down'); // A class to flip the arrow if needed
+                    }
+
+                    tooltip.style.top = `${top + window.scrollY}px`;
+                    tooltip.style.left = `${left + window.scrollX}px`;
+
+                    // Make it visible with a slight delay to allow positioning
+                    setTimeout(() => {
+                         tooltip.classList.add('visible');
+                    }, 10);
+                });
+            });
+
+            // Add a listener to the whole document to close the tooltip when clicking anywhere else
+            document.addEventListener('click', function() {
+                removeTooltip();
+            });
+        });
+    </script>
+</body>
+</html>
