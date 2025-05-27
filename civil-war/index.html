@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The American Civil War: Digital Knowledge Base</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%); /* Darker theme for Civil War */
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .header {
+            background: linear-gradient(45deg, #2c3e50, #1a202c); /* Civil War appropriate colors */
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before { /* Subtle pattern, less "floaty" than stars */
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 15px 15px;
+            opacity: 0.5;
+        }
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        .nav {
+            background: #34495e; /* Kept similar for contrast */
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0 2rem;
+        }
+        .nav-btn { /* Union Blue and Confederate Gray inspired */
+            background: linear-gradient(45deg, #4A90E2, #357ABD); /* Union Blue */
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+            background: linear-gradient(45deg, #357ABD, #2A5E8D);
+        }
+        .nav-btn.active { /* A contrasting active color, perhaps a neutral gray */
+            background: linear-gradient(45deg, #8D8D8D, #757575); /* Confederate Gray-ish */
+            box-shadow: 0 4px 15px rgba(141, 141, 141, 0.3);
+        }
+        .content {
+            padding: 3rem 2rem;
+        }
+        .section {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        .section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section h2 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #4A90E2, #8D8D8D); /* Blue and Gray */
+            border-radius: 2px;
+        }
+        .section h3 {
+            color: #34495e;
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem 0;
+            padding-left: 1rem;
+            border-left: 4px solid #4A90E2; /* Union Blue accent */
+        }
+        .section p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            text-align: justify;
+            line-height: 1.8;
+        }
+        .figure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .figure-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(52, 73, 94, 0.1);
+        }
+        .figure-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        .figure-card h4 {
+            color: #2c3e50;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #4A90E2; /* Union Blue accent */
+        }
+        .battle-timeline {
+            position: relative;
+            margin: 3rem 0;
+        }
+        .timeline-item {
+            display: flex;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: -2rem; /* Adjusted to ensure line connects */
+            width: 2px;
+            background: linear-gradient(to bottom, #4A90E2, #357ABD); /* Union Blue gradient */
+        }
+        .timeline-item:last-child::before {
+            /* display: none; */ /* Keep for consistency or remove if preferred */
+             height: 40px; /* Ensure line stops at the dot for the last item */
+             bottom: auto;
+        }
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #8D8D8D, #757575); /* Confederate Gray */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 2rem;
+            box-shadow: 0 4px 10px rgba(141, 141, 141, 0.3);
+            flex-shrink: 0;
+            z-index: 1; /* Ensure dot is above line */
+        }
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            border-left: 4px solid #4A90E2; /* Union Blue accent */
+        }
+        .timeline-content h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        .timeline-date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .impact-card {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid;
+        }
+        /* Civil War themed colors for impact cards */
+        .impact-card:nth-child(1) { border-top-color: #4A90E2; } /* Union Blue */
+        .impact-card:nth-child(2) { border-top-color: #8D8D8D; } /* Confederate Gray */
+        .impact-card:nth-child(3) { border-top-color: #D0021B; } /* Blood Red for conflict */
+        .impact-card:nth-child(4) { border-top-color: #F5A623; } /* Gold for economic aspects */
+
+        .impact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        .impact-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        .treaty-box { /* Renamed to "surrender-box" or similar if more appropriate */
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(44, 62, 80, 0.3);
+        }
+        .treaty-box h4 {
+            color: #ecf0f1;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        .treaty-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .treaty-box li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .treaty-box li::before { /* Changed star to a more neutral bullet or historical symbol */
+            content: '►'; /* Arrow symbol */
+            position: absolute;
+            left: 0;
+            color: #F5A623; /* Gold accent */
+        }
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            /* margin-top: 3rem; */ /* Removed to prevent potential double margin with container */
+        }
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem; /* Adjusted for Civil War title length */
+            }
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .content {
+                padding: 2rem 1rem;
+            }
+            .section h2 {
+                font-size: 2rem;
+            }
+            .figure-grid {
+                grid-template-columns: 1fr;
+            }
+            .timeline-item {
+                flex-direction: column;
+            }
+            .timeline-dot {
+                margin-right: 0;
+                margin-bottom: 1rem;
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>The American Civil War</h1>
+            <p>A Digital Knowledge Base - A Nation Divided and Reunited</p>
+        </header>
+
+        <nav class="nav">
+            <div class="nav-container">
+                <button class="nav-btn active" onclick="showSection('causes')">Causes of Conflict</button>
+                <button class="nav-btn" onclick="showSection('figures')">Prominent Leaders</button>
+                <button class="nav-btn" onclick="showSection('battles')">Defining Battles</button>
+                <button class="nav-btn" onclick="showSection('homefront')">The War at Home</button>
+                <button class="nav-btn" onclick="showSection('divided_nation')">The Divided Nation</button>
+                <button class="nav-btn" onclick="showSection('aftermath')">Surrender & Reconstruction</button>
+                <button class="nav-btn" onclick="showSection('timeline')">Civil War Timeline</button>
+            </div>
+        </nav>
+
+        <main class="content">
+            <section id="causes" class="section active">
+                <h2>The Path to Division</h2>
+                <h3>Deep-Rooted Tensions</h3>
+                <p>The American Civil War did not erupt suddenly. It was the culmination of decades of growing friction between the North and South, primarily over the institution of slavery, differing economic systems, and the principle of states' rights versus federal authority.</p>
+
+                <h3>Key Issues and Events</h3>
+                <p>Several critical issues and events progressively widened the chasm between the industrializing North and the agrarian, slave-holding South:</p>
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <h4>Slavery</h4>
+                        <p>The moral and economic implications of slavery were the most significant cause. The South's economy was heavily dependent on enslaved labor, while the North increasingly viewed slavery as morally reprehensible and economically outdated.</p>
+                    </div>
+                    <div class="impact-card">
+                        <h4>States' Rights</h4>
+                        <p>Southern states championed the doctrine of states' rights, arguing that federal authority was limited and that states had the right to nullify federal laws or even secede from the Union if they felt their sovereignty was infringed.</p>
+                    </div>
+                    <div class="impact-card">
+                        <h4>Economic Differences</h4>
+                        <p>The North focused on manufacturing and industry, favoring protective tariffs. The South, reliant on agriculture (especially cotton exported to Europe), opposed tariffs that raised the cost of imported goods.</p>
+                    </div>
+                    <div class="impact-card">
+                        <h4>Westward Expansion</h4>
+                        <p>As new territories were acquired, the debate over whether they would be free or slave states intensified, leading to violent clashes like "Bleeding Kansas" and a series of fragile compromises.</p>
+                    </div>
+                </div>
+                <h3>The Breaking Point: Election of 1860 & Secession</h3>
+                <p>The election of Abraham Lincoln, a Republican opposed to the expansion of slavery, in 1860 was the final catalyst. Southern states, fearing Lincoln would abolish slavery, began seceding from the Union, starting with South Carolina in December 1860. By February 1861, seven states had seceded and formed the Confederate States of America.</p>
+            </section>
+
+            <section id="figures" class="section">
+                <h2>Leaders of a Divided Nation</h2>
+                <h3>Union Leadership</h3>
+                <div class="figure-grid">
+                    <div class="figure-card">
+                        <h4>Abraham Lincoln</h4>
+                        <p>16th President of the United States. His steadfast leadership aimed to preserve the Union and, later, to end slavery. Authored the Emancipation Proclamation and delivered the iconic Gettysburg Address.</p>
+                    </div>
+                    <div class="figure-card">
+                        <h4>Ulysses S. Grant</h4>
+                        <p>Commanding General of the Union Army from 1864. Known for his aggressive tactics and determination, he accepted Lee's surrender at Appomattox, effectively ending the war.</p>
+                    </div>
+                    <div class="figure-card">
+                        <h4>William T. Sherman</h4>
+                        <p>Union General famous for his "March to the Sea," employing "total war" tactics to break the Confederacy's will to fight. A key subordinate to Grant.</p>
+                    </div>
+                    <div class="figure-card">
+                        <h4>Frederick Douglass</h4>
+                        <p>Escaped slave, abolitionist, orator, and writer. Advocated for emancipation and the enlistment of African American soldiers in the Union Army. A powerful voice for equality.</p>
+                    </div>
+                     <div class="figure-card">
+                        <h4>Clara Barton</h4>
+                        <p>Pioneering nurse who founded the American Red Cross. Known as the "Angel of the Battlefield" for her courageous work providing medical care to soldiers on both sides.</p>
+                    </div>
+                </div>
+
+                <h3>Confederate Leadership</h3>
+                <div class="figure-grid">
+                    <div class="figure-card">
+                        <h4>Jefferson Davis</h4>
+                        <p>President of the Confederate States of America. A former U.S. Senator and Secretary of War, he struggled with managing the Confederacy's war effort and internal divisions.</p>
+                    </div>
+                    <div class="figure-card">
+                        <h4>Robert E. Lee</h4>
+                        <p>Commander of the Confederate Army of Northern Virginia. A brilliant tactician revered in the South, he achieved notable victories but ultimately faced overwhelming Union numbers and resources.</p>
+                    </div>
+                    <div class="figure-card">
+                        <h4>Thomas "Stonewall" Jackson</h4>
+                        <p>Highly skilled Confederate general, Lee's chief lieutenant. Known for his tactical prowess and bravery, his death at Chancellorsville was a severe blow to the Confederacy.</p>
+                    </div>
+                    <div class="figure-card">
+                        <h4>James Longstreet</h4>
+                        <p>One of Lee's principal subordinate commanders, known as his "Old War Horse." Played key roles in many battles, though sometimes criticized for his caution.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="battles" class="section">
+                <h2>The Defining Battles</h2>
+                <div class="battle-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">April 12-14, 1861</div>
+                            <h4>Attack on Fort Sumter</h4>
+                            <p>Confederate forces bombarded the Union-held Fort Sumter in Charleston, South Carolina, marking the official start of the Civil War. The fort surrendered after 34 hours.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">2</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">July 21, 1861</div>
+                            <h4>First Battle of Bull Run (Manassas)</h4>
+                            <p>The first major land battle. A Confederate victory shattered Union hopes for a quick war and led to a sobering realization of the conflict's potential length and brutality.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">3</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">September 17, 1862</div>
+                            <h4>Battle of Antietam (Sharpsburg)</h4>
+                            <p>The bloodiest single-day battle in American history. Though tactically inconclusive, the Union "victory" provided Lincoln the opportunity to issue the Emancipation Proclamation.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">4</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">July 1-3, 1863</div>
+                            <h4>Battle of Gettysburg</h4>
+                            <p>A major Union victory in Pennsylvania, often considered the turning point of the war. Lee's second invasion of the North was repelled, inflicting heavy Confederate casualties.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">5</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">May 18 - July 4, 1863</div>
+                            <h4>Siege of Vicksburg</h4>
+                            <p>Union forces under Grant captured Vicksburg, Mississippi, gaining control of the entire Mississippi River and splitting the Confederacy in two. A crucial strategic victory.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">6</div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">April 9, 1865</div>
+                            <h4>Appomattox Court House</h4>
+                            <p>General Robert E. Lee surrendered his Army of Northern Virginia to General Ulysses S. Grant, effectively ending the Civil War, though scattered fighting continued for a short time.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="homefront" class="section">
+                <h2>The War at Home</h2>
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <h4>The Role of Women</h4>
+                        <p>Women took on new responsibilities, managing farms and businesses, working in factories, and serving as nurses (like Clara Barton and Dorothea Dix), spies, and even soldiers in disguise.</p>
+                    </div>
+                    <div class="impact-card">
+                        <h4>African Americans & Emancipation</h4>
+                        <p>The Emancipation Proclamation (1863) declared slaves in Confederate territory free. Nearly 200,000 African American men served in the Union Army and Navy, contributing significantly to the war effort.</p>
+                    </div>
+                    <div class="impact-card">
+                        <h4>Economic Disruption</h4>
+                        <p>The North experienced an industrial boom, while the South faced severe inflation, shortages, and devastation of its infrastructure due to blockades and battles. Conscription was instituted on both sides.</p>
+                    </div>
+                    <div class="impact-card">
+                        <h4>Dissent and Opposition</h4>
+                        <p>Both North and South faced internal dissent. In the North, "Copperheads" opposed the war. In the South, food shortages and war weariness led to unrest. Draft riots occurred in several cities.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="divided_nation" class="section">
+                <h2>The Union and the Confederacy</h2>
+                <h3>A Nation Split Asunder</h3>
+                <p>The Civil War pitted state against state, and sometimes brother against brother. The Union (the North) fought to preserve the United States as a single nation, while the Confederacy (the South) sought to establish its independence.</p>
+
+                <h3>Strengths and Weaknesses</h3>
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <h4>Union Advantages</h4>
+                        <p>Larger population, greater industrial capacity, extensive railway network, established government and navy. Financial resources were also superior.</p>
+                    </div>
+                    <div class="impact-card">
+                        <h4>Confederate Advantages</h4>
+                        <p>Fighting a defensive war on familiar territory, strong military tradition and skilled leadership (early in the war), and the economic power of "King Cotton" (hoped for foreign intervention).</p>
+                    </div>
+                    <div class="impact-card">
+                        <h4>Border States' Crucial Role</h4>
+                        <p>States like Maryland, Kentucky, Missouri, and Delaware were slave states that did not secede. Their loyalty was vital to the Union due to their strategic locations and resources.</p>
+                    </div>
+                    <div class="impact-card">
+                        <h4>International Stance</h4>
+                        <p>The Confederacy sought recognition and aid from European powers like Britain and France, but ultimately failed, partly due to the Union's effective diplomacy and the Emancipation Proclamation reframing the war as a fight against slavery.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aftermath" class="section">
+                <h2>Surrender & Reconstruction</h2>
+                <h3>The End of Hostilities: Appomattox</h3>
+                <p>On April 9, 1865, at Appomattox Court House, Virginia, Confederate General Robert E. Lee surrendered his Army of Northern Virginia to Union General Ulysses S. Grant. This event is widely considered the end of the Civil War.</p>
+
+                <div class="treaty-box"> <h4>Terms of Surrender at Appomattox:</h4>
+                    <ul>
+                        <li>Confederate soldiers were paroled and allowed to return home.</li>
+                        <li>Officers could keep their sidearms, and men with horses or mules could keep them for spring planting.</li>
+                        <li>Grant provided rations to Lee's starving army.</li>
+                        <li>The terms were designed to be generous to prevent guerrilla warfare and promote reconciliation.</li>
+                    </ul>
+                </div>
+
+                <h3>The Reconstruction Era (1865-1877)</h3>
+                <p>The period following the war focused on rebuilding the South, readmitting Confederate states to the Union, and defining the rights of newly freed African Americans. It was a time of significant social and political upheaval.</p>
+                 <div class="impact-grid">
+                    <div class="impact-card">
+                        <h4>13th Amendment (1865)</h4>
+                        <p>Formally abolished slavery throughout the United States, a monumental step towards fulfilling the nation's promise of liberty.</p>
+                    </div>
+                    <div class="impact-card">
+                        <h4>14th Amendment (1868)</h4>
+                        <p>Granted citizenship to all persons born or naturalized in the U.S., including formerly enslaved people, and guaranteed "equal protection of the laws."</p>
+                    </div>
+                    <div class="impact-card">
+                        <h4>15th Amendment (1870)</h4>
+                        <p>Prohibited the denial of the right to vote based on race, color, or previous condition of servitude, though its enforcement faced many challenges.</p>
+                    </div>
+                     <div class="impact-card">
+                        <h4>Challenges of Reconstruction</h4>
+                        <p>Included resistance from white Southerners, the rise of groups like the KKK, economic hardship, and political disagreements over the process, leading to its eventual end in 1877.</p>
+                    </div>
+                </div>
+                <p>While Reconstruction brought about significant legal changes, the struggle for true equality for African Americans would continue for many decades.</p>
+            </section>
+
+            <section id="timeline" class="section">
+                <h2>Timeline of the American Civil War</h2>
+                <div class="battle-timeline"> <div class="timeline-item">
+                        <div class="timeline-dot">1860</div>
+                        <div class="timeline-content">
+                            <h4>Lincoln Elected; Secession Begins</h4>
+                            <p>Abraham Lincoln elected President (Nov). South Carolina secedes (Dec).</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1861</div>
+                        <div class="timeline-content">
+                            <h4>War Begins</h4>
+                            <p>Confederacy formed (Feb). Fort Sumter attacked (April). First Battle of Bull Run (July).</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1862</div>
+                        <div class="timeline-content">
+                            <h4>Antietam & Emancipation Proclamation</h4>
+                            <p>Battle of Shiloh (April). Battle of Antietam (Sept). Preliminary Emancipation Proclamation issued (Sept).</p>
+                        </div>
+                    </div>
+                     <div class="timeline-item">
+                        <div class="timeline-dot">1863</div>
+                        <div class="timeline-content">
+                            <h4>Turning Points: Gettysburg & Vicksburg</h4>
+                            <p>Emancipation Proclamation takes effect (Jan). Battle of Gettysburg (July). Siege of Vicksburg ends (July).</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1864</div>
+                        <div class="timeline-content">
+                            <h4>Grant vs. Lee; Sherman's March</h4>
+                            <p>Grant's Overland Campaign begins (May). Sherman captures Atlanta (Sept) and begins March to the Sea (Nov).</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1865</div>
+                        <div class="timeline-content">
+                            <h4>War Ends; Lincoln Assassinated</h4>
+                            <p>Lee surrenders at Appomattox (April 9). Lincoln assassinated (April 14). 13th Amendment ratified (Dec).</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1868</div>
+                        <div class="timeline-content">
+                            <h4>14th Amendment</h4>
+                            <p>Guarantees citizenship and equal protection under the law.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1870</div>
+                        <div class="timeline-content">
+                            <h4>15th Amendment</h4>
+                            <p>Grants voting rights regardless of race (though loopholes and suppression persisted).</p>
+                        </div>
+                    </div>
+                     <div class="timeline-item">
+                        <div class="timeline-dot">1877</div>
+                        <div class="timeline-content">
+                            <h4>End of Reconstruction</h4>
+                            <p>Compromise of 1877 leads to withdrawal of federal troops from the South, formally ending the Reconstruction era.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 American Civil War Digital Knowledge Base - Exploring a Nation Divided and Reunited</p>
+        </footer>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all nav buttons
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show the selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Add active class to the clicked button
+            // Iterate through buttons and find the one that calls showSection with the current sectionId
+            const navButtonsToActivate = document.querySelectorAll('.nav-btn');
+             navButtonsToActivate.forEach(btn => {
+                // A more robust way to check: see if the onclick attribute string contains the sectionId
+                const onclickAttribute = btn.getAttribute('onclick');
+                if (onclickAttribute && onclickAttribute.includes(`showSection('${sectionId}')`)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Scroll to the top of the content area smoothly
+            // This was removed in the original user code, but can be useful.
+            // If you want to re-enable, uncomment the block below.
+            /*
+            const contentElement = document.querySelector('.content');
+            if (contentElement) {
+                 // Scroll the main content area, not the whole window, to keep nav visible
+                contentElement.scrollTo({ 
+                    top: 0, // Scroll to the top of the content area itself
+                    behavior: 'smooth'
+                });
+            }
+            */
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure the first section is active on load
+            const firstSection = document.querySelector('.section');
+            if(firstSection && !document.querySelector('.section.active')) { // Only add if no section is active yet
+                firstSection.classList.add('active');
+            }
+            const firstNavButton = document.querySelector('.nav-btn');
+             if(firstNavButton && !document.querySelector('.nav-btn.active')) { // Only add if no button is active yet
+                firstNavButton.classList.add('active');
+            }
+
+
+            // Add some interactive enhancements to cards
+            const interactiveCards = document.querySelectorAll('.figure-card, .impact-card');
+            interactiveCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    // Keep existing hover effect from CSS, or add JS specific ones
+                    // this.style.transform = 'translateY(-8px) scale(1.02)'; // Example if CSS hover is removed
+                });
+                card.addEventListener('mouseleave', function() {
+                    // this.style.transform = 'translateY(0) scale(1)'; // Example if CSS hover is removed
+                });
+            });
+
+            // Add click animation to timeline items
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Example: slightly change background or border on click
+                    const content = this.querySelector('.timeline-content');
+                    if (content) {
+                        content.style.transition = 'transform 0.15s ease-out';
+                        content.style.transform = 'scale(0.99)';
+                        setTimeout(() => {
+                            content.style.transform = 'scale(1)';
+                        }, 150);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
