@@ -150,8 +150,8 @@
       padding: 10px 15px;
       margin: 15px 0px 20px 0px; /* Top, Right, Bottom, Left margins */
       border-radius: 0 4px 4px 0; /* Slightly rounded on the right side */
-      font-family: 'Georgia', serif;       
-      font-size: 0.95rem;       
+      font-family: 'Georgia', serif;      
+      font-size: 0.95rem;      
       line-height: 1.6;
     }
     .paris-tip-box p {
@@ -237,11 +237,7 @@
         <a href="#" class="topic-link" onclick="switchTopic('topic-latinquarter',this)">Latin Quarter</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-ilecite',this)">Île de la Cité</a>
       </div>
-       <div class="mega-menu-column"><h3 class="theater-heading">Iconic Landmarks</h3>
-        <a href="#" class="topic-link" onclick="switchTopic('topic-eiffeltower',this)">Eiffel Tower</a>
-         <a href="#" class="topic-link" onclick="switchTopic('topic-louvre',this)">Louvre Museum</a>
-       </div>
-    </div>
+      </div>
   </nav>
 
   <div id="page-content">
@@ -379,13 +375,13 @@
         title: 'Le Marais: Aristocracy, Art & Avant-Garde',
         subtitle: 'From Royal Square to Trendy Hub – A Parisian Historical Gem',
         nav: [
-          { id:'origins',    text:'Origins & Medieval Era' },
-          { id:'aristocratic',text:'Aristocratic Golden Age' },
-          { id:'jewish_quarter',text:'The Jewish Quarter (Pletzl)' },
-          { id:'revival',    text:'Decline & 20th Century Revival' },
-          { id:'modern_marais',text:'The Modern Marais: Culture & Trends' },
-          { id:'landmarks',  text:'Key Landmarks & Museums' },
-          { id:'timeline',   text:'Historical Timeline' }
+          { id:'origins',         text:'Origins & Medieval Era' },
+          { id:'aristocratic',    text:'Aristocratic Golden Age' },
+          { id:'jewish_quarter',  text:'The Jewish Quarter (Pletzl)' },
+          { id:'revival',         text:'Decline & 20th Century Revival' },
+          { id:'modern_marais',   text:'The Modern Marais: Culture & Trends' },
+          { id:'landmarks',       text:'Key Landmarks & Museums' },
+          { id:'timeline',        text:'Historical Timeline' }
         ],
         sections:[
           { id:'origins', title:'Origins & The "Marshland"', content:`
@@ -498,19 +494,18 @@
           `}
         ]
       },
-      /* ——— STUBS FOR OTHER NEIGHBORHOODS ——— */
       /* ——— SAINT-GERMAIN-DES-PRÉS ——— */
       'topic-stgermain': {
         title: 'Saint-Germain-des-Prés: Intellectual & Artistic Soul',
         subtitle: 'Exploring the Historic Left Bank Haunt of Writers, Philosophers, and Jazz',
         nav: [
-          { id:'origins_abbey',   text:'Origins & The Abbey' },
-          { id:'intellectual_hub',text:'Intellectual & Literary Hub' },
-          { id:'iconic_cafes',    text:'Iconic Cafés' },
-          { id:'art_publishing',  text:'Art, Publishing & Jazz' },
-          { id:'modern_stgermain',text:'Modern Saint-Germain: Chic & Charm' },
-          { id:'landmarks_museums', text:'Key Landmarks & Museums' }, // Penultimate
-          { id:'timeline',          text:'Historical Timeline' }      // Last
+          { id:'origins_abbey',      text:'Origins & The Abbey' },
+          { id:'intellectual_hub',   text:'Intellectual & Literary Hub' },
+          { id:'iconic_cafes',       text:'Iconic Cafés' },
+          { id:'art_publishing',     text:'Art, Publishing & Jazz' },
+          { id:'modern_stgermain',   text:'Modern Saint-Germain: Chic & Charm' },
+          { id:'landmarks_museums',  text:'Key Landmarks & Museums' },
+          { id:'timeline',           text:'Historical Timeline' }
         ],
         sections:[
           { id:'origins_abbey', title:'Origins & The Ancient Abbey', content:`
@@ -622,13 +617,13 @@
         title: 'The Latin Quarter: Scholars, Saints & Students',
         subtitle: 'Exploring Paris\'s Historic Intellectual and Bohemian Heart on the Left Bank',
         nav: [
-          { id:'origins_roman',       text:'Origins & Roman Lutetia' },
-          { id:'university_medieval', text:'The University & Medieval Scholasticism' },
-          { id:'historic_sites',      text:'Historic Sites & Spiritual Centers' },
-          { id:'student_life_culture',text:'Student Life, Bookshops & Cinemas' },
-          { id:'revolutionary_history',text:'Revolutionary & Political History' },
-          { id:'landmarks_museums',   text:'Key Landmarks & Museums' }, // Penultimate
-          { id:'timeline',            text:'Historical Timeline' }      // Last
+          { id:'origins_roman',           text:'Origins & Roman Lutetia' },
+          { id:'university_medieval',     text:'The University & Medieval Scholasticism' },
+          { id:'historic_sites',          text:'Historic Sites & Spiritual Centers' },
+          { id:'student_life_culture',    text:'Student Life, Bookshops & Cinemas' },
+          { id:'revolutionary_history',   text:'Revolutionary & Political History' },
+          { id:'landmarks_museums',       text:'Key Landmarks & Museums' },
+          { id:'timeline',                text:'Historical Timeline' }
         ],
         sections:[
           { id:'origins_roman', title:'Origins & Roman Lutetia', content:`
@@ -738,13 +733,13 @@
         title: 'Île de la Cité: The Cradle of Paris',
         subtitle: 'Exploring the Historic Heart, from Roman Lutetia to Gothic Splendor',
         nav: [
-          { id:'ancient_origins',         text:'Ancient Origins & Lutetia' },
-          { id:'medieval_center',         text:'Medieval Royal & Religious Center' },
-          { id:'notre_dame',              text:'Notre-Dame Cathedral' },
-          { id:'sainte_chapelle_palais',  text:'Sainte-Chapelle & Palais de la Cité' },
-          { id:'bridges_connections',     text:'Bridges & Island Connections' },
-          { id:'landmarks_squares',       text:'Key Landmarks & Squares' }, // Penultimate
-          { id:'timeline',                text:'Historical Timeline' }      // Last
+          { id:'ancient_origins',        text:'Ancient Origins & Lutetia' },
+          { id:'medieval_center',        text:'Medieval Royal & Religious Center' },
+          { id:'notre_dame',             text:'Notre-Dame Cathedral' },
+          { id:'sainte_chapelle_palais', text:'Sainte-Chapelle & Palais de la Cité' },
+          { id:'bridges_connections',    text:'Bridges & Island Connections' },
+          { id:'landmarks_squares',      text:'Key Landmarks & Squares' },
+          { id:'timeline',               text:'Historical Timeline' }
         ],
         sections:[
           { id:'ancient_origins', title:'Ancient Origins & Roman Lutetia', content:`
@@ -858,275 +853,8 @@
             </div>
           `}
         ]
-      },
-      /* ——— STUBS FOR OTHER CATEGORIES (e.g., Landmarks) ——— */
-      /* ——— EIFFEL TOWER ——— */
-      /* ——— EIFFEL TOWER (Corrected facts_tips section) ——— */
-      'topic-eiffeltower': {
-        title: 'The Eiffel Tower: Icon of Paris',
-        subtitle: 'From Controversial Engineering Marvel to Global Symbol of France',
-        nav: [
-          { id:'conception_exposition', text:'Conception & The 1889 Exposition' },
-          { id:'design_construction',   text:'Design & Construction' },
-          { id:'architecture_marvel',   text:'Architectural & Engineering Marvel' },
-          { id:'reception_controversy', text:'Initial Reception & Controversy' },
-          { id:'tower_history',         text:'The Tower Through History' },
-          { id:'visitor_experience',    text:'Visitor Experience & Levels' },
-          { id:'facts_tips',            text:'Key Facts & Visitor Tips' }, 
-          { id:'timeline',              text:'Historical Timeline' }      
-        ],
-        sections:[
-          { id:'conception_exposition', title:'Conception & The 1889 Exposition Universelle', content:`
-            <h3>A Monument for a Centennial</h3>
-            <p>The Eiffel Tower was conceived as the spectacular centerpiece for the 1889 Exposition Universelle (World's Fair) in Paris. This grand event was organized to commemorate the 100th anniversary of the French Revolution and to showcase France's industrial and engineering prowess to the world. A competition was held to design a monumental tower to serve as the exposition's entrance arch on the Champ de Mars.</p>
-            <div class="paris-tip-box">
-              <p>Research other architectural marvels from the great World's Fairs of the 19th and early 20th centuries to appreciate the context of ambition and innovation in which the Eiffel Tower was born.</p>
-            </div>
-            <h3>Gustave Eiffel's Winning Vision</h3>
-            <p>The design submitted by Gustave Eiffel, an accomplished bridge engineer, along with engineers Maurice Koechlin and Émile Nouguier, and architect Stephen Sauvestre, was chosen from over 100 entries. Their daring proposal for a 300-meter (984-foot) wrought-iron lattice tower was unlike anything ever built, promising to be the tallest man-made structure in the world at the time.</p>
-            <div class="paris-tip-box">
-              <p>Many of Eiffel's original design documents and blueprints can be viewed online or in Parisian archives, offering a fascinating look into the mind of the master engineer.</p>
-            </div>
-            <div class="impact-grid">
-              <div class="impact-card"><h4>1889 World's Fair</h4><p>The tower was the main attraction, drawing nearly two million visitors during the exposition, showcasing French innovation on a global stage.</p></div>
-              <div class="impact-card"><h4>Centennial Celebration</h4><p>It stood as a powerful symbol of a century of progress since the French Revolution, embodying themes of modernity and engineering achievement.</p></div>
-              <div class="impact-card"><h4>Eiffel's Company</h4><p>Gustave Eiffel's company was renowned for its expertise in metal structures, having built numerous bridges and the internal framework for the Statue of Liberty.</p></div>
-            </div>
-          `},
-          { id:'design_construction', title:'Design & Construction: An Engineering Feat', content:`
-            <h3>Innovative Engineering</h3>
-            <p>The design of the Eiffel Tower was revolutionary for its time. Its open lattice structure, made of puddled wrought iron, was chosen for its strength, lightness, and ability to withstand wind forces – a major concern for such a tall structure. The design incorporated intricate mathematical calculations to ensure stability and distribute stress effectively.</p>
-            <div class="paris-tip-box">
-              <p>The four massive lattice piers are anchored by concrete foundations sunk deep into the ground, ensuring the tower's stability even in strong winds.</p>
-            </div>
-            <h3>Rapid and Precise Construction</h3>
-            <p>Construction began in January 1887 and was completed in a remarkably short period of two years, two months, and five days, finishing on March 31, 1889. This speed was achieved through meticulous planning and the prefabrication of over 18,000 individual iron parts in Eiffel's factory outside Paris. Each piece was designed and manufactured with an accuracy of one-tenth of a millimeter and then assembled on-site using over 2.5 million rivets.</p>
-            <div class="paris-tip-box">
-              <p>Remarkably, due to Eiffel's stringent safety precautions and innovative construction methods (like movable cranes and prefabricated sections), only one worker died during the tower's construction, a remarkable feat for such a massive project in that era.</p>
-            </div>
-            <div class="figure-grid">
-              <div class="figure-card"><h4>Maurice Koechlin & Émile Nouguier</h4><p>Chief engineers in Eiffel's company who created the initial concept and structural design for the tower.</p></div>
-              <div class="figure-card"><h4>Stephen Sauvestre</h4><p>The architect who refined the tower's aesthetic, adding decorative arches to the base and the cupola at the top.</p></div>
-              <div class="figure-card"><h4>Prefabrication</h4><p>All components were manufactured off-site with incredible precision, then transported and assembled like a giant Meccano set.</p></div>
-            </div>
-          `},
-          { id:'architecture_marvel', title:'Architectural & Engineering Marvel', content:`
-            <h3>A Symphony in Iron</h3>
-            <p>The Eiffel Tower is not merely a tall structure; it is a masterpiece of 19th-century architecture and engineering. Its graceful, tapering form and intricate lattice work give it an unexpected elegance and lightness despite its immense size. The open structure was designed to minimize wind resistance, a critical factor that Eiffel, with his experience in bridge building, understood well.</p>
-            <div class="paris-tip-box">
-              <p>Observe how the density of the iron lattice changes from the base to the top; it's more open at higher levels to reduce wind pressure, a key part of its ingenious design.</p>
-            </div>
-            <h3>Structural Details</h3>
-            <p>The tower is comprised of four immense arched legs that curve inward to meet at the top platform. It has three main levels accessible to the public. Originally 300 meters tall, its height has increased over the years with the addition of broadcast antennas, currently standing at 330 meters (1,083 feet). The structure is composed of puddled iron, a form of wrought iron chosen for its strength and durability.</p>
-            <div class="paris-tip-box">
-              <p>The tower actually sways slightly in the wind, by design. On very windy days, the sway at the top can be up to 15 centimeters (6 inches) but is usually much less.</p>
-            </div>
-            <div class="impact-grid">
-              <div class="impact-card"><h4>Wind Resistance</h4><p>The open lattice design allows wind to pass through, drastically reducing the forces on the structure compared to a solid tower.</p></div>
-              <div class="impact-card"><h4>Thermal Expansion</h4><p>The tower expands and contracts with temperature changes. The height can vary by up to 15 cm (6 inches) between summer heat and winter cold.</p></div>
-              <div class="impact-card"><h4>Three Public Levels</h4><p>Each offering different perspectives and attractions, from shops and restaurants on the lower levels to the breathtaking panoramic views from the summit.</p></div>
-            </div>
-          `},
-          { id:'reception_controversy', title:'Initial Reception & The "Artists\' Protest"', content:`
-            <h3>"Useless and Monstrous"</h3>
-            <p>Despite its engineering brilliance, the Eiffel Tower faced immense criticism and opposition during its planning and construction. Many of Paris's leading artists and intellectuals, including figures like Guy de Maupassant, Charles Gounod, and Alexandre Dumas fils, signed a petition denouncing the tower as a "useless and monstrous" eyesore, a "truly tragic street lamp," and a "gigantic black smokestack" that would defile the beauty of Paris.</p>
-            <div class="paris-tip-box">
-              <p>Legend has it that Guy de Maupassant often ate lunch in the tower's restaurant because it was the only place in Paris where he couldn't see the tower itself!</p>
-            </div>
-            <div class="quote-box">
-              <p>"We, writers, painters, sculptors, architects, passionate lovers of the hitherto intact beauty of Paris, protest with all our strength, with all our indignation, in the name of slighted French taste... against the erection in the very heart of our capital of the useless and monstrous Eiffel Tower."</p>
-              <footer>From the "Artists' Protest Against the Eiffel Tower," 1887</footer>
-            </div>
-            <h3>Eiffel's Defense and Legacy</h3>
-            <p>Gustave Eiffel vigorously defended his creation, highlighting its structural beauty, its testament to French engineering, and its potential for scientific use. The tower was originally granted a permit to stand for only 20 years and was scheduled to be dismantled in 1909. Eiffel cleverly saved it by promoting its value as a radiotelegraph station and a site for scientific experiments (meteorology, aerodynamics). Its role in early radio transmissions, especially during World War I, proved its strategic utility and secured its survival.</p>
-            <div class="paris-tip-box">
-              <p>Visit Gustave Eiffel's recreated private apartment at the top of the tower, where he received distinguished guests and conducted experiments.</p>
-            </div>
-          `},
-          { id:'tower_history', title:'The Tower Through History', content:`
-            <h3>A Witness to History</h3>
-            <p>Since its construction, the Eiffel Tower has stood as a silent witness to many pivotal moments in Parisian and world history. It quickly transitioned from a controversial structure to a beloved symbol of Paris and France.</p>
-            <div class="paris-tip-box">
-              <p>Many historical photographs and newsreels feature the Eiffel Tower, providing a visual timeline of its presence during major events. Search online archives for a fascinating journey through time.</p>
-            </div>
-            <h3>Key Historical Roles</h3>
-            <p>During World War I, its radio transmitter was used to jam German radio communications and dispatch orders to French troops. In World War II, during the Nazi occupation, French resistance fighters famously cut the tower's elevator cables so that Adolf Hitler would have to climb the stairs if he wanted to reach the top (he declined). Hitler later ordered the tower's destruction, but the order was never carried out by the German military governor of Paris, Dietrich von Choltitz.</p>
-            <div class="paris-tip-box">
-              <p>The story of how Dietrich von Choltitz disobeyed Hitler's order to destroy Paris (including the Eiffel Tower) is a dramatic episode often recounted in historical accounts of the Liberation of Paris.</p>
-            </div>
-            <div class="figure-grid">
-              <div class="figure-card"><h4>Scientific Utility</h4><p>Eiffel established a meteorology lab and a radio station on the tower, which proved crucial in saving it from demolition after its initial 20-year permit expired.</p></div>
-              <div class="figure-card"><h4>World War I</h4><p>Played a vital role in military communications, including reportedly jamming German radios during the First Battle of the Marne, contributing to the Allied victory.</p></div>
-              <div class="figure-card"><h4>World War II</h4><p>A symbol of occupied Paris, it was closed to the public. After the Liberation, the tricolor flag was once again raised atop it.</p></div>
-              <div class="figure-card"><h4>Global Icon</h4><p>Over the decades, it has become an instantly recognizable symbol of Paris, France, romance, and engineering innovation, featured in countless films, artworks, and photographs.</p></div>
-            </div>
-          `},
-          { id:'visitor_experience', title:'Visitor Experience & The Three Levels', content:`
-            <h3>Ascending the Iron Lady</h3>
-            <p>Visiting the Eiffel Tower is a quintessential Parisian experience, offering unparalleled views of the city and a chance to marvel at its structure up close. The tower has three public levels, each accessible by elevators and, for the more adventurous, stairs to the first and second levels.</p>
-            <div class="paris-tip-box">
-              <p>If you're fit and want a unique experience, consider taking the stairs to the second level (704 steps). It's often less crowded than the elevators and allows you to appreciate the tower's architecture more intimately.</p>
-            </div>
-            <h3>Exploring the Levels</h3>
-            <p><strong>The Esplanade:</strong> The ground level beneath the tower, offering close-up views of the structure and access to ticket booths and information.
-            <br><strong>First Floor (57m):</strong> Features a transparent glass floor for a thrilling view downwards, restaurants, shops, a cinema, and cultural exhibits about the tower's history.
-            <br><strong>Second Floor (115m):</strong> Offers stunning panoramic views of Paris. It has more observation areas, the renowned Jules Verne restaurant (Michelin-starred), gift shops, and food outlets.
-            <br><strong>The Summit (276m):</strong> Reached by a dedicated glass elevator from the second floor, the summit provides the highest accessible viewpoint in Paris. It includes an enclosed lower level and an open-air upper level, along with Gustave Eiffel's restored private apartment and a champagne bar.</p>
-            <div class="paris-tip-box">
-              <p>The views from each level are distinct. The second floor is often considered to offer the best balance for identifying Parisian landmarks, while the summit provides a breathtaking, expansive vista.</p>
-            </div>
-          `},
-          { id:'facts_tips', title:'Key Facts & Visitor Tips', content:`
-            <div class="impact-grid">
-              <div class="impact-card"><h4>Height</h4><p>Current height: 330 meters (1,083 ft) including antennas. Was the world's tallest man-made structure for 41 years until the Chrysler Building in New York was completed in 1930.</p></div>
-              <div class="impact-card"><h4>Weight & Materials</h4><p>Approximately 7,300 tons of puddled iron (10,100 tons total). Composed of 18,038 individual iron pieces joined by 2.5 million rivets.</p></div>
-              <div class="impact-card"><h4>Visitors Annually</h4><p>One of the most visited paid monuments in the world, attracting nearly 7 million visitors each year.</p></div>
-              <div class="impact-card"><h4>Painting Cycle</h4><p>Repainted every seven years by hand to protect it from rust, using around 60 tons of paint. The color has changed several times, currently a specially mixed "Eiffel Tower Brown."</p></div>
-              <div class="impact-card"><h4>Illumination</h4><p>The tower is illuminated nightly. Since 2000, it has also featured a dazzling light show where 20,000 flashbulbs sparkle for five minutes every hour on the hour, from dusk until 1 AM (or 2 AM in summer).</p></div>
-            </div>
-            <div class="paris-tip-box">
-              <p>Book your Eiffel Tower tickets online well in advance (weeks or even months, especially for summit access during peak season) via the official website to avoid extremely long queues. Consider visiting at different times of day for varying experiences – daytime for clarity, sunset for romance, and nighttime for the sparkling lights.</p>
-            </div>
-          `},
-          { id:'timeline', title:'Historical Timeline of the Eiffel Tower', content:`
-            <div class="historical-timeline">
-              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">1884</div><h4>Initial Design</h4><p>Maurice Koechlin and Émile Nouguier, Eiffel's chief engineers, sketch the first designs for the tower.</p></div></div>
-              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">Jan 28, 1887</div><h4>Construction Begins</h4><p>Work starts on the foundations of the Eiffel Tower on the Champ de Mars.</p></div></div>
-              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">Mar 31, 1889</div><h4>Tower Inaugurated</h4><p>The Eiffel Tower is completed and inaugurated as the entrance arch for the Exposition Universelle (World's Fair).</p></div></div>
-              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">1909</div><h4>Saved from Demolition</h4><p>Originally permitted to stand for only 20 years, its utility as a radio transmission tower secures its survival.</p></div></div>
-              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">1914-1918 (WWI)</div><h4>Strategic Radio Use</h4><p>The tower's radio station plays a crucial role in military communications, including intercepting enemy messages.</p></div></div>
-              <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">1925-1934</div><h4>Citroën Billboard</h4><p>The tower serves as a giant illuminated advertising sign for the Citroën automobile company.</p></div></div>
-              <div class="timeline-item"><div class="timeline-dot">7</div><div class="timeline-content"><div class="timeline-date">1940-1944 (WWII)</h4><h4>Occupation & Liberation</h4><p>Under Nazi occupation, elevator cables are cut. Hitler's order to destroy it is disobeyed. The French flag is raised after liberation.</p></div></div>
-              <div class="timeline-item"><div class="timeline-dot">8</div><div class="timeline-content"><div class="timeline-date">2000</div><h4>Sparkling Lights Introduced</h4><p>The iconic sparkling light show is added for the millennium celebrations and becomes a permanent feature.</p></div></div>
-              <div class="timeline-item"><div class="timeline-dot">9</div><div class="timeline-content"><div class="timeline-date">Ongoing</div><h4>Global Icon</h4><p>Remains one of the world's most recognizable and visited landmarks, undergoing regular maintenance and enhancements.</p></div></div>
-            </div>
-          `}
-        ]
-      },
-      /* ——— LOUVRE MUSEUM ——— */
-'topic-louvre': {
-    title: 'The Louvre Museum: Palace of Art',
-    subtitle: 'From Medieval Fortress to the World\'s Largest Art Museum – A Journey Through History & Masterpieces',
-    nav: [
-        { id:'palace_history',         text:'Palace to Museum: A History' },
-        { id:'architecture_pyramid',   text:'Architecture & The Pyramid' },
-        { id:'key_collections',        text:'Key Collections & Departments' },
-        { id:'navigating_louvre',      text:'Navigating the Labyrinth' },
-        { id:'essentials_highlights',  text:'Visitor Essentials & Highlights' }, // Penultimate
-        { id:'timeline',               text:'Historical Timeline' }  // Last
-    ],
-    sections:[
-        { id:'palace_history', title:'From Fortress to Royal Palace to Public Museum', content:`
-            <h3>The Medieval Fortress</h3>
-            <p>The Louvre's story begins around 1190, when King Philippe Auguste ordered the construction of a fortress on the banks of the Seine to protect Paris from Viking raids and English incursions. This original structure was a classic medieval castle with a central keep, forming the western defensive wall of the city.</p>
-            <div class="paris-tip-box">
-                <p>You can still see the impressive foundations of this medieval Louvre in the Sully Wing (-1 level). It's a fascinating glimpse into the museum's deepest origins.</p>
-            </div>
-            <h3>The Royal Residence</h3>
-            <p>Over the centuries, French monarchs transformed the austere fortress into a lavish royal palace. King Charles V was the first to make it his residence in the 14th century, but it was during the Renaissance, under François I in the 16th century, that the Louvre began its grand metamorphosis. He demolished the old keep and started replacing the medieval structure with elegant Renaissance wings, a project continued by his successors for generations.</p>
-            <div class="paris-tip-box">
-                <p>Look for the intertwined initials 'H' and 'C' (for Henri II and Catherine de' Medici) or the salamander emblem of François I in the older sections of the palace architecture.</p>
-            </div>
-            <h3>Birth of the Museum</h3>
-            <p>The idea of a public museum in the Louvre gained traction during the Enlightenment. The French Revolution acted as the catalyst, and in 1793, the Muséum Central des Arts de la République opened its doors to the public, showcasing confiscated royal and aristocratic collections. Napoleon Bonaparte greatly enriched its holdings, though many looted items were later repatriated.</p>
-            <div class="paris-tip-box">
-                <p>The Grand Gallery (Grande Galerie), one of the longest corridors in the world, was one of the first sections opened to the public and remains a highlight for its Italian Renaissance paintings.</p>
-            </div>
-            <div class="impact-grid">
-                <div class="impact-card"><h4>Philippe Auguste's Fortress</h4><p>Originally built as a defensive stronghold to protect Paris in the late 12th century.</p></div>
-                <div class="impact-card"><h4>Renaissance Royal Palace</h4><p>Transformed by kings like François I and Henri IV into a magnificent royal residence and center of power.</p></div>
-                <div class="impact-card"><h4>Revolutionary Museum</h4><p>Opened to the public in 1793, making royal art collections accessible to all citizens for the first time.</p></div>
-            </div>
-        `},
-        { id:'architecture_pyramid', title:'Architectural Marvels & The Iconic Pyramid', content:`
-            <h3>A Tapestry of Styles</h3>
-            <p>The Louvre's vast complex is a stunning showcase of French architecture spanning over 800 years. From the remnants of the medieval fortress to Renaissance grandeur, Neoclassical facades, and Second Empire opulence, each era has left its mark, creating a rich tapestry of styles. Key areas include the Cour Carrée (Square Courtyard), a masterpiece of French Renaissance architecture, and the Colonnade Perrault on the eastern facade, a defining example of French Classicism.</p>
-            <div class="paris-tip-box">
-                <p>Take time to admire the building itself, not just the art inside. The ceilings, staircases, and courtyards are works of art in their own right. The Cour Marly and Cour Puget, covered with glass roofs, beautifully display large-scale sculptures.</p>
-            </div>
-            <h3>I.M. Pei's Glass Pyramid</h3>
-            <p>The most significant modern addition is the iconic glass and metal Pyramid, designed by architect I.M. Pei and inaugurated in 1989. Initially controversial, it now serves as the main entrance and has become a beloved Parisian landmark. The Pyramid, along with its smaller inverted counterpart, provides natural light to the underground Napoleon Hall, a spacious reception area that improved visitor flow and access to the museum's three main wings.</p>
-            <div class="paris-tip-box">
-                <p>Visit the Pyramid at different times of day. Its appearance changes dramatically with the light, and it's particularly beautiful when illuminated at night.</p>
-            </div>
-            <div class="figure-grid">
-                <div class="figure-card"><h4>Cour Carrée</h4><p>An enclosed courtyard exemplifying French Renaissance architecture, completed under Louis XIV, though its design evolved over centuries.</p></div>
-                <div class="figure-card"><h4>The Colonnade</h4><p>Claude Perrault's classical eastern facade, designed in the 17th century, became a model for palatial architecture.</p></div>
-                <div class="figure-card"><h4>Napoleon III Apartments</h4><p>Lavishly decorated Second Empire state rooms in the Richelieu Wing, offering a glimpse into 19th-century official splendor.</p></div>
-                <div class="figure-card"><h4>The Glass Pyramid</h4><p>A modern icon providing a central entrance and illuminating the vast underground lobby, seamlessly blending old and new.</p></div>
-            </div>
-        `},
-        { id:'key_collections', title:'Key Collections & Departments', content:`
-            <h3>A Universe of Art</h3>
-            <p>The Louvre's collection is encyclopedic, spanning from antiquity to the mid-19th century, with over 35,000 works of art on display (and hundreds of thousands more in storage). The museum is organized into eight curatorial departments, each overseeing a specific region, period, or medium.</p>
-            <div class="paris-tip-box">
-                <p>Given the museum's size, it's impossible to see everything in one visit. Pick two or three departments or specific masterpieces that interest you most to avoid feeling overwhelmed.</p>
-            </div>
-            <h3>Navigating the Departments</h3>
-            <p>The three main wings – Denon, Sully, and Richelieu – house these departments. For example, Egyptian Antiquities are largely in the Sully Wing, Italian and French paintings (including the Mona Lisa) are in the Denon Wing, and French sculpture and Near Eastern Antiquities are in the Richelieu Wing.</p>
-            <div class="paris-tip-box">
-                <p>The museum's official website and app offer excellent interactive maps and thematic trails to help you plan your route through the departments and locate specific artworks.</p>
-            </div>
-            <div class="figure-grid">
-                <div class="figure-card"><h4>Egyptian Antiquities</h4><p>One of the world's largest collections, featuring sarcophagi, mummies, sphinxes (like the Great Sphinx of Tanis), and everyday objects from ancient Egypt.</p></div>
-                <div class="figure-card"><h4>Near Eastern Antiquities</h4><p>Showcasing civilizations from Mesopotamia, the Levant, and Persia, including the Code of Hammurabi stele and the winged bulls from Khorsabad.</p></div>
-                <div class="figure-card"><h4>Greek, Etruscan, and Roman Antiquities</h4><p>Home to iconic sculptures like the Venus de Milo and the Winged Victory of Samothrace, alongside mosaics, pottery, and bronzes.</p></div>
-                <div class="figure-card"><h4>Islamic Art</h4><p>A newer department (opened 2012) displaying a rich collection of ceramics, textiles, metalwork, and calligraphy from across the Islamic world.</p></div>
-                <div class="figure-card"><h4>Paintings</h4><p>An unparalleled collection of European painting from the 13th to mid-19th centuries, featuring masterpieces by da Vinci, Raphael, Rembrandt, Vermeer, Delacroix, and many others.</p></div>
-                <div class="figure-card"><h4>Sculptures</h4><p>European sculpture from the Middle Ages to the mid-19th century, including Michelangelo's "Dying Slave" and "Rebellious Slave," and Canova's "Psyche Revived by Cupid's Kiss."</p></div>
-                <div class="figure-card"><h4>Decorative Arts</h4><p>A vast array of furniture, tapestries, jewelry, ceramics, and objets d'art from the Middle Ages to the 19th century, including the French Crown Jewels.</p></div>
-                <div class="figure-card"><h4>Prints and Drawings</h4><p>An extensive collection of works on paper, including drawings by famous artists and historic prints, often displayed in temporary exhibitions due to their fragility.</p></div>
-            </div>
-        `},
-        { id:'navigating_louvre', title:'Navigating the Labyrinth: Wings & Entrances', content:`
-            <h3>Conquering the Colossus</h3>
-            <p>The Louvre is famously vast and can feel like a labyrinth to first-time visitors. With miles of galleries spread across its three main wings – Denon, Sully, and Richelieu – a bit of strategic planning is essential to make the most of your visit.</p>
-            <div class="paris-tip-box">
-                <p>Decide beforehand which masterpieces or collections are your top priorities. Trying to "see it all" will lead to exhaustion and art fatigue. Focus on quality over quantity.</p>
-            </div>
-            <h3>Understanding the Layout</h3>
-            <p>The main entrance via the Pyramid leads into the Napoleon Hall, which provides access to all three wings. Each wing has multiple floors. The Sully Wing surrounds the Cour Carrée and includes the medieval Louvre foundations. The Richelieu Wing runs along the Rue de Rivoli. The Denon Wing extends along the Seine and is where you'll find the Mona Lisa.</p>
-            <div class="paris-tip-box">
-                <p>Use the free museum maps (available in many languages) and look for color-coded signage within the wings to navigate. Audio guides can also provide valuable orientation and commentary.</p>
-            </div>
-            <div class="impact-grid">
-                <div class="impact-card"><h4>Denon Wing</h4><p>Highlights: Mona Lisa, Winged Victory of Samothrace, Italian Renaissance paintings, large French paintings (e.g., Delacroix, Géricault).</p></div>
-                <div class="impact-card"><h4>Sully Wing</h4><p>Highlights: Venus de Milo, Egyptian Antiquities (including the Seated Scribe), Medieval Louvre foundations, French paintings from the 17th-19th centuries.</p></div>
-                <div class="impact-card"><h4>Richelieu Wing</h4><p>Highlights: Near Eastern Antiquities (Code of Hammurabi), French sculpture (Cour Marly & Puget), Napoleon III Apartments, Northern European paintings (e.g., Rubens, Vermeer).</p></div>
-                <div class="impact-card"><h4>Alternative Entrances</h4><p>Besides the Pyramid, consider using other entrances like Porte des Lions (sometimes limited opening) or via the Carrousel du Louvre shopping mall, which can sometimes have shorter security lines.</p></div>
-            </div>
-        `},
-        { id:'essentials_highlights', title:'Visitor Essentials & Must-See Highlights', content:`
-            <div class="figure-grid">
-                <div class="figure-card"><h4>Mona Lisa (La Gioconda)</h4><p>Leonardo da Vinci's iconic portrait, known for her enigmatic smile. Located in the Denon Wing, it's arguably the most famous painting in the world.</p></div>
-                <div class="figure-card"><h4>Venus de Milo</h4><p>An ancient Greek statue of Aphrodite, dating from around 100 BC. Admired for its classical beauty and mysterious missing arms. Found in the Sully Wing.</p></div>
-                <div class="figure-card"><h4>Winged Victory of Samothrace</h4><p>A Hellenistic Greek statue of Nike (Victory), dramatically displayed at the top of the Daru Staircase in the Denon Wing. Celebrated for its dynamic movement.</p></div>
-                <div class="figure-card"><h4>Liberty Leading the People</h4><p>Eugène Delacroix's famous painting commemorating the July Revolution of 1830, a powerful symbol of French republicanism. Located in the Denon Wing.</p></div>
-                <div class="figure-card"><h4>The Raft of the Medusa</h4><p>Théodore Géricault's monumental Romantic painting depicting the harrowing aftermath of a shipwreck. A deeply moving and dramatic work in the Denon Wing.</p></div>
-                <div class="figure-card"><h4>Great Sphinx of Tanis</h4><p>A massive granite sphinx from ancient Egypt, representing the pharaoh with a lion's body. A highlight of the Egyptian Antiquities in the Sully Wing.</p></div>
-                <div class="figure-card"><h4>Code of Hammurabi</h4><p>A Babylonian stele inscribed with one of the oldest deciphered lengthy writings in the world, a code of laws from ancient Mesopotamia. Found in the Richelieu Wing.</p></div>
-                <div class="figure-card"><h4>Psyche Revived by Cupid's Kiss</h4><p>Antonio Canova's neoclassical marble sculpture renowned for its tenderness and idealized beauty. Located in the Richelieu Wing (Italian Sculptures section).</p></div>
-            </div>
-            <div class="paris-tip-box">
-                <p>Book tickets online in advance to save time and guarantee entry, especially during peak season. Consider visiting on weekday mornings or late evenings (Wednesday & Friday until 9:45 PM) for fewer crowds. Wear comfortable shoes – you'll be doing a lot of walking!</p>
-            </div>
-        `},
-        { id:'timeline', title:'Historical Timeline of The Louvre', content:`
-            <div class="historical-timeline">
-                <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">c. 1190-1202</div><h4>Fortress Built</h4><p>King Philippe Auguste builds a fortress as part of Paris's defenses.</p></div></div>
-                <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">14th Century</div><h4>Royal Residence</h4><p>King Charles V transforms the fortress into a royal residence.</p></div></div>
-                <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">1546</div><h4>Renaissance Transformation Begins</h4><p>King François I starts demolishing the medieval structure to build a Renaissance palace.</p></div></div>
-                <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">1682</div><h4>Royal Court Moves to Versailles</h4><p>Louis XIV moves the royal court to Versailles, and the Louvre's role shifts. It begins to house art academies and collections.</p></div></div>
-                <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">August 10, 1793</div><h4>Museum Opens to Public</h4><p>During the French Revolution, the Muséum Central des Arts de la République opens in the Grande Galerie.</p></div></div>
-                <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">Early 19th Century (Napoleon I)</div><h4>Collections Expanded</h4><p>Napoleon Bonaparte significantly expands the museum's collections, renaming it Musée Napoléon.</p></div></div>
-                <div class="timeline-item"><div class="timeline-dot">7</div><div class="timeline-content"><div class="timeline-date">1981-1997</div><h4>Grand Louvre Project</h4><p>President François Mitterrand initiates a major renovation and expansion project, including the construction of I.M. Pei's Pyramid.</p></div></div>
-                <div class="timeline-item"><div class="timeline-dot">8</div><div class="timeline-content"><div class="timeline-date">1989</div><h4>Pyramid Inaugurated</h4><p>The glass Pyramid, serving as the new main entrance, is officially opened.</p></div></div>
-                <div class="timeline-item"><div class="timeline-dot">9</div><div class="timeline-content"><div class="timeline-date">2012</div><h4>Department of Islamic Art Opens</h4><p>A new wing with a distinctive undulating golden roof is inaugurated to showcase Islamic art.</p></div></div>
-            </div>
-        `}
-    ]
-}
-// Make sure to add a comma above if 'topic-louvre' is not the last entry in parisData
+      }
+      // Eiffel Tower and Louvre data removed
     };
 
     /* ========== RENDERING ========== */
@@ -1186,7 +914,7 @@
           panel.classList.remove('open');toggle.classList.remove('active');toggle.textContent='Select Topic ▼';
         }
       });
-      
+     
       /* Determine initial topic - either first in data or a specific one */
       const initialTopicId = Object.keys(parisData)[0] || 'topic-montmartre'; 
       renderTopic(initialTopicId);
