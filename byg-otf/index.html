@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Behold Your God: An Interactive Exploration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-50: #f8fafc;
+            --primary-100: #f1f5f9;
+            --primary-200: #e2e8f0;
+            --primary-300: #cbd5e1;
+            --primary-400: #94a3b8;
+            --primary-500: #64748b;
+            --primary-600: #475569;
+            --primary-700: #334155;
+            --primary-800: #1e293b;
+            --primary-900: #0f172a;
+            
+            --accent-50: #fefce8;
+            --accent-100: #fef3c7;
+            --accent-200: #fde68a;
+            --accent-300: #fcd34d;
+	    --accent-400: #10b981;
+	    --accent-500: #059669;
+            --accent-600: #d97706;
+            --accent-700: #b45309;
+            --accent-800: #92400e;
+            --accent-900: #78350f;
+            
+            /* RGB versions for rgba() usage */
+            --accent-400-rgb: 251, 191, 36;
+            --primary-300-rgb: 203, 213, 225;
+            --primary-800-rgb: 30, 41, 59;
+            --primary-900-rgb: 15, 23, 42;
+            
+            --surface-light: #ffffff;
+            --surface-neutral: #f8fafc;
+            --surface-warm: #fefbf7;
+            --surface-elevated: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--surface-neutral) 0%, var(--primary-50) 100%);
+            color: var(--primary-800);
+        }
+        
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Crimson Text', serif;
+        }
+        
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .accordion-button.active + .accordion-content {
+            max-height: 1000px;
+        }
+        
+        .nav-link.active {
+            background: linear-gradient(135deg, var(--accent-400) 0%, var(--accent-500) 100%);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(var(--accent-400-rgb), 0.3);
+        }
+        
+        .concept-card-inner {
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease-in-out;
+        }
+        
+        .concept-card.flipped .concept-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .concept-card-front, .concept-card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        .concept-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        
+        .sidebar-glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(var(--primary-300-rgb), 0.3);
+        }
+        
+        .card-elevated {
+            background: var(--surface-elevated);
+            box-shadow: 0 4px 20px rgba(var(--primary-900-rgb), 0.1);
+            border: 1px solid rgba(var(--primary-300-rgb), 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .card-elevated:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(var(--primary-900-rgb), 0.15);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-800) 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(var(--primary-900-rgb), 0.3);
+        }
+        
+        .accent-border {
+            border-left: 4px solid var(--accent-400);
+        }
+        
+        .golden-glow {
+            box-shadow: 0 0 20px rgba(var(--accent-400-rgb), 0.2);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-600) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); color: #1e293b;">
+
+    <div class="flex min-h-screen">
+        <aside id="sidebar" class="w-64 sidebar-glass p-6 fixed top-0 left-0 h-full transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-30">
+            <div class="text-center mb-8">
+                <h1 class="text-2xl font-bold font-serif mb-2 text-gradient">Behold Your God</h1>
+                <div class="w-16 h-0.5 mx-auto" style="background: linear-gradient(90deg, var(--accent-400), var(--accent-600));"></div>
+            </div>
+            <nav id="main-nav" class="space-y-2">
+            </nav>
+        </aside>
+
+        <header class="md:hidden fixed top-0 left-0 right-0 sidebar-glass p-4 flex justify-between items-center z-20">
+            <h1 class="text-xl font-bold font-serif text-gradient">Behold Your God</h1>
+            <button id="menu-button" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </header>
+
+        <main class="flex-1 md:ml-64 mt-16 md:mt-0 p-4 sm:p-6 lg:p-10">
+            <div id="content-container" class="max-w-4xl mx-auto">
+            </div>
+        </main>
+    </div>
+    
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"></div>
+
+    <script>
+        const appData = {
+            "home": {
+                "title": "An All-Important Theme",
+                "intro": "Welcome to an interactive exploration of what the source text calls the most critical subject: the character of God. The central idea presented is that knowing God as He truly is, forms the very basis of eternal life. This application is designed to unpack this theme, exploring the profound implications of our concept of God and the transformative power of beholding His true nature as revealed in Christ.",
+                "content": [
+                    { "title": "The Centrality of God's Character", "text": "The character of God is the most critical issue in Christ's mission and human destiny. Our opinions about God shape our attitude, our treatment of others, and our receptivity to truth. Erroneous education on this topic has affected everyone, and rejecting new light on it is a serious danger." },
+                    { "title": "Eternal Life is Knowing God", "text": "Jesus equates eternal life with knowing the only true God and Jesus Christ. This isn't just a belief, but a deep, personal knowledge. A lack of this knowledge, conversely, results in eternal death. This truth is the foundational burden of the source text." },
+                    { "title": "The Need for Accurate Knowledge", "text": "To be in harmony with God and receive His likeness, one must first know Him as He really is. The more accurate our knowledge, the richer our transformation. This is essential for salvation, especially in times of spiritual darkness." },
+                    { "title": "The Transforming Power of Beholding", "text": "Transformation into God's likeness occurs 'by beholding'. Dwelling on God's love, contemplating His perfect character, and claiming Christ's righteousness by faith changes believers into the same image. The soul is re-created in God's image, sustained by this knowledge like a flower in sunlight." },
+                    { "title": "An Ongoing Study", "text": "Understanding God's character is a lifelong, even eternal, pursuit. It requires continuous study, involving both learning new truths and unlearning deeply ingrained inaccuracies that often paint God as the opposite of His true nature." }
+                ]
+            },
+            "controversy": {
+                "title": "The Great Controversy & God's Character",
+                "intro": "This section explores the cosmic conflict between Christ and Satan, framing it as a battle over the very character of God. The source argues that this isn't just a backdrop, but the central issue at stake. Understanding how God's character is misrepresented and how it will be ultimately vindicated is presented as essential for navigating the final events of earth's history.",
+                "type": "diagram",
+                "diagrams": [
+                    {
+                        "title": "God's Character Revealed",
+                        "color": "border-l-blue-400",
+                        "bgColor": "bg-blue-50",
+                        "points": [
+                            "**Love & Benevolence:** His government is founded on love, not force.",
+                            "**Justice & Mercy:** His actions are always just and merciful, even when they appear harsh.",
+                            "**Truth & Transparency:** He reveals Himself fully in Christ.",
+                            "**Vindication:** The controversy ends when His true character is fully revealed and understood."
+                        ]
+                    },
+                    {
+                        "title": "Satan's Misrepresentation",
+                        "color": "border-l-red-400",
+                        "bgColor": "bg-red-50",
+                        "points": [
+                            "**Arbitrary & Tyrannical:** Portrays God's law as restrictive and self-serving.",
+                            "**Severe & Punitive:** Presents God as a destroyer who delights in punishment.",
+                            "**Deceptive & Secretive:** Casts doubt on God's word and motives.",
+                            "**Accusation:** Misrepresents God's actions to foster fear and rebellion."
+                        ]
+                    }
+                ]
+            },
+            "revelation": {
+                "title": "The Supreme Revelation in Christ",
+                "intro": "How can we know God's true character? This section focuses on the definitive answer provided by the source: Jesus Christ. He is presented not as a partial glimpse of God, but as the perfect, complete, and final revelation of the Father's character. All theories and ideas about God must be tested against the life and teachings of Christ.",
+                "content": [
+                    { "title": "Christ, the Perfect Expression", "text": "Jesus is the perfect, complete, and incontrovertible expression of God's character. He is 'The Word of God'—God's thought made audible. His life and teachings were an exact representation of the Father, contrary to the erroneous views of his time." },
+                    { "title": "A Complete Revelation", "text": "Christ's manifestation of the Father was complete. There is nothing more that man needs to know about God that was not shown in Christ's life. The idea that He omitted sterner aspects like 'judge' or 'executioner' is rejected." },
+                    { "title": "The Test for All Theories", "text": "Christ's life is the ultimate test for every theory about God. Any idea about God that finds no reflection in the life of Jesus must be unhesitatingly rejected as error. For example, the idea that God actively destroys sinners is contradicted by the fact that Christ never did so." },
+                    { "title": "Rejecting Contradictory Views", "text": "One cannot hold onto both the popular, fear-based view of God and Christ's revelation of a loving Father. Grasping that Christ is the perfect expression of God forces a choice and provides the key to harmonizing apparent contradictions in Scripture." }
+                ]
+            },
+            "law": {
+                "title": "The Law: Transcript of Character",
+                "intro": "The law of God, particularly the Ten Commandments, is often seen as a set of arbitrary rules. This section reframes the law as a direct transcript of God's own character. It explores the purpose of the law not as a tool for control, but as a protective 'life-preserver' designed for our good, which Christ came to magnify and reveal in its true light.",
+                "content": [
+                    { "title": "A Transcript of Character", "text": "The Ten Commandments are a written expression of God's character. To read the law is to read the character of God. They are one and the same in holiness and principle." },
+                    { "title": "Purpose: A Life-Preserver", "text": "God's laws are not designed to protect His own authority, but to protect humanity from the self-destructive consequences of sin. They are a deliverer from peril, not a threat of punishment. Disregarding them opens the 'floodgates of woe'." },
+                    { "title": "Christ, the Magnifier of the Law", "text": "Christ's work of revealing the Father's character and magnifying the law are one and the same task. He used his life as a 'microscope' to reveal the law's deep principles of love and righteousness, contrary to the legalistic interpretations of his day." },
+                    { "title": "The Controversy Over the Law", "text": "Satan creates controversy by distorting the law, presenting it as a tool of accusation and bondage. This is a key part of his war against God's character." }
+                ]
+            },
+            "government": {
+                "title": "God's Government vs. Man's",
+                "intro": "One of the biggest hurdles to understanding God, according to the source, is projecting human methods of government onto Him. This section draws a sharp distinction. God's government is unique, based on love and freedom, and never uses the coercive force that defines earthly kingdoms. This principle is key to resolving many apparent contradictions in the Bible.",
+                "type": "comparison",
+                "table": {
+                    "headers": ["Principle", "God's Kingdom", "Earthly Kingdoms"],
+                    "rows": [
+                        ["Foundation", "Love, Benevolence, Freedom", "Force, Power, Coercion"],
+                        ["Allegiance", "Voluntary, based on conviction", "Compulsory, based on power"],
+                        ["Weapons", "Truth, Love, Persuasion (Spiritual)", "Physical Force, Carnal Weapons"],
+                        ["Goal", "To save and restore", "To control and punish"]
+                    ]
+                }
+            },
+            "interpretation": {
+                "title": "How to Read the Bible",
+                "intro": "If the Bible contains apparent contradictions about God's character, how can we arrive at the truth? This section outlines the principles of interpretation advocated by the source. It warns against 'private interpretation' and using human-defined dictionaries for divine concepts, proposing instead that the Bible must be used as its own dictionary to find harmony.",
+                "type": "flowchart",
+                "flows": [
+                    {
+                        "title": "Erroneous Method (Leads to Contradiction)",
+                        "steps": ["Start with Preconceived Ideas", "Use Dictionary Definitions for God's Actions", "Engage in Private Interpretation", "Result: Apparent Contradictions & False Views of God"],
+                        "color": "border-l-red-400",
+                        "bgColor": "bg-red-50"
+                    },
+                    {
+                        "title": "Correct Method (Leads to Harmony)",
+                        "steps": ["Lay Aside Preconceived Ideas", "Let the Bible Define Its Own Terms", "Compare Scriptures ('Two or Three Witnesses')", "Result: Harmony & True Knowledge of God"],
+                        "color": "border-l-blue-400",
+                        "bgColor": "bg-blue-50"
+                    }
+                ]
+            },
+            "destruction": {
+                "title": "Does God Destroy?",
+                "intro": "Perhaps the most challenging concept is reconciling a God of love with scriptural accounts of destruction like the Flood or Sodom. This section presents the source's radical reinterpretation: God's only way of 'destroying' is by trying to save. Destruction is not a direct act of God's wrath, but the natural consequence that occurs when His life-sustaining protection is rejected and withdrawn.",
+                "type": "concept_cards",
+                "cards": [
+                    { "front": "The common view of the Flood:", "back": "The source's view: Humanity chose a path of self-destruction. By persistently rejecting God's pleas, they forced the withdrawal of His protective presence, allowing the natural consequences (the 'floodgates') to unfold." },
+                    { "front": "The common view of Sodom & Gomorrah:", "back": "The source's view: The 'fire' is not literal flame from God's hand, but a scriptural term for the destructive results of sin. Their wickedness reached a point where it consumed them once God's withdrawn mercy no longer held it in check." },
+                    { "front": "The common view of the Cursed Fig Tree:", "back": "The source's view: Christ did not actively destroy it. He simply let it be, withdrawing His life-giving power. The tree, representing fruitless profession, withered from its own lack of life, not from an external curse." }
+                ]
+            },
+            "character_chart": {
+                "title": "A Tale of Two Characters",
+                "intro": "This visualization provides a summary of the core conflict discussed throughout the source material. It contrasts the attributes of God as revealed in Christ with the common erroneous concepts that arise from misunderstanding and misrepresentation. Use this chart to see at a glance the stark differences between the two views of God's character.",
+                "type": "chart"
+            }
+        };
+
+        const contentContainer = document.getElementById('content-container');
+        const mainNav = document.getElementById('main-nav');
+        const menuButton = document.getElementById('menu-button');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        const navItems = [
+            { id: 'home', text: 'The All-Important Theme' },
+            { id: 'controversy', text: 'The Great Controversy' },
+            { id: 'revelation', text: 'Revelation in Christ' },
+            { id: 'law', text: 'The Law as Character' },
+            { id: 'government', text: 'God\'s Government' },
+            { id: 'interpretation', text: 'Bible Interpretation' },
+            { id: 'destruction', text: 'Does God Destroy?' },
+            { id: 'character_chart', text: 'Character Comparison' }
+        ];
+
+        function createAccordion(items) {
+            let html = '<div class="space-y-6">';
+            items.forEach((item, index) => {
+                html += `
+                    <div class="card-elevated rounded-xl overflow-hidden">
+                        <button class="accordion-button w-full text-left font-semibold font-serif text-lg p-6 btn-primary hover:bg-opacity-90 transition-all duration-300 flex justify-between items-center">
+                            <span>${item.title}</span>
+                            <svg class="w-5 h-5 transform transition-transform duration-300 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-6 bg-gray-50">
+                                <p class="text-gray-700 leading-relaxed">${item.text}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        }
+        
+        function createDiagram(diagrams) {
+            let html = '<div class="grid md:grid-cols-2 gap-8">';
+            diagrams.forEach(diagram => {
+                html += `
+                    <div class="card-elevated rounded-xl p-8 border-l-4 ${diagram.color} ${diagram.bgColor}">
+                        <h3 class="text-2xl font-bold font-serif mb-6 text-center text-gradient">${diagram.title}</h3>
+                        <ul class="space-y-4">
+                `;
+                diagram.points.forEach(point => {
+                    html += `<li class="flex items-start">
+                        <span class="mr-3 mt-1 w-2 h-2 rounded-full bg-gradient-to-r from-var(--accent-400) to-var(--accent-600) flex-shrink-0"></span>
+                        <span class="text-gray-700">${point.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900">$1</strong>')}</span>
+                    </li>`;
+                });
+                html += '</ul></div>';
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function createComparisonTable(table) {
+            let html = '<div class="card-elevated rounded-xl overflow-hidden"><table class="w-full text-left">';
+            html += '<thead><tr style="background: linear-gradient(135deg, #334155 0%, #1e293b 100%); color: white;">';
+            table.headers.forEach(header => {
+                html += `<th class="p-6 font-bold font-serif text-lg">${header}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+            table.rows.forEach((row, index) => {
+                html += `<tr class="border-t border-gray-200 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}">`;
+                row.forEach(cell => {
+                    html += `<td class="p-6 text-gray-700">${cell}</td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</tbody></table></div>';
+            return html;
+        }
+
+        function createFlowchart(flows) {
+            let html = '<div class="space-y-12">';
+            flows.forEach(flow => {
+                html += `
+                    <div class="card-elevated rounded-xl p-8 border-l-4 ${flow.color} ${flow.bgColor}">
+                        <h3 class="text-2xl font-bold font-serif mb-8 text-gradient">${flow.title}</h3>
+                        <div class="space-y-6 relative">
+                `;
+                flow.steps.forEach((step, index) => {
+                    html += `
+                        <div class="flex items-center">
+                            <div class="z-10 w-10 h-10 rounded-full flex items-center justify-center font-bold mr-6 text-white golden-glow" style="background: linear-gradient(135deg, var(--accent-400) 0%, var(--accent-500) 100%);">${index + 1}</div>
+                            <div class="bg-white p-4 rounded-lg shadow-md flex-1 border border-gray-200">${step}</div>
+                        </div>
+                    `;
+                    if (index < flow.steps.length - 1) {
+                        html += `<div class="absolute left-5 h-6 border-l-2 border-dashed border-gray-400 ml-[-1px]"></div>`;
+                    }
+                });
+                html += '</div></div>';
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function createConceptCards(cards) {
+            let html = `
+                <p class="text-center mb-8 text-gray-600 text-lg">Click on each card to reveal the alternative interpretation.</p>
+                <div class="grid md:grid-cols-3 gap-8 perspective-1000">
+            `;
+            cards.forEach(card => {
+                html += `
+                    <div class="concept-card h-72 cursor-pointer">
+                        <div class="concept-card-inner relative w-full h-full">
+                            <div class="concept-card-front absolute w-full h-full card-elevated rounded-xl p-6 flex items-center justify-center text-center">
+                                <h4 class="text-xl font-serif font-bold text-gradient">${card.front}</h4>
+                            </div>
+                            <div class="concept-card-back absolute w-full h-full rounded-xl p-6 flex items-center text-left" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); box-shadow: 0 4px 20px rgba(15, 23, 42, 0.1);">
+                                <p class="text-gray-800 leading-relaxed">${card.back}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        }
+        
+        function createCharacterChart() {
+            return `<div class="card-elevated rounded-xl p-6"><div class="chart-container"><canvas id="characterChart"></canvas></div></div>`;
+        }
+        
+        let characterChartInstance = null;
+        function renderCharacterChart() {
+             if (characterChartInstance) {
+                characterChartInstance.destroy();
+            }
+            const ctx = document.getElementById('characterChart').getContext('2d');
+            characterChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Benevolence', 'Justice', 'Truth', 'Freedom', 'Mercy', 'Patience'],
+                    datasets: [{
+                        label: 'God\'s True Character',
+                        data: [10, 9, 10, 10, 9, 10],
+                        backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                        borderColor: '#3b82f6',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#3b82f6',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2
+                    }, {
+                        label: 'Erroneous Concept',
+                        data: [4, 7, 5, 3, 4, 2],
+                        backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                        borderColor: '#ef4444',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#ef4444',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#f1f5f9' },
+                            pointLabels: {
+                                font: { size: 14, family: 'Crimson Text, serif', weight: '600' },
+                                color: '#1e293b'
+                            },
+                            ticks: {
+                                backdropColor: 'rgba(255, 255, 255, 0.8)',
+                                color: '#64748b',
+                                stepSize: 2
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 10
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: { size: 14, family: 'Inter, sans-serif', weight: '500' },
+                                color: '#1e293b',
+                                padding: 20
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+
+        function loadContent(id) {
+            const data = appData[id];
+            if (!data) return;
+
+            let contentHtml = `
+                <div id="section-${id}" class="content-section active">
+                    <div class="mb-10">
+                        <h2 class="text-5xl font-bold font-serif mb-4 text-gradient">${data.title}</h2>
+                        <div class="w-24 h-1 mb-6" style="background: linear-gradient(90deg, var(--accent-400), var(--accent-500));"></div>
+                        <p class="text-xl text-gray-600 leading-relaxed max-w-3xl">${data.intro}</p>
+                    </div>
+            `;
+            
+            if (data.type === 'diagram') {
+                contentHtml += createDiagram(data.diagrams);
+            } else if (data.type === 'comparison') {
+                contentHtml += createComparisonTable(data.table);
+            } else if (data.type === 'flowchart') {
+                contentHtml += createFlowchart(data.flows);
+            } else if (data.type === 'concept_cards') {
+                contentHtml += createConceptCards(data.cards);
+            } else if (data.type === 'chart') {
+                contentHtml += createCharacterChart();
+            }
+            else {
+                contentHtml += createAccordion(data.content);
+            }
+
+            contentHtml += '</div>';
+            contentContainer.innerHTML = contentHtml;
+            
+            if (data.type === 'chart') {
+                 setTimeout(renderCharacterChart, 50);
+            }
+
+            document.querySelectorAll('.accordion-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    button.classList.toggle('active');
+                    const icon = button.querySelector('svg');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+
+            document.querySelectorAll('.concept-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('flipped');
+                });
+            });
+
+            updateActiveLink(id);
+        }
+
+        function updateActiveLink(id) {
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.id === id) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        function initNav() {
+            navItems.forEach(item => {
+                const link = document.createElement('a');
+                link.href = '#';
+                link.dataset.id = item.id;
+                link.textContent = item.text;
+                link.className = 'nav-link block p-4 rounded-xl hover:bg-gray-100 transition-all duration-300 font-medium border border-transparent hover:border-gray-200';
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loadContent(item.id);
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.add('-translate-x-full');
+                        overlay.classList.add('hidden');
+                    }
+                });
+                mainNav.appendChild(link);
+            });
+        }
+        
+        menuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initNav();
+            loadContent('home');
+        });
+
+    </script>
+</body>
+</html>
