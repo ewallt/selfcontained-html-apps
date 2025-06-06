@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hero's Journey - Interactive Explorer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --text-primary: #ecf0f1;
+            /* Theme variables are injected by JavaScript */
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .theme-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .theme-switcher > div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #theme-select {
+            background-color: rgba(0,0,0,0.5);
+            color: var(--text-primary);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 5px;
+            padding: 5px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(var(--accent-1-rgb), 0.3)); }
+            to { filter: drop-shadow(0 0 30px rgba(var(--accent-2-rgb), 0.5)); }
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 12px 24px;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 25px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .tab-btn:hover {
+            background: rgba(0, 0, 0, 0.6);
+            transform: translateY(-2px);
+        }
+        .tab-btn.active {
+            background: var(--btn-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .journey-circle {
+            width: 600px;
+            height: 600px;
+            margin: 40px auto;
+            position: relative;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+        .stage {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid rgba(255,255,255,0.5);
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        .stage:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 30px rgba(var(--accent-1-rgb), 0.6);
+        }
+        .stage-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            z-index: 100;
+            max-width: 300px;
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+        .stage:hover .stage-tooltip {
+            display: block;
+        }
+        .archetype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .archetype-card {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .archetype-card:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        .archetype-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--accent-1);
+        }
+        .section {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .section h2 {
+            color: var(--accent-1);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        .phase {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-1);
+        }
+        .phase h3 {
+            color: var(--accent-1);
+            margin-bottom: 15px;
+        }
+        .stage-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+        .stage-list li {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .stage-list li:hover {
+            background: rgba(0, 0, 0, 0.6);
+            transform: translateX(10px);
+        }
+        .influence-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .influence-card {
+            background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.2), rgba(var(--accent-2-rgb), 0.2));
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        .influence-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .criticism-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .criticism-card {
+            background: rgba(var(--accent-danger-rgb), 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-danger);
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .journey-circle { width: 300px; height: 300px; }
+            .stage { width: 40px; height: 40px; font-size: 12px; }
+            .container { padding: 10px; }
+        }
+        /* --- Modal Styles --- */
+        .prompt-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            /* margin-top: 20px; Removed for new layout */
+        }
+        .prompt-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #1c2833;
+            margin: 5% auto;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            width: 80%;
+            max-width: 900px;
+            position: relative;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+        }
+        .close-btn {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-content pre {
+            background-color: rgba(0,0,0,0.5);
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 60vh;
+            overflow-y: auto;
+            color: #f1f1f1;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .copy-btn {
+            display: block;
+            margin: 20px auto 0 auto;
+            padding: 12px 24px;
+            background: var(--btn-gradient, linear-gradient(45deg,#1f4e79,#2980b9));
+            border: none;
+            border-radius: 25px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+    <script>
+    // Self-executing function to manage all theme logic.
+    (function() {
+        //
+        // CONFIGURATION: Set the default theme name.
+        //
+        const DEFAULT_THEME_NAME = 'midnight-rose';
+
+        // Data object for all theme definitions.
+        const THEMES = {
+            'dark-glass':    {
+                '--bg-gradient': 'linear-gradient(135deg,#2c3e50 0%,#3498db 100%)',
+                '--accent-1': '#e67e22', '--accent-1-rgb': '230, 126, 34',
+                '--accent-2': '#d35400', '--accent-2-rgb': '211, 84, 0',
+                '--btn-gradient': 'linear-gradient(45deg,#e74c3c,#c0392b)',
+                '--accent-danger': '#e74c3c', '--accent-danger-rgb': '231, 76, 60'
+            },
+            'midnight-rose': {
+                '--bg-gradient': 'linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)',
+                '--accent-1': '#e91e63', '--accent-1-rgb': '233, 30, 99',
+                '--accent-2': '#ad1457', '--accent-2-rgb': '173, 20, 87',
+                '--btn-gradient': 'linear-gradient(45deg,#7b1fa2,#4a148c)',
+                '--accent-danger': '#ff5252', '--accent-danger-rgb': '255, 82, 82'
+            },
+            'coral-depths':  {
+                '--bg-gradient': 'linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)',
+                '--accent-1': '#ff6b6b', '--accent-1-rgb': '255, 107, 107',
+                '--accent-2': '#4ecdc4', '--accent-2-rgb': '78, 205, 196',
+                '--btn-gradient': 'linear-gradient(45deg,#ff6b6b,#4ecdc4)',
+                '--accent-danger': '#ff6b6b', '--accent-danger-rgb': '255, 107, 107'
+            },
+            'ocean-steel':   {
+                '--bg-gradient': 'linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)',
+                '--accent-1': '#00d4aa', '--accent-1-rgb': '0, 212, 170',
+                '--accent-2': '#00a085', '--accent-2-rgb': '0, 160, 133',
+                '--btn-gradient': 'linear-gradient(45deg,#1f4e79,#2980b9)',
+                '--accent-danger': '#ffc107', '--accent-danger-rgb': '255, 193, 7'
+            },
+            'copper-canyon': {
+                '--bg-gradient': 'linear-gradient(135deg,#1a0e0a 0%,#5d2e0a 50%,#8b4513 100%)',
+                '--accent-1': '#ff4500', '--accent-1-rgb': '255, 69, 0',
+                '--accent-2': '#ff6347', '--accent-2-rgb': '255, 99, 71',
+                '--btn-gradient': 'linear-gradient(45deg,#5d2e0a,#7a3f0f)',
+                '--accent-danger': '#b71c1c', '--accent-danger-rgb': '183, 28, 28'
+            },
+            'cyber-night':   {
+                '--bg-gradient': 'linear-gradient(135deg,#0a0a23 0%,#1a1a3a 50%,#2e2e5e 100%)',
+                '--accent-1': '#64b5f6', '--accent-1-rgb': '100, 181, 246',
+                '--accent-2': '#42a5f5', '--accent-2-rgb': '66, 165, 245',
+                '--btn-gradient': 'linear-gradient(45deg,#1a1a3a,#2e2e5e)',
+                '--accent-danger': '#ff4081', '--accent-danger-rgb': '255, 64, 129'
+            }
+        };
+
+        // This function applies a theme's colors to the page's :root
+        function applyTheme(name) {
+            const theme = THEMES[name];
+            if (theme) {
+                const root = document.documentElement;
+                for (const [key, value] of Object.entries(theme)) {
+                    root.style.setProperty(key, value);
+                }
+            }
+        }
+
+        // This function is exposed globally for the dropdown's onchange event
+        window.setTheme = function(name) {
+            applyTheme(name);
+            localStorage.setItem('hj-theme', name);
+        }
+
+        // --- On page load, apply the correct theme ---
+        const savedTheme = localStorage.getItem('hj-theme');
+        const themeToLoad = savedTheme || DEFAULT_THEME_NAME;
+        
+        applyTheme(themeToLoad);
+
+        // After applying the theme, ensure the dropdown shows the correct selection.
+        // This is deferred slightly to ensure the DOM is ready.
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeSelect = document.getElementById('theme-select');
+            if (themeSelect) {
+                themeSelect.value = themeToLoad;
+            }
+        });
+    })();
+    </script>
+</head>
+<body>
+
+    <div class="theme-switcher">
+        <div>
+            Theme:
+            <select id="theme-select" onchange="setTheme(this.value)">
+                <option value="dark-glass">Dark Glass</option>
+                <option value="midnight-rose">Midnight Rose</option>
+                <option value="coral-depths">Coral Depths</option>
+                <option value="ocean-steel">Ocean Steel</option>
+                <option value="copper-canyon">Copper Canyon</option>
+                <option value="cyber-night">Cyber Night</option>
+            </select>
+        </div>
+        <button class="prompt-btn" id="view-prompt-btn">View Prompt</button>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>The Hero's Journey</h1>
+            <p class="subtitle">Explore Campbell's Monomyth - The Universal Story Structure</p>
+            </header>
+
+        <nav class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('overview', this)">Overview</button>
+            <button class="tab-btn" onclick="showTab('journey', this)">The Journey</button>
+            <button class="tab-btn" onclick="showTab('archetypes', this)">Archetypes</button>
+            <button class="tab-btn" onclick="showTab('structure', this)">Structure</button>
+            <button class="tab-btn" onclick="showTab('influence', this)">Influence</button>
+            <button class="tab-btn" onclick="showTab('criticism', this)">Criticism</button>
+        </nav>
+
+        <div id="overview" class="tab-content active">
+            <div class="section">
+                <h2>What is the Monomyth?</h2>
+                <p>The Monomyth, or Hero's Journey, is a narrative pattern identified by Joseph Campbell in his influential work "The Hero with a Thousand Faces" (1949). Campbell discovered that myths, legends, and stories from diverse cultures across the world share a remarkably similar structure.</p>
+                <p>This universal pattern describes the archetypal hero's adventure through three main phases: <strong>Departure</strong> from the ordinary world, <strong>Initiation</strong> through trials and transformation, and <strong>Return</strong> with newfound wisdom or power.</p>
+                <div class="phase">
+                    <h3>Key Insight</h3>
+                    <p>Campbell believed these recurring patterns reflect universal psychological truths and the human need for meaning, spiritual growth, and self-discovery. The journey represents both external adventure and internal psychological development.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="journey" class="tab-content">
+            <div class="section">
+                <h2>Interactive Journey Map</h2>
+                <p>Hover over each stage to learn more about the hero's path:</p>
+                <div class="journey-circle">
+                    <div class="stage" style="top: 50px; left: 270px;">1<div class="stage-tooltip"><strong>Ordinary World</strong><br>The hero's normal environment before transformation begins.</div></div>
+                    <div class="stage" style="top: 80px; right: 80px;">2<div class="stage-tooltip"><strong>Call to Adventure</strong><br>A problem or challenge presents itself to the hero.</div></div>
+                    <div class="stage" style="top: 150px; right: 30px;">3<div class="stage-tooltip"><strong>Refusal of the Call</strong><br>The hero hesitates or refuses the adventure initially.</div></div>
+                    <div class="stage" style="top: 230px; right: 20px;">4<div class="stage-tooltip"><strong>Meeting the Mentor</strong><br>A wise figure provides advice, guidance, or magical gifts.</div></div>
+                    <div class="stage" style="top: 310px; right: 50px;">5<div class="stage-tooltip"><strong>Crossing the Threshold</strong><br>The hero commits to the adventure and enters a special world.</div></div>
+                    <div class="stage" style="bottom: 80px; right: 80px;">6<div class="stage-tooltip"><strong>Tests, Allies & Enemies</strong><br>The hero faces challenges and learns the rules of the new world.</div></div>
+                    <div class="stage" style="bottom: 50px; left: 270px;">7<div class="stage-tooltip"><strong>Approach to the Inmost Cave</strong><br>The hero prepares for the major challenge in the special world.</div></div>
+                    <div class="stage" style="bottom: 80px; left: 80px;">8<div class="stage-tooltip"><strong>The Ordeal</strong><br>The hero faces their greatest fear or most difficult challenge.</div></div>
+                    <div class="stage" style="bottom: 150px; left: 30px;">9<div class="stage-tooltip"><strong>The Reward</strong><br>Having survived, the hero gains something from the experience.</div></div>
+                    <div class="stage" style="top: 310px; left: 50px;">10<div class="stage-tooltip"><strong>The Road Back</strong><br>The hero begins the journey back to the ordinary world.</div></div>
+                    <div class="stage" style="top: 230px; left: 20px;">11<div class="stage-tooltip"><strong>The Resurrection</strong><br>A final test where the hero is purified and reborn.</div></div>
+                    <div class="stage" style="top: 150px; left: 30px;">12<div class="stage-tooltip"><strong>Return with the Elixir</strong><br>The hero returns home transformed and able to help others.</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="archetypes" class="tab-content">
+            <div class="section">
+                <h2>Character Archetypes</h2>
+                <p>Campbell identified key archetypal characters that appear throughout heroic narratives:</p>
+                <div class="archetype-grid">
+                    <div class="archetype-card"><div class="archetype-title">The Hero</div><p>The protagonist who embarks on the adventure and undergoes transformation. Examples: Luke Skywalker, Harry Potter, Frodo Baggins.</p></div>
+                    <div class="archetype-card"><div class="archetype-title">The Mentor</div><p>A wise figure who guides and prepares the hero. Examples: Obi-Wan Kenobi, Dumbledore, Gandalf, Mr. Miyagi.</p></div>
+                    <div class="archetype-card"><div class="archetype-title">The Shadow</div><p>Represents the dark side, the villain, or the hero's repressed negative qualities. Examples: Darth Vader, Voldemort, Sauron.</p></div>
+                    <div class="archetype-card"><div class="archetype-title">The Threshold Guardian</div><p>Characters who test the hero's commitment at key transition points. Often not truly evil, but protective of their realm.</p></div>
+                    <div class="archetype-card"><div class="archetype-title">The Herald</div><p>Announces the call to adventure and signals the need for change. May be a person, event, or message.</p></div>
+                    <div class="archetype-card"><div class="archetype-title">The Shapeshifter</div><p>A character whose allegiance is uncertain and may change, creating doubt and suspense. Examples: Snape, Lando Calrissian.</p></div>
+                    <div class="archetype-card"><div class="archetype-title">The Trickster</div><p>Provides comic relief and challenges the status quo. Examples: Han Solo, Hermione Granger, Robin Hood's Merry Men.</p></div>
+                    <div class="archetype-card"><div class="archetype-title">Allies</div><p>Characters who support the hero throughout their journey. They represent loyalty, friendship, and teamwork.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="structure" class="tab-content">
+            <div class="section">
+                <h2>Three-Act Structure</h2>
+                <div class="phase">
+                    <h3>Act I: Departure (Separation)</h3>
+                    <ul class="stage-list">
+                        <li><strong>The Ordinary World:</strong> Hero's normal environment and life</li>
+                        <li><strong>The Call to Adventure:</strong> A problem or challenge appears</li>
+                        <li><strong>Refusal of the Call:</strong> Hero hesitates or refuses initially</li>
+                        <li><strong>Meeting the Mentor:</strong> Wise guide provides help</li>
+                        <li><strong>Crossing the First Threshold:</strong> Hero commits and enters special world</li>
+                    </ul>
+                </div>
+                <div class="phase">
+                    <h3>Act II: Initiation</h3>
+                    <ul class="stage-list">
+                        <li><strong>Tests, Allies, and Enemies:</strong> Hero faces challenges and makes allies</li>
+                        <li><strong>Approach to the Inmost Cave:</strong> Preparation for the central ordeal</li>
+                        <li><strong>The Ordeal:</strong> Hero faces greatest challenge or fear</li>
+                        <li><strong>The Reward:</strong> Hero survives and gains something valuable</li>
+                    </ul>
+                </div>
+                <div class="phase">
+                    <h3>Act III: Return</h3>
+                    <ul class="stage-list">
+                        <li><strong>The Road Back:</strong> Hero begins journey back to ordinary world</li>
+                        <li><strong>The Resurrection:</strong> Final test and purification</li>
+                        <li><strong>Return with the Elixir:</strong> Hero returns transformed with wisdom to share</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="influence" class="tab-content">
+            <div class="section">
+                <h2>Cultural Impact & Influence</h2>
+                <div class="influence-grid">
+                    <div class="influence-card"><h3>Literature</h3><p>Ancient epics like The Odyssey and Beowulf to modern works like Harry Potter and The Lord of the Rings follow monomythic patterns.</p></div>
+                    <div class="influence-card"><h3>Film Industry</h3><p>George Lucas directly used Campbell's work for Star Wars. Disney, Marvel, and countless filmmakers employ the Hero's Journey structure.</p></div>
+                    <div class="influence-card"><h3>Psychology</h3><p>The journey represents psychological development, individuation, and integration of conscious and unconscious aspects of the self.</p></div>
+                    <div class="influence-card"><h3>Screenwriting</h3><p>Christopher Vogler's "The Writer's Journey" popularized Campbell's ideas in Hollywood, making it a standard narrative template.</p></div>
+                    <div class="influence-card"><h3>Video Games</h3><p>Many RPGs and adventure games follow the Hero's Journey structure, from The Legend of Zelda to Mass Effect.</p></div>
+                    <div class="influence-card"><h3>Personal Development</h3><p>The monomyth is used in coaching and therapy as a framework for understanding personal growth and life transitions.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="criticism" class="tab-content">
+            <div class="section">
+                <h2>Scholarly Criticism</h2>
+                <p>While influential, Campbell's theory faces several critiques from academic circles:</p>
+                <div class="criticism-points">
+                    <div class="criticism-card"><h3>Overgeneralization</h3><p>Critics argue Campbell selectively chose myths that fit his model while ignoring those that didn't, forcing diverse global mythology into a single pattern.</p></div>
+                    <div class="criticism-card"><h3>Cultural Decontextualization</h3><p>By focusing on universal patterns, the approach may strip myths of their specific cultural, historical, and social meanings.</p></div>
+                    <div class="criticism-card"><h3>Gender Bias</h3><p>The monomyth predominantly focuses on male heroes, often positioning female characters in secondary roles as princesses or goddesses.</p></div>
+                    <div class="criticism-card"><h3>Prescriptive vs. Descriptive</h3><p>Originally descriptive, the theory's popularization has led to prescriptive use as a formula, potentially limiting narrative creativity.</p></div>
+                </div>
+                <div class="phase">
+                    <h3>Balanced Perspective</h3>
+                    <p>Despite criticisms, Campbell's work remains valuable for understanding recurring patterns in storytelling and the enduring appeal of heroic narratives. The key is using it as one lens among many, rather than a universal truth.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="prompt-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>The Refactoring Prompt</h2>
+        <p>This is the complete prompt used to generate the themed page from the original HTML.</p>
+        <pre><code id="prompt-text-to-copy">
+PROMPT START
+You are an expert front-end developer. Below are two code blocks:
+ORIGINAL_HTML_START &lt;ask User for this code&gt; ORIGINAL_HTML_END
+REFACTOR_GUIDE_START
+The CSS :root selector serves as a placeholder for theme variables. The variables are dynamically injected by the Theming JavaScript at runtime.
+CSS
+
+:root {
+  --text-primary: #ffffff; /* A sensible fallback */
+}
+This HTML provides the dropdown selector UI.
+HTML
+
+&lt;div class="theme-switcher"&gt;
+  Theme:
+  &lt;select id="theme-select" onchange="setTheme(this.value)"&gt;
+    &lt;option value="dark-glass"&gt;Dark Glass&lt;/option&gt;
+    &lt;option value="midnight-rose"&gt;Midnight Rose&lt;/option&gt;
+    &lt;option value="coral-depths"&gt;Coral Depths&lt;/option&gt;
+    &lt;option value="ocean-steel"&gt;Ocean Steel&lt;/option&gt;
+    &lt;option value="copper-canyon"&gt;Copper Canyon&lt;/option&gt;
+    &lt;option value="cyber-night"&gt;Cyber Night&lt;/option&gt;
+  &lt;/select&gt;&lt;/div&gt;
+This script provides the complete theming engine. It contains a configuration area to set a default theme name, a data object holding all theme colors, and the functions required to apply themes and handle user selection via localStorage.
+JavaScript
+
+// Self-executing function to manage all theme logic.
+(function() {
+    //
+    // CONFIGURATION: Set the default theme name.
+    //
+    const DEFAULT_THEME_NAME = 'midnight-rose';
+
+    // Data object for all theme definitions.
+    const THEMES = {
+        'dark-glass':    { '--bg-gradient': 'linear-gradient(135deg,#2c3e50 0%,#3498db 100%)', '--accent-1': '#e67e22', '--accent-2': '#d35400', '--btn-gradient': 'linear-gradient(45deg,#e74c3c,#c0392b)' },
+        'midnight-rose': { '--bg-gradient': 'linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)', '--accent-1': '#e91e63', '--accent-2': '#ad1457', '--btn-gradient': 'linear-gradient(45deg,#7b1fa2,#4a148c)' },
+        'coral-depths':  { '--bg-gradient': 'linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)', '--accent-1': '#ff6b6b', '--accent-2': '#4ecdc4', '--btn-gradient': 'linear-gradient(45deg,#ff6b6b,#4ecdc4)' },
+        'ocean-steel':   { '--bg-gradient': 'linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)', '--accent-1': '#00d4aa', '--accent-2': '#00a085', '--btn-gradient': 'linear-gradient(45deg,#1f4e79,#2980b9)' },
+        'copper-canyon': { '--bg-gradient': 'linear-gradient(135deg,#1a0e0a 0%,#5d2e0a 50%,#8b4513 100%)', '--accent-1': '#ff4500', '--accent-2': '#ff6347', '--btn-gradient': 'linear-gradient(45deg,#5d2e0a,#7a3f0f)' },
+        'cyber-night':   { '--bg-gradient': 'linear-gradient(135deg,#0a0a23 0%,#1a1a3a 50%,#2e2e5e 100%)', '--accent-1': '#64b5f6', '--accent-2': '#42a5f5', '--btn-gradient': 'linear-gradient(45deg,#1a1a3a,#2e2e5e)' }
+    };
+
+    // This function applies a theme's colors to the page's :root
+    function applyTheme(name) {
+        const theme = THEMES[name];
+        if (theme) {
+            const root = document.documentElement;
+            for (const [key, value] of Object.entries(theme)) {
+                root.style.setProperty(key, value);
+            }
+        }
+    }
+
+    // This function is exposed globally for the dropdown's onchange event
+    window.setTheme = function(name) {
+        applyTheme(name);
+        localStorage.setItem('hj-theme', name);
+    }
+
+    // --- On page load, apply the correct theme ---
+    const savedTheme = localStorage.getItem('hj-theme');
+    const themeToLoad = savedTheme || DEFAULT_THEME_NAME;
+    
+    applyTheme(themeToLoad);
+
+    // After applying the theme, ensure the dropdown shows the correct selection.
+    // This is deferred slightly to ensure the DOM is ready.
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeSelect = document.getElementById('theme-select');
+        if (themeSelect) {
+            themeSelect.value = themeToLoad;
+        }
+    });
+})();
+REFACTOR_GUIDE_END
+APPENDIX: EXAMPLES OF REFACTORED CSS RULES
+To clarify the CSS conversion tasks, these examples show how different types of rules from the ORIGINAL_HTML should be transformed in the final output.
+
+Example 1: Basic Color Replacement
+This is the most common conversion, where a hard-coded color is replaced with a CSS variable.
+
+BEFORE (from ORIGINAL_HTML): This rule uses a hard-coded color value.CSS
+
+.section h2 {
+    color: #e67e22; /* Corresponds to --accent-1 in the 'dark-glass' theme */
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+AFTER (in final output): The hard-coded color is replaced with the corresponding CSS custom property.CSS
+
+.section h2 {
+    color: var(--accent-1);
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+Example 2: Handling Colors with Transparency (rgba)
+When a theme color is used with transparency, a separate -rgb variable is required.
+
+BEFORE (from ORIGINAL_HTML): This rule uses rgba() with hard-coded RGB values that match the theme's accent colors.CSS
+
+.influence-card {
+    background: linear-gradient(135deg, rgba(230, 126, 34, 0.2), rgba(211, 84, 0, 0.2));
+}
+AFTER (in final output): The RGB values are replaced with the -rgb variables, allowing the alpha channel (0.2) to be applied to the theme color.CSS
+
+.influence-card {
+    background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.2), rgba(var(--accent-2-rgb), 0.2));
+}
+Example 3: Handling Semantic Colors
+When a color serves a specific purpose (like "danger" or "error"), it should get its own dedicated variable.
+
+BEFORE (from ORIGINAL_HTML): This rule uses a hard-coded color for a specific "incorrect" state.CSS
+
+.option.incorrect {
+    background: rgba(231, 76, 60, 0.3);
+    border: 2px solid #e74c3c;
+}
+AFTER (in final output): The color is replaced by the new semantic variable (--accent-danger), ensuring it can be styled appropriately in every theme.CSS
+
+.option.incorrect {
+    background: rgba(var(--accent-danger-rgb), 0.3);
+    border: 2px solid var(--accent-danger);
+}
+YOUR TASK
+Produce one complete, self-contained HTML file that keeps every element, layout rule, and script from ORIGINAL_HTML, except:
+Convert CSS to Use Variables: Refactor the CSS to replace all hard-coded theme colors and gradients with CSS custom properties.Handle Transparency: Analyze the original CSS for colors used within rgba() functions. For each theme color used this way, add a companion variable to the THEMES object containing just its RGB components (e.g., for --accent-1: '#e67e22', add --accent-1-rgb: '230, 126, 34'). Update the CSS to use this variable for transparency (e.g., rgba(var(--accent-1-rgb), 0.5)).
+Theme Semantic Colors: Identify colors used for specific purposes like 'danger' or 'incorrect' (e.g., #e74c3c). Create a new conceptual variable for this (e.g., --accent-danger) and add it, along with its -rgb version, to every theme in the THEMES object, selecting a contextually appropriate color for each palette.
+Implement JavaScript Theming Engine: Integrate the Theming JavaScript from the REFACTOR_GUIDE into a &lt;script&gt; tag. For optimal performance and to prevent content flashing, this script should be placed at the end of the &lt;head&gt; section.
+Centralize Theme Definitions: All theme-specific color values must be defined inside the THEMES object within the Theming JavaScript. The CSS should not contain theme-specific color definition blocks (e.g., .theme-ocean-steel { --accent-1: ... }).
+Append and Style UI Elements: Add the Theme-Selector UI markup from the REFACTOR_GUIDE inside the &lt;body&gt; tag. Add CSS to position it in the page's top-right corner with a high z-index. Style it to match the page's aesthetic, including a semi-transparent dark background, rounded corners, and appropriate padding. Ensure the &lt;select&gt; element itself is also styled to be readable in all themes.
+Preserve Original Scripts: Ensure all original JavaScript from ORIGINAL_HTML (such as tab switching and quiz logic) is preserved exactly and remains fully functional.
+Validate Code: Confirm that all HTML tags, CSS braces, and script brackets are properly opened and closed.
+Return only the final HTML—no explanations, no Markdown fence, just the file contents.
+PROMPT END
+        </code></pre>
+        <button class="copy-btn" id="copy-prompt-btn">Copy to Clipboard</button>
+      </div>
+    </div>
+
+    <script>
+        function showTab(tabName, element) {
+            // Tab Content
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            
+            // Tab Buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        // --- Modal Logic ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById("prompt-modal");
+            const btn = document.getElementById("view-prompt-btn");
+            const span = document.getElementsByClassName("close-btn")[0];
+            const copyBtn = document.getElementById("copy-prompt-btn");
+            const promptText = document.getElementById("prompt-text-to-copy");
+
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+              modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+              modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            }
+
+            // When the user clicks the copy button
+            copyBtn.onclick = function() {
+                // Use the 'textContent' property to get the raw text, ignoring HTML encoding
+                navigator.clipboard.writeText(promptText.textContent.trim()).then(function() {
+                    // Success feedback
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = "Copied!";
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }, function(err) {
+                    // Error feedback
+                    console.error('Could not copy text: ', err);
+                    alert('Failed to copy prompt.');
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
