@@ -1808,32 +1808,60 @@ if (musingsOnlyText) {
             });
 
             function displayExampleDetail(example, cardElement) {
-    highlightActiveListItem(cardElement, 'examples'); // Assumes this function exists
+    // Ensure the 'active' visual state is updated on the list item
+    highlightActiveListItem(cardElement, 'examples'); 
     
-    const analysisHtml = getAnalysisHtml(example.id); // Assumes this function exists
-    const applicationsHtml = getExampleApplicationsHtml(example.id); // Assumes this function exists
+    // Get HTML for related content sections
+    const analysisHtml = getAnalysisHtml(example.id); 
+    const applicationsHtml = getExampleApplicationsHtml(example.id); 
 
-    // Main hero title - made slightly larger and bolder
-    const heroTitleHtml = `<h3 class="text-2xl font-bold text-sky-700 mb-2">${example.title}</h3>`;
+    // Prepare the HTML for the main hero title
+    const heroTitleHtml = `<h3 class="text-2xl font-bold text-sky-700 mb-3">${example.title}</h3>`;
 
-    // Cleaned-up Overview section
+    // --- Prepare the Overview section as an accordion item ---
+    const overviewAccordionId = `overview-accordion-${example.id.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+    const overviewContentId = `${overviewAccordionId}-content`;
+    const overviewButtonId = `${overviewAccordionId}-button`;
+    const overviewChevronId = `${overviewAccordionId}-chevron`;
+
+    // Note: 'active' class on button and content, and 'rotate-180' on chevron, make it open by default.
     const overviewSectionHtml = `
-        <div class="hero-detail-section mb-6">
-            <h4 class="text-lg font-semibold text-neutral-700 mb-2">Overview</h4>
-            <div class="prose prose-sm md:prose-base max-w-none mb-3">
-                <p>${example.body.replace(/\n/g, '<br>')}</p>
+        <div class="accordion-item hero-detail-section mb-4">
+            <button id="${overviewButtonId}" class="accordion-button text-lg active">
+                Overview
+                <svg id="${overviewChevronId}" class="accordion-chevron w-5 h-5 ml-auto transform transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div id="${overviewContentId}" class="accordion-content active">
+                <div class="pt-3"> 
+                    <div class="prose prose-sm md:prose-base max-w-none mb-3">
+                        <p>${example.body.replace(/\n/g, '<br>')}</p> 
+                    </div>
+                    <p class="source-text"><strong>Source:</strong> ${example.source}</p>
+                </div>
             </div>
-            <p class="source-text"><strong>Source:</strong> ${example.source}</p>
         </div>
     `;
+    // --- End of Overview section preparation ---
 
+    // Assemble the final HTML for the detail area
     exampleDetail.innerHTML = `
         ${heroTitleHtml}
         ${overviewSectionHtml}
         ${analysisHtml}
         ${applicationsHtml}
     `;
-    setupAccordions(); // Re-initialize accordions for the stage-by-stage applications
+
+    // --- Logic to ensure the default-open Overview accordion has correct max-height for animation ---
+    const overviewContentElement = document.getElementById(overviewContentId);
+    if (overviewContentElement && overviewContentElement.classList.contains('active')) {
+        // This ensures the content is fully visible and transitions smoothly if CSS relies on max-height
+        overviewContentElement.style.maxHeight = overviewContentElement.scrollHeight + "px";
+    }
+    // --- End of default open logic for Overview accordion ---
+
+    // Re-initialize ALL accordions on the page.
+    // This will attach click listeners to the Overview accordion and any others (like stage applications).
+    setupAccordions(); 
 }
 
             function getAnalysisHtml(heroId) {
