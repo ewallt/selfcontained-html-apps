@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D-Day Knowledge Base Explorer</title>
+    <style>
+        :root {
+          --bg-gradient: linear-gradient(135deg,#2c3e50 0%,#34495e 100%);
+          --accent-1: #e74c3c;
+          --accent-2: #c0392b;
+          --btn-gradient: linear-gradient(45deg,#e74c3c,#c0392b);
+          --accent-1-rgb: 231, 76, 60;
+          --accent-warning: #ffc107;
+          --accent-warning-rgb: 255, 193, 7;
+          --text-primary: #ecf0f1;
+          --text-secondary: #bdc3c7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .theme-switcher {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.5);
+            padding: 8px 12px;
+            border-radius: 5px;
+            z-index: 1000;
+            color: var(--text-primary);
+            font-family: sans-serif;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #theme-select {
+            background-color: #34495e;
+            color: var(--text-primary);
+            border: 1px solid var(--accent-2);
+            border-radius: 3px;
+            padding: 2px;
+        }
+
+        .header {
+            background: rgba(0,0,0,0.3);
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 0;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            /* FIXED: Using bright accent gradients for high visibility */
+            background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            filter: drop-shadow(0 0 15px rgba(var(--accent-1-rgb), 0.3));
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            background: rgba(0,0,0,0.2);
+            padding: 1rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: #34495e;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-button:hover {
+            background: var(--btn-gradient);
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: var(--btn-gradient);
+            border-color: var(--accent-2);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .section-title {
+            color: var(--accent-1);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-1);
+        }
+
+        .subsection {
+            margin: 1.5rem 0;
+        }
+
+        .subsection h3 {
+            color: var(--accent-1);
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .subsection h4 {
+            color: var(--accent-2);
+            font-size: 1.1rem;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .beach-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .beach-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-1);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .beach-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .beach-name {
+            color: var(--accent-1);
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Semantic Contrast for Casualties */
+        .casualties-highlight {
+            background: rgba(var(--accent-warning-rgb), 0.15);
+            padding: 1rem;
+            border-radius: 5px;
+            border-left: 4px solid var(--accent-warning);
+            margin: 1rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-card {
+            background: rgba(52, 73, 94, 0.8);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-1);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent-1);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-1);
+            border-radius: 50%;
+        }
+
+        .timeline-time {
+            color: var(--accent-1);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+        }
+
+        .search-box::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .highlight {
+            background: rgba(var(--accent-1-rgb), 0.3);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .interactive-map {
+            background: rgba(0,0,0,0.3);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .beach-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .beach-button {
+            padding: 10px 20px;
+            background: #34495e;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .beach-button:hover {
+            background: var(--btn-gradient);
+        }
+
+        .beach-detail {
+            display: none;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+
+        .beach-detail.show {
+            display: block;
+        }
+        
+        #aftermath .subsection div[style*="background: rgba(52, 152, 219, 0.2)"] {
+            background: rgba(var(--accent-1-rgb), 0.2) !important;
+            border-left: 4px solid var(--accent-2) !important;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .beach-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script>
+    // Self-executing function to manage all theme logic.
+    (function() {
+        //
+        // CONFIGURATION: Set the default theme name.
+        //
+        const DEFAULT_THEME_NAME = 'cyber-night';
+    
+        // Data object for all theme definitions.
+        const THEMES = {
+            'cyber-night':   { 
+                '--bg-gradient': 'linear-gradient(135deg,#0a0a23 0%,#1a1a3a 50%,#2e2e5e 100%)', 
+                '--accent-1': '#a8b8d0', '--accent-1-rgb': '168, 184, 208', 
+                '--accent-2': '#6a7a94', '--btn-gradient': 'linear-gradient(45deg,#1a1a3a,#2e2e5e)',
+                '--accent-warning': '#ffc107', '--accent-warning-rgb': '255, 193, 7'
+            },
+            'steel-ghost':     { 
+                '--bg-gradient': 'linear-gradient(135deg,#1c1c1c 0%,#3a3a3a 50%,#5e5e5e 100%)', 
+                '--accent-1': '#ecf0f1', '--accent-1-rgb': '236, 240, 241', 
+                '--accent-2': '#bdc3c7', '--btn-gradient': 'linear-gradient(45deg,#3a3a3a,#5e5e5e)',
+                '--accent-warning': '#c0392b', '--accent-warning-rgb': '192, 57, 43' 
+            },
+            'normandy-slate':{ 
+                '--bg-gradient': 'linear-gradient(135deg,#212a3d 0%,#384661 50%,#495a79 100%)', 
+                '--accent-1': '#c5d1e6', '--accent-1-rgb': '197, 209, 230', 
+                '--accent-2': '#7d8daa', '--btn-gradient': 'linear-gradient(45deg,#384661,#495a79)',
+                '--accent-warning': '#d9a443', '--accent-warning-rgb': '217, 164, 67'
+            },
+            'olive-drab':    { 
+                '--bg-gradient': 'linear-gradient(135deg,#2a2a1a 0%,#41412a 50%,#525234 100%)', 
+                '--accent-1': '#bab89d', '--accent-1-rgb': '186, 184, 157', 
+                '--accent-2': '#6b6b47', '--btn-gradient': 'linear-gradient(45deg,#41412a,#525234)',
+                '--accent-warning': '#b74141', '--accent-warning-rgb': '183, 65, 65'
+            },
+            'maroon-honor':  { 
+                '--bg-gradient': 'linear-gradient(135deg,#301a20 0%,#542a38 50%,#6d3849 100%)', 
+                '--accent-1': '#d4b2bd', '--accent-1-rgb': '212, 178, 189', 
+                '--accent-2': '#8a4b5f', '--btn-gradient': 'linear-gradient(45deg,#542a38,#6d3849)',
+                '--accent-warning': '#e6b800', '--accent-warning-rgb': '230, 184, 0'
+            },
+            'archive-dust':  { 
+                '--bg-gradient': 'linear-gradient(135deg,#2a2724 0%,#4a413a 50%,#5b5147 100%)', 
+                '--accent-1': '#e0d8c7', '--accent-1-rgb': '224, 216, 199', 
+                '--accent-2': '#a6987d', '--btn-gradient': 'linear-gradient(45deg,#4a413a,#5b5147)',
+                '--accent-warning': '#8c3838', '--accent-warning-rgb': '140, 56, 56'
+            }
+        };
+    
+        // This function applies a theme's colors to the page's :root
+        function applyTheme(name) {
+            const theme = THEMES[name];
+            if (theme) {
+                const root = document.documentElement;
+                for (const [key, value] of Object.entries(theme)) {
+                    root.style.setProperty(key, value);
+                }
+            }
+        }
+    
+        // This function is exposed globally for the dropdown's onchange event
+        window.setTheme = function(name) {
+            applyTheme(name);
+            localStorage.setItem('dday-theme', name);
+        }
+    
+        // --- On page load, apply the correct theme ---
+        const availableThemeNames = Object.keys(THEMES).slice(0, 3);
+        const savedTheme = localStorage.getItem('dday-theme');
+        let themeToLoad = DEFAULT_THEME_NAME;
+
+        // If a valid theme is saved and it's one of the available options, use it
+        if (savedTheme && availableThemeNames.includes(savedTheme)) {
+            themeToLoad = savedTheme;
+        }
+        
+        applyTheme(themeToLoad);
+    
+        // After applying the theme, ensure the dropdown shows the correct selection.
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeSelect = document.getElementById('theme-select');
+            if (themeSelect) {
+                // Dynamically populate the theme selector
+                availableThemeNames.forEach(name => {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    // Capitalize the name for display, e.g., "cyber-night" -> "Cyber Night"
+                    option.textContent = name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    themeSelect.appendChild(option);
+                });
+
+                // Set the dropdown to show the currently loaded theme
+                themeSelect.value = themeToLoad;
+            }
+        });
+    })();
+    </script>
+</head>
+<body>
+    <div class="theme-switcher">
+      Theme:
+      <select id="theme-select" onchange="setTheme(this.value)">
+        </select>
+    </div>
+
+    <div class="header">
+        <h1>D-Day: Operation Overlord</h1>
+        <p>June 6, 1944 • The Normandy Landings • Knowledge Base Explorer</p>
+    </div>
+
+    <div class="nav-tabs">
+        <button class="tab-button active" data-tab="overview">Overview</button>
+        <button class="tab-button" data-tab="planning">Pre-Invasion Planning</button>
+        <button class="tab-button" data-tab="beaches">Beach Landings</button>
+        <button class="tab-button" data-tab="airborne">Airborne Operations</button>
+        <button class="tab-button" data-tab="casualties">Casualties & Losses</button>
+        <button class="tab-button" data-tab="aftermath">Immediate Aftermath</button>
+        <button class="tab-button" data-tab="search">Search Knowledge</button>
+    </div>
+
+    <div class="container">
+        <div id="overview" class="tab-content active">
+            <div class="section-card">
+                <h2 class="section-title">Operation Overlord: The Normandy Invasion</h2>
+                <p style="font-size: 1.2rem; line-height: 1.8; margin-bottom: 2rem;">
+                    On June 6, 1944, Allied forces launched the largest amphibious invasion in history, assaulting five Normandy beaches and conducting simultaneous airborne drops inland. This massive undertaking, known as Operation Overlord, marked the beginning of the liberation of Western Europe from Nazi occupation.
+                </p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">155,000</span>
+                        <div class="stat-label">Allied Troops Assembled</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">5</span>
+                        <div class="stat-label">Beach Landing Zones</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">13,000</span>
+                        <div class="stat-label">Allied Air Sorties</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">10,000</span>
+                        <div class="stat-label">Total Allied Casualties</div>
+                    </div>
+                </div>
+
+                <div class="interactive-map">
+                    <h3 style="color: var(--accent-1); margin-bottom: 1rem;">The Five Landing Beaches</h3>
+                    <p>Click on each beach to learn more about the specific operations:</p>
+                    <div class="beach-buttons">
+                        <button class="beach-button" data-beach="utah">Utah Beach</button>
+                        <button class="beach-button" data-beach="omaha">Omaha Beach</button>
+                        <button class="beach-button" data-beach="gold">Gold Beach</button>
+                        <button class="beach-button" data-beach="juno">Juno Beach</button>
+                        <button class="beach-button" data-beach="sword">Sword Beach</button>
+                    </div>
+
+                    <div id="utah-detail" class="beach-detail">
+                        <h4 style="color: var(--accent-1);">Utah Beach - U.S. 7th Infantry Division</h4>
+                        <p><strong>Casualties:</strong> ~197 (lightest of all beaches)</p>
+                        <p><strong>Key Objective:</strong> Secure beachhead around Merderet estuary and advance toward Sainte-Mère-Église</p>
+                        <p><strong>Outcome:</strong> Strong currents pushed forces south, resulting in lighter resistance. Successfully linked with 82nd Airborne by midday.</p>
+                    </div>
+
+                    <div id="omaha-detail" class="beach-detail">
+                        <h4 style="color: var(--accent-1);">Omaha Beach - U.S. 1st & 29th Infantry Divisions</h4>
+                        <p><strong>Casualties:</strong> ~2,000 (heaviest losses)</p>
+                        <p><strong>Key Challenge:</strong> Heavily fortified with concrete casemates, 88mm artillery, and high bluffs</p>
+                        <p><strong>Outcome:</strong> Despite staggering losses, small units found gaps and secured beach exits by late afternoon.</p>
+                    </div>
+
+                    <div id="gold-detail" class="beach-detail">
+                        <h4 style="color: var(--accent-1);">Gold Beach - British 50th Infantry Division</h4>
+                        <p><strong>Casualties:</strong> ~400</p>
+                        <p><strong>Key Objective:</strong> Capture Arromanches-les-Bains and link with Canadian forces</p>
+                        <p><strong>Outcome:</strong> Naval bombardment reduced resistance. 8km deep beachhead established by nightfall.</p>
+                    </div>
+
+                    <div id="juno-detail" class="beach-detail">
+                        <h4 style="color: var(--accent-1);">Juno Beach - Canadian 3rd Infantry Division</h4>
+                        <p><strong>Casualties:</strong> ~961</p>
+                        <p><strong>Key Objective:</strong> Clear coastal villages and push toward Caen-Bayeux road</p>
+                        <p><strong>Outcome:</strong> Captured Courseulles by mid-morning and linked with British forces at Gold.</p>
+                    </div>
+
+                    <div id="sword-detail" class="beach-detail">
+                        <h4 style="color: var(--accent-1);">Sword Beach - British 3rd Infantry Division</h4>
+                        <p><strong>Casualties:</strong> ~630</p>
+                        <p><strong>Key Objective:</strong> Capture Caen and link with airborne forces</p>
+                        <p><strong>Outcome:</strong> Overcame seawall defenses but German counterattacks delayed Caen's capture until July.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="planning" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Pre-Invasion Context and Planning</h2>
+                
+                <div class="subsection">
+                    <h3>Strategic Objectives</h3>
+                    <h4>Primary Goal</h4>
+                    <p>The chief aim of Operation Overlord was to secure a lodgment area on the northern coast of France from which Allied forces could advance eastward into Germany. The landing beaches in Normandy were selected to force Germany to defend a broad coastal front and to divert resources from other theaters.</p>
+                    
+                    <h4>Wider Allied Aims</h4>
+                    <p>In addition to opening a second front, the invasion sought to safeguard political unity among the Western Allies (the United States, the United Kingdom, and Canada) and to reassure the Soviet Union of Western commitment.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Allied Command Structure</h3>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 8px; margin: 1rem 0;">
+                        <h4>Supreme Headquarters Allied Expeditionary Force (SHAEF)</h4>
+                        <p><strong>Supreme Commander:</strong> General Dwight D. Eisenhower (U.S. Army)</p>
+                        <p><strong>Deputy Supreme Commander:</strong> Lieutenant General Sir Arthur Tedder</p>
+                        <p><strong>Ground Forces (21st Army Group):</strong> General Bernard Montgomery (British Army)</p>
+                        <p><strong>Naval Forces:</strong> Admiral Sir Bertram Ramsay (Royal Navy)</p>
+                        <p><strong>Air Forces:</strong> Air Chief Marshal Sir Trafford Leigh-Mallory (RAF)</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Intelligence and Deception</h3>
+                    <h4>Ultra Intelligence</h4>
+                    <p>Allied cryptanalysis of German Enigma traffic (Ultra intelligence) and extensive photo-reconnaissance flights over northern France produced detailed information on German defenses, troop deployments, and coastal fortifications known as the Atlantic Wall.</p>
+                    
+                    <h4>Operation Fortitude</h4>
+                    <p>To mislead German high command about the intended invasion site, the Allies launched Operation Fortitude. Fictitious units, including the U.S. First Army Group (FUSAG) commanded by General George Patton, were portrayed east of Kent, England, implying an assault at Pas-de-Calais. Inflatable tanks, fake landing craft, and staged radio communications reinforced German suspicions that Normandy was a diversion.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>Weather and Timing</h3>
+                    <div class="casualties-highlight">
+                        <h4>Critical Decision Point</h4>
+                        <p>The initial planned invasion date was June 5, 1944, but a storm forced a 24-hour postponement to June 6. Allied meteorologists predicted a brief window of calmer seas and lower cloud cover for the morning of June 6, prompting Eisenhower to give the final "go" order on June 5 at 21:15.</p>
+                        <p><strong>German forecasters, by contrast, expected poor weather and delayed redeployment of Panzer divisions—a critical factor in the Allies' favor.</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="beaches" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Beach Landings - June 6, 1944</h2>
+                
+                <div class="beach-grid">
+                    <div class="beach-card">
+                        <div class="beach-name">Utah Beach</div>
+                        <p><strong>Forces:</strong> U.S. 7th Infantry Division (VII Corps)</p>
+                        <p><strong>Objective:</strong> Secure beachhead around Merderet estuary, advance to Sainte-Mère-Église</p>
+                        <p><strong>Key Challenge:</strong> Beach obstacles and mined exits</p>
+                        <p><strong>Outcome:</strong> Strong currents pushed landing craft south, resulting in lighter resistance. Successfully linked with 82nd Airborne.</p>
+                        <div class="casualties-highlight">
+                            <strong>Casualties:</strong> ~197 killed, wounded, or missing
+                        </div>
+                    </div>
+
+                    <div class="beach-card">
+                        <div class="beach-name">Omaha Beach</div>
+                        <p><strong>Forces:</strong> U.S. 1st and 29th Infantry Divisions (VII Corps)</p>
+                        <p><strong>Objective:</strong> Seize exits off Omaha, link with British forces eastward</p>
+                        <p><strong>Key Challenge:</strong> Heavily fortified with concrete casemates, 88mm artillery, high bluffs</p>
+                        <p><strong>Outcome:</strong> Landing craft reached shore under heavy fire. Despite staggering losses, small units found gaps and established footholds by late afternoon.</p>
+                        <div class="casualties-highlight">
+                            <strong>Casualties:</strong> Over 2,000 (including 1,000-1,200 killed)
+                        </div>
+                    </div>
+
+                    <div class="beach-card">
+                        <div class="beach-name">Gold Beach</div>
+                        <p><strong>Forces:</strong> British 50th (Northumbrian) Infantry Division</p>
+                        <p><strong>Objective:</strong> Capture Arromanches-les-Bains, link with Canadian forces</p>
+                        <p><strong>Key Challenge:</strong> German strongpoints at Le Hamel and La Rivière</p>
+                        <p><strong>Outcome:</strong> Naval bombardment significantly reduced German resistance. 8km deep beachhead established by nightfall.</p>
+                        <div class="casualties-highlight">
+                            <strong>Casualties:</strong> ~400
+                        </div>
+                    </div>
+
+                    <div class="beach-card">
+                        <div class="beach-name">Juno Beach</div>
+                        <p><strong>Forces:</strong> Canadian 3rd Infantry Division</p>
+                        <p><strong>Objective:</strong> Clear Bernières-sur-Mer and Courseulles-sur-Mer, push toward Caen-Bayeux road</p>
+                        <p><strong>Key Challenge:</strong> Steel obstacles submerged at high tide, fortified strongpoints</p>
+                        <p><strong>Outcome:</strong> Captured Courseulles by mid-morning, linked with British troops at Gold by early afternoon.</p>
+                        <div class="casualties-highlight">
+                            <strong>Casualties:</strong> ~961
+                        </div>
+                    </div>
+
+                    <div class="beach-card">
+                        <div class="beach-name">Sword Beach</div>
+                        <p><strong>Forces:</strong> British 3rd Infantry Division and 27th Armoured Brigade</p>
+                        <p><strong>Objective:</strong> Capture Caen, link with airborne forces</p>
+                        <p><strong>Key Challenge:</strong> Coastal fortifications at Ouistreham, anti-tank ditches</p>
+                        <p><strong>Outcome:</strong> Overcame seawall defenses by late morning, but German armored counterattacks delayed Caen's capture until July.</p>
+                        <div class="casualties-highlight">
+                            <strong>Casualties:</strong> ~630
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="airborne" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Airborne Operations</h2>
+                
+                <div class="subsection">
+                    <h3>American 82nd and 101st Airborne Divisions</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">Pre-Dawn, June 6</div>
+                            <h4>82nd Airborne Drop</h4>
+                            <p><strong>Objective:</strong> Secure causeways behind Utah Beach, neutralize German coastal artillery in Sainte-Mère-Église</p>
+                            <p><strong>Challenge:</strong> Nighttime jumps under poor weather led to scattered drops</p>
+                            <p><strong>Success:</strong> Captured Sainte-Mère-Église (first town liberated in France)</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-time">Dawn, June 6</div>
+                            <h4>101st Airborne Operations</h4>
+                            <p><strong>Objective:</strong> Secure exits from Utah into hinterland, capture key crossroads</p>
+                            <p><strong>Achievement:</strong> Seized La Fière causeway and held high ground overlooking Utah</p>
+                            <p><strong>Impact:</strong> Reduced German ability to reinforce beach defenses</p>
+                        </div>
+                    </div>
+
+                    <div class="casualties-highlight">
+                        <strong>Combined U.S. Airborne Casualties:</strong> ~1,400 (killed, wounded, missing)
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>British 6th Airborne Division - Operation Tonga</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">00:16, June 6</div>
+                            <h4>Pegasus Bridge Assault</h4>
+                            <p><strong>Objective:</strong> Capture bridge over Caen canal at Bénouville</p>
+                            <p><strong>Method:</strong> Glider-borne assault landing immediately adjacent to bridge</p>
+                            <p><strong>Result:</strong> Lieutenant Den Brotheridge led assault that captured bridge within minutes</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-time">01:00, June 6</div>
+                            <h4>Horsa Bridge (Orne River)</h4>
+                            <p><strong>Objective:</strong> Secure second key bridge over Orne River</p>
+                            <p><strong>Result:</strong> Quickly secured, enabling establishment of defensive line to protect eastern flank</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-time">04:30, June 6</div>
+                            <h4>Merville Battery Assault</h4>
+                            <p><strong>Objective:</strong> Destroy German artillery battery threatening Sword Beach</p>
+                            <p><strong>Challenge:</strong> Casualties from errant Allied bombing</p>
+                            <p><strong>Success:</strong> Paratroopers silenced five 150mm guns, neutralizing major threat</p>
+                        </div>
+                    </div>
+
+                    <div class="casualties-highlight">
+                        <strong>British 6th Airborne Casualties:</strong> ~500
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Strategic Impact</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.7;">
+                        The airborne operations were crucial to D-Day's success. By securing key bridges, neutralizing artillery positions, and creating chaos behind German lines, paratroopers prevented effective German response to the beach landings. The capture of Sainte-Mère-Église and the Pegasus/Horsa bridges became legendary symbols of airborne courage and precision.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="casualties" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Casualties and Equipment Losses</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">~10,000</span>
+                        <div class="stat-label">Total Allied Casualties</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">2,500-2,700</span>
+                        <div class="stat-label">Allied Killed</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">6,000</span>
+                        <div class="stat-label">Allied Wounded</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">4,000-9,000</span>
+                        <div class="stat-label">Estimated German Casualties</div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Beach-by-Beach Breakdown</h3>
+                    <div class="beach-grid">
+                        <div class="beach-card">
+                            <div class="beach-name">Omaha Beach</div>
+                            <div class="casualties-highlight">
+                                <strong>~2,000 casualties</strong><br>
+                                (1,000-1,200 killed)<br>
+                                <em>Heaviest losses of D-Day</em>
+                            </div>
+                        </div>
+                        <div class="beach-card">
+                            <div class="beach-name">Juno Beach</div>
+                            <div class="casualties-highlight">
+                                <strong>~961 casualties</strong><br>
+                                <em>Canadian forces</em>
+                            </div>
+                        </div>
+                        <div class="beach-card">
+                            <div class="beach-name">Sword Beach</div>
+                            <div class="casualties-highlight">
+                                <strong>~630 casualties</strong><br>
+                                <em>British forces</em>
+                            </div>
+                        </div>
+                        <div class="beach-card">
+                            <div class="beach-name">Gold Beach</div>
+                            <div class="casualties-highlight">
+                                <strong>~400 casualties</strong><br>
+                                <em>British forces</em>
+                            </div>
+                        </div>
+                        <div class="beach-card">
+                            <div class="beach-name">Utah Beach</div>
+                            <div class="casualties-highlight">
+                                <strong>~197 casualties</strong><br>
+                                <em>Lightest losses</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Equipment and Material Losses</h3>
+                    
+                    <h4>Naval Vessels and Landing Craft</h4>
+                    <p>Rough seas sank or damaged numerous LCVPs (Landing Craft, Vehicle, Personnel) and LCMs (Landing Craft, Mechanized). Several LSTs (Landing Ship, Tank) were swamped by the swell, delaying follow-on shipments of armor and supplies.</p>
+                    
+                    <h4>Tanks and Armored Vehicles</h4>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 5px; margin: 1rem 0;">
+                        <p><strong>DD (Duplex Drive) Tanks at Omaha:</strong> Only 27 of 29 amphibious Sherman tanks reached shore; 27 of 56 sank before landing</p>
+                        <p><strong>Total Tank Losses:</strong> Approximately 80 out of 150 tanks that landed across all beaches</p>
+                    </div>
+                    
+                    <h4>Aircraft Losses</h4>
+                    <p>Allied air forces flew more than 13,000 sorties on D-Day. Approximately 110 aircraft were lost to anti-aircraft fire or accidents during airborne drops.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="aftermath" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Immediate Follow-On Operations</h2>
+                
+                <div class="subsection">
+                    <h3>Linking Beachheads and Securing Exits</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-time">Late June 6 - June 7</div>
+                            <h4>Utah/Paratrooper Linkup</h4>
+                            <p>Ground forces linked with the 82nd Airborne near Sainte-Mère-Église, securing key causeways and maintaining a continuous front from Carentan to the sea.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-time">June 7-8</div>
+                            <h4>Omaha to Gold/Juno Connection</h4>
+                            <p>VII Corps made contact with British units east of Vierville, creating an uninterrupted stretch from Utah to Gold. This consolidation allowed easier movement of supplies and reinforcements.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-time">June 8</div>
+                            <h4>Complete Beach Linkage</h4>
+                            <p>British and Canadian divisions connected their sectors, forming a continuous beachhead spanning approximately 50 km of coastline.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Mulberry Harbors - Engineering Marvel</h3>
+                    <div style="background: rgba(52, 152, 219, 0.2); padding: 1.5rem; border-radius: 8px; border-left: 4px solid #3498db;">
+                        <h4>Artificial Harbors</h4>
+                        <p><strong>Mulberry "A":</strong> Off Omaha Beach (destroyed by storm June 19)</p>
+                        <p><strong>Mulberry "B":</strong> Off Arromanches (Gold Beach) - remained operational</p>
+                        <p><strong>Daily Capacity:</strong> 7,000 tons of supplies including vehicles, ammunition, and fuel</p>
+                        <p><strong>Strategic Impact:</strong> Ensured Allied forces were not dependent on vulnerable natural ports like Cherbourg</p>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>Advance Toward Key Objectives</h3>
+                    
+                    <h4>The Caen Objective</h4>
+                    <p>British Second Army sought to capture Caen on D-Day itself. However, strong German resistance and the need to expand the beachhead delayed its fall until July 9 (Operation Charnwood). This delay had significant strategic implications for the Normandy campaign.</p>
+                    
+                    <h4>Carentan Operations</h4>
+                    <p>First U.S. Army prioritized connecting Utah and Omaha's lodgment areas via Carentan. After intense fighting (June 10–13), airborne and infantry units captured Carentan, allowing First U.S. Army to concentrate forces for a push south toward Saint-Lô.</p>
+                </div>
+
+                <div class="subsection">
+                    <h3>By the Numbers - End of June 6</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">156,000</span>
+                            <div class="stat-label">Troops Ashore</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">20,000</span>
+                            <div class="stat-label">Vehicles Landed</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">100,000</span>
+                            <div class="stat-label">Tons of Supplies</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">50</span>
+                            <div class="stat-label">Kilometers of Beachhead</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3>German Response and Counterattacks</h3>
+                    <div class="casualties-highlight">
+                        <h4>Atlantic Wall Breached</h4>
+                        <p>Field Marshal Erwin Rommel's Atlantic Wall—an extensive system of concrete bunkers, gun emplacements, minefields, and obstacles—had been overcome at five separate points simultaneously.</p>
+                        <p><strong>Delayed Response:</strong> Senior German commanders awaited Hitler's direct authorization before releasing Panzer reserves. The 21st Panzer Division didn't begin moving until late morning, allowing Allied forces crucial time to consolidate.</p>
+                        <p><strong>Strategic Impact:</strong> By June 8, Normandy had become the principal Allied supply base on the continent, making the German position in Western Europe untenable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="search" class="tab-content">
+            <div class="section-card">
+                <h2 class="section-title">Search the Knowledge Base</h2>
+                <input type="text" id="searchInput" class="search-box" placeholder="Search for people, places, units, operations, or any topic...">
+                
+                <div id="searchResults">
+                    <p style="text-align: center; color: var(--text-secondary); font-style: italic; margin: 2rem 0;">
+                        Enter a search term above to explore the D-Day knowledge base.<br>
+                        Try searching for: "Eisenhower", "Omaha casualties", "airborne", "weather", "Mulberry harbors", etc.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Knowledge base for searching
+        const knowledgeBase = {
+            "Eisenhower": "General Dwight D. Eisenhower was appointed Supreme Commander of the Allied Expeditionary Force. Eisenhower gave the final go order on June 5 at 21:15 after meteorologists predicted acceptable weather conditions.",
+            "weather": "The initial planned invasion date was June 5, 1944, but a storm forced a 24-hour postponement to June 6. German forecasters expected poor weather and delayed redeployment of Panzer divisions—a critical factor in the Allies favor.",
+            "Montgomery": "General Bernard Montgomery oversaw ground forces under 21st Army Group, which consisted of the British Second Army and the Canadian First Army.",
+            "Bradley": "General Omar Bradley commanded the First U.S. Army, which was assigned to land on the two westernmost beaches at Utah and Omaha.",
+            "Patton": "General George Patton commanded the fictitious U.S. First Army Group as part of Operation Fortitude South, the deception operation that misled Germans about the invasion location.",
+            "Operation Fortitude": "To mislead German high command about the intended invasion site, the Allies launched Operation Fortitude. Fictitious units, including FUSAG commanded by General Patton, were portrayed east of Kent, England.",
+            "Ultra": "Allied cryptanalysis of German Enigma traffic (Ultra intelligence) and extensive photo-reconnaissance flights over northern France produced detailed information on German defenses and coastal fortifications known as the Atlantic Wall.",
+            "Atlantic Wall": "Field Marshal Erwin Rommel had overseen construction of the Atlantic Wall—an extensive system of concrete bunkers, gun emplacements, minefields, and anti-tank obstacles.",
+            "Rommel": "Field Marshal Erwin Rommel had overseen construction of the Atlantic Wall and was responsible for German coastal defenses in Normandy.",
+            "airborne": "U.S. 82nd and 101st Airborne Divisions conducted drops behind Utah Beach. British 6th Airborne Division executed Operation Tonga, capturing Pegasus Bridge and destroying the Merville Battery.",
+            "Pegasus Bridge": "Lieutenant Den Brotheridge led an assault that captured Pegasus Bridge over the Caen canal within minutes of landing, preventing German armor from attacking from the east.",
+            "Sainte-Mere-Eglise": "Paratroopers captured Sainte-Mere-Eglise, making it the first town liberated in France on D-Day.",
+            "Merville Battery": "British paratroopers succeeded in silencing five 150mm guns at Merville Battery, neutralizing a major threat to Sword Beach.",
+            "Utah Beach casualties": "Utah Beach had the lightest casualties of all beaches with approximately 197 killed, wounded, or missing on D-Day.",
+            "Omaha casualties": "Omaha Beach suffered the heaviest casualties with over 2,000 casualties on D-Day, including 1,000-1,200 killed.",
+            "Gold Beach casualties": "Gold Beach had approximately 400 casualties among British forces.",
+            "Juno Beach casualties": "Juno Beach had approximately 961 casualties among Canadian forces.",
+            "Sword Beach casualties": "Sword Beach had approximately 630 casualties among British forces.",
+            "total casualties": "Approximately 10,000 Allied casualties on D-Day. German casualties are estimated between 4,000 and 9,000.",
+            "Mulberry harbors": "Two prefabricated artificial harbors—Mulberry A off Omaha and Mulberry B off Arromanches. Mulberry B remained operational, enabling rapid offloading of 7,000 tons of supplies daily.",
+            "DD tanks": "At Omaha Beach, only 27 of 29 amphibious Sherman tanks reached shore; 27 of 56 sank before landing, delaying armor support.",
+            "Caen": "British Second Army sought to capture Caen on D-Day; however, strong German resistance delayed its fall until July 9.",
+            "Carentan": "First U.S. Army prioritized connecting Utah and Omaha areas via Carentan. After intense fighting, the town was captured, allowing concentration of forces.",
+            "21st Panzer": "The 21st Panzer Division was stationed near Caen but did not begin moving to reinforce until late morning due to delayed authorization from Hitler."
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTabs();
+            initializeBeachButtons();
+            initializeSearch();
+        });
+
+        function initializeTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    showTab(tabName);
+                });
+            });
+        }
+
+        function showTab(tabName) {
+            try {
+                // Hide all tab contents
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(content => {
+                    if (content && content.classList) {
+                        content.classList.remove('active');
+                    }
+                });
+
+                // Remove active class from all buttons
+                const tabButtons = document.querySelectorAll('.tab-button');
+                tabButtons.forEach(button => {
+                    if (button && button.classList) {
+                        button.classList.remove('active');
+                    }
+                });
+
+                // Show selected tab content
+                const targetTab = document.getElementById(tabName);
+                if (targetTab && targetTab.classList) {
+                    targetTab.classList.add('active');
+                }
+
+                // Add active class to the correct button
+                const activeButton = document.querySelector('[data-tab="' + tabName + '"]');
+                if (activeButton && activeButton.classList) {
+                    activeButton.classList.add('active');
+                }
+            } catch (error) {
+                console.error('Error in showTab:', error);
+            }
+        }
+
+        function initializeBeachButtons() {
+            const beachButtons = document.querySelectorAll('.beach-button');
+            beachButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const beachName = this.getAttribute('data-beach');
+                    showBeachDetail(beachName);
+                });
+            });
+        }
+
+        function showBeachDetail(beach) {
+            try {
+                // Hide all beach details
+                const details = document.querySelectorAll('.beach-detail');
+                details.forEach(detail => {
+                    if (detail && detail.classList) {
+                        detail.classList.remove('show');
+                    }
+                });
+
+                // Show selected beach detail
+                const targetDetail = document.getElementById(beach + '-detail');
+                if (targetDetail && targetDetail.classList) {
+                    targetDetail.classList.add('show');
+                }
+            } catch (error) {
+                console.error('Error in showBeachDetail:', error);
+            }
+        }
+
+        function initializeSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('keyup', searchContent);
+            }
+        }
+
+        function searchContent() {
+            try {
+                const searchInput = document.getElementById('searchInput');
+                const resultsDiv = document.getElementById('searchResults');
+                
+                if (!searchInput || !resultsDiv) return;
+                
+                const searchTerm = searchInput.value.toLowerCase();
+
+                if (searchTerm.length < 2) {
+                    resultsDiv.innerHTML = '<p style="text-align: center; color: var(--text-secondary); font-style: italic; margin: 2rem 0;">Enter a search term above to explore the D-Day knowledge base.<br>Try searching for: Eisenhower, Omaha casualties, airborne, weather, Mulberry harbors, etc.</p>';
+                    return;
+                }
+
+                let results = [];
+                
+                for (const key in knowledgeBase) {
+                    if (knowledgeBase.hasOwnProperty(key)) {
+                        const value = knowledgeBase[key];
+                        if (key.toLowerCase().indexOf(searchTerm) !== -1 || value.toLowerCase().indexOf(searchTerm) !== -1) {
+                            results.push({
+                                title: key,
+                                content: value,
+                                relevance: key.toLowerCase().indexOf(searchTerm) !== -1 ? 2 : 1
+                            });
+                        }
+                    }
+                }
+
+                results.sort(function(a, b) {
+                    return b.relevance - a.relevance;
+                });
+
+                if (results.length === 0) {
+                    resultsDiv.innerHTML = '<div class="section-card"><h3 style="color: var(--accent-1);">No results found for "' + searchTerm + '"</h3><p>Try searching for commander names, beach names, operations, or key terms.</p></div>';
+                    return;
+                }
+
+                let resultHTML = '<h3 style="color: var(--accent-1); margin-bottom: 1.5rem;">Search Results for "' + searchTerm + '"</h3>';
+                
+                for (let i = 0; i < results.length; i++) {
+                    const result = results[i];
+                    const highlightedContent = result.content.replace(new RegExp(searchTerm, 'gi'), '<span class="highlight">$&</span>');
+                    
+                    resultHTML += '<div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid var(--accent-1);"><h4 style="color: var(--accent-1); margin-bottom: 0.8rem;">' + result.title + '</h4><p style="line-height: 1.6;">' + highlightedContent + '</p></div>';
+                }
+
+                resultsDiv.innerHTML = resultHTML;
+            } catch (error) {
+                console.error('Error in searchContent:', error);
+            }
+        }
+    </script>
+</body>
+</html>
