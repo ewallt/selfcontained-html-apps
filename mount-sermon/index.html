@@ -5,14 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sermon on the Mount - Knowledge Base</title>
     
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- React Libraries -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
-    <!-- Babel to transpile JSX in the browser -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
@@ -24,10 +21,8 @@
 </head>
 <body>
     
-    <!-- The root element where the React app will be mounted -->
     <div id="root"></div>
 
-    <!-- The React application code goes inside this script tag -->
     <script type="text/babel">
         // Note: All the React code from the previous step is placed here.
         const { useState, useEffect } = React;
@@ -299,7 +294,7 @@
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
                   <div className="lg:col-span-2">
                     <header className="mb-8">
-                      <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">{title}</h1>
+                      <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">{title}</h1>
                       <p className="text-lg text-slate-500 dark:text-slate-400">{summary}</p>
                     </header>
                     <div className="text-slate-700 dark:text-slate-300 leading-relaxed">
@@ -372,16 +367,20 @@
           return (
             <div className="min-h-screen bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans">
               <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-center items-center h-16">
-                         <button onClick={() => setMenuOpen(true)} className="md:hidden absolute left-4 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white">
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                        </button>
-                        <div className="text-center">
-                            <h1 className="text-xl font-bold text-slate-900 dark:text-white">{data.subject}</h1>
-                        </div>
-                    </div>
+                {/* Mobile Header */}
+                <div className="flex md:hidden justify-center items-center h-16 relative px-4">
+                  <button onClick={() => setMenuOpen(true)} className="absolute left-4 text-slate-500">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                  </button>
+                  <h1 className="text-4xl font-bold text-slate-900 dark:text-white">{data.subject}</h1>
                 </div>
+
+                {/* --- MODIFICATION START: Changed header to a flex container for true centering --- */}
+                {/* Desktop Header */}
+                <div className="hidden md:flex justify-center items-center max-w-screen-2xl mx-auto h-16">
+                  <h1 className="text-5xl font-bold text-slate-900 dark:text-white">{data.subject}</h1>
+                </div>
+                {/* --- MODIFICATION END --- */}
               </header>
 
               <div className="max-w-screen-2xl mx-auto md:grid md:grid-cols-[280px_1fr]">
@@ -409,9 +408,9 @@
                   {selectedContentUnit ? (
                     <ContentDisplay contentUnit={selectedContentUnit} onSelectContent={setSelectedContentId} />
                   ) : (
-                     <div className="flex items-center justify-center h-full p-8">
-                        <p className="text-slate-500">Loading content...</p>
-                     </div>
+                       <div className="flex items-center justify-center h-full p-8">
+                           <p className="text-slate-500">Loading content...</p>
+                       </div>
                   )}
                 </div>
               </div>
