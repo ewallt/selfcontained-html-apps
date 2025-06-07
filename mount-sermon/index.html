@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermon on the Mount - Knowledge Base</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- React Libraries -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Babel to transpile JSX in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        /* Simple body style to match the app's dark mode background */
+        body {
+            background-color: #0f172a; /* Corresponds to slate-900 */
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- The root element where the React app will be mounted -->
+    <div id="root"></div>
+
+    <!-- The React application code goes inside this script tag -->
+    <script type="text/babel">
+        // Note: All the React code from the previous step is placed here.
+        const { useState, useEffect } = React;
+
+        // --- Data ---
+        const knowledgeBaseData = {
+          "subject": "The Sermon on the Mount",
+          "complexity": "Simple",
+          "generated_at": "2025-06-07T11:31:21Z",
+          "knowledge_base": [
+            {
+              "module_id": "foundation-of-the-kingdom",
+              "module_title": "The Foundation of the Kingdom",
+              "content_units": [
+                {
+                  "id": "intro-beatitudes",
+                  "title": "Introduction and The Beatitudes",
+                  "summary": "The Sermon on the Mount opens with Jesus seeing the crowds, going up on a mountainside, and teaching his disciples the foundational blessings of the Kingdom of Heaven, known as the Beatitudes.",
+                  "content_markdown": "The Sermon on the Mount, found in the Gospel of Matthew chapters 5-7, is the most famous and extensive body of teaching from Jesus. It begins with the Beatitudes (Matthew 5:3-12), a series of eight blessings that describe the character of those who belong to the Kingdom of Heaven. They invert worldly values, declaring blessedness for the poor in spirit, those who mourn, the meek, and those who hunger for righteousness, promising them the kingdom, comfort, inheritance, and satisfaction.",
+                  "key_facts": [
+                    { "fact": "Biblical Location", "value": "Matthew 5-7" },
+                    { "fact": "Key Concept", "value": "Describes the character and ethics of life in the Kingdom of Heaven." },
+                    { "fact": "Opening", "value": "The Beatitudes (Matthew 5:3-12)" }
+                  ],
+                  "media_suggestion": {
+                    "type": "image",
+                    "description": "A classical painting depicting Jesus delivering the Sermon on the Mount to a crowd on a hillside."
+                  },
+                  "related_ids": ["disciples-influence", "higher-righteousness-law"]
+                },
+                {
+                  "id": "disciples-influence",
+                  "title": "The Disciples' Influence: Salt and Light",
+                  "summary": "Jesus uses the metaphors of 'Salt of the Earth' and 'Light of the World' to describe the essential, preservative, and influential role his followers are meant to have in the world.",
+                  "content_markdown": "In Matthew 5:13-16, Jesus calls his disciples **'the salt of the earth'** and **'the light of the world.'**\n\n* **Salt:** Just as salt preserves food from decay and enhances flavor, disciples are to act as a moral and spiritual preservative in a corrupt world. If they lose their distinctiveness ('saltiness'), they lose their purpose.\n* **Light:** As a city on a hill cannot be hidden, the good works of the disciples should be publicly visible. This visibility is not for personal glory but so that others may see their actions and glorify God.",
+                  "key_facts": [
+                    { "fact": "Metaphor 1", "value": "Salt of the Earth (Matthew 5:13)" },
+                    { "fact": "Metaphor 2", "value": "Light of the World (Matthew 5:14-16)" },
+                    { "fact": "Purpose", "value": "To influence the world for good and bring glory to God." }
+                  ],
+                  "media_suggestion": {
+                    "type": "diagram",
+                    "description": "An infographic visually representing the dual concepts of salt preserving food and a lamp shining in the darkness."
+                  },
+                  "related_ids": ["intro-beatitudes", "authentic-piety-pillars"]
+                }
+              ]
+            },
+            {
+              "module_id": "higher-righteousness",
+              "module_title": "The Higher Righteousness",
+              "content_units": [
+                {
+                  "id": "higher-righteousness-law",
+                  "title": "Christ's Relationship to the Law",
+                  "summary": "Jesus declares that he came not to abolish the Law or the Prophets but to fulfill them, calling for a righteousness that surpasses that of the scribes and Pharisees.",
+                  "content_markdown": "In Matthew 5:17-20, Jesus clarifies his position on the Hebrew Scriptures (the Law and the Prophets). He establishes that his teaching is not a rejection of the old law but its ultimate fulfillment. He emphasizes the permanence of the law, stating that not the smallest letter will disappear until everything is accomplished. He then sets a new, higher standard: 'For I tell you that unless your righteousness surpasses that of the Pharisees and the teachers of the law, you will certainly not enter the kingdom of heaven.' This introduces the theme that true obedience goes beyond external actions to the inner motivations of the heart.",
+                  "key_facts": [
+                    { "fact": "Key Statement", "value": "'Do not think that I have come to abolish the Law... but to fulfill them.' (Matt 5:17)" },
+                    { "fact": "Standard", "value": "Righteousness must exceed that of the scribes and Pharisees." },
+                    { "fact": "Implication", "value": "Internal heart condition is more important than external rule-following." }
+                  ],
+                  "media_suggestion": {
+                    "type": "image",
+                    "description": "An image of an ancient Torah scroll to represent 'the Law and the Prophets'."
+                  },
+                  "related_ids": ["higher-righteousness-antitheses", "intro-beatitudes"]
+                },
+                {
+                  "id": "higher-righteousness-antitheses",
+                  "title": "The Six Antitheses",
+                  "summary": "Jesus presents six examples of traditional teaching ('You have heard that it was said...') and deepens their meaning to address internal attitudes like anger, lust, and integrity, not just external acts.",
+                  "content_markdown": "In Matthew 5:21-48, Jesus illustrates the 'higher righteousness' with six teachings known as the Antitheses. Each follows the pattern of quoting a traditional understanding of the law and then providing a deeper, heart-level application.\n\n1.  **On Anger:** Goes beyond murder to condemn internal anger and insults (5:21-26).\n2.  **On Lust:** Goes beyond the act of adultery to condemn the lustful look (5:27-30).\n3.  **On Divorce:** Restricts divorce to cases of marital unfaithfulness (5:31-32).\n4.  **On Oaths:** Calls for simple, direct speech ('Let your “Yes” be “Yes”') instead of swearing elaborate oaths (5:33-37).\n5.  **On Retaliation:** Replaces 'an eye for an eye' with turning the other cheek and going the extra mile (5:38-42).\n6.  **On Love for Enemies:** Extends the command to love one's neighbor to include loving one's enemies (5:43-48).",
+                  "key_facts": [
+                    { "fact": "Structure", "value": "Six 'You have heard it was said...' statements." },
+                    { "fact": "Focus", "value": "Internalizing God's law, moving from action to intention." },
+                    { "fact": "Goal", "value": "'Be perfect, therefore, as your heavenly Father is perfect.' (Matt 5:48)" }
+                  ],
+                  "media_suggestion": {
+                    "type": "diagram",
+                    "description": "A two-column chart comparing the 'Old Teaching' (e.g., Do not murder) with 'Jesus' Teaching' (e.g., Do not be angry)."
+                  },
+                  "related_ids": ["higher-righteousness-law"]
+                }
+              ]
+            },
+            {
+              "module_id": "authentic-piety",
+              "module_title": "Authentic Piety",
+              "content_units": [
+                {
+                  "id": "authentic-piety-pillars",
+                  "title": "The Three Pillars of Piety",
+                  "summary": "Jesus instructs on three core religious practices—giving, praying, and fasting—emphasizing that they should be done in secret for God's approval, not for public recognition.",
+                  "content_markdown": "In Matthew 6:1-18, Jesus critiques ostentatious religious displays and outlines the proper motivation for three pillars of Jewish piety. The core principle is to practice righteousness for God, who sees in secret, rather than for the reward of human praise.\n\n1.  **Giving to the Needy (Almsgiving):** Should be done in secret, so that 'your left hand does not know what your right hand is doing.'\n2.  **Prayer:** Should be done privately, not with showy words like the hypocrites. This section includes the model of **The Lord's Prayer** (Matthew 6:9-13).\n3.  **Fasting:** Should be done without outward signs of suffering, but with a joyful appearance, known only to God.",
+                  "key_facts": [
+                    { "fact": "Core Principle", "value": "Practice righteousness secretly for God, not publicly for men." },
+                    { "fact": "Three Practices", "value": "Giving, Praying, Fasting." },
+                    { "fact": "Included Teaching", "value": "The Lord's Prayer (Our Father)." }
+                  ],
+                  "media_suggestion": {
+                    "type": "image",
+                    "description": "A triptych of simple icons representing a hand giving a coin, hands in prayer, and a simple bread loaf with a cross."
+                  },
+                  "related_ids": ["life-in-kingdom-trust", "disciples-influence"]
+                }
+              ]
+            },
+            {
+              "module_id": "life-in-the-kingdom",
+              "module_title": "Life in the Kingdom",
+              "content_units": [
+                {
+                  "id": "life-in-kingdom-trust",
+                  "title": "Treasures, Anxiety, and Trust",
+                  "summary": "Jesus teaches his followers not to store up treasures on earth but in heaven, and to avoid anxiety by trusting in God's provision for their needs.",
+                  "content_markdown": "In Matthew 6:19-34, Jesus addresses the relationship between a disciple and worldly possessions and worries.\n\n* **Treasures in Heaven:** Earthly treasures are vulnerable to decay and theft. Heavenly treasures (acts of righteousness, relationship with God) are eternal. Jesus states, 'For where your treasure is, there your heart will be also.' (6:21).\n* **Do Not Worry:** Using the examples of the birds of the air and the lilies of the field, Jesus illustrates God's faithful provision. He commands his followers not to be anxious about food, drink, or clothing, but to 'seek first his kingdom and his righteousness,' trusting that God will provide for all their needs.",
+                  "key_facts": [
+                    { "fact": "Core Command", "value": "'Seek first his kingdom and his righteousness.' (Matt 6:33)" },
+                    { "fact": "Key Illustration", "value": "The birds of the air and the lilies of the field." },
+                    { "fact": "Central Choice", "value": "'You cannot serve both God and money.' (Matt 6:24)" }
+                  ],
+                  "media_suggestion": {
+                    "type": "image",
+                    "description": "A peaceful image of lilies in a field, contrasted with a picture of a treasure chest, illustrating the choice of focus."
+                  },
+                  "related_ids": ["authentic-piety-pillars", "life-in-kingdom-judgment"]
+                },
+                {
+                  "id": "life-in-kingdom-judgment",
+                  "title": "Judgment and Discernment",
+                  "summary": "Jesus commands his followers not to judge others hypocritically, while also calling them to use wise discernment to recognize false prophets by their 'fruit'.",
+                  "content_markdown": "In Matthew 7, Jesus provides guidance on how to interact with others and discern truth.\n\n* **Judging Others (7:1-6):** The famous command 'Do not judge, or you too will be judged' is a warning against hypocritical, condemning judgment. Jesus uses the metaphor of trying to take a speck out of a brother's eye while having a plank in one's own. Self-examination must precede correction of others.\n* **False Prophets (7:15-20):** Jesus warns that false prophets will come in 'sheep's clothing, but inwardly they are ferocious wolves.' He provides the key to discernment: 'You will recognize them by their fruit.' Good trees bear good fruit, and bad trees bear bad fruit. Their character and actions reveal their true nature.",
+                  "key_facts": [
+                    { "fact": "On Judging", "value": "First remove the plank from your own eye. (Matt 7:5)" },
+                    { "fact": "On Discernment", "value": "'You will recognize them by their fruit.' (Matt 7:16)" },
+                    { "fact": "Warning", "value": "Beware of false prophets who appear righteous but are inwardly destructive." }
+                  ],
+                  "media_suggestion": {
+                    "type": "diagram",
+                    "description": "A split image showing a sheep on one side and a wolf on the other, with the caption 'Beware of false prophets'."
+                  },
+                  "related_ids": ["life-in-kingdom-conclusion", "life-in-kingdom-trust"]
+                },
+                {
+                  "id": "life-in-kingdom-conclusion",
+                  "title": "The Golden Rule and Concluding Parables",
+                  "summary": "The sermon concludes with the famous 'Golden Rule' and the powerful parable of the two builders, which emphasizes that hearing Jesus' words must be matched by obedience.",
+                  "content_markdown": "The sermon's conclusion in Matthew 7:7-27 is a powerful call to action.\n\n* **Ask, Seek, Knock (7:7-11):** An encouragement to persistent prayer, promising that God, as a good Father, gives good gifts to those who ask.\n* **The Golden Rule (7:12):** 'So in everything, do to others what you would have them do to you, for this sums up the Law and the Prophets.'\n* **The Narrow and Wide Gates (7:13-14):** A metaphor for the two ways of life—the easy, popular path that leads to destruction, and the difficult, narrow path that leads to life.\n* **The Wise and Foolish Builders (7:24-27):** The sermon's final parable. The wise man builds his house on the rock by hearing Jesus' words and putting them into practice, and his house withstands the storm. The foolish man builds on sand by hearing but not doing, and his house is destroyed. The foundation of one's life must be obedience to Christ's teaching.",
+                  "key_facts": [
+                    { "fact": "The Golden Rule", "value": "'Do to others what you would have them do to you.' (Matt 7:12)" },
+                    { "fact": "Final Parable", "value": "The Wise and Foolish Builders." },
+                    { "fact": "Ultimate Test", "value": "Hearing Jesus' words AND putting them into practice." }
+                  ],
+                  "media_suggestion": {
+                    "type": "image",
+                    "description": "An image depicting two houses side-by-side, one standing firm on a rock during a storm, the other collapsing on sand."
+                  },
+                  "related_ids": ["life-in-kingdom-judgment"]
+                }
+              ]
+            }
+          ]
+        };
+
+        const SimpleMarkdownRenderer = ({ content }) => {
+          const renderLine = (line, index) => {
+            let processedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            if (processedLine.trim().startsWith('* ')) {
+              return <li key={index} className="ml-5 list-disc" dangerouslySetInnerHTML={{ __html: processedLine.substring(2) }} />;
+            }
+            if (processedLine.match(/^\d+\.\s/)) {
+                return <li key={index} className="ml-5 list-decimal" dangerouslySetInnerHTML={{ __html: processedLine.replace(/^\d+\.\s/, '') }} />;
+            }
+            if (processedLine.startsWith('### ')) {
+                return <h3 key={index} className="text-xl font-semibold mt-6 mb-3 text-slate-800 dark:text-slate-200" dangerouslySetInnerHTML={{ __html: processedLine.substring(4) }} />;
+            }
+            return <p key={index} className="mb-4" dangerouslySetInnerHTML={{ __html: processedLine }} />;
+          };
+          
+          const lines = content.split('\n');
+          const elements = lines.map((line, index) => {
+              if(line.trim() === "") return null;
+              return renderLine(line, index);
+          }).filter(Boolean);
+
+          const groupedElements = [];
+          let currentList = null;
+
+          elements.forEach((el, index) => {
+            if (el.type === 'li') {
+                if (!currentList) {
+                    currentList = { type: el.props.className.includes('list-disc') ? 'ul' : 'ol', items: [] };
+                }
+                currentList.items.push(el);
+            } else {
+                if (currentList) {
+                    groupedElements.push(React.createElement(currentList.type, { key: `list-${index}`, className: `mb-4 ${currentList.type === 'ul' ? 'list-disc' : 'list-decimal'} pl-5 space-y-2` }, currentList.items));
+                    currentList = null;
+                }
+                groupedElements.push(el);
+            }
+          });
+
+          if (currentList) {
+            groupedElements.push(React.createElement(currentList.type, { key: 'last-list', className: `mb-4 ${currentList.type === 'ul' ? 'list-disc' : 'list-decimal'} pl-5 space-y-2` }, currentList.items));
+          }
+
+          return <div className="prose-lg max-w-none">{groupedElements}</div>;
+        };
+
+        const Sidebar = ({ knowledgeBase, activeContentId, onSelectContent, isMenuOpen, setMenuOpen }) => {
+          return (
+            <aside className={`bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-6 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out fixed md:relative w-72 md:w-full h-full md:h-auto z-20`}>
+              <nav className="space-y-6">
+                {knowledgeBase.map(module => (
+                  <div key={module.module_id}>
+                    <h2 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3">{module.module_title}</h2>
+                    <ul className="space-y-1">
+                      {module.content_units.map(unit => (
+                        <li key={unit.id}>
+                          <a
+                            href={`#${unit.id}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              onSelectContent(unit.id);
+                              if(isMenuOpen) setMenuOpen(false);
+                            }}
+                            className={`relative block py-2 px-3 rounded-md text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800/60 transition-colors duration-200 ${activeContentId === unit.id ? 'font-semibold text-sky-600 dark:text-sky-400' : ''}`}
+                          >
+                            {activeContentId === unit.id && <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 bg-sky-500 rounded-r-full"></span>}
+                            {unit.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </nav>
+               <button onClick={() => setMenuOpen(false)} className="md:hidden absolute top-4 right-4 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+              </button>
+            </aside>
+          );
+        };
+
+        const ContentDisplay = ({ contentUnit, onSelectContent }) => {
+          if (!contentUnit) {
+            return (
+              <main className="flex items-center justify-center h-full p-8">
+                <h1 className="text-2xl font-bold text-slate-500 dark:text-slate-400">Select a topic to begin</h1>
+              </main>
+            );
+          }
+
+          const { title, summary, content_markdown, key_facts, media_suggestion, related_ids } = contentUnit;
+
+          const getIconForMedia = (type) => {
+              switch(type) {
+                  case 'image': return <svg className="w-5 h-5 mr-3 text-indigo-500 dark:text-indigo-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>;
+                  case 'diagram': return <svg className="w-5 h-5 mr-3 text-indigo-500 dark:text-indigo-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>;
+                  default: return null;
+              }
+          }
+
+          return (
+            <main className="p-6 md:p-8 lg:p-12 bg-white dark:bg-slate-900/70 overflow-y-auto">
+              <article className="max-w-7xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+                  <div className="lg:col-span-2">
+                    <header className="mb-8">
+                      <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">{title}</h1>
+                      <p className="text-lg text-slate-500 dark:text-slate-400">{summary}</p>
+                    </header>
+                    <div className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                       <SimpleMarkdownRenderer content={content_markdown} />
+                    </div>
+                  </div>
+                  <div className="lg:col-span-1 space-y-8 lg:sticky lg:top-28">
+                    <div className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+                      <h3 className="text-base font-semibold text-slate-800 dark:text-slate-200 mb-4">Key Facts</h3>
+                      <ul className="space-y-3">
+                        {key_facts.map(fact => (
+                          <li key={fact.fact} className="text-sm flex flex-col">
+                            <span className="font-semibold text-slate-600 dark:text-slate-300">{fact.fact}</span>
+                            <span className="text-slate-500 dark:text-slate-400">{fact.value}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="bg-indigo-50 dark:bg-indigo-900/30 p-5 rounded-xl border border-indigo-100 dark:border-indigo-900">
+                      <h3 className="text-base font-semibold text-indigo-800 dark:text-indigo-300 mb-3 flex items-center">
+                        {getIconForMedia(media_suggestion.type)}
+                        Media Suggestion
+                      </h3>
+                      <p className="text-sm text-indigo-700 dark:text-indigo-400">{media_suggestion.description}</p>
+                    </div>
+                    {related_ids && related_ids.length > 0 && (
+                         <div className="bg-teal-50 dark:bg-teal-900/30 p-5 rounded-xl border border-teal-100 dark:border-teal-900">
+                            <h3 className="text-base font-semibold text-teal-800 dark:text-teal-300 mb-4">See Also</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {related_ids.map(id => (
+                                    <button
+                                        key={id}
+                                        onClick={() => onSelectContent(id)}
+                                        className="text-sm bg-teal-100 dark:bg-teal-800/50 text-teal-800 dark:text-teal-200 hover:bg-teal-200 dark:hover:bg-teal-800 px-3 py-1.5 rounded-full transition-colors duration-200 font-medium"
+                                    >
+                                        {id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                  </div>
+                </div>
+              </article>
+            </main>
+          );
+        };
+
+        function App() {
+          const [data, setData] = useState(knowledgeBaseData);
+          const [selectedContentId, setSelectedContentId] = useState(null);
+          const [isMenuOpen, setMenuOpen] = useState(false);
+
+          useEffect(() => {
+            if (data.knowledge_base.length > 0 && data.knowledge_base[0].content_units.length > 0) {
+              setSelectedContentId(data.knowledge_base[0].content_units[0].id);
+            }
+          }, [data]);
+
+          const findContentUnitById = (id) => {
+            for (const module of data.knowledge_base) {
+              const found = module.content_units.find(unit => unit.id === id);
+              if (found) return found;
+            }
+            return null;
+          };
+
+          const selectedContentUnit = findContentUnitById(selectedContentId);
+
+          return (
+            <div className="min-h-screen bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans">
+              <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-center items-center h-16">
+                         <button onClick={() => setMenuOpen(true)} className="md:hidden absolute left-4 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        </button>
+                        <div className="text-center">
+                            <h1 className="text-xl font-bold text-slate-900 dark:text-white">{data.subject}</h1>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">{data.complexity} Knowledge Base</p>
+                        </div>
+                    </div>
+                </div>
+              </header>
+
+              <div className="max-w-screen-2xl mx-auto md:grid md:grid-cols-[280px_1fr]">
+                <div className="hidden md:block md:sticky md:top-16 md:h-[calc(100vh-4rem)]">
+                  <Sidebar
+                    knowledgeBase={data.knowledge_base}
+                    activeContentId={selectedContentId}
+                    onSelectContent={setSelectedContentId}
+                    isMenuOpen={isMenuOpen}
+                    setMenuOpen={setMenuOpen}
+                  />
+                </div>
+                
+                <div className="md:hidden">
+                     <Sidebar
+                        knowledgeBase={data.knowledge_base}
+                        activeContentId={selectedContentId}
+                        onSelectContent={setSelectedContentId}
+                        isMenuOpen={isMenuOpen}
+                        setMenuOpen={setMenuOpen}
+                      />
+                </div>
+
+                <div className="min-h-[calc(100vh-4rem)]">
+                  {selectedContentUnit ? (
+                    <ContentDisplay contentUnit={selectedContentUnit} onSelectContent={setSelectedContentId} />
+                  ) : (
+                     <div className="flex items-center justify-center h-full p-8">
+                        <p className="text-slate-500">Loading content...</p>
+                     </div>
+                  )}
+                </div>
+              </div>
+              {isMenuOpen && <div onClick={() => setMenuOpen(false)} className="fixed inset-0 bg-black/40 z-10 md:hidden"></div>}
+            </div>
+          );
+        }
+
+        // --- Render the App to the DOM ---
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(<App />);
+
+    </script>
+</body>
+</html>
