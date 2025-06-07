@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faith That Works: A Theological Exploration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 
+    Chosen Palette: Calm Harmony (Warm Neutrals: beige, slate gray, with muted olive and terracotta accents)
+    Application Structure Plan: A thematic, single-page application guiding the user from the core theological problem ("Divorced Justification") to the two proposed solutions. The main navigation allows users to explore the "Waggoner Model" and the "Wieland Model" independently. Each model's section uses interactive diagrams and tabbed content to break down complex concepts into digestible pieces. This structure prioritizes user-guided exploration and conceptual understanding over a linear text format, making the dense theological material more engaging and accessible.
+    Visualization & Content Choices: The application uses conceptual diagrams built with HTML/CSS and animated with JS to visualize the theological flows (e.g., Waggoner's "Made Righteous" process, Wieland's "Heart Appreciation" model). Interactive tabs are used for "Key Concepts" to allow progressive disclosure of information. Key quotes and source materials are presented in accessible formats. This approach avoids static data presentation and instead focuses on illustrating relationships between theological ideas, adhering to the NO SVG/Mermaid rule.
+    CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. 
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF7; /* A very light warm beige */
+            color: #4A4A4A; /* Soft charcoal */
+        }
+        .nav-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-item.active {
+            color: #8C5A4F; /* Muted terracotta */
+            border-bottom-color: #8C5A4F;
+        }
+        .tab-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #F5F1E9; /* Slightly darker beige */
+        }
+        .tab-item.active {
+            background-color: #8C5A4F; /* Muted terracotta */
+            color: #FFFFFF;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .diagram-step {
+            transition: all 0.3s ease;
+            border: 2px solid #DCD8CF; /* Beige border */
+        }
+        .diagram-step.active {
+            background-color: #8A9A5B20; /* Muted olive tint */
+            border-color: #8A9A5B; /* Muted olive */
+            transform: scale(1.05);
+        }
+        .quote-card {
+            border-left: 4px solid #8C5A4F;
+            background-color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#3D3D3D] mb-2">Faith That Works</h1>
+            <p class="text-lg md:text-xl text-[#6B6B6B]">An Interactive Theological Exploration</p>
+        </header>
+
+        <!-- The Central Dilemma Section -->
+        <section id="dilemma" class="mb-16 bg-white p-6 md:p-8 rounded-xl shadow-sm">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 text-[#8C5A4F]">The Central Dilemma</h2>
+            <p class="max-w-3xl mx-auto text-center text-lg mb-8">
+                A common pastoral challenge arises from a narrow view of justification by faith. When faith is seen as a purely external, legal declaration that is divorced from a person's inner transformation, it can create a trap—leading to a legalistic, performance-based Christianity. This exploration contrasts that view with an integrated model where faith truly works.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8 text-center">
+                <div class="border border-red-200 p-6 rounded-lg bg-red-50">
+                    <h3 class="text-xl font-semibold text-red-700 mb-3">A "Divorced" Justification</h3>
+                    <p class="text-red-600">Justification is merely a <strong class="font-medium">"legal fiction."</strong> An external declaration that is separate from inner change.</p>
+                    <div class="text-5xl my-4 text-red-400">→</div>
+                    <p class="text-red-600">This creates a vacuum, forcing a reliance on <strong class="font-medium">human effort</strong> for good works, which can lead to legalism and anxiety.</p>
+                </div>
+                <div class="border border-green-200 p-6 rounded-lg bg-green-50">
+                    <h3 class="text-xl font-semibold text-green-700 mb-3">An Integrated Faith</h3>
+                    <p class="text-green-600">Justification is a <strong class="font-medium">transformative event.</strong> It is inseparable from the process of being made righteous.</p>
+                    <div class="text-5xl my-4 text-green-400">→</div>
+                    <p class="text-green-600">Good works flow naturally and joyfully as the <strong class="font-medium">organic fruit</strong> of a changed heart and a new motivation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Navigation -->
+        <nav class="flex justify-center items-center border-b-2 border-[#F5F1E9] mb-10">
+            <div id="nav-waggoner" class="nav-item active px-6 py-3 font-semibold text-lg">The Waggoner Model</div>
+            <div id="nav-wieland" class="nav-item px-6 py-3 font-semibold text-lg">The Wieland Model</div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main>
+            <!-- Waggoner Section -->
+            <section id="waggoner-content" class="content-section active">
+                 <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm mb-10">
+                    <h2 class="text-3xl font-bold text-[#3D3D3D] mb-4">The Waggoner Model: Made Righteous</h2>
+                    <p class="text-lg text-[#6B6B6B] mb-6">E.J. Waggoner's theology solves the dilemma by presenting justification as a real, transformative event. It is not merely being *declared* righteous, but being *made* righteous through the indwelling of Christ. This interactive diagram shows the flow of his logic.</p>
+                    <div id="waggoner-diagram" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center text-center">
+                        <div class="diagram-step p-4 rounded-lg" data-step="1"><strong>1. Righteousness</strong> is "Right-Doing"</div>
+                        <div class="text-2xl font-light text-gray-400">→</div>
+                        <div class="diagram-step p-4 rounded-lg" data-step="2"><strong>2. The Law</strong> is a Transcript of God's Character</div>
+                        <div class="text-2xl font-light text-gray-400">→</div>
+                        <div class="diagram-step p-4 rounded-lg" data-step="3"><strong>3. Christ</strong> is the Living Law</div>
+                    </div>
+                    <div class="flex justify-center my-4">
+                        <div class="text-4xl font-light text-gray-400">↓</div>
+                    </div>
+                    <div id="waggoner-diagram-2" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center text-center">
+                        <div class="diagram-step p-4 rounded-lg" data-step="5"><strong>5. A New Heart</strong> The Law is Written Within</div>
+                        <div class="text-2xl font-light text-gray-400">←</div>
+                        <div class="diagram-step p-4 rounded-lg" data-step="4"><strong>4. The Indwelling Christ</strong> Received by Faith</div>
+                        <div class="md:col-span-2"></div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm">
+                    <h3 class="text-2xl font-bold text-[#3D3D3D] mb-6">Key Concepts in Waggoner's Theology</h3>
+                    <div id="waggoner-tabs" class="flex flex-wrap gap-2 mb-6">
+                        <div class="tab-item active py-2 px-4 rounded-md font-medium" data-target="waggoner-tab-1">Made Righteous</div>
+                        <div class="tab-item py-2 px-4 rounded-md font-medium" data-target="waggoner-tab-2">The New Covenant</div>
+                        <div class="tab-item py-2 px-4 rounded-md font-medium" data-target="waggoner-tab-3">Faith as Reception</div>
+                    </div>
+                    <div id="waggoner-tab-content">
+                        <!-- Content for tabs will be injected here by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Wieland Section -->
+            <section id="wieland-content" class="content-section">
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm mb-10">
+                    <h2 class="text-3xl font-bold text-[#3D3D3D] mb-4">The Wieland Model: Heart Appreciation</h2>
+                    <p class="text-lg text-[#6B6B6B] mb-6">Robert J. Wieland's approach focuses on the motivation behind a life of faith. Righteousness is the natural fruit of a heart overcome with gratitude for the depth of God's love (*agape*), revealed most profoundly at the cross. This diagram illustrates his relational model.</p>
+                     <div id="wieland-diagram" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center text-center">
+                        <div class="diagram-step p-4 rounded-lg" data-step="1"><strong>1. Agape Revealed</strong> in the Sacrifice of the Cross</div>
+                        <div class="text-2xl font-light text-gray-400">→</div>
+                        <div class="diagram-step p-4 rounded-lg" data-step="2"><strong>2. A Divine Gift</strong> The Spirit gives "Heart Appreciation"</div>
+                        <div class="text-2xl font-light text-gray-400">→</div>
+                        <div class="diagram-step p-4 rounded-lg" data-step="3"><strong>3. Faith is Gratitude</strong> A relational response</div>
+                    </div>
+                    <div class="flex justify-center my-4">
+                        <div class="text-4xl font-light text-gray-400">↓</div>
+                    </div>
+                     <div id="wieland-diagram-2" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center text-center">
+                        <div class="diagram-step p-4 rounded-lg" data-step="5"><strong>5. A Life of Loving Service</strong> The organic fruit of gratitude</div>
+                        <div class="text-2xl font-light text-gray-400">←</div>
+                        <div class="diagram-step p-4 rounded-lg" data-step="4"><strong>4. Motivation Transformed</strong> From Duty to Desire</div>
+                         <div class="md:col-span-2"></div>
+                    </div>
+                </div>
+
+                 <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm">
+                    <h3 class="text-2xl font-bold text-[#3D3D3D] mb-6">Key Concepts in Wieland's Theology</h3>
+                    <div id="wieland-tabs" class="flex flex-wrap gap-2 mb-6">
+                        <div class="tab-item active py-2 px-4 rounded-md font-medium" data-target="wieland-tab-1">Faith as a Gift</div>
+                        <div class="tab-item py-2 px-4 rounded-md font-medium" data-target="wieland-tab-2">The Second Death</div>
+                        <div class="tab-item py-2 px-4 rounded-md font-medium" data-target="wieland-tab-3">Answering Laodicea</div>
+                    </div>
+                    <div id="wieland-tab-content">
+                        <!-- Content for tabs will be injected here by JS -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Synthesis & Quotes Section -->
+        <section id="synthesis" class="mt-16">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 text-[#8A9A5B]">A Unified Solution</h2>
+            <p class="max-w-3xl mx-auto text-center text-lg mb-12">
+                Though Waggoner focuses on the *mechanics* of transformation (indwelling) and Wieland on the *motivation* (gratitude), they arrive at the same conclusion. They heal the theological divorce by making justification and sanctification two inseparable facets of a single, transformative event: the union of the believer with the living Christ.
+            </p>
+            <div id="quotes-container" class="grid md:grid-cols-2 gap-6">
+                <!-- Quotes injected by JS -->
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const appData = {
+            waggoner: {
+                tabs: [
+                    { 
+                        id: 'waggoner-tab-1',
+                        title: 'Made Righteous',
+                        content: `This is Waggoner's central thesis. He taught that justification is not merely a legal declaration (imputation) but includes the real impartation of Christ's righteous nature. The believer is genuinely **made righteous** from within. This change is not fictional but ontological. The righteousness of Christ becomes the believer's own possession and lived reality.`
+                    },
+                    {
+                        id: 'waggoner-tab-2',
+                        title: 'The New Covenant',
+                        content: `The mechanism for this transformation is the New Covenant promise (Jeremiah 31:33, Hebrews 8:10). Waggoner taught that receiving the indwelling Christ *is* the fulfillment of this promise. Because Christ's own will is in perfect harmony with God's law, His presence effectively performs a "heart surgery," writing the law's principles onto the believer's mind and changing their desires from the inside out.`
+                    },
+                    {
+                        id: 'waggoner-tab-3',
+                        title: 'Faith as Reception',
+                        content: `In this model, faith is not a meritorious work that earns salvation. It is simply the act of **reception**. Waggoner describes it as the hand that accepts the gift of Christ Himself. Since Christ *is* our righteousness, the act of receiving Him is the act of receiving righteousness. This removes faith from the realm of human achievement and places it firmly in the category of a response to grace.`
+                    }
+                ],
+                diagramSteps: {
+                    1: "Waggoner begins by defining righteousness simply as 'right-doing.' It's a practical, active concept, not an abstract status.",
+                    2: "The standard for right-doing is the law of God. He presents the law not as an arbitrary set of rules, but as a perfect transcript of God's own character.",
+                    3: "Crucially, Christ is the law in living form. As the 'express image of God’s person,' His life is a perfect demonstration of the law's principles.",
+                    4: "Through faith, Christ Himself comes to live within the believer. This is the core transaction—receiving a Person, not just a pardon.",
+                    5: "The indwelling Christ, whose own nature is aligned with the law, performs a 'heart surgery.' This writes the law on the heart, transforming the believer's desires to align with God's will."
+                }
+            },
+            wieland: {
+                tabs: [
+                    {
+                        id: 'wieland-tab-1',
+                        title: 'Faith as a Gift',
+                        content: `Wieland taught that true, saving faith is not generated by human effort. It is a **divine gift**, a receptive faculty created in the heart by the Holy Spirit. This concept is crucial because it removes faith from being a 'work' and makes the entire salvation experience, from start to finish, a product of God's grace.`
+                    },
+                    {
+                        id: 'wieland-tab-2',
+                        title: 'The Second Death',
+                        content: `The catalyst for a transformative faith is an appreciation for the depth of Christ's sacrifice. Wieland argued that Christ experienced the horror of the **"second death"**—complete separation from God—without the visible assurance of His own resurrection. This willingness to be eternally lost out of pure *agape* love is the truth that melts the human heart into genuine gratitude.`
+                    },
+                    {
+                        id: 'wieland-tab-3',
+                        title: 'Answering Laodicea',
+                        content: `Wieland directly connected his message to the Laodicean church of Revelation 3. He identified the "gold tried in the fire" that they needed to buy as this very "faith which works by love." The lukewarm, self-sufficient condition of the church could only be healed by a true revelation of its spiritual poverty and a complete reliance on Christ's transformative righteousness.`
+                    }
+                ],
+                diagramSteps: {
+                    1: "Wieland's model begins with the revelation of God's *agape* (self-sacrificing love), demonstrated most profoundly at the cross.",
+                    2: "In response to this revelation, the Holy Spirit gives the divine gift of 'heart appreciation.' This isn't human-generated effort; it's a gifted response.",
+                    3: "This gifted appreciation *is* faith. It's not intellectual assent, but a relational response of profound gratitude to God's love.",
+                    4: "This gratitude transforms the believer's motivation. The driving force for the Christian life shifts from a sense of duty or fear to a joyful desire to respond to such great love.",
+                    5: "The natural, organic result of a heart filled with gratitude is a life of loving service. Good works are not a requirement for salvation, but the beautiful and inevitable expression of it."
+                }
+            },
+            quotes: [
+                {
+                    text: "The righteousness of Christ is not a cloak to cover unconfessed and unforsaken sin; it is a principle of life that transforms the character and controls the conduct.",
+                    source: "The Desire of Ages, p. 555"
+                },
+                {
+                    text: "All true obedience comes from the heart. … If we consent, He will so identify Himself with our thoughts and aims … that when obeying Him we shall be but carrying out our own impulses.",
+                    source: "The Desire of Ages, p. 668"
+                },
+                {
+                    text: "When we submit ourselves to Christ, the heart is united with His heart, the will is merged in His will … This is what it means to be clothed with the garment of His righteousness.",
+                    source: "Maranatha, Aug 5"
+                },
+                {
+                    text: "Christ is waiting with longing desire for the manifestation of Himself in His church. When the character of Christ shall be perfectly reproduced in His people, then He will come to claim them as His own.",
+                    source: "Christ’s Object Lessons, p. 69"
+                },
+                {
+                    text: "Through the Spirit the believer becomes a partaker of the divine nature. … Christ has given His Spirit as a divine power to overcome all hereditary and cultivated tendencies to evil, and to impress His own character upon His church.",
+                    source: "The Desire of Ages, p. 671"
+                },
+                {
+                    text: "Faith is the gift of God, but the power to exercise it is ours. Faith is the hand by which the soul takes hold upon the divine offers of grace and mercy.",
+                    source: "Patriarchs and Prophets, p. 431"
+                }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const navWaggoner = document.getElementById('nav-waggoner');
+            const navWieland = document.getElementById('nav-wieland');
+            const waggonerContent = document.getElementById('waggoner-content');
+            const wielandContent = document.getElementById('wieland-content');
+            
+            const waggonerTabsContainer = document.getElementById('waggoner-tabs');
+            const waggonerTabContentContainer = document.getElementById('waggoner-tab-content');
+            const wielandTabsContainer = document.getElementById('wieland-tabs');
+            const wielandTabContentContainer = document.getElementById('wieland-tab-content');
+            
+            const quotesContainer = document.getElementById('quotes-container');
+            
+            const waggonerDiagram = document.getElementById('waggoner-diagram');
+            const waggonerDiagram2 = document.getElementById('waggoner-diagram-2');
+            const wielandDiagram = document.getElementById('wieland-diagram');
+            const wielandDiagram2 = document.getElementById('wieland-diagram-2');
+
+
+            function setupNavigation() {
+                navWaggoner.addEventListener('click', () => showSection('waggoner'));
+                navWieland.addEventListener('click', () => showSection('wieland'));
+            }
+
+            function showSection(section) {
+                if (section === 'waggoner') {
+                    navWaggoner.classList.add('active');
+                    navWieland.classList.remove('active');
+                    waggonerContent.classList.add('active');
+                    wielandContent.classList.remove('active');
+                } else {
+                    navWaggoner.classList.remove('active');
+                    navWieland.classList.add('active');
+                    waggonerContent.classList.remove('active');
+                    wielandContent.classList.add('active');
+                }
+            }
+
+            function setupTabs(tabsContainer, contentContainer, data) {
+                tabsContainer.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('tab-item')) {
+                        tabsContainer.querySelector('.active').classList.remove('active');
+                        e.target.classList.add('active');
+                        const targetId = e.target.dataset.target;
+                        const tabData = data.find(tab => tab.id === targetId);
+                        renderTabContent(contentContainer, tabData);
+                    }
+                });
+            }
+
+            function renderTabContent(container, data) {
+                container.innerHTML = `<div class="p-4 bg-[#FAFAF8] rounded-b-lg rounded-r-lg"><p class="text-lg">${data.content}</p></div>`;
+            }
+
+            function setupDiagram(diagrams, data) {
+                diagrams.forEach(diagram => {
+                    diagram.addEventListener('click', (e) => {
+                        const stepElement = e.target.closest('.diagram-step');
+                        if (stepElement) {
+                            const activeStep = diagram.querySelector('.diagram-step.active');
+                            if (activeStep) activeStep.classList.remove('active');
+                            
+                            diagrams.forEach(d => {
+                                if (d !== diagram) {
+                                     const otherActive = d.querySelector('.diagram-step.active');
+                                     if(otherActive) otherActive.classList.remove('active');
+                                }
+                            });
+                            
+                            stepElement.classList.add('active');
+                            const step = stepElement.dataset.step;
+                            const description = data[step];
+                            
+                            let alertBox = document.querySelector('.diagram-alert');
+                            if (!alertBox) {
+                                alertBox = document.createElement('div');
+                                alertBox.className = 'diagram-alert mt-6 p-4 bg-white border-l-4 border-[#8A9A5B] shadow-md rounded-r-lg';
+                                diagram.parentElement.insertAdjacentElement('afterend', alertBox);
+                            }
+                            alertBox.innerHTML = `<p class="font-medium">${description}</p>`;
+                        }
+                    });
+                });
+            }
+
+
+            function populateInitialContent() {
+                // Populate Waggoner tabs
+                renderTabContent(waggonerTabContentContainer, appData.waggoner.tabs[0]);
+                // Populate Wieland tabs
+                renderTabContent(wielandTabContentContainer, appData.wieland.tabs[0]);
+                
+                // Populate Quotes
+                quotesContainer.innerHTML = appData.quotes.map(q => `
+                    <div class="quote-card p-6 rounded-lg shadow-sm">
+                        <p class="text-lg mb-3">“${q.text}”</p>
+                        <p class="text-right font-medium text-[#6B6B6B]"> - ${q.source}</p>
+                    </div>
+                `).join('');
+            }
+            
+            // Initial setup
+            setupNavigation();
+            setupTabs(waggonerTabsContainer, waggonerTabContentContainer, appData.waggoner.tabs);
+            setupTabs(wielandTabsContainer, wielandTabContentContainer, appData.wieland.tabs);
+            setupDiagram([waggonerDiagram, waggonerDiagram2], appData.waggoner.diagramSteps);
+            setupDiagram([wielandDiagram, wielandDiagram2], appData.wieland.diagramSteps);
+            populateInitialContent();
+        });
+    </script>
+</body>
+</html>
