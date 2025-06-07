@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faith Which Works - Theological Study Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .tab-button.active {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .content-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .theologian-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .theologian-card h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .theologian-card .bio {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .subsection {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(52, 152, 219, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #3498db;
+        }
+
+        .subsection h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .key-works {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .work-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid #e74c3c;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .work-item strong {
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .quote-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .quote-container {
+            display: grid;
+            gap: 1.5rem;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .quote-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #f39c12;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s ease;
+        }
+
+        .quote-item:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .quote-text {
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .quote-source {
+            font-size: 0.9rem;
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .comparison-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1.4rem;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 2px solid #3498db;
+            border-radius: 25px;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .highlight {
+            background-color: #f39c12;
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-button {
+                width: 200px;
+                text-align: center;
+            }
+        }
+
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Faith Which Works</h1>
+            <p>A Study Guide to Righteousness by Faith Theology</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="tab-button active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-button" onclick="showTab('waggoner')">E.J. Waggoner</button>
+            <button class="tab-button" onclick="showTab('wieland')">Robert J. Wieland</button>
+            <button class="tab-button" onclick="showTab('comparison')">Comparison</button>
+            <button class="tab-button" onclick="showTab('quotes')">Key Quotes</button>
+        </div>
+
+        <div id="overview" class="content-section active">
+            <h2 class="section-title">Overview: Righteousness by Faith</h2>
+            <p>This study explores the theological contributions of two key figures in Seventh-day Adventist theology who championed the doctrine of righteousness by faith as an antidote to legalism.</p>
+            
+            <div class="subsection">
+                <h4>The Central Problem</h4>
+                <p>Traditional views of justification can create a "divorce" between legal standing and internal transformation, leading to legalistic anxiety and focus on human performance rather than divine grace.</p>
+            </div>
+            
+            <div class="subsection">
+                <h4>The Solution</h4>
+                <p>Both theologians sought to unite justification and sanctification into a single, transformative experience where righteousness is not merely declared but imparted, creating genuine heart change that naturally produces righteous living.</p>
+            </div>
+            
+            <div class="subsection">
+                <h4>Historical Context</h4>
+                <p>The 1888 General Conference session in Minneapolis marked a pivotal moment where these principles were presented to the Seventh-day Adventist Church, though their full acceptance and implementation remained a matter of ongoing discussion.</p>
+            </div>
+        </div>
+
+        <div id="waggoner" class="content-section">
+            <div class="theologian-card">
+                <h2>E.J. Waggoner (1855-1916)</h2>
+                <div class="bio">
+                    Prominent physician, theologian, and minister who championed righteousness by faith at the historic 1888 General Conference session in Minneapolis. Waggoner's theology offered a solution to legalism by presenting justification as a transformative, imparted reality.
+                </div>
+            </div>
+
+            <div class="section-title">Core Theological Concepts</div>
+            
+            <div class="subsection">
+                <h4>Righteousness as "Right-Doing"</h4>
+                <p>Waggoner defined righteousness simply as right-doing, with God's law serving as the standard. The law represents not arbitrary rules but a perfect transcript of God's character.</p>
+            </div>
+            
+            <div class="subsection">
+                <h4>Christ as the Living Law</h4>
+                <p>Jesus Christ is the law in living form - the "express image of God's person." His life perfectly demonstrates the law's principles, making Him both the standard and the means of righteousness.</p>
+            </div>
+            
+            <div class="subsection">
+                <h4>The New Covenant Mechanism</h4>
+                <p>Through the New Covenant, believers are not just declared righteous but made righteous. Christ's literal indwelling presence writes the law on the heart, fulfilling Jeremiah 31:33 and Hebrews 8:10.</p>
+            </div>
+            
+            <div class="subsection">
+                <h4>Faith as Reception</h4>
+                <p>Faith is not a meritorious work but simply the act of receiving. It is the hand that accepts the gift of Christ Himself. Since Christ is our righteousness, receiving Him means receiving righteousness.</p>
+            </div>
+
+            <div class="section-title">Key Works</div>
+            <div class="key-works">
+                <div class="work-item">
+                    <strong>Christ and His Righteousness (1890)</strong>
+                    Foundational work defining righteousness and explaining how it is imparted through Christ.
+                </div>
+                <div class="work-item">
+                    <strong>The Glad Tidings (1900)</strong>
+                    Commentary on Galatians presenting a thorough refutation of legalism.
+                </div>
+                <div class="work-item">
+                    <strong>The Everlasting Covenant (1900)</strong>
+                    Argues for the unity of the covenant of grace throughout Scripture.
+                </div>
+                <div class="work-item">
+                    <strong>Studies in Romans</strong>
+                    Detailed exposition on the power of the gospel as presented in Romans.
+                </div>
+            </div>
+        </div>
+
+        <div id="wieland" class="content-section">
+            <div class="theologian-card">
+                <h2>Robert J. Wieland (1916-2002)</h2>
+                <div class="bio">
+                    20th-century pastor, missionary, and author who partnered with Donald K. Short to advocate for a revival of the 1888 message. Wieland framed righteousness by faith as a deeply relational experience centered on heart appreciation for God's agape love.
+                </div>
+            </div>
+
+            <div class="section-title">Theological Framework</div>
+            
+            <div class="subsection">
+                <h4>The "Unaccepted" 1888 Message</h4>
+                <p>Wieland argued that the 1888 message was largely misunderstood and resisted, resulting in spiritual "wilderness wandering" for the denomination. His work called for a return to this message as the key to revival.</p>
+            </div>
+            
+            <div class="subsection">
+                <h4>Faith as Divine Gift and Gratitude</h4>
+                <p>True faith is not human achievement but a divine gift - specifically, a "heart appreciation" for God's love. This gratitude naturally expresses itself in good works, removing the anxiety of performance-based religion.</p>
+            </div>
+            
+            <div class="subsection">
+                <h4>The Revelation of Agape</h4>
+                <p>The catalyst for transformative faith is understanding God's selfless, unconditional love (agape). This love is fundamentally different from human love and serves as the worthy object of our appreciation.</p>
+            </div>
+            
+            <div class="subsection">
+                <h4>The Cross and the "Second Death"</h4>
+                <p>Christ's ultimate demonstration of agape was experiencing the "second death" - complete separation from the Father - without visible hope of resurrection. This supreme sacrifice inspires faith that works by love.</p>
+            </div>
+
+            <div class="section-title">Key Works</div>
+            <div class="key-works">
+                <div class="work-item">
+                    <strong>1888 Re-Examined (with D.K. Short)</strong>
+                    Historical and theological argument for the significance of the 1888 message.
+                </div>
+                <div class="work-item">
+                    <strong>Grace on Trial</strong>
+                    Demonstrates the full power of grace to overcome sin, not just pardon it.
+                </div>
+                <div class="work-item">
+                    <strong>In Search of the Cross</strong>
+                    Explores Christ's experience of the "second death" as catalyst for faith.
+                </div>
+                <div class="work-item">
+                    <strong>Gold Tried in the Fire</strong>
+                    Connects the 1888 message to the Laodicean message of Revelation 3.
+                </div>
+            </div>
+        </div>
+
+        <div id="comparison" class="content-section">
+            <h2 class="section-title">Theological Comparison</h2>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>E.J. Waggoner</h3>
+                    <div class="subsection">
+                        <h4>Focus</h4>
+                        <p>Ontological transformation through Christ's indwelling</p>
+                    </div>
+                    <div class="subsection">
+                        <h4>Key Mechanism</h4>
+                        <p>New Covenant "heart surgery" - law written on the heart</p>
+                    </div>
+                    <div class="subsection">
+                        <h4>Definition of Faith</h4>
+                        <p>Reception - the hand that accepts Christ</p>
+                    </div>
+                    <div class="subsection">
+                        <h4>Approach</h4>
+                        <p>Systematic theology emphasizing union with Christ</p>
+                    </div>
+                </div>
+                
+                <div class="comparison-card">
+                    <h3>Robert J. Wieland</h3>
+                    <div class="subsection">
+                        <h4>Focus</h4>
+                        <p>Relational transformation through appreciation of agape</p>
+                    </div>
+                    <div class="subsection">
+                        <h4>Key Mechanism</h4>
+                        <p>Heart appreciation sparked by revelation of God's love</p>
+                    </div>
+                    <div class="subsection">
+                        <h4>Definition of Faith</h4>
+                        <p>Gratitude - divine gift of heart appreciation</p>
+                    </div>
+                    <div class="subsection">
+                        <h4>Approach</h4>
+                        <p>Motivational emphasis on the Cross and divine love</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">Common Ground</div>
+            <div class="subsection">
+                <h4>Shared Principles</h4>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>Unity of justification and sanctification</li>
+                    <li>Righteousness as imparted, not just imputed</li>
+                    <li>Faith as divine gift, not human work</li>
+                    <li>Transformation from within, not external conformity</li>
+                    <li>Antidote to legalism through grace-based motivation</li>
+                    <li>Emphasis on the 1888 message's significance</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="quotes" class="content-section">
+            <h2 class="section-title">Inspirational Quotes</h2>
+            <input type="text" class="search-box" placeholder="Search quotes..." oninput="searchQuotes(this.value)">
+            
+            <div class="quote-section">
+                <div class="quote-container scrollbar-custom" id="quoteContainer">
+                    <!-- Quotes will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quotes = [
+            {
+                text: "The righteousness of Christ is not a cloak to cover unconfessed and unforsaken sin; it is a principle of life that transforms the character and controls the conduct.",
+                source: "The Desire of Ages, p. 555"
+            },
+            {
+                text: "Genuine faith is the faith that works by love, and purifies the soul. A living faith will be a working faith.",
+                source: "Our Father Cares (devotional), Jan 8; cf. Faith and Works, p. 100"
+            },
+            {
+                text: "All true obedience comes from the heart. If we consent, He will so identify Himself with our thoughts and aims that when obeying Him we shall be but carrying out our own impulses.",
+                source: "The Desire of Ages, p. 668"
+            },
+            {
+                text: "When we submit ourselves to Christ, the heart is united with His heart, the will is merged in His will. This is what it means to be clothed with the garment of His righteousness.",
+                source: "Maranatha, Aug 5"
+            },
+            {
+                text: "Christ is waiting with longing desire for the manifestation of Himself in His church. When the character of Christ shall be perfectly reproduced in His people, then He will come to claim them as His own.",
+                source: "Christ's Object Lessons, p. 69"
+            },
+            {
+                text: "When Christ covers us with the robe of His righteousness, He does not furnish a cloak for sin but takes the sin away. Forgiveness is something more than a mere entry in the books of heaven.",
+                source: "Christ and His Righteousness, pp. 24-25"
+            },
+            {
+                text: "Faith is the gift of God, but the power to exercise it is ours. Faith is the hand by which the soul takes hold upon the divine offers of grace and mercy.",
+                source: "Patriarchs and Prophets, p. 431"
+            },
+            {
+                text: "Through the Spirit the believer becomes a partaker of the divine nature. Christ has given His Spirit as a divine power to overcome all hereditary and cultivated tendencies to evil.",
+                source: "The Desire of Ages, p. 671"
+            },
+            {
+                text: "When at the foot of the cross the sinner looks up to the One who died to save him, he may rejoice with fullness of joy; for his sins are pardoned.",
+                source: "The Faith I Live By, p. 103"
+            },
+            {
+                text: "God's wonderful purpose of grace will be the study of the redeemed through endless ages. The glory shining in the face of Jesus is the glory of self-sacrificing love.",
+                source: "The Desire of Ages, p. 19"
+            }
+        ];
+
+        function showTab(tabName) {
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected section and activate button
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function populateQuotes() {
+            const container = document.getElementById('quoteContainer');
+            quotes.forEach(quote => {
+                const quoteDiv = document.createElement('div');
+                quoteDiv.className = 'quote-item';
+                quoteDiv.innerHTML = `
+                    <div class="quote-text">"${quote.text}"</div>
+                    <div class="quote-source">— ${quote.source}</div>
+                `;
+                container.appendChild(quoteDiv);
+            });
+        }
+
+        function searchQuotes(searchTerm) {
+            const quoteItems = document.querySelectorAll('.quote-item');
+            quoteItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm.toLowerCase())) {
+                    item.style.display = 'block';
+                    // Highlight search term
+                    if (searchTerm) {
+                        const quoteText = item.querySelector('.quote-text');
+                        const originalText = quoteText.textContent;
+                        const highlightedText = originalText.replace(
+                            new RegExp(searchTerm, 'gi'),
+                            `<span class="highlight">$&</span>`
+                        );
+                        quoteText.innerHTML = highlightedText;
+                    }
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            populateQuotes();
+        });
+    </script>
+</body>
+</html>
