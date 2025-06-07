@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sermon on the Mount - Interactive Study Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: white;
+        }
+
+        .nav-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .content-area {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            min-height: 500px;
+        }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .module-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-color: #3498db;
+        }
+
+        .module-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .content-unit {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .content-unit:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .unit-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .unit-summary {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 8px;
+        }
+
+        .unit-content {
+            margin-bottom: 20px;
+        }
+
+        .unit-content h3 {
+            color: #2c3e50;
+            margin: 15px 0 10px 0;
+        }
+
+        .unit-content strong {
+            color: #e74c3c;
+        }
+
+        .key-facts {
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .key-facts h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+        }
+
+        .fact-item {
+            display: flex;
+            margin: 8px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(39, 174, 96, 0.2);
+        }
+
+        .fact-label {
+            font-weight: bold;
+            color: #27ae60;
+            min-width: 120px;
+        }
+
+        .fact-value {
+            color: #2c3e50;
+        }
+
+        .back-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
+
+        .overview-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 15px;
+        }
+
+        .overview-section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            border: 2px solid #bdc3c7;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .highlight {
+            background-color: #f1c40f;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-btn {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Sermon on the Mount</h1>
+            <p class="subtitle">An Interactive Study Guide</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search through the content of the highlighted tab." id="searchInput">
+        </div>
+
+        <nav class="navigation">
+            <button class="nav-btn active" data-view="overview">Overview</button>
+            <button class="nav-btn" data-view="foundation-of-the-kingdom">Foundation</button>
+            <button class="nav-btn" data-view="higher-righteousness">Higher Righteousness</button>
+            <button class="nav-btn" data-view="authentic-piety">Authentic Piety</button>
+            <button class="nav-btn" data-view="life-in-the-kingdom">Life in Kingdom</button>
+        </nav>
+
+        <main class="content-area" id="contentArea">
+            <div class="overview-section">
+                <h2>Welcome to the Sermon on the Mount Study Guide</h2>
+                <p>This interactive guide explores Jesus' most comprehensive teaching found in Matthew chapters 5-7. Navigate through the four main sections to discover the profound wisdom and practical application of Christ's words.</p>
+            </div>
+            
+            <div class="module-grid" id="moduleGrid">
+                <!-- Modules will be loaded here -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Knowledge base data embedded directly
+        const APP_DATA = {
+            modules: [
+                {
+                    id: "foundation-of-the-kingdom",
+                    title: "The Foundation of the Kingdom",
+                    units: [
+                        {
+                            id: "intro-beatitudes",
+                            title: "Introduction and The Beatitudes",
+                            summary: "The Sermon on the Mount opens with Jesus seeing the crowds, going up on a mountainside, and teaching his disciples the foundational blessings of the Kingdom of Heaven, known as the Beatitudes.",
+                            content: "The Sermon on the Mount, found in the Gospel of Matthew chapters 5-7, is the most famous and extensive body of teaching from Jesus. It begins with the Beatitudes (Matthew 5:3-12), a series of eight blessings that describe the character of those who belong to the Kingdom of Heaven. They invert worldly values, declaring blessedness for the poor in spirit, those who mourn, the meek, and those who hunger for righteousness, promising them the kingdom, comfort, inheritance, and satisfaction.",
+                            facts: [
+                                { label: "Biblical Location", value: "Matthew 5-7" },
+                                { label: "Key Concept", value: "Describes the character and ethics of life in the Kingdom of Heaven." },
+                                { label: "Opening", value: "The Beatitudes (Matthew 5:3-12)" }
+                            ]
+                        },
+                        {
+                            id: "disciples-influence",
+                            title: "The Disciples' Influence: Salt and Light",
+                            summary: "Jesus uses the metaphors of 'Salt of the Earth' and 'Light of the World' to describe the essential, preservative, and influential role his followers are meant to have in the world.",
+                            content: "In Matthew 5:13-16, Jesus calls his disciples <strong>'the salt of the earth'</strong> and <strong>'the light of the world.'</strong><br><br><strong>Salt:</strong> Just as salt preserves food from decay and enhances flavor, disciples are to act as a moral and spiritual preservative in a corrupt world. If they lose their distinctiveness ('saltiness'), they lose their purpose.<br><br><strong>Light:</strong> As a city on a hill cannot be hidden, the good works of the disciples should be publicly visible. This visibility is not for personal glory but so that others may see their actions and glorify God.",
+                            facts: [
+                                { label: "Metaphor 1", value: "Salt of the Earth (Matthew 5:13)" },
+                                { label: "Metaphor 2", value: "Light of the World (Matthew 5:14-16)" },
+                                { label: "Purpose", value: "To influence the world for good and bring glory to God." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "higher-righteousness",
+                    title: "The Higher Righteousness",
+                    units: [
+                        {
+                            id: "higher-righteousness-law",
+                            title: "Christ's Relationship to the Law",
+                            summary: "Jesus declares that he came not to abolish the Law or the Prophets but to fulfill them, calling for a righteousness that surpasses that of the scribes and Pharisees.",
+                            content: "In Matthew 5:17-20, Jesus clarifies his position on the Hebrew Scriptures (the Law and the Prophets). He establishes that his teaching is not a rejection of the old law but its ultimate fulfillment. He emphasizes the permanence of the law, stating that not the smallest letter will disappear until everything is accomplished. He then sets a new, higher standard: 'For I tell you that unless your righteousness surpasses that of the Pharisees and the teachers of the law, you will certainly not enter the kingdom of heaven.' This introduces the theme that true obedience goes beyond external actions to the inner motivations of the heart.",
+                            facts: [
+                                { label: "Key Statement", value: "'Do not think that I have come to abolish the Law... but to fulfill them.' (Matt 5:17)" },
+                                { label: "Standard", value: "Righteousness must exceed that of the scribes and Pharisees." },
+                                { label: "Implication", value: "Internal heart condition is more important than external rule-following." }
+                            ]
+                        },
+                        {
+                            id: "higher-righteousness-antitheses",
+                            title: "The Six Antitheses",
+                            summary: "Jesus presents six examples of traditional teaching ('You have heard that it was said...') and deepens their meaning to address internal attitudes like anger, lust, and integrity, not just external acts.",
+                            content: "In Matthew 5:21-48, Jesus illustrates the 'higher righteousness' with six teachings known as the Antitheses. Each follows the pattern of quoting a traditional understanding of the law and then providing a deeper, heart-level application.<br><br><strong>1. On Anger:</strong> Goes beyond murder to condemn internal anger and insults (5:21-26).<br><strong>2. On Lust:</strong> Goes beyond the act of adultery to condemn the lustful look (5:27-30).<br><strong>3. On Divorce:</strong> Restricts divorce to cases of marital unfaithfulness (5:31-32).<br><strong>4. On Oaths:</strong> Calls for simple, direct speech ('Let your \"Yes\" be \"Yes\"') instead of swearing elaborate oaths (5:33-37).<br><strong>5. On Retaliation:</strong> Replaces 'an eye for an eye' with turning the other cheek and going the extra mile (5:38-42).<br><strong>6. On Love for Enemies:</strong> Extends the command to love one's neighbor to include loving one's enemies (5:43-48).",
+                            facts: [
+                                { label: "Structure", value: "Six 'You have heard it was said...' statements." },
+                                { label: "Focus", value: "Internalizing God's law, moving from action to intention." },
+                                { label: "Goal", value: "'Be perfect, therefore, as your heavenly Father is perfect.' (Matt 5:48)" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "authentic-piety",
+                    title: "Authentic Piety",
+                    units: [
+                        {
+                            id: "authentic-piety-pillars",
+                            title: "The Three Pillars of Piety",
+                            summary: "Jesus instructs on three core religious practices—giving, praying, and fasting—emphasizing that they should be done in secret for God's approval, not for public recognition.",
+                            content: "In Matthew 6:1-18, Jesus critiques ostentatious religious displays and outlines the proper motivation for three pillars of Jewish piety. The core principle is to practice righteousness for God, who sees in secret, rather than for the reward of human praise.<br><br><strong>1. Giving to the Needy (Almsgiving):</strong> Should be done in secret, so that 'your left hand does not know what your right hand is doing.'<br><strong>2. Prayer:</strong> Should be done privately, not with showy words like the hypocrites. This section includes the model of <strong>The Lord's Prayer</strong> (Matthew 6:9-13).<br><strong>3. Fasting:</strong> Should be done without outward signs of suffering, but with a joyful appearance, known only to God.",
+                            facts: [
+                                { label: "Core Principle", value: "Practice righteousness secretly for God, not publicly for men." },
+                                { label: "Three Practices", value: "Giving, Praying, Fasting." },
+                                { label: "Included Teaching", value: "The Lord's Prayer (Our Father)." }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "life-in-the-kingdom",
+                    title: "Life in the Kingdom",
+                    units: [
+                        {
+                            id: "life-in-kingdom-trust",
+                            title: "Treasures, Anxiety, and Trust",
+                            summary: "Jesus teaches his followers not to store up treasures on earth but in heaven, and to avoid anxiety by trusting in God's provision for their needs.",
+                            content: "In Matthew 6:19-34, Jesus addresses the relationship between a disciple and worldly possessions and worries.<br><br><strong>Treasures in Heaven:</strong> Earthly treasures are vulnerable to decay and theft. Heavenly treasures (acts of righteousness, relationship with God) are eternal. Jesus states, 'For where your treasure is, there your heart will be also.' (6:21).<br><br><strong>Do Not Worry:</strong> Using the examples of the birds of the air and the lilies of the field, Jesus illustrates God's faithful provision. He commands his followers not to be anxious about food, drink, or clothing, but to 'seek first his kingdom and his righteousness,' trusting that God will provide for all their needs.",
+                            facts: [
+                                { label: "Core Command", value: "'Seek first his kingdom and his righteousness.' (Matt 6:33)" },
+                                { label: "Key Illustration", value: "The birds of the air and the lilies of the field." },
+                                { label: "Central Choice", value: "'You cannot serve both God and money.' (Matt 6:24)" }
+                            ]
+                        },
+                        {
+                            id: "life-in-kingdom-judgment",
+                            title: "Judgment and Discernment",
+                            summary: "Jesus commands his followers not to judge others hypocritically, while also calling them to use wise discernment to recognize false prophets by their 'fruit'.",
+                            content: "In Matthew 7, Jesus provides guidance on how to interact with others and discern truth.<br><br><strong>Judging Others (7:1-6):</strong> The famous command 'Do not judge, or you too will be judged' is a warning against hypocritical, condemning judgment. Jesus uses the metaphor of trying to take a speck out of a brother's eye while having a plank in one's own. Self-examination must precede correction of others.<br><br><strong>False Prophets (7:15-20):</strong> Jesus warns that false prophets will come in 'sheep's clothing, but inwardly they are ferocious wolves.' He provides the key to discernment: 'You will recognize them by their fruit.' Good trees bear good fruit, and bad trees bear bad fruit. Their character and actions reveal their true nature.",
+                            facts: [
+                                { label: "On Judging", value: "First remove the plank from your own eye. (Matt 7:5)" },
+                                { label: "On Discernment", value: "'You will recognize them by their fruit.' (Matt 7:16)" },
+                                { label: "Warning", value: "Beware of false prophets who appear righteous but are inwardly destructive." }
+                            ]
+                        },
+                        {
+                            id: "life-in-kingdom-conclusion",
+                            title: "The Golden Rule and Concluding Parables",
+                            summary: "The sermon concludes with the famous 'Golden Rule' and the powerful parable of the two builders, which emphasizes that hearing Jesus' words must be matched by obedience.",
+                            content: "The sermon's conclusion in Matthew 7:7-27 is a powerful call to action.<br><br><strong>Ask, Seek, Knock (7:7-11):</strong> An encouragement to persistent prayer, promising that God, as a good Father, gives good gifts to those who ask.<br><br><strong>The Golden Rule (7:12):</strong> 'So in everything, do to others what you would have them do to you, for this sums up the Law and the Prophets.'<br><br><strong>The Narrow and Wide Gates (7:13-14):</strong> A metaphor for the two ways of life—the easy, popular path that leads to destruction, and the difficult, narrow path that leads to life.<br><br><strong>The Wise and Foolish Builders (7:24-27):</strong> The sermon's final parable. The wise man builds his house on the rock by hearing Jesus' words and putting them into practice, and his house withstands the storm. The foolish man builds on sand by hearing but not doing, and his house is destroyed. The foundation of one's life must be obedience to Christ's teaching.",
+                            facts: [
+                                { label: "The Golden Rule", value: "'Do to others what you would have them do to you.' (Matt 7:12)" },
+                                { label: "Final Parable", value: "The Wise and Foolish Builders." },
+                                { label: "Ultimate Test", value: "Hearing Jesus' words AND putting them into practice." }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // App state
+        let currentView = 'overview';
+        let searchTerm = '';
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            setupEventListeners();
+            renderOverview();
+        }
+
+        function setupEventListeners() {
+            // Navigation buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const view = this.getAttribute('data-view');
+                    if (view === 'overview') {
+                        showOverview();
+                    } else {
+                        showModule(view);
+                    }
+                });
+            });
+
+            // Search input
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    searchTerm = e.target.value.toLowerCase();
+                    if (currentView === 'overview') {
+                        renderOverview();
+                    } else {
+                        renderModule(currentView);
+                    }
+                });
+            }
+        }
+
+        function setActiveNav(viewId) {
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-view="${viewId}"]`).classList.add('active');
+        }
+
+        function highlightText(text, term) {
+            if (!term) return text;
+            const regex = new RegExp(`(${term})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function showOverview() {
+            currentView = 'overview';
+            setActiveNav('overview');
+            renderOverview();
+        }
+
+        function showModule(moduleId) {
+            currentView = moduleId;
+            setActiveNav(moduleId);
+            renderModule(moduleId);
+        }
+
+        function renderOverview() {
+            const contentArea = document.getElementById('contentArea');
+            
+            let html = `
+                <div class="overview-section">
+                    <h2>Welcome to the Sermon on the Mount Study Guide</h2>
+                    <p>This interactive guide explores Jesus' most comprehensive teaching found in Matthew chapters 5-7. Navigate through the four main sections to discover the profound wisdom and practical application of Christ's words.</p>
+                </div>
+                
+                <div class="module-grid">
+            `;
+
+            APP_DATA.modules.forEach(module => {
+                const moduleContent = `
+                    <div class="module-card" onclick="showModule('${module.id}')">
+                        <div class="module-title">${highlightText(module.title, searchTerm)}</div>
+                        <p>${module.units.length} content unit${module.units.length > 1 ? 's' : ''}</p>
+                        <ul style="margin-top: 15px; padding-left: 20px;">
+                            ${module.units.map(unit => 
+                                `<li style="margin: 5px 0; color: #7f8c8d;">${highlightText(unit.title, searchTerm)}</li>`
+                            ).join('')}
+                        </ul>
+                    </div>
+                `;
+                
+                if (!searchTerm || moduleContent.toLowerCase().includes(searchTerm)) {
+                    html += moduleContent;
+                }
+            });
+
+            html += '</div>';
+            contentArea.innerHTML = html;
+        }
+
+        function renderModule(moduleId) {
+            const module = APP_DATA.modules.find(m => m.id === moduleId);
+            if (!module) return;
+
+            const contentArea = document.getElementById('contentArea');
+            
+            let html = `
+                <button class="back-btn" onclick="showOverview()">← Back to Overview</button>
+                <h2 style="color: #2c3e50; margin-bottom: 20px; font-size: 2rem;">${highlightText(module.title, searchTerm)}</h2>
+            `;
+
+            module.units.forEach(unit => {
+                const unitHtml = `
+                    <div class="content-unit">
+                        <div class="unit-title">${highlightText(unit.title, searchTerm)}</div>
+                        <div class="unit-summary">${highlightText(unit.summary, searchTerm)}</div>
+                        <div class="unit-content">${highlightText(unit.content, searchTerm)}</div>
+                        <div class="key-facts">
+                            <h4>Key Facts:</h4>
+                            ${unit.facts.map(fact => `
+                                <div class="fact-item">
+                                    <span class="fact-label">${highlightText(fact.label, searchTerm)}:</span>
+                                    <span class="fact-value">${highlightText(fact.value, searchTerm)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                if (!searchTerm || unitHtml.toLowerCase().includes(searchTerm)) {
+                    html += unitHtml;
+                }
+            });
+
+            contentArea.innerHTML = html;
+        }
+
+        // Make functions globally available
+        window.showOverview = showOverview;
+        window.showModule = showModule;
+    </script>
+</body>
+</html>
