@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centrality of the Cross — Interactive Explorer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body class="bg-stone-100 text-stone-800 antialiased">
+<header class="bg-white shadow sticky top-0 z-30">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <h1 class="text-2xl font-semibold mb-2 sm:mb-0">Centrality of the Cross</h1>
+    <nav class="flex gap-2">
+      <button data-tab="overview" class="tab-btn px-3 py-1 rounded-md text-sm bg-sky-600 text-white">Overview</button>
+      <button data-tab="themes"   class="tab-btn px-3 py-1 rounded-md text-sm hover:bg-sky-100">Themes</button>
+      <button data-tab="quotes"   class="tab-btn px-3 py-1 rounded-md text-sm hover:bg-sky-100">Quotes</button>
+      <button data-tab="stats"    class="tab-btn px-3 py-1 rounded-md text-sm hover:bg-sky-100">Reference Stats</button>
+    </nav>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 py-6 space-y-12">
+
+  <!-- Overview -->
+  <section id="overview" class="tab-section space-y-4">
+    <h2 class="text-xl font-semibold">Introduction</h2>
+    <p>
+      This interactive application gathers inspired statements on the supremacy of Christ’s cross and the message of <em>justification by faith</em>. 
+      Explore overarching themes, dive into individual quotations, and observe how frequently each source emphasizes the topic.  
+      Engage with the material by switching tabs, expanding theme panels, clicking individual quotes, and viewing reference analytics.
+    </p>
+  </section>
+
+  <!-- Themes -->
+  <section id="themes" class="tab-section hidden space-y-6">
+    <h2 class="text-xl font-semibold">Key Themes</h2>
+    <div class="space-y-2" id="themeContainer"></div>
+  </section>
+
+  <!-- Quotes -->
+  <section id="quotes" class="tab-section hidden space-y-6">
+    <h2 class="text-xl font-semibold">Quotation Explorer</h2>
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="space-y-2 overflow-y-auto max-h-[70vh] pr-1">
+        <input id="searchInput" type="text" placeholder="Search quotes…" class="w-full px-3 py-2 border rounded-md mb-2">
+        <div id="quoteList" class="space-y-2"></div>
+      </div>
+      <article id="quoteDetail" class="bg-white border rounded-md p-4 h-fit">
+        <p class="italic text-stone-500">Select a quote to view its full text.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section id="stats" class="tab-section hidden space-y-6">
+    <h2 class="text-xl font-semibold">Reference Frequency</h2>
+    <p>The bar chart visualizes how often each publication appears in the quotation set.</p>
+    <div class="chart-container w-full max-w-3xl mx-auto h-96">
+      <canvas id="refChart"></canvas>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// ---------- Data ----------
+const quotes = [
+ {
+  id: 1,
+  book: "1SM",
+  ref: "1SM p. 372",
+  title: "Justification by Faith = 3rd Angel’s Message",
+  text: `Several have written to me, inquiring if the message of justification by faith is the third angel's message, and I have answered, 'It is the third angel's message in verity.'`
+},
+
+  {
+  id: 2,
+  book: "6BC",
+  ref: "6BC p. 1113",
+  title: "Christ on the Cross is the Gospel",
+  text: `Hanging upon the cross Christ was the gospel. Now we have a message, ‘Behold the Lamb of God, which taketh away the sins of the world.’ Will not our church members keep their eyes fixed on a crucified and risen Saviour, in whom their hopes of eternal life are centered? This is our message, our argument, our doctrine, our warning to the impenitent, our encouragement for the sorrowing, the hope for every believer. If we can awaken an interest in men’s minds that will cause them to fix their eyes on Christ, we may step aside, and ask them only to continue to fix their eyes upon the Lamb of God. They thus receive their lesson. Whosoever will come after Me, let him deny himself, and take up his cross, and follow Me. He whose eyes are fixed on Jesus will leave all. He will die to selfishness. He will believe in all the Word of God, which is so gloriously and wonderfully exalted in Christ.
+
+As the sinner sees Jesus as He is, an all-compassionate Saviour, hope and assurance take possession of the soul. The helpless soul is cast without any reservation upon Jesus. None can bear away from the vision of Christ Jesus crucified a lingering doubt. Unbelief is gone.`
+},
+
+ {
+  id: 3,
+  book: "6T",
+  ref: "6T p. 67",
+  title: "Christ Crucified—Talk It, Pray It, Sing It",
+  text: `Christ gave Himself to a shameful, agonizing death, showing His great travail of soul to save the perishing. Oh, Christ is able, Christ is willing, Christ is longing, to save all who will come unto Him! Talk to souls in peril and get them to behold Jesus upon the cross, dying to make it possible for Him to pardon. Talk to the sinner with your own heart overflowing with the tender, pitying love of Christ. ... Pray with these souls, by faith bringing them to the foot of the cross, carry their minds up with your mind, and look away from their poor, sinful selves to the Saviour, and the work of faith where you look, upon Jesus the Sin Bearer. Get them to look away from their poor, sinful selves to the Saviour, and the work will be accomplished. They behold for themselves the Lamb of God that taketh away the sin of the world. They see the Way, the Truth, the Life. The Sun of Righteousness sheds its bright beams into the heart. The strong tide of redeeming love pours into the parched and thirsty soul, and the sinner is saved to Jesus Christ.
+
+Christ crucified—talk it, pray, sing it, and it will break and win hearts. This is the power and wisdom of God to gather souls for Christ. Formal, set phrases, the presentation of merely argumentative subjects, is productive of little good. The melting love of God in the hearts of the workers will be recognized by those for whom they labor. Souls are thirsting for the waters of life. Do not be empty cisterns. If you reveal the love of Christ to them, you may lead the hungering, thirsting ones to Jesus, and He will give them the bread of life and the water of salvation.`
+},
+  {id:4, book:"6BC", ref:"6BC p. 1113", title:"Cross the Center of Attraction", text:`The cross of Calvary challenges, and will finally vanquish every earthly and hellish power. In the cross all influence centers, and from it all influence goes forth. It is the great center of attraction; for on it Christ gave up His life for the human race. . . This is the means that is to move the world.`},
+
+{id:5, book:"1SM", ref:"1SM p. 384", title:"John’s Love Propitiation", text:`Let us repeat and make prominent the truth that John has portrayed: 'Herein is love, not that we loved God, but that He loved us and sent His Son to be a propitiation for our sins' 1John 4:10.`},
+
+{id:6, book:"AA", ref:"AA p. 209", title:"One Look at the Cross Transforms", text:`If those who today are teaching the word of God, would uplift the cross of Christ higher and still higher, their ministry would be far more successful. If sinners can be led to give one earnest look at the cross, if they can obtain a full view of the Saviour, they will realize the depth of God's compassion and the sinfulness of sin. . . To remove the cross from the Christian would be like blotting the sun from the sky.`},
+   {
+    id: 7,
+    book: "GW",
+    ref: "GW pp. 157-158",
+    title: "Theory of Truth and Redeeming Love",
+    text: `There are those who listen to the theory of the truth, and are impressed with the evidences brought out; then if Christ is presented as the Saviour of the world, the seed sown may spring up and bear fruit unto the glory of God. But often the cross of Calvary is not presented before the people. Some may be listening to the last sermon they will ever hear, and the golden opportunity lost, is lost forever. If in connection with the theory of truth, Christ and His redeeming love had been proclaimed, these might have been won to His side.`
+  },
+  {
+    id: 8,
+    book: "GW",
+    ref: "GW pp. 156-157",
+    title: "Adventists Foremost in Uplifting Christ",
+    text: `Of all professing Christians, Seventh Day Adventists should be the foremost in uplifting Christ before the world. . . . the great center of attraction, Christ Jesus, must not be left out.`
+  },
+  {
+    id: 9,
+    book: "GW",
+    ref: "GW p. 315",
+    title: "Cross: Foundation of Every Discourse",
+    text: `The sacrifice of Christ as an atonement for sin is the great truth around which all other truths cluster. In order to be rightly understood and appreciated, every truth in the word of God, from Genesis to Revelation, must be studied in the light that streams from the cross of Calvary. I present before you the great, grand monument of mercy and regeneration, salvation and redemption,—the Son of God uplifted on the cross. This is to be the foundation of every discourse given by our ministers.`
+  },
+  {
+    id: 10,
+    book: "EV",
+    ref: "EV p. 190",
+    title: "Mystery of the Cross Explained",
+    text: `The mystery of the cross explains all other mysteries. In the light that streams from Calvary the attributes of God which had filled us with fear and awe appear beautiful and attractive. Mercy, tenderness, and parental love are seen to blend with holiness, justice, and power. While we behold the majesty of His throne, high and lifted up, we see His character in its gracious manifestations, and comprehend, as never before, the significance of that endearing title, 'Our Father.' Christ and His righteousness—let this be our platform, the very life of our faith.`
+  },
+  {
+    id: 11,
+    book: "Ed",
+    ref: "Ed p. 30",
+    title: "Education and Redemption United",
+    text: `In the highest sense the work of education and redemption are one, for in education, as in redemption, 'other foundation can no man lay than that is laid, which is Jesus Christ.'`
+  },
+  {
+  id: 12,
+  book: "CT",
+  ref: "CT pp. 23-24",
+  title: "Cross: Teach Every Student",
+  text: `The cross of Christ—teach it to every student over and over again. How many believe it to be what it is? How many bring it into their studies, and know its true significance? Could there be a Christian in our world without the cross of Christ? Then keep the cross upheld in your school as the foundation of true education. The cross of Christ is just as near our teachers, and should be as perfectly understood by them, as it was by Paul, who could say, 'God forbid that I should glory, save in the cross of our Lord Jesus Christ, by whom the world is crucified unto me and I unto the world.' Gal. 6:14. Let teachers, from the highest to the lowest, seek to understand what it means to glory in the cross of Christ. Then by precept and example they can teach their students the blessings it brings to those who bear it manfully and bravely. The Saviour declares, 'If any man will come after Me, let him deny himself and take up his cross, and follow Me.' Matt. 16:24. And to all who lift it and bear it after Christ, the cross is a pledge of the crown of immortality that they will receive.
+
+Educators who will not work in this line are not worthy of the name they bear. Teachers, turn from the example of the world, cease to extol professedly great men; turn the minds of your students from the glory of everything save the cross of Christ. The crucified Messiah is the central point of all Christianity. The most essential lessons for which teachers and students to learn are those which point, not to the world, but from the world to the cross of Calvary.`
+},
+  {
+  id: 13,
+  book: "CT",
+  ref: "CT p. 338",
+  title: "Enthusiasm for the Cross",
+  text: `If there is anything in our world that should inspire enthusiasm, it is the cross of Calvary. 'Behold, what manner of love the Father hath bestowed upon us, that we should be called the sons of God: therefore the world knoweth us not, because it knew Him not.' 1 John 3:1. 'For God so loved the world, that He gave His only begotten Son, that whosoever believeth in Him should not perish, but have everlasting life.' John 3:16. Christ is to be accepted, believed on, and exalted. This is to be the theme of conversation—the preciousness of Christ.`
+},
+  { id: 14, book: "DA", ref: "DA p. 493", title: "Pardoning Love of Christ", text: `Nothing reaches so fully down to the deepest motives of conduct as a sense of the pardoning love of Christ.` },
+ {
+  id: 15,
+  book: "DA",
+  ref: "DA p. 480",
+  title: "Love Softens and Subdues",
+  text: `It is not the fear of punishment, or the hope of everlasting reward, that leads the disciples of Christ to follow Him. They behold the Saviour's matchless love, revealed throughout His pilgrimage on earth, from the manger of Bethlehem to Calvary's cross, and the sight of Him attracts, it softens and subdues the soul. Love awakens in the heart of the beholders. They hear His voice, and they follow Him.`
+},
+  {
+  id: 16,
+  book: "AA",
+  ref: "AA pp. 245-246",
+  title: "Christ’s Love Compels",
+  text: `Christ's love compels us, because we are convinced that One died for all, and therefore all died. And He died for all, that those who live should no longer live for themselves but for Him who died for them and was raised again (2 Cor 5:14, 15, NIV). To Paul the cross was the one object of supreme interest. Ever since he had been arrested in his career of persecution against the followers of the crucified Nazarene he had never ceased to glory in the cross. At that time there had been given him a revelation of the infinite love of God as revealed in the death of Christ; and a marvelous transformation had been wrought in his life, bringing all his plans and purposes into harmony with heaven. From that hour he had been a new man in Christ. He knew by personal experience that when a sinner once beholds the love of the Father, seen in the sacrifice of His Son, and yields to the divine influence, a change of heart takes place, and henceforth Christ is all and in all. . . If ever his ardor in the path of duty flagged, one glance at the cross and the amazing love there revealed, was enough to cause him to gird up the loins of his mind and press forward in the path of self-denial.`
+},
+  { id: 17, book: "DA", ref: "DA p. 660", title: "Keep the Love of Jesus Fresh", text: `The love of Jesus, with its constraining power, should be kept fresh in our memory.` },
+
+{
+  id: 18,
+  book: "DA",
+  ref: "DA p. 661",
+  title: "Beholding Christ Crucified Elevates",
+  text: `He who beholds the Saviour's matchless love will be elevated in thought, purified in heart, transformed in character. He will go forth to be a light to the world, to reflect in some degree this mysterious love. The more we contemplate the cross of Christ, the more fully shall we adopt the language of the apostle when he said 'God forbid that I should glory, save in the cross of our Lord Jesus Christ, by whom the world is crucified unto me, and I unto the world.' Gal 6:14`
+},
+{
+  id: 19,
+  book: "TM",
+  ref: "TM p. 378",
+  title: "Love Restores and Strengthens the Soul",
+  text: `The love of God is fully able to restore, rebuild, encourage, and strengthen every believing soul who will accept the truth as it is in Jesus. But in order that this may be accomplished, men must yoke up with Christ. The cross of Christ must be studied. It must rivet the attention and hold the affections. The blood which there was shed for sins will purify and cleanse mind and heart from every species of selfishness.`
+},
+
+{
+  id: 20,
+  book: "DA",
+  ref: "DA p. 22",
+  title: "Only by Love is Love Awakened",
+  text: `That the world might be brought back to God, Satan's deceptive power was to be broken. This could not be done by force. The exercise of force is contrary to the principles of God's government; He desires only the service of love; and love cannot be commanded; it cannot be won by force or authority. Only by love is love awakened. To know God is to love Him; His character must be manifested in contrast to the character of Satan. This work only one Being in all the universe could do. Only He who knew the height and depth of the love of God could make it known. Upon the world's dark night the Sun of Righteousness must rise, 'with healing in His wings.' Mal 4:2`
+},
+{
+  id: 21,
+  book: "MB",
+  ref: "MB pp. 76-77",
+  title: "Transforming Power of God’s Love",
+  text: `With untold love our God has loved us, and our love awakens toward Him as we comprehend something of the length and breadth and depth and height of this love that passeth knowledge. By the revelation of the attractive loveliness of Christ, by the knowledge of His love expressed to us while we were yet sinners, the stubborn heart is melted and subdued, and the sinner is transformed and becomes a child of heaven. God does not employ compulsory measures; love is the agent which He uses to expel sin from the heart. By it He changes pride into humility, and enmity and unbelief into love and faith.`
+},
+{
+  id: 22,
+  book: "1SM",
+  ref: "1SM p. 312",
+  title: "Correct View of God’s Love",
+  text: `As soon as we have a correct view of the love of God, we shall have no disposition to abuse it.`
+},
+{
+  id: 23,
+  book: "1SM",
+  ref: "1SM p. 359",
+  title: "Present Message of Holiness",
+  text: `The present message—justification by faith—is a message from God; it bears the divine credentials, for its fruit is unto holiness.`
+},
+{
+  id: 24,
+  book: "TM",
+  ref: "TM p. 456",
+  title: "Justification Lays Human Glory in the Dust",
+  text: `What is justification by faith? It is the work of God in laying the glory of man in the dust, and doing for man that which it is not in his power to do for himself.`
+},
+{
+  id: 25,
+  book: "DA",
+  ref: "DA p. 661",
+  title: "Praise in Hearts and Lips",
+  text: `Praise to God and the Lamb will be in our hearts and on our lips; for pride and self worship cannot flourish in the soul that keeps fresh in memory the scenes of Calvary.`
+},
+{
+  id: 26,
+  book: "ST",
+  ref: "ST Dec 30, 1889",
+  title: "Faith Strengthened by Contemplation",
+  text: `If men would contemplate the love of Christ, displayed in the cross, their faith would be strengthened to appropriate the merits of His blood, and they would be cleansed and saved from sin.`
+},
+{
+  id: 27,
+  book: "AA",
+  ref: "AA p. 209-210",
+  title: "Union with the Father Through the Cross",
+  text: `Without the cross, man could have no union with the Father. On it depends our every hope. From it shines the light of the Saviour's love, and when at the foot of the cross the sinner looks up to the One who died to save him, he may rejoice with fullness of joy, for his sins are pardoned. Kneeling in faith at the cross, he has reached the highest place to which man can attain.
+
+Through the cross we learn that the heavenly Father loves us with a love that is infinite. Can we wonder that Paul exclaimed, 'God forbid that I should glory, save in the cross of our Lord Jesus Christ'? Galatians 6:14. It is our privilege also to glory in the cross, our privilege to give ourselves wholly to Him who gave Himself for us. Then, with the light that streams from Calvary shining in our faces, we may go forth to reveal this light to those in darkness.`
+},
+
+{
+  id: 28,
+  book: "MB",
+  ref: "MB p. 29",
+  title: "Presenting Christ’s Love",
+  text: `When one presents the love of Christ and the beauty of holiness, he is drawing away the subjects of Satan's kingdom, and the prince of evil is aroused to resist it.`
+},
+{
+  id: 29,
+  book: "MB",
+  ref: "MB p. 115",
+  title: "Knowing and Believing God’s Love",
+  text: `The one thing essential for us in order that we may receive and impart the forgiving love of God is to know and believe the love that He has to us. 1Jn 4:16. Satan is working by every deception he can command, in order that we may not discern that love.`
+},
+{
+  id: 30,
+  book: "MB",
+  ref: "MB pp. 384-385",
+  title: "Satan’s Determination",
+  text: `Satan is determined that men shall not see the love of God, which led Him to give His only-begotten Son to save the lost race; for it is the goodness of God that leads men to repentance.`
+},
+{
+  id: 31,
+  book: "1SM",
+  ref: "1SM p. 363a",
+  title: "Beginning of the Loud Cry",
+  text: `The time of test is just upon us, for the loud cry of the third angel has already begun in the revelation of the righteousness of Christ, the sin-pardoning Redeemer. This is the beginning of the light of the angel whose glory shall fill the whole earth.`
+},
+{
+  id: 32,
+  book: "MB",
+  ref: "MB p. 44",
+  title: "Cross as Center of Influence",
+  text: `The cross of Calvary is to be lifted high above the people, absorbing their minds and concentrating their thoughts. Then all the spiritual faculties will be charged with divine power direct from God. Then there will be a concentration of energies in genuine work for the Master. The workers will send forth to the world beams of light, as living agencies to enlighten the earth.`
+},
+{
+  id: 33,
+  book: "ST",
+  ref: "ST p. 202",
+  title: "Clear Steady View Counters Worldliness",
+  text: `A clear, steady view of the cross of Christ would counteract their worldliness and fill their souls with humility, penitence, and gratitude. They would then feel that they are not their own, but that they are the purchase of Christ's blood. A deadly spiritual malady is upon the church. Its members are wounded by Satan; but they will not look to the cross of Christ, as the Israelites looked to the brazen serpent, that they may live. The world has so many claims upon them that they have not time to look to the cross of Calvary long enough to see its glory or to feel its power.`
+},
+{
+  id: 34,
+  book: "MB",
+  ref: "MB pp. 128-129a",
+  title: "No Criticism in the Cross’s Shadow",
+  text: `He who looks often upon the cross of Calvary, remembering that his sins placed the Saviour there, will never try to estimate the degree of his guilt in comparison with that of others. He will not climb upon the judgment seat to bring accusation against another. There can be no spirit of criticism or self-exaltation on the part of those who walk in the shadow of Calvary's cross.`
+},
+{
+  id: 35,
+  book: "MB",
+  ref: "MB pp. 128-129b",
+  title: "Sacrificial Humility and Brotherly Love",
+  text: `Not until you feel that you could sacrifice your own self-dignity, and even lay down your life in order to save an erring brother, have you cast the beam out of your own eye so that you are prepared to help your brother. Then you can approach him and touch his heart. No one has ever been reclaimed from a wrong position by censure and reproach; but many have thus been driven from Christ and led to seal their hearts against conviction.`
+},
+{
+  id: 36,
+  book: "GW",
+  ref: "GW pp. 51-55; 8T pp. 331-332",
+  title: "Meditation Leads to Transformation",
+  text: `The knowledge of God that works transformation of character is our great need. . . The infinite, unfathomable love of God through Christ became the subject of his [Enoch's] meditations day and night. . . By day and by night, Christ was his [John the Baptist] study, his meditation, until mind and heart and soul were filled with the glorious vision. . . In order to give such a message as John gave, we must have a spiritual experience like his. The same work must be wrought in us. We must behold God, and in beholding Him lose sight of self.`
+},
+{
+  id: 37,
+  book: "1SM",
+  ref: "1SM p. 385",
+  title: "Pledge and Unity of the Cross",
+  text: `Look at the cross of Calvary. It is a standing pledge of the boundless love, the measureless mercy, of the heavenly Father. O that all might repent and do their first works. When the churches do this, they will love God supremely and their neighbors as themselves. Ephraim will not envy Judah, and Judah will not vex Ephraim. Divisions will then be healed, the harsh sounds of strife will no more be heard in the borders of Israel. Through the grace freely given them of God, all will seek to answer the prayer of Christ, that His disciples should be one, as He and the Father are one. Peace, love, mercy, and benevolence will be the abiding principles of the soul. The love of Christ will be the theme of every tongue, and it will no more be said by the True Witness, 'I have somewhat against thee, because thou hast left thy first love.' (Rev 2:4). The people of God will be abiding in Christ, the love of Jesus will be revealed in all the image of Christ, fashioning all hearts alike. As branches of the True Vine, all will be united to Christ, the living head, renewing all in the image of Christ. One Spirit will animate all hearts, regenerating and Christ will abide in every heart, guiding, comforting, sanctifying, and presenting to the world the unity of the followers of Jesus, thus bearing testimony that the heavenly credentials are supplied to the remnant church. In the oneness of Christ's church it will be proved that God sent His only-begotten Son into the world.`
+},
+
+{
+  id: 38,
+  book: "1SM",
+  ref: "1 SM p. 93",
+  title: "No Time for Controversy",
+  text: `There is no time to spend in controversy. Those who have a knowledge of the truth as it is in Jesus must now become one in heart and purpose. All differences must be swept away. The members of the church must work unitedly under the great Head of the church.`
+},
+{
+  id: 39,
+  book: "6T",
+  ref: "6T pp. 235-236",
+  title: "Demonstrating Influence of the Cross",
+  text: `Our work in all its lines is to demonstrate the influence of the cross. The work of God in the plan of salvation is not to be done in any disjointed way. It is not to operate at random. The plan that provided the influence of the cross provided also the methods of its diffusion. . . God has brought His people together in church capacity in order that they may reveal to the world the wisdom of Him who formed the organization. . . . He [Jesus] knows that the cross must occupy the central place because it is the means of man's atonement and because of the influence it exerts on every part of the divine government.`
+},
+{
+  id: 40,
+  book: "Eph.",
+  ref: "Eph. 3:16-21, NIV",
+  title: "Paul’s Prayer for Spiritual Strength",
+  text: `I pray that out of His glorious riches He may strengthen you with power through His Spirit in your inner being so that Christ may dwell in your hearts through faith. And I pray that you, being rooted and established in love, may have power together with all the saints, to grasp how wide and long and high and deep is the love of Christ, and to know this love which surpasses knowledge—that you may be filled to the measure of all the fullness of God.
+
+Now to Him who is able to do immeasurably more than all we ask or imagine, according to His power that is at work within us, to Him be glory in the church and in Christ Jesus throughout all generations, forever and ever! Amen`
+},
+{
+  id: 41,
+  book: "AA",
+  ref: "AA p. 210",
+  title: "Infinite Love Revealed through the Cross",
+  text: `Through the cross we learn that the heavenly Father loves us with a love that is infinite.`
+},
+{
+  id: 42,
+  book: "DA",
+  ref: "DA p. 660",
+  title: "Daily Sustenance through Calvary",
+  text: `To the death of Christ we owe even this earthly life. The bread we eat is the purchase of His broken body. The water we drink is bought by His spilled blood. Never one, saint or sinner, eats his daily food, but he is nourished by the body and the blood of Christ. The cross of Calvary is stamped on every loaf. It is reflected in every water spring.`
+},
+{
+  id: 43,
+  book: "1SM",
+  ref: "1SM p. 343",
+  title: "High Priest Advocate",
+  text: `Christ as high priest within the veil so immortalized Calvary that though He liveth unto God, He dies continually to sin, and thus if any man sin, he has an advocate with the Father. . . No sin can be committed by man for which satisfaction has not been met on Calvary. Thus the cross, in earnest appeals, continually proffers to the sinner a thorough expiation.`
+},
+{
+  id: 44,
+  book: "1SM",
+  ref: "1SM p. 363b",
+  title: "Righteousness for Time of Trouble",
+  text: `If you would stand through the time of trouble, you must know Christ, and appropriate the gift of His righteousness, which He imputes to the repentant sinner.`
+},
+{
+  id: 45,
+  book: "DA",
+  ref: "DA p. 660",
+  title: "Necessity of Christ’s Death",
+  text: `Nothing less than the death of Christ could make His love efficacious for us. It is only because of His death that we can look with joy to His second coming. His sacrifice is the center of our hope. upon this we must fix our faith.`
+},
+{
+  id: 46,
+  book: "DA",
+  ref: "DA p. 58",
+  title: "Judgement and Vindication of the Cross",
+  text: `In the day of final judgement, every lost soul will understand the nature of his own rejection of truth. The cross will be presented, and its real bearing will be seen by every mind that has been blinded by transgression. Before the vision of Calvary with its mysterious Victim, sinners will stand condemned. . . Every question of truth and error in the long-standing controversy will then have been made plain. In the judgement of the universe, God will stand clear of the blame for the existence or continuance of evil.`
+},
+
+{
+  id: 47,
+  book: "TM",
+  ref: "TM p. 433",
+  title: "Song of Moses and the Lamb",
+  text: `There is a day just about to burst upon us when God's mysteries will be seen, and all His ways vindicated; when justice, mercy, and love will be the attributes of His throne. When the earthly warfare is accomplished and the saints are all gathered home, our first theme will be the song of Moses, the servant of God. The second theme will be the song of the Lamb, the song of grace and redemption. This song will be louder, loftier, and in sublimer strains, echoing and re-echoing through the heavenly courts. Thus the song of God's providence is sung, connecting the varying dispensations; for all is now seen without a veil between the legal, the prophetical, and the gospel. The church history upon the earth and the church redeemed in heaven all center around the cross of Calvary. This is the theme, this is the song—Christ all and in all—in anthems of praise resounding through heaven from thousands and ten thousands and ten thousand times ten thousand and an innumerable company of the redeemed host. All unite in this song of Moses and of the Lamb. It is a new song, for it was never before sung in heaven.`
+},
+{
+  id: 48,
+  book: "GC",
+  ref: "GC pp. 651-652",
+  title: "Science and Song of Christ Crucified",
+  text: `The cross of Christ will be the science and the song of the redeemed through all eternity. In Christ glorified they will behold Christ crucified. Never will it be forgotten that He whose power created and upheld the unnumbered worlds through the vast realms of space, the Beloved of God, the Majesty of heaven, He whom cherub and shining seraph delighted to adore—humbled Himself to uplift fallen man; that He bore the guilt and shame of sin, and the hiding of His Father's face, till the woes of the lost world broke His heart and crushed out His life on Calvary's cross. That the Maker of all the worlds, the Arbiter of all destinies, should lay aside His glory and humiliate Himself from love to man will ever excite the wonder and adoration of the universe. As nations of saved look upon their Redeemer and behold the eternal glory of the Father shining in His countenance; as they behold His throne, which is from everlasting to everlasting, and know that His kingdom is to have no end, they break forth in rapturous song: 'Worthy, worthy is the Lamb that was slain, and hath redeemed us to God by His own most precious blood!'`
+}
+
+
+
+
+
+];
+
+
+// Themes synthesized from the knowledge base
+const themes = [
+  {name:"Justification by Faith", desc:"The cross embodies the third angel’s message in verity, laying human glory in the dust and offering righteousness by faith alone."},
+  {name:"Centrality of the Cross", desc:"Every doctrine and duty should radiate from Calvary—the great center of attraction and power that moves the world."},
+  {name:"Transforming Power of Love", desc:"Beholding Christ’s matchless love awakens repentance, subdues pride, and compels wholehearted devotion."},
+  {name:"Educational Foundation", desc:"True education and ministry find their only safe foundation in teaching, studying, and elevating the cross of Christ."},
+  {name:"Final Vindication", desc:"In the judgment and through eternity, the mystery of the cross will remain the science and song of the redeemed, vindicating God’s character."}
+];
+
+// ---------- Build Theme Accordions ----------
+const themeContainer = document.getElementById('themeContainer');
+themes.forEach((t, idx)=>{
+  const panel = document.createElement('div');
+  panel.innerHTML = `
+    <button class="w-full flex justify-between items-center px-4 py-2 bg-white border rounded-md" data-theme="${idx}">
+      <span class="font-medium">${t.name}</span>
+      <span class="transition-transform" id="icon-${idx}">+</span>
+    </button>
+    <div id="theme-content-${idx}" class="hidden px-4 py-3 bg-stone-50 border border-t-0 rounded-b-md">${t.desc}</div>
+  `;
+  themeContainer.appendChild(panel);
+});
+
+// ---------- Build Quote Cards ----------
+const listEl = document.getElementById('quoteList');
+function renderQuoteCards(filterText=""){
+  listEl.innerHTML="";
+  quotes
+    .filter(q=>q.title.toLowerCase().includes(filterText.toLowerCase()) || q.text.toLowerCase().includes(filterText.toLowerCase()))
+    .forEach(q=>{
+      const card=document.createElement('div');
+      card.className="p-3 bg-white border rounded-md cursor-pointer hover:bg-sky-50";
+      card.dataset.id=q.id;
+      card.innerHTML=`<p class="font-semibold">${q.title}</p><p class="text-xs text-stone-500">${q.ref}</p>`;
+      listEl.appendChild(card);
+    });
+}
+renderQuoteCards();
+
+// ---------- Search ----------
+document.getElementById('searchInput').addEventListener('input',e=>{
+  renderQuoteCards(e.target.value);
+});
+
+// ---------- Quote Detail ----------
+const detailEl=document.getElementById('quoteDetail');
+listEl.addEventListener('click',e=>{
+  const id=e.target.closest('[data-id]')?.dataset.id;
+  if(!id) return;
+  const q=quotes.find(q=>q.id==id);
+  if(!q) return;
+  detailEl.innerHTML=`
+    <h3 class="text-lg font-semibold mb-2">${q.title}</h3>
+    <p class="mb-4 whitespace-pre-line">${q.text}</p>
+    <p class="text-sm text-stone-500">Reference: ${q.ref}</p>
+  `;
+});
+
+// ---------- Tabs ----------
+const tabBtns=document.querySelectorAll('.tab-btn');
+const tabSecs=document.querySelectorAll('.tab-section');
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const target=btn.dataset.tab;
+    tabSecs.forEach(sec=>sec.id===target?sec.classList.remove('hidden'):sec.classList.add('hidden'));
+    tabBtns.forEach(b=>b.classList.toggle('bg-sky-600',b===btn));
+    tabBtns.forEach(b=>b.classList.toggle('text-white',b===btn));
+  });
+});
+
+// ---------- Theme Accordion ----------
+themeContainer.addEventListener('click',e=>{
+  const btn=e.target.closest('[data-theme]');
+  if(!btn) return;
+  const idx=btn.dataset.theme;
+  const content=document.getElementById(`theme-content-${idx}`);
+  const icon=document.getElementById(`icon-${idx}`);
+  const isOpen=!content.classList.contains('hidden');
+  content.classList.toggle('hidden',isOpen);
+  icon.style.transform=isOpen?'rotate(0deg)':'rotate(45deg)';
+});
+
+// ---------- Chart ----------
+function buildChart(){
+  const ctx=document.getElementById('refChart').getContext('2d');
+  const counts={};
+  quotes.forEach(q=>{counts[q.book]=(counts[q.book]||0)+1});
+  const labels=Object.keys(counts);
+  const dataVals=Object.values(counts);
+  new Chart(ctx,{
+    type:'bar',
+    data:{labels,datasets:[{label:'Count',data:dataVals,borderWidth:1}]},
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      scales:{y:{beginAtZero:true,ticks:{precision:0}}},
+      plugins:{legend:{display:false}}
+    }
+  });
+}
+buildChart();
+</script>
+</body>
+</html>
