@@ -218,6 +218,12 @@
         const Sidebar = ({ knowledgeBase, activeContentId, onSelectContent, isMenuOpen, setMenuOpen }) => {
           return (
             <aside className={`bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-6 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out fixed md:relative w-72 md:w-full h-full md:h-auto z-20`}>
+              {/* Mobile hamburger menu button */}
+              <div className="md:hidden flex justify-end mb-4">
+                  <button onClick={() => setMenuOpen(!isMenuOpen)} className="text-slate-500">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                  </button>
+              </div>
               <nav className="space-y-6">
                 {knowledgeBase.map(module => (
                   <div key={module.module_id}>
@@ -322,20 +328,17 @@
 
           return (
             <div className="min-h-screen bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans">
-              <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
-                <div className="flex md:hidden justify-center items-center h-16 relative px-4">
-                  <button onClick={() => setMenuOpen(true)} className="absolute left-4 text-slate-500">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+              
+              {/* MODIFICATION: Mobile-only hamburger button */}
+              <div className="md:hidden p-4">
+                  <button onClick={() => setMenuOpen(!isMenuOpen)} className="text-slate-500">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                   </button>
-                  <h1 className="text-4xl font-bold text-slate-900 dark:text-white">{data.subject}</h1>
-                </div>
-                <div className="hidden md:flex justify-center items-center max-w-screen-2xl mx-auto h-16">
-                  <h1 className="text-5xl font-bold text-slate-900 dark:text-white">{data.subject}</h1>
-                </div>
-              </header>
+              </div>
 
               <div className="max-w-screen-2xl mx-auto md:grid md:grid-cols-[280px_1fr]">
-                <div className="hidden md:block md:sticky md:top-16 md:h-[calc(100vh-4rem)]">
+                {/* MODIFICATION: Adjusted sidebar classes for new layout */}
+                <div className="hidden md:block md:sticky md:top-0 md:h-screen">
                   <Sidebar
                     knowledgeBase={data.knowledge_base}
                     activeContentId={selectedContentId}
@@ -355,7 +358,7 @@
                       />
                 </div>
 
-                <div className="min-h-[calc(100vh-4rem)]">
+                <div className="min-h-screen">
                   {selectedContentUnit ? (
                     <ContentDisplay contentUnit={selectedContentUnit} onSelectContent={setSelectedContentId} />
                   ) : (
