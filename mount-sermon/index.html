@@ -62,10 +62,13 @@
                     { "fact": "Metaphor 2", "value": "Light of the World (Matthew 5:14-16)" },
                     { "fact": "Purpose", "value": "To influence the world for good and bring glory to God." }
                   ],
+                  // --- MODIFICATION START ---
                   "media_suggestion": {
-                    "type": "diagram",
-                    "description": "An infographic visually representing the dual concepts of salt preserving food and a lamp shining in the darkness."
+                    "type": "image",
+                    "description": "A visual metaphor for being the salt of the earth and the light of the world.",
+                    "url": "https://cdn.midjourney.com/c7226ddf-119d-46fe-856a-c091182c4fda/0_1.png"
                   },
+                  // --- MODIFICATION END ---
                   "related_ids": ["intro-beatitudes", "authentic-piety-pillars"]
                 }
               ]
@@ -154,7 +157,7 @@
                   "id": "life-in-kingdom-judgment",
                   "title": "Judgment and Discernment",
                   "summary": "Jesus commands his followers not to judge others hypocritically, while also calling them to use wise discernment to recognize false prophets by their 'fruit'.",
-                  "content_markdown": "In Matthew 7, Jesus provides guidance on how to interact with others and discern truth.\n\n* **Judging Others (7:1-6):** The famous command 'Do not judge, or you too will be judged' is a warning against hypocritical, condemning judgment. Jesus uses the metaphor of trying to take a speck out of a brother's eye while having a plank in one's own. Self-examination must precede correction of others.\n* **False Prophets (7:15-20):** Jesus warns that false prophets will come in 'sheep's clothing, but inwardly they are ferocious wolves.' He provides the key to discernment: 'You will recognize them by their fruit.' Good trees bear good fruit, and bad trees bear bad fruit. Their character and actions reveal their true nature.",
+                  "content_markdown": "In Matthew 7, Jesus provides guidance on how to interact with others and discern truth.\n\n* **Judging Others (7:1-6):** The famous command 'Do not judge, or you too will be judged' is a warning against hypocritical, condemning judgment. Jesus uses the metaphor of trying to take a speck out of a brother's eye while having a plank in one's own. Self-examination must precede correction of others.\n* **False Prophets (7:15-20):** Jesus warns that false prophets will come in 'sheep's clothing, but inwardly they are ferocious wolves.' He provide the key to discernment: 'You will recognize them by their fruit.' Good trees bear good fruit, and bad trees bear bad fruit. Their character and actions reveal their true nature.",
                   "key_facts": [
                     { "fact": "On Judging", "value": "First remove the plank from your own eye. (Matt 7:5)" },
                     { "fact": "On Discernment", "value": "'You will recognize them by their fruit.' (Matt 7:16)" },
@@ -250,10 +253,7 @@
           return (
             <main className="p-6 md:p-8 lg:p-12 bg-white dark:bg-slate-900/70 overflow-y-auto">
               <article className="max-w-7xl mx-auto">
-                {/* MODIFICATION: The main grid layout */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-                  
-                  {/* Left (main) column for text and now the image */}
                   <div className="lg:col-span-2">
                     <header className="mb-8">
                       <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white mb-3">{title}</h1>
@@ -262,8 +262,6 @@
                     <div className="text-slate-700 dark:text-slate-300 leading-relaxed">
                        <SimpleMarkdownRenderer content={content_markdown} />
                     </div>
-
-                    {/* Media Suggestion card moved here */}
                     <div className="mt-12 bg-indigo-50 dark:bg-indigo-900/30 p-5 rounded-xl border border-indigo-100 dark:border-indigo-900">
                       <h3 className="text-base font-semibold text-indigo-800 dark:text-indigo-300 mb-3 flex items-center">
                         {getIconForMedia(media_suggestion.type)}
@@ -280,8 +278,6 @@
                       )}
                     </div>
                   </div>
-
-                  {/* Right column for other info cards */}
                   <div className="lg:col-span-1 space-y-8 lg:sticky lg:top-28">
                     <div className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
                       <h3 className="text-base font-semibold text-slate-800 dark:text-slate-200 mb-4">Key Facts</h3>
@@ -311,7 +307,6 @@
                         </div>
                     )}
                   </div>
-
                 </div>
               </article>
             </main>
