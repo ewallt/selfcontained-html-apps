@@ -24,7 +24,7 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        const knowledgeBaseData = {
+        let knowledgeBaseData = {
           "subject": "The Sermon on the Mount",
           "complexity": "Simple",
           "generated_at": "2025-06-07T11:31:21Z",
@@ -186,6 +186,19 @@
             }
           ]
         };
+        
+        // --- MODIFICATION: Logic to apply a placeholder image ---
+        const placeholderUrl = knowledgeBaseData.knowledge_base[0].content_units[0].media_suggestion.url;
+
+        knowledgeBaseData.knowledge_base.forEach(module => {
+            module.content_units.forEach(unit => {
+                if (unit.media_suggestion && !unit.media_suggestion.url) {
+                    unit.media_suggestion.url = placeholderUrl;
+                    unit.media_suggestion.type = 'image';
+                }
+            });
+        });
+
 
         const SimpleMarkdownRenderer = ({ content }) => {
           const renderLine = (line, index) => {
@@ -215,14 +228,11 @@
           return <div className="prose-lg max-w-none">{groupedElements}</div>;
         };
 
-        const Sidebar = ({ knowledgeBase, activeContentId, onSelectContent, isMenuOpen, setMenuOpen }) => {
+        const Sidebar = ({ subject, knowledgeBase, activeContentId, onSelectContent, isMenuOpen, setMenuOpen }) => {
           return (
             <aside className={`bg-slate-50 dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-6 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-300 ease-in-out fixed md:relative w-72 md:w-full h-full md:h-auto z-20`}>
-              {/* Mobile hamburger menu button */}
-              <div className="md:hidden flex justify-end mb-4">
-                  <button onClick={() => setMenuOpen(!isMenuOpen)} className="text-slate-500">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                  </button>
+              <div className="pb-8 mb-8 border-b border-slate-200 dark:border-slate-800">
+                  <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{subject}</h1>
               </div>
               <nav className="space-y-6">
                 {knowledgeBase.map(module => (
@@ -328,18 +338,10 @@
 
           return (
             <div className="min-h-screen bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans">
-              
-              {/* MODIFICATION: Mobile-only hamburger button */}
-              <div className="md:hidden p-4">
-                  <button onClick={() => setMenuOpen(!isMenuOpen)} className="text-slate-500">
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                  </button>
-              </div>
-
               <div className="max-w-screen-2xl mx-auto md:grid md:grid-cols-[280px_1fr]">
-                {/* MODIFICATION: Adjusted sidebar classes for new layout */}
                 <div className="hidden md:block md:sticky md:top-0 md:h-screen">
                   <Sidebar
+                    subject={data.subject}
                     knowledgeBase={data.knowledge_base}
                     activeContentId={selectedContentId}
                     onSelectContent={setSelectedContentId}
@@ -350,6 +352,7 @@
                 
                 <div className="md:hidden">
                      <Sidebar
+                        subject={data.subject}
                         knowledgeBase={data.knowledge_base}
                         activeContentId={selectedContentId}
                         onSelectContent={setSelectedContentId}
@@ -359,6 +362,11 @@
                 </div>
 
                 <div className="min-h-screen">
+                  <div className="md:hidden sticky top-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm z-10 p-4">
+                      <button onClick={() => setMenuOpen(!isMenuOpen)} className="text-slate-500">
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                      </button>
+                  </div>
                   {selectedContentUnit ? (
                     <ContentDisplay contentUnit={selectedContentUnit} onSelectContent={setSelectedContentId} />
                   ) : (
