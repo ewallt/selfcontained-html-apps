@@ -6,10 +6,8 @@
     <title>Sermon on the Mount - Knowledge Base</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
@@ -62,13 +60,11 @@
                     { "fact": "Metaphor 2", "value": "Light of the World (Matthew 5:14-16)" },
                     { "fact": "Purpose", "value": "To influence the world for good and bring glory to God." }
                   ],
-                  // --- MODIFICATION START ---
                   "media_suggestion": {
                     "type": "image",
                     "description": "A visual metaphor for being the salt of the earth and the light of the world.",
                     "url": "https://cdn.midjourney.com/c7226ddf-119d-46fe-856a-c091182c4fda/0_1.png"
                   },
-                  // --- MODIFICATION END ---
                   "related_ids": ["intro-beatitudes", "authentic-piety-pillars"]
                 }
               ]
@@ -89,7 +85,8 @@
                   ],
                   "media_suggestion": {
                     "type": "image",
-                    "description": "An image of an ancient Torah scroll to represent 'the Law and the Prophets'."
+                    "description": "A visual representation of Christ fulfilling the Law.",
+                    "url": "https://cdn.midjourney.com/71b05f89-681b-429a-8eda-b6e8cd7d1698/0_0.png"
                   },
                   "related_ids": ["higher-righteousness-antitheses", "intro-beatitudes"]
                 },
@@ -262,21 +259,23 @@
                     <div className="text-slate-700 dark:text-slate-300 leading-relaxed">
                        <SimpleMarkdownRenderer content={content_markdown} />
                     </div>
-                    <div className="mt-12 bg-indigo-50 dark:bg-indigo-900/30 p-5 rounded-xl border border-indigo-100 dark:border-indigo-900">
-                      <h3 className="text-base font-semibold text-indigo-800 dark:text-indigo-300 mb-3 flex items-center">
-                        {getIconForMedia(media_suggestion.type)}
-                        Media Suggestion
-                      </h3>
-                      {media_suggestion.url ? (
-                        <img 
-                            src={media_suggestion.url} 
-                            alt={media_suggestion.description} 
-                            className="mt-3 rounded-lg w-full h-auto object-cover border border-indigo-100 dark:border-indigo-800" 
-                        />
-                      ) : (
-                        <p className="text-sm text-indigo-700 dark:text-indigo-400">{media_suggestion.description}</p>
-                      )}
-                    </div>
+                    {media_suggestion && (
+                        <div className="mt-12 bg-indigo-50 dark:bg-indigo-900/30 p-5 rounded-xl border border-indigo-100 dark:border-indigo-900">
+                          <h3 className="text-base font-semibold text-indigo-800 dark:text-indigo-300 mb-3 flex items-center">
+                            {getIconForMedia(media_suggestion.type)}
+                            Media Suggestion
+                          </h3>
+                          {media_suggestion.url ? (
+                            <img 
+                                src={media_suggestion.url} 
+                                alt={media_suggestion.description} 
+                                className="mt-3 rounded-lg w-full h-auto object-cover border border-indigo-100 dark:border-indigo-800" 
+                            />
+                          ) : (
+                            <p className="text-sm text-indigo-700 dark:text-indigo-400">{media_suggestion.description}</p>
+                          )}
+                        </div>
+                    )}
                   </div>
                   <div className="lg:col-span-1 space-y-8 lg:sticky lg:top-28">
                     <div className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-800">
