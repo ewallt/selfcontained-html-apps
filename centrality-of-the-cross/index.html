@@ -40,35 +40,48 @@
 
     <!-- Quotes: 3-Pane Layout with Theme Navigator -->
     <section id="quotes" class="tab-section hidden space-y-6">
-      <h2 class="text-xl font-semibold">Quotation Explorer</h2>
-      <div class="flex gap-4">
-        <!-- Pane 1: Theme Navigator -->
-        <aside id="themeFilters"
-               class="w-1/4 bg-white p-4 border rounded-md max-h-[70vh] overflow-y-auto">
-          <h3 class="font-semibold mb-2">Filter by Theme</h3>
-          <!-- theme buttons injected here -->
-        </aside>
+  <h2 class="text-xl font-semibold">Quotation Explorer</h2>
+  <div class="flex gap-4">
+    <!-- Pane 1: Theme Navigator (20%) -->
+    <aside id="themeFilters"
+           class="w-1/5 bg-white p-4 border rounded-md max-h-[70vh] overflow-y-auto">
+      <h3 class="font-semibold mb-2">Filter by Theme</h3>
+      <!-- ...injected buttons... -->
+    </aside>
 
-        <!-- Pane 2: Search + List -->
-        <div class="w-1/4 space-y-2">
-          <input
-            id="searchInput"
-            type="text"
-            placeholder="Search quotes…"
-            class="w-full px-3 py-2 border rounded-md"
-          >
-          <div id="quoteList" class="space-y-2 max-h-[65vh] overflow-y-auto"></div>
-        </div>
+    <!-- Pane 2: Search + List (20%) -->
+    <div class="w-1/5 space-y-2">
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="Search quotes…"
+        class="w-full px-3 py-2 border rounded-md"
+      >
+      <div id="quoteList" class="space-y-2 max-h-[65vh] overflow-y-auto"></div>
+    </div>
 
-        <!-- Pane 3: Detail -->
-        <article
-          id="quoteDetail"
-          class="w-1/2 bg-white border rounded-md p-4 max-h-[70vh] overflow-y-auto"
-        >
-          <p class="italic text-stone-500">Select a quote to view its full text.</p>
-        </article>
-      </div>
-    </section>
+    <!-- Pane 3: Quote Detail (40%) -->
+    <article
+      id="quoteDetail"
+      class="w-2/5 bg-white border rounded-md p-4 max-h-[70vh] overflow-y-auto"
+    >
+      <p class="italic text-stone-500">Select a quote to view its full text.</p>
+    </article>
+
+    <!-- Pane 4: Image (20%) -->
+    <div class="w-1/5 flex items-center justify-center bg-white border rounded-md p-4 max-h-[70vh]">
+      <img
+        id="quoteImage"
+        src="https://cdn.midjourney.com/da7997ab-ee8f-4d4a-ba71-35d452f6656f/0_1.png"
+        alt="Illustration related to the quote"
+        class="h-full w-auto object-contain rounded-md"
+      >
+    </div>
+  </div>
+</section>
+
+
+
 
     <!-- Stats -->
     <section id="stats" class="tab-section hidden space-y-6">
@@ -329,15 +342,39 @@
   // For the accordion in the Themes tab:
   const themesAccordion = [
     { name:"Justification by Faith",
-      desc:"The cross embodies the third angel’s message in verity, laying human glory in the dust and offering righteousness by faith alone." },
-    { name:"Centrality of the Cross",
-      desc:"Every doctrine and duty should radiate from Calvary—the great center of attraction and power that moves the world." },
-    { name:"Transforming Power of Love",
-      desc:"Beholding Christ’s matchless love awakens repentance, subdues pride, and compels wholehearted devotion." },
-    { name:"Educational Foundation",
-      desc:"True education and ministry find their only safe foundation in teaching, studying, and elevating the cross of Christ." },
-    { name:"Final Vindication",
-      desc:"In the judgment and through eternity, the mystery of the cross will remain the science and song of the redeemed, vindicating God’s character." }
+      desc: `From the very heart of the gospel flows the assurance that we stand before God not by our own merit but by the perfect obedience of Christ. In the third angel’s message this truth is proclaimed in all its freshness, calling sinners to lay aside every claim of human righteousness and to receive freely the robe of Christ’s own perfection. When we contemplate the cross, we see how divine love bore the penalty of our sin and credited us with Christ’s own righteousness—an exchange that leaves us accepted before the throne and empowered to live in humble gratitude.
+
+As this gift takes root in our hearts, it blossoms into a life of holiness and victory. Meditation on justification by faith leads us into a deeper experience of grace, strengthening our faith in seasons of trial and shaping our character in the likeness of our Savior. In times of tribulation and temptation, the knowledge that Christ’s finished work is our firm foundation sustains us, laying human glory in the dust and compelling us to walk in love, obedience, and unwavering trust.` },
+   // Add these to your `themesAccordion` array:
+
+{
+  name: "Centrality of the Cross",
+  desc: `Every strand of Christian doctrine finds its heartbeat at Calvary. The cross is described as “the center of attraction,” drawing our eyes away from human wisdom and fixing them on divine mercy. From the foundational assertion that “every doctrine and duty should radiate from Calvary” to Paul’s own high-priestly vision of Christ interceding for us, the quotations underscore that no teaching stands apart from the cross. When the cross is lifted high, it aligns our theology, our worship, and our daily living with the one true source of power and grace.
+
+  In practical terms, making the cross central reshapes our motives and methods. It turns apologetics into a humble witness, scholarship into worship, and service into an outflow of gratitude. As one writer put it, “The sacrifice of Christ is the foundation of every discourse,” reminding us that when Calvary is center stage, every sermon, every lesson, and every act of mercy becomes a reflection of the same love that upheld the world. In that light, the cross doesn’t just complete the story—it writes the story we’re called to live.`  
+},
+
+{
+  name: "Transforming Power of Love",
+  desc: `At the heart of the crucifixion beats an irresistible love that changes hearts. Quotations like “One look at the cross transforms” and “Christ’s love compels us” reveal that the matchless affection displayed on Calvary is not a mere doctrine but a dynamic force—subduing pride, awakening repentance, and igniting devotion. Time and again the writers testify that when we behold the Savior’s sufferings, we are drawn into a deeper communion, our motives purified, and our wills aligned with His.
+
+  This love is not static sentiment but a living energy that carries us through trial and triumph. From the call to “meditation that leads to transformation” to the assurance that “nothing reaches so fully down into the heart,” these passages affirm that Christ’s sacrificial love empowers us to conquer sin and cultivate Christlike character. Thus the cross becomes not only the proof of God’s love but the very source of our ongoing renewal—reshaping our desires, strengthening our faith, and sending us forth as ambassadors of that same redeeming grace.`  
+},
+
+{
+  name: "Educational Foundation",
+  desc: `True learning begins—and flourishes—when it is anchored in the cross. Writers insist that “education and redemption are united” and that every student must first encounter the cross as the living curriculum. By teaching the cross “to every student,” we ground both the mind and heart in the reality of God’s character and the gospel story. This approach transforms education from mere information transfer into formation—shaping values, affections, and life purpose around the eternal truth of Christ’s sacrifice.
+
+  When the cross is the cornerstone of teaching, knowledge becomes worship and lessons become invitations to transformation. The call for Adventists to be “foremost in uplifting Christ” emphasizes that all instruction—whether in the classroom, pulpits, or daily conversation—must revolve around the gospel message. In doing so, learners not only learn about God but come to know Him experientially, equipping them to teach others, defend truth, and live out the principles they’ve embraced at Calvary’s foot.`  
+},
+
+{
+  name: "Final Vindication",
+  desc: `In the courtroom of the universe, the cross stands as both science and song. Passages like “Judgment and vindication of the cross” and “Science and song of Christ crucified” declare that even through eternity the cross will testify to God’s righteousness. As the redeemed praise around the throne, they will sing the mystery revealed at Calvary, vindicating the divine character before every created intellect. This theme reminds us that history’s final chapter will center on the same sacrifice that began our redemption.
+
+  Meanwhile, in the present “time of test,” the cross offers assurance and perspective. Writings about the “loud cry” and the “song of Moses and the Lamb” beckon believers to stand firm, knowing that Calvary has already established God’s ultimate triumph. Even in the face of Satan’s fiercest accusations, the cross remains the definitive answer—silencing every slander and demonstrating that love, not force, has always been God’s means of victory. Thus, from now until eternity, the cross remains our shield and our song of eternal vindication.`  
+}
+
   ];
 
   // Extract just the theme names for the Quotes navigator:
