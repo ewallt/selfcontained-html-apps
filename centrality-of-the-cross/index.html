@@ -4,92 +4,73 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Centrality of the Cross — Interactive Explorer</title>
-  <!-- enable class‐based dark mode -->
+  <!-- enable class-based dark mode -->
   <script>
-    tailwind.config = { darkMode: 'class' }
+    tailwind.config = { darkMode: 'class' };
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body class="bg-slate-900 text-slate-200 antialiased">
+  <!-- ── Header with Tab Menu ─────────────────────────────────────────── -->
   <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-30">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <h1 class="text-2xl font-semibold text-slate-100">Centrality of the Cross</h1>
       <nav class="flex gap-2">
-        <button data-tab="overview"
-                class="tab-btn px-3 py-1 rounded-md text-sm bg-sky-600 text-white">
-          Overview
-        </button>
-        <button data-tab="themes"
-                class="tab-btn px-3 py-1 rounded-md text-sm text-slate-300 hover:bg-slate-700">
-          Themes
-        </button>
-        <button data-tab="quotes"
-                class="tab-btn px-3 py-1 rounded-md text-sm text-slate-300 hover:bg-slate-700">
+        <button data-section="quotes"
+                class="tab-btn px-3 py-1 rounded-md text-sm font-semibold bg-sky-600 text-slate-100">
           Quotes
         </button>
-        <button data-tab="stats"
-                class="tab-btn px-3 py-1 rounded-md text-sm text-slate-300 hover:bg-slate-700">
-          Reference Stats
+        <button data-section="stats"
+                class="tab-btn px-3 py-1 rounded-md text-sm text-slate-300 hover:text-slate-100">
+          Reference&nbsp;Stats
         </button>
       </nav>
     </div>
   </header>
 
   <main class="max-w-7xl mx-auto px-4 py-6 space-y-12">
-    <!-- Overview -->
-    <section id="overview" class="tab-section space-y-4">
-      <h2 class="text-xl font-semibold text-slate-100">Introduction</h2>
-      <p class="text-slate-300">
-        This interactive application gathers inspired statements on the supremacy of Christ’s cross and the message of <em>justification by faith</em>.
-        Explore overarching themes, dive into individual quotations, and observe how frequently each source emphasizes the topic.
-        Engage with the material by switching tabs, expanding theme panels, clicking individual quotes, and viewing reference analytics.
-      </p>
-    </section>
 
-    <!-- Themes Accordion -->
-    <section id="themes" class="tab-section hidden space-y-6">
-      <h2 class="text-xl font-semibold text-slate-100">Key Themes</h2>
-      <div id="themeContainer" class="space-y-2"></div>
-    </section>
-
-    <!-- Quotes Explorer -->
-    <section id="quotes" class="tab-section hidden space-y-6">
+    <!-- ── Tab 1 — Quotation Explorer ─────────────────────────────────── -->
+    <section id="quotes" class="space-y-6">
       <h2 class="text-xl font-semibold text-slate-100">Quotation Explorer</h2>
       <div class="flex gap-4">
-        <!-- Pane 1: Theme Navigator -->
+        <!-- Pane 1 — Theme Navigator -->
         <aside id="themeFilters"
                class="w-1/5 bg-slate-800 border border-slate-700 p-4 rounded-md max-h-[70vh] overflow-y-auto">
           <h3 class="font-semibold mb-2 text-slate-100">Filter by Theme</h3>
         </aside>
 
-        <!-- Pane 2: Search + List -->
+        <!-- Pane 2 — Search + List -->
         <div class="w-1/5 space-y-2">
           <input id="searchInput"
                  type="text"
                  placeholder="Search quotes…"
                  class="w-full px-3 py-2 bg-slate-700 border border-slate-700 rounded-md text-slate-200" />
-          <div id="quoteList" class="space-y-2 max-h-[65vh] overflow-y-auto"></div>
+          <div id="quoteList"
+               class="space-y-2 max-h-[65vh] overflow-y-auto snap-y snap-mandatory">
+            <!-- quote cards injected here -->
+          </div>
         </div>
 
-        <!-- Pane 3: Quote Detail -->
+        <!-- Pane 3 — Quote Detail -->
         <article id="quoteDetail"
                  class="w-2/5 bg-slate-800 border border-slate-700 p-4 rounded-md max-h-[70vh] overflow-y-auto">
           <p class="italic text-slate-400">Select a quote to view its full text.</p>
         </article>
 
-        <!-- Pane 4: Image -->
-        <div class="w-1/5 flex items-center justify-center bg-slate-800 border border-slate-700 p-4 rounded-md max-h-[70vh]">
+        <!-- Pane 4 — Image -->
+        <div class="flex-none w-60 h-[320px] bg-slate-800 border border-slate-700 p-4 rounded-md flex items-center justify-center overflow-hidden">
           <img id="quoteImage"
                src="https://cdn.midjourney.com/da7997ab-ee8f-4d4a-ba71-35d452f6656f/0_1.png"
                alt="Illustration related to the quote"
-               class="h-full w-auto object-contain rounded-md" />
+               class="h-full w-auto object-contain" />
         </div>
       </div>
     </section>
 
-    <!-- Stats -->
-    <section id="stats" class="tab-section hidden space-y-6">
+    <!-- ── Tab 2 — Reference Stats ────────────────────────────────────── -->
+    <section id="stats" class="space-y-6 hidden">
       <h2 class="text-xl font-semibold text-slate-100">Reference Frequency</h2>
       <p class="text-slate-300">
         The bar chart visualizes how often each publication appears in the quotation set.
@@ -98,10 +79,33 @@
         <canvas id="refChart"></canvas>
       </div>
     </section>
+
   </main>
 
+  <!-- ── Scripts ──────────────────────────────────────────────────────── -->
   <script>
-    // ─── Data ──────────────────────────────────────────────────────────────
+    /* ───── Tab Switching ───────────────────────────────────────────── */
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.section;
+        // toggle sections
+        ['quotes', 'stats'].forEach(id =>
+          document.getElementById(id).classList.toggle('hidden', id !== target)
+        );
+        // toggle active tab styles
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          if (b.dataset.section === target) {
+            b.classList.add('bg-sky-600', 'text-slate-100', 'font-semibold');
+            b.classList.remove('text-slate-300');
+          } else {
+            b.classList.remove('bg-sky-600', 'text-slate-100', 'font-semibold');
+            b.classList.add('text-slate-300');
+          }
+        });
+      });
+    });
+
+    /* ───── Data ─────────────────────────────────────────────────────── */
     const quotes = [
       { id: 1,  book: "1SM", ref: "1SM p. 372",  title: "Justification by Faith = 3rd Angel’s Message", text: "Several have written to me,…", themes: ["Justification by Faith"] },
       { id: 2,  book: "6BC", ref: "6BC p. 1113", title: "Christ on the Cross is the Gospel", text: "Hanging upon the cross Christ…", themes: ["Centrality of the Cross", "Transforming Power of Love"] },
@@ -153,70 +157,15 @@
       { id: 48, book: "GC",  ref: "GC pp. 651-652", title: "Science and Song of Christ Crucified", text: "The cross of Christ will…", themes: ["Final Vindication"] }
     ];
 
-    const themesAccordion = [
-      {
-        name: "Justification by Faith",
-        desc: `From the very heart of the gospel flows the assurance that we stand before God not by our own merit but by the perfect obedience of Christ. In the third angel’s message this truth is proclaimed in all its freshness, calling sinners to lay aside every claim of human righteousness and to receive freely the robe of Christ’s own perfection. When we contemplate the cross, we see how divine love bore the penalty of our sin and credited us with Christ’s own righteousness—an exchange that leaves us accepted before the throne and empowered to live in humble gratitude.
-
-As this gift takes root in our hearts, it blossoms into a life of holiness and victory. Meditation on justification by faith leads us into a deeper experience of grace, strengthening our faith in seasons of trial and shaping our character in the likeness of our Savior. In times of tribulation and temptation, the knowledge that Christ’s finished work is our firm foundation sustains us, laying human glory in the dust and compelling us to walk in love, obedience, and unwavering trust.`
-      },
-      {
-        name: "Centrality of the Cross",
-        desc: `Every strand of Christian doctrine finds its heartbeat at Calvary. The cross is described as “the center of attraction,” drawing our eyes away from human wisdom and fixing them on divine mercy. From the foundational assertion that “every doctrine and duty should radiate from Calvary” to Paul’s own high-priestly vision of Christ interceding for us, the quotations underscore that no teaching stands apart from the cross. When the cross is lifted high, it aligns our theology, our worship, and our daily living with the one true source of power and grace.
-
-In practical terms, making the cross central reshapes our motives and methods. It turns apologetics into a humble witness, scholarship into worship, and service into an outflow of gratitude. As one writer put it, “The sacrifice of Christ is the foundation of every discourse,” reminding us that when Calvary is center stage, every sermon, every lesson, and every act of mercy becomes a reflection of the same love that upheld the world. In that light, the cross doesn’t just complete the story—it writes the story we’re called to live.`
-      },
-      {
-        name: "Transforming Power of Love",
-        desc: `At the heart of the crucifixion beats an irresistible love that changes hearts. Quotations like “One look at the cross transforms” and “Christ’s love compels us” reveal that the matchless affection displayed on Calvary is not a mere doctrine but a dynamic force—subduing pride, awakening repentance, and igniting devotion. Time and again the writers testify that when we behold the Savior’s sufferings, we are drawn into a deeper communion, our motives purified, and our wills aligned with His.
-
-This love is not static sentiment but a living energy that carries us through trial and triumph. From the call to “meditation that leads to transformation” to the assurance that “nothing reaches so fully down into the heart,” these passages affirm that Christ’s sacrificial love empowers us to conquer sin and cultivate Christlike character. Thus the cross becomes not only the proof of God’s love but the very source of our ongoing renewal—reshaping our desires, strengthening our faith, and sending us forth as ambassadors of that same redeeming grace.`
-      },
-      {
-        name: "Educational Foundation",
-        desc: `True learning begins—and flourishes—when it is anchored in the cross. Writers insist that “education and redemption are united” and that every student must first encounter the cross as the living curriculum. By teaching the cross “to every student,” we ground both the mind and heart in the reality of God’s character and the gospel story. This approach transforms education from mere information transfer into formation—shaping values, affections, and life purpose around the eternal truth of Christ’s sacrifice.
-
-When the cross is the cornerstone of teaching, knowledge becomes worship and lessons become invitations to transformation. The call for Adventists to be “foremost in uplifting Christ” emphasizes that all instruction—whether in the classroom, pulpits, or daily conversation—must revolve around the gospel message. In doing so, learners not only learn about God but come to know Him experientially, equipping them to teach others, defend truth, and live out the principles they’ve embraced at Calvary’s foot.`
-      },
-      {
-        name: "Final Vindication",
-        desc: `In the courtroom of the universe, the cross stands as both science and song. Passages like “Judgment and vindication of the cross” and “Science and song of Christ crucified” declare that even through eternity the cross will testify to God’s righteousness. As the redeemed praise around the throne, they will sing the mystery revealed at Calvary, vindicating the divine character before every created intellect. This theme reminds us that history’s final chapter will center on the same sacrifice that began our redemption.
-
-Meanwhile, in the present “time of test,” the cross offers assurance and perspective. Writings about the “loud cry” and the “song of Moses and the Lamb” beckon believers to stand firm, knowing that Calvary has already established God’s ultimate triumph. Even in the face of Satan’s fiercest accusations, the cross remains the definitive answer—silencing every slander and demonstrating that love, not force, has always been God’s means of victory. Thus, from now until eternity, the cross remains our shield and our song of eternal vindication.`
-      }
+    const themeDescriptions = [
+      "Justification by Faith",
+      "Centrality of the Cross",
+      "Transforming Power of Love",
+      "Educational Foundation",
+      "Final Vindication"
     ];
 
-    const themeNames = themesAccordion.map(t => t.name);
-    let selectedTheme = null;
-
-    // Build Themes Accordion
-    const themeContainer = document.getElementById('themeContainer');
-    themesAccordion.forEach((t, idx) => {
-      const panel = document.createElement('div');
-      panel.innerHTML = `
-        <button class="w-full flex justify-between items-center px-4 py-2 bg-slate-800 border border-slate-700 rounded-md"
-                data-theme-idx="${idx}">
-          <span class="font-medium text-slate-100">${t.name}</span>
-          <span id="icon-${idx}" class="transition-transform text-slate-400">+</span>
-        </button>
-        <div id="theme-content-${idx}" class="hidden px-4 py-3 bg-slate-700 border border-slate-700 rounded-b-md text-slate-200">
-          ${t.desc}
-        </div>
-      `;
-      themeContainer.appendChild(panel);
-    });
-    themeContainer.addEventListener('click', e => {
-      const btn = e.target.closest('[data-theme-idx]');
-      if (!btn) return;
-      const idx = btn.dataset.themeIdx;
-      const content = document.getElementById(`theme-content-${idx}`);
-      const icon    = document.getElementById(`icon-${idx}`);
-      const isOpen  = !content.classList.contains('hidden');
-      content.classList.toggle('hidden', isOpen);
-      icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(45deg)';
-    });
-
-    // Build Theme Navigator
+    /* ───── Theme Filters ────────────────────────────────────────────── */
     function buildThemeFilters() {
       const container = document.getElementById('themeFilters');
       const allBtn = document.createElement('button');
@@ -229,7 +178,7 @@ Meanwhile, in the present “time of test,” the cross offers assurance and per
       });
       container.appendChild(allBtn);
 
-      themeNames.forEach(name => {
+      themeDescriptions.forEach(name => {
         const btn = document.createElement('button');
         const count = quotes.filter(q => q.themes?.includes(name)).length;
         btn.textContent = `${name} (${count})`;
@@ -243,10 +192,11 @@ Meanwhile, in the present “time of test,” the cross offers assurance and per
         container.appendChild(btn);
       });
     }
+
     function highlightActiveTheme() {
       document.querySelectorAll('#themeFilters button').forEach(btn => {
-        const isAll = btn.textContent === 'All Themes';
-        if ((isAll && selectedTheme === null) || btn.dataset.theme === selectedTheme) {
+        const isAll = btn.textContent.startsWith('All Themes');
+        if ((isAll && !selectedTheme) || btn.dataset.theme === selectedTheme) {
           btn.classList.add('font-bold', 'bg-sky-600');
         } else {
           btn.classList.remove('font-bold', 'bg-sky-600');
@@ -254,29 +204,33 @@ Meanwhile, in the present “time of test,” the cross offers assurance and per
       });
     }
 
-    // Render Quote Cards
+    /* ───── Quote Cards ──────────────────────────────────────────────── */
     const searchInput = document.getElementById('searchInput');
+    let selectedTheme = null;
+
     function renderQuoteCards(filterText = '') {
       const listEl = document.getElementById('quoteList');
       listEl.innerHTML = '';
-      quotes.filter(q => {
-        const txt = filterText.toLowerCase();
-        const matchText = q.title.toLowerCase().includes(txt) || q.text.toLowerCase().includes(txt);
-        const matchTheme = !selectedTheme || q.themes?.includes(selectedTheme);
-        return matchText && matchTheme;
-      }).forEach(q => {
-        const card = document.createElement('div');
-        card.className = "p-3 bg-slate-800 border border-slate-700 rounded-md cursor-pointer hover:bg-slate-700";
-        card.dataset.id = q.id;
-        card.innerHTML = `
-          <p class="font-semibold text-slate-100">${q.title}</p>
-          <p class="text-xs text-slate-400">${q.ref}</p>
-        `;
-        listEl.appendChild(card);
-      });
+      quotes
+        .filter(q => {
+          const txt = filterText.toLowerCase();
+          const inText = q.title.toLowerCase().includes(txt) || q.text.toLowerCase().includes(txt);
+          const inTheme = !selectedTheme || q.themes?.includes(selectedTheme);
+          return inText && inTheme;
+        })
+        .forEach(q => {
+          const card = document.createElement('div');
+          card.className = "p-3 bg-slate-800 border border-slate-700 rounded-md cursor-pointer hover:bg-slate-700 snap-start";
+          card.dataset.id = q.id;
+          card.innerHTML = `
+            <p class="font-semibold text-slate-100">${q.title}</p>
+            <p class="text-xs text-slate-400">${q.ref}</p>
+          `;
+          listEl.appendChild(card);
+        });
     }
 
-    // Quote Detail and Image
+    /* ───── Quote Detail & Image ─────────────────────────────────────── */
     document.getElementById('quoteList').addEventListener('click', e => {
       const id = e.target.closest('[data-id]')?.dataset.id;
       if (!id) return;
@@ -290,42 +244,27 @@ Meanwhile, in the present “time of test,” the cross offers assurance and per
     });
     searchInput.addEventListener('input', e => renderQuoteCards(e.target.value));
 
-    // Tab Switching Logic
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.tab;
-        document.querySelectorAll('.tab-section').forEach(sec => {
-          sec.id === target ? sec.classList.remove('hidden') : sec.classList.add('hidden');
-        });
-        document.querySelectorAll('.tab-btn').forEach(b => {
-          if (b === btn) {
-            b.classList.add('bg-sky-600', 'text-white');
-            b.classList.remove('text-slate-300');
-          } else {
-            b.classList.remove('bg-sky-600', 'text-white');
-            b.classList.add('text-slate-300');
-          }
-        });
-      });
-    });
-
-    // Build Reference Chart
+    /* ───── Reference Chart ─────────────────────────────────────────── */
     function buildChart() {
       const ctx = document.getElementById('refChart').getContext('2d');
       const counts = {};
-      quotes.forEach(q => counts[q.book] = (counts[q.book]||0) + 1);
+      quotes.forEach(q => counts[q.book] = (counts[q.book] || 0) + 1);
       new Chart(ctx, {
         type: 'bar',
-        data: { labels: Object.keys(counts), datasets: [{ label:'Count', data: Object.values(counts), borderWidth:1 }] },
+        data: {
+          labels: Object.keys(counts),
+          datasets: [{ label: 'Count', data: Object.values(counts), borderWidth: 1 }]
+        },
         options: {
-          responsive:true, maintainAspectRatio:false,
-          scales:{ y:{ beginAtZero:true, ticks:{precision:0} } },
-          plugins:{ legend:{ display:false } }
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+          plugins: { legend: { display: false } }
         }
       });
     }
 
-    // Initialization
+    /* ───── Initialize ──────────────────────────────────────────────── */
     buildThemeFilters();
     highlightActiveTheme();
     renderQuoteCards();
