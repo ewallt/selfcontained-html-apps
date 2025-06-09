@@ -1,31 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Centrality of the Cross — Interactive Explorer</title>
+  <!-- enable class‐based dark mode -->
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
-<body class="bg-stone-100 text-stone-800 antialiased">
-  <header class="bg-white shadow sticky top-0 z-30">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-      <h1 class="text-2xl font-semibold mb-2 sm:mb-0">Centrality of the Cross</h1>
+<body class="bg-slate-900 text-slate-200 antialiased">
+  <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <h1 class="text-2xl font-semibold text-slate-100">Centrality of the Cross</h1>
       <nav class="flex gap-2">
-        <button data-tab="overview" class="tab-btn px-3 py-1 rounded-md text-sm bg-sky-600 text-white">Overview</button>
-        <button data-tab="themes"   class="tab-btn px-3 py-1 rounded-md text-sm hover:bg-sky-100">Themes</button>
-        <button data-tab="quotes"   class="tab-btn px-3 py-1 rounded-md text-sm hover:bg-sky-100">Quotes</button>
-        <button data-tab="stats"    class="tab-btn px-3 py-1 rounded-md text-sm hover:bg-sky-100">Reference Stats</button>
+        <button data-tab="overview"
+                class="tab-btn px-3 py-1 rounded-md text-sm bg-sky-600 text-white">
+          Overview
+        </button>
+        <button data-tab="themes"
+                class="tab-btn px-3 py-1 rounded-md text-sm text-slate-300 hover:bg-slate-700">
+          Themes
+        </button>
+        <button data-tab="quotes"
+                class="tab-btn px-3 py-1 rounded-md text-sm text-slate-300 hover:bg-slate-700">
+          Quotes
+        </button>
+        <button data-tab="stats"
+                class="tab-btn px-3 py-1 rounded-md text-sm text-slate-300 hover:bg-slate-700">
+          Reference Stats
+        </button>
       </nav>
     </div>
   </header>
 
   <main class="max-w-7xl mx-auto px-4 py-6 space-y-12">
-
     <!-- Overview -->
     <section id="overview" class="tab-section space-y-4">
-      <h2 class="text-xl font-semibold">Introduction</h2>
-      <p>
+      <h2 class="text-xl font-semibold text-slate-100">Introduction</h2>
+      <p class="text-slate-300">
         This interactive application gathers inspired statements on the supremacy of Christ’s cross and the message of <em>justification by faith</em>.
         Explore overarching themes, dive into individual quotations, and observe how frequently each source emphasizes the topic.
         Engage with the material by switching tabs, expanding theme panels, clicking individual quotes, and viewing reference analytics.
@@ -34,511 +49,287 @@
 
     <!-- Themes Accordion -->
     <section id="themes" class="tab-section hidden space-y-6">
-      <h2 class="text-xl font-semibold">Key Themes</h2>
+      <h2 class="text-xl font-semibold text-slate-100">Key Themes</h2>
       <div id="themeContainer" class="space-y-2"></div>
     </section>
 
-    <!-- Quotes: 3-Pane Layout with Theme Navigator -->
+    <!-- Quotes Explorer -->
     <section id="quotes" class="tab-section hidden space-y-6">
-  <h2 class="text-xl font-semibold">Quotation Explorer</h2>
-  <div class="flex gap-4">
-    <!-- Pane 1: Theme Navigator (20%) -->
-    <aside id="themeFilters"
-           class="w-1/5 bg-white p-4 border rounded-md max-h-[70vh] overflow-y-auto">
-      <h3 class="font-semibold mb-2">Filter by Theme</h3>
-      <!-- ...injected buttons... -->
-    </aside>
+      <h2 class="text-xl font-semibold text-slate-100">Quotation Explorer</h2>
+      <div class="flex gap-4">
+        <!-- Pane 1: Theme Navigator -->
+        <aside id="themeFilters"
+               class="w-1/5 bg-slate-800 border border-slate-700 p-4 rounded-md max-h-[70vh] overflow-y-auto">
+          <h3 class="font-semibold mb-2 text-slate-100">Filter by Theme</h3>
+        </aside>
 
-    <!-- Pane 2: Search + List (20%) -->
-    <div class="w-1/5 space-y-2">
-      <input
-        id="searchInput"
-        type="text"
-        placeholder="Search quotes…"
-        class="w-full px-3 py-2 border rounded-md"
-      >
-      <div id="quoteList" class="space-y-2 max-h-[65vh] overflow-y-auto"></div>
-    </div>
+        <!-- Pane 2: Search + List -->
+        <div class="w-1/5 space-y-2">
+          <input id="searchInput"
+                 type="text"
+                 placeholder="Search quotes…"
+                 class="w-full px-3 py-2 bg-slate-700 border border-slate-700 rounded-md text-slate-200" />
+          <div id="quoteList" class="space-y-2 max-h-[65vh] overflow-y-auto"></div>
+        </div>
 
-    <!-- Pane 3: Quote Detail (40%) -->
-    <article
-      id="quoteDetail"
-      class="w-2/5 bg-white border rounded-md p-4 max-h-[70vh] overflow-y-auto"
-    >
-      <p class="italic text-stone-500">Select a quote to view its full text.</p>
-    </article>
+        <!-- Pane 3: Quote Detail -->
+        <article id="quoteDetail"
+                 class="w-2/5 bg-slate-800 border border-slate-700 p-4 rounded-md max-h-[70vh] overflow-y-auto">
+          <p class="italic text-slate-400">Select a quote to view its full text.</p>
+        </article>
 
-    <!-- Pane 4: Image (20%) -->
-    <div class="w-1/5 flex items-center justify-center bg-white border rounded-md p-4 max-h-[70vh]">
-      <img
-        id="quoteImage"
-        src="https://cdn.midjourney.com/da7997ab-ee8f-4d4a-ba71-35d452f6656f/0_1.png"
-        alt="Illustration related to the quote"
-        class="h-full w-auto object-contain rounded-md"
-      >
-    </div>
-  </div>
-</section>
-
-
-
-
-    <!-- Stats -->
-    <section id="stats" class="tab-section hidden space-y-6">
-      <h2 class="text-xl font-semibold">Reference Frequency</h2>
-      <p>The bar chart visualizes how often each publication appears in the quotation set.</p>
-      <div class="chart-container w-full max-w-3xl mx-auto h-96">
-        <canvas id="refChart"></canvas>
+        <!-- Pane 4: Image -->
+        <div class="w-1/5 flex items-center justify-center bg-slate-800 border border-slate-700 p-4 rounded-md max-h-[70vh]">
+          <img id="quoteImage"
+               src="https://cdn.midjourney.com/da7997ab-ee8f-4d4a-ba71-35d452f6656f/0_1.png"
+               alt="Illustration related to the quote"
+               class="h-full w-auto object-contain rounded-md" />
+        </div>
       </div>
     </section>
 
+    <!-- Stats -->
+    <section id="stats" class="tab-section hidden space-y-6">
+      <h2 class="text-xl font-semibold text-slate-100">Reference Frequency</h2>
+      <p class="text-slate-300">
+        The bar chart visualizes how often each publication appears in the quotation set.
+      </p>
+      <div class="chart-container w-full max-w-3xl mx-auto h-96 bg-slate-800 border border-slate-700 rounded-md p-4">
+        <canvas id="refChart"></canvas>
+      </div>
+    </section>
   </main>
 
   <script>
-  // ─── Data ──────────────────────────────────────────────────────────────
-  const quotes = [
-  { id: 1,  book: "1SM",  ref: "1SM p. 372",
-    title: "Justification by Faith = 3rd Angel’s Message",
-    text: "Several have written to me,…",
-    themes: ["Justification by Faith"]
-  },
-  { id: 2,  book: "6BC",  ref: "6BC p. 1113",
-    title: "Christ on the Cross is the Gospel",
-    text: "Hanging upon the cross Christ…",
-    themes: ["Centrality of the Cross", "Transforming Power of Love"]
-  },
-  { id: 3,  book: "6T",   ref: "6T p. 67",
-    title: "Christ Crucified—Talk It, Pray It, Sing It",
-    text: "Christ gave Himself to a…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 4,  book: "6BC",  ref: "6BC p. 1113",
-    title: "Cross the Center of Attraction",
-    text: "The cross of Calvary challenges,…",
-    themes: ["Centrality of the Cross"]
-  },
-  { id: 5,  book: "1SM",  ref: "1SM p. 384",
-    title: "John’s Love Propitiation",
-    text: "Let us repeat and make…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 6,  book: "AA",   ref: "AA p. 209",
-    title: "One Look at the Cross Transforms",
-    text: "If those who today are…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 7,  book: "GW",   ref: "GW pp. 157-158",
-    title: "Theory of Truth and Redeeming Love",
-    text: "There are those who listen…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 8,  book: "GW",   ref: "GW pp. 156-157",
-    title: "Adventists Foremost in Uplifting Christ",
-    text: "Of all professing Christians, Seventh…",
-    themes: ["Educational Foundation"]
-  },
-  { id: 9,  book: "GW",   ref: "GW p. 315",
-    title: "Cross: Foundation of Every Discourse",
-    text: "The sacrifice of Christ as…",
-    themes: ["Centrality of the Cross"]
-  },
-  { id: 10, book: "EV",   ref: "EV p. 190",
-    title: "Mystery of the Cross Explained",
-    text: "The mystery of the cross…",
-    themes: ["Final Vindication"]
-  },
-  { id: 11, book: "Ed",   ref: "Ed p. 30",
-    title: "Education and Redemption United",
-    text: "In the highest sense the…",
-    themes: ["Educational Foundation"]
-  },
-  { id: 12, book: "CT",   ref: "CT pp. 23-24",
-    title: "Cross: Teach Every Student",
-    text: "The cross of Christ—teach it…",
-    themes: ["Educational Foundation"]
-  },
-  { id: 13, book: "CT",   ref: "CT p. 338",
-    title: "Enthusiasm for the Cross",
-    text: "If there is anything in…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 14, book: "DA",   ref: "DA p. 493",
-    title: "Pardoning Love of Christ",
-    text: "Nothing reaches so fully down…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 15, book: "DA",   ref: "DA p. 480",
-    title: "Love Softens and Subdues",
-    text: "It is not the fear…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 16, book: "AA",   ref: "AA pp. 245-246",
-    title: "Christ’s Love Compels",
-    text: "Christ's love compels us, because…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 17, book: "DA",   ref: "DA p. 660",
-    title: "Keep the Love of Jesus Fresh",
-    text: "The love of Jesus, with…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 18, book: "DA",   ref: "DA p. 661",
-    title: "Beholding Christ Crucified Elevates",
-    text: "He who beholds the Saviour's…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 19, book: "TM",   ref: "TM p. 378",
-    title: "Love Restores and Strengthens the Soul",
-    text: "The love of God is…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 20, book: "DA",   ref: "DA p. 22",
-    title: "Only by Love is Love Awakened",
-    text: "That the world might be…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 21, book: "MB",   ref: "MB pp. 76-77",
-    title: "Transforming Power of God’s Love",
-    text: "With untold love our God…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 22, book: "1SM",  ref: "1SM p. 312",
-    title: "Correct View of God’s Love",
-    text: "As soon as we have…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 23, book: "1SM",  ref: "1SM p. 359",
-    title: "Present Message of Holiness",
-    text: "The present message—justification by faith—is…",
-    themes: ["Justification by Faith"]
-  },
-  { id: 24, book: "TM",   ref: "TM p. 456",
-    title: "Justification Lays Human Glory in the Dust",
-    text: "What is justification by faith?…",
-    themes: ["Justification by Faith"]
-  },
-  { id: 25, book: "DA",   ref: "DA p. 661",
-    title: "Praise in Hearts and Lips",
-    text: "Praise to God and the…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 26, book: "ST",   ref: "ST Dec 30, 1889",
-    title: "Faith Strengthened by Contemplation",
-    text: "If men would contemplate the…",
-    themes: ["Justification by Faith"]
-  },
-  { id: 27, book: "AA",   ref: "AA p. 209-210",
-    title: "Union with the Father Through the Cross",
-    text: "Without the cross, man could…",
-    themes: ["Centrality of the Cross"]
-  },
-  { id: 28, book: "MB",   ref: "MB p. 29",
-    title: "Presenting Christ’s Love",
-    text: "When one presents the love…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 29, book: "MB",   ref: "MB p. 115",
-    title: "Knowing and Believing God’s Love",
-    text: "The one thing essential for…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 30, book: "MB",   ref: "MB pp. 384-385",
-    title: "Satan’s Determination",
-    text: "Satan is determined that men…",
-    themes: ["Final Vindication"]
-  },
-  { id: 31, book: "1SM",  ref: "1SM p. 363a",
-    title: "Beginning of the Loud Cry",
-    text: "The time of test is…",
-    themes: ["Final Vindication"]
-  },
-  { id: 32, book: "MB",   ref: "MB p. 44",
-    title: "Cross as Center of Influence",
-    text: "The cross of Calvary is…",
-    themes: ["Centrality of the Cross"]
-  },
-  { id: 33, book: "ST",   ref: "ST p. 202",
-    title: "Clear Steady View Counters Worldliness",
-    text: "A clear, steady view of…",
-    themes: ["Centrality of the Cross"]
-  },
-  { id: 34, book: "MB",   ref: "MB pp. 128-129a",
-    title: "No Criticism in the Cross’s Shadow",
-    text: "He who looks often upon…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 35, book: "MB",   ref: "MB pp. 128-129b",
-    title: "Sacrificial Humility and Brotherly Love",
-    text: "Not until you feel that…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 36, book: "GW",   ref: "GW pp. 51-55; 8T pp. 331-332",
-    title: "Meditation Leads to Transformation",
-    text: "The knowledge of God that…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 37, book: "1SM",  ref: "1SM p. 385",
-    title: "Pledge and Unity of the Cross",
-    text: "Look at the cross of…",
-    themes: ["Centrality of the Cross"]
-  },
-  { id: 38, book: "1SM",  ref: "1 SM p. 93",
-    title: "No Time for Controversy",
-    text: "There is no time to…",
-    themes: ["Centrality of the Cross"]
-  },
-  { id: 39, book: "6T",   ref: "6T pp. 235-236",
-    title: "Demonstrating Influence of the Cross",
-    text: "Our work in all its…",
-    themes: ["Centrality of the Cross"]
-  },
-  { id: 40, book: "Eph.", ref: "Eph. 3:16-21, NIV",
-    title: "Paul’s Prayer for Spiritual Strength",
-    text: "I pray that out of…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 41, book: "AA",   ref: "AA p. 210",
-    title: "Infinite Love Revealed through the Cross",
-    text: "Through the cross we learn…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 42, book: "DA",   ref: "DA p. 660",
-    title: "Daily Sustenance through Calvary",
-    text: "To the death of Christ…",
-    themes: ["Transforming Power of Love"]
-  },
-  { id: 43, book: "1SM",  ref: "1SM p. 343",
-    title: "High Priest Advocate",
-    text: "Christ as high priest within…",
-    themes: ["Centrality of the Cross"]
-  },
-  { id: 44, book: "1SM",  ref: "1SM p. 363b",
-    title: "Righteousness for Time of Trouble",
-    text: "If you would stand through…",
-    themes: ["Justification by Faith"]
-  },
-  { id: 45, book: "DA",   ref: "DA p. 660",
-    title: "Necessity of Christ’s Death",
-    text: "Nothing less than the death…",
-    themes: ["Centrality of the Cross"]
-  },
-  { id: 46, book: "DA",   ref: "DA p. 58",
-    title: "Judgement and Vindication of the Cross",
-    text: "In the day of final…",
-    themes: ["Final Vindication"]
-  },
-  { id: 47, book: "TM",   ref: "TM p. 433",
-    title: "Song of Moses and the Lamb",
-    text: "There is a day just…",
-    themes: ["Final Vindication"]
-  },
-  { id: 48, book: "GC",   ref: "GC pp. 651-652",
-    title: "Science and Song of Christ Crucified",
-    text: "The cross of Christ will…",
-    themes: ["Final Vindication"]
-  }
-];
+    // ─── Data ──────────────────────────────────────────────────────────────
+    const quotes = [
+      { id: 1,  book: "1SM", ref: "1SM p. 372",  title: "Justification by Faith = 3rd Angel’s Message", text: "Several have written to me,…", themes: ["Justification by Faith"] },
+      { id: 2,  book: "6BC", ref: "6BC p. 1113", title: "Christ on the Cross is the Gospel", text: "Hanging upon the cross Christ…", themes: ["Centrality of the Cross", "Transforming Power of Love"] },
+      { id: 3,  book: "6T",  ref: "6T p. 67",  title: "Christ Crucified—Talk It, Pray It, Sing It", text: "Christ gave Himself to a…", themes: ["Transforming Power of Love"] },
+      { id: 4,  book: "6BC", ref: "6BC p. 1113", title: "Cross the Center of Attraction", text: "The cross of Calvary challenges,…", themes: ["Centrality of the Cross"] },
+      { id: 5,  book: "1SM", ref: "1SM p. 384", title: "John’s Love Propitiation", text: "Let us repeat and make…", themes: ["Transforming Power of Love"] },
+      { id: 6,  book: "AA",  ref: "AA p. 209",  title: "One Look at the Cross Transforms", text: "If those who today are…", themes: ["Transforming Power of Love"] },
+      { id: 7,  book: "GW",  ref: "GW pp. 157-158", title: "Theory of Truth and Redeeming Love", text: "There are those who listen…", themes: ["Transforming Power of Love"] },
+      { id: 8,  book: "GW",  ref: "GW pp. 156-157", title: "Adventists Foremost in Uplifting Christ", text: "Of all professing Christians, Seventh…", themes: ["Educational Foundation"] },
+      { id: 9,  book: "GW",  ref: "GW p. 315", title: "Cross: Foundation of Every Discourse", text: "The sacrifice of Christ as…", themes: ["Centrality of the Cross"] },
+      { id: 10, book: "EV",  ref: "EV p. 190", title: "Mystery of the Cross Explained", text: "The mystery of the cross…", themes: ["Final Vindication"] },
+      { id: 11, book: "Ed",  ref: "Ed p. 30", title: "Education and Redemption United", text: "In the highest sense the…", themes: ["Educational Foundation"] },
+      { id: 12, book: "CT",  ref: "CT pp. 23-24", title: "Cross: Teach Every Student", text: "The cross of Christ—teach it…", themes: ["Educational Foundation"] },
+      { id: 13, book: "CT",  ref: "CT p. 338", title: "Enthusiasm for the Cross", text: "If there is anything in…", themes: ["Transforming Power of Love"] },
+      { id: 14, book: "DA",  ref: "DA p. 493", title: "Pardoning Love of Christ", text: "Nothing reaches so fully down…", themes: ["Transforming Power of Love"] },
+      { id: 15, book: "DA",  ref: "DA p. 480", title: "Love Softens and Subdues", text: "It is not the fear…", themes: ["Transforming Power of Love"] },
+      { id: 16, book: "AA",  ref: "AA pp. 245-246", title: "Christ’s Love Compels", text: "Christ's love compels us, because…", themes: ["Transforming Power of Love"] },
+      { id: 17, book: "DA",  ref: "DA p. 660", title: "Keep the Love of Jesus Fresh", text: "The love of Jesus, with…", themes: ["Transforming Power of Love"] },
+      { id: 18, book: "DA",  ref: "DA p. 661", title: "Beholding Christ Crucified Elevates", text: "He who beholds the Saviour's…", themes: ["Transforming Power of Love"] },
+      { id: 19, book: "TM",  ref: "TM p. 378", title: "Love Restores and Strengthens the Soul", text: "The love of God is…", themes: ["Transforming Power of Love"] },
+      { id: 20, book: "DA",  ref: "DA p. 22", title: "Only by Love is Love Awakened", text: "That the world might be…", themes: ["Transforming Power of Love"] },
+      { id: 21, book: "MB",  ref: "MB pp. 76-77", title: "Transforming Power of God’s Love", text: "With untold love our God…", themes: ["Transforming Power of Love"] },
+      { id: 22, book: "1SM", ref: "1SM p. 312", title: "Correct View of God’s Love", text: "As soon as we have…", themes: ["Transforming Power of Love"] },
+      { id: 23, book: "1SM", ref: "1SM p. 359", title: "Present Message of Holiness", text: "The present message—justification by faith—is…", themes: ["Justification by Faith"] },
+      { id: 24, book: "TM",  ref: "TM p. 456", title: "Justification Lays Human Glory in the Dust", text: "What is justification by faith?…", themes: ["Justification by Faith"] },
+      { id: 25, book: "DA",  ref: "DA p. 661", title: "Praise in Hearts and Lips", text: "Praise to God and the…", themes: ["Transforming Power of Love"] },
+      { id: 26, book: "ST",  ref: "ST Dec 30, 1889", title: "Faith Strengthened by Contemplation", text: "If men would contemplate the…", themes: ["Justification by Faith"] },
+      { id: 27, book: "AA",  ref: "AA p. 209-210", title: "Union with the Father Through the Cross", text: "Without the cross, man could…", themes: ["Centrality of the Cross"] },
+      { id: 28, book: "MB",  ref: "MB p. 29", title: "Presenting Christ’s Love", text: "When one presents the love…", themes: ["Transforming Power of Love"] },
+      { id: 29, book: "MB",  ref: "MB p. 115", title: "Knowing and Believing God’s Love", text: "The one thing essential for…", themes: ["Transforming Power of Love"] },
+      { id: 30, book: "MB",  ref: "MB pp. 384-385", title: "Satan’s Determination", text: "Satan is determined that men…", themes: ["Final Vindication"] },
+      { id: 31, book: "1SM", ref: "1SM p. 363a", title: "Beginning of the Loud Cry", text: "The time of test is…", themes: ["Final Vindication"] },
+      { id: 32, book: "MB",  ref: "MB p. 44", title: "Cross as Center of Influence", text: "The cross of Calvary is…", themes: ["Centrality of the Cross"] },
+      { id: 33, book: "ST",  ref: "ST p. 202", title: "Clear Steady View Counters Worldliness", text: "A clear, steady view of…", themes: ["Centrality of the Cross"] },
+      { id: 34, book: "MB",  ref: "MB pp. 128-129a", title: "No Criticism in the Cross’s Shadow", text: "He who looks often upon…", themes: ["Transforming Power of Love"] },
+      { id: 35, book: "MB",  ref: "MB pp. 128-129b", title: "Sacrificial Humility and Brotherly Love", text: "Not until you feel that…", themes: ["Transforming Power of Love"] },
+      { id: 36, book: "GW",  ref: "GW pp. 51-55; 8T pp. 331-332", title: "Meditation Leads to Transformation", text: "The knowledge of God that…", themes: ["Transforming Power of Love"] },
+      { id: 37, book: "1SM", ref: "1SM p. 385", title: "Pledge and Unity of the Cross", text: "Look at the cross of…", themes: ["Centrality of the Cross"] },
+      { id: 38, book: "1SM", ref: "1 SM p. 93", title: "No Time for Controversy", text: "There is no time to…", themes: ["Centrality of the Cross"] },
+      { id: 39, book: "6T",  ref: "6T pp. 235-236", title: "Demonstrating Influence of the Cross", text: "Our work in all its…", themes: ["Centrality of the Cross"] },
+      { id: 40, book: "Eph.",ref: "Eph. 3:16-21, NIV", title: "Paul’s Prayer for Spiritual Strength", text: "I pray that out of…", themes: ["Transforming Power of Love"] },
+      { id: 41, book: "AA",  ref: "AA p. 210", title: "Infinite Love Revealed through the Cross", text: "Through the cross we learn…", themes: ["Transforming Power of Love"] },
+      { id: 42, book: "DA",  ref: "DA p. 660", title: "Daily Sustenance through Calvary", text: "To the death of Christ…", themes: ["Transforming Power of Love"] },
+      { id: 43, book: "1SM", ref: "1SM p. 343", title: "High Priest Advocate", text: "Christ as high priest within…", themes: ["Centrality of the Cross"] },
+      { id: 44, book: "1SM", ref: "1SM p. 363b", title: "Righteousness for Time of Trouble", text: "If you would stand through…", themes: ["Justification by Faith"] },
+      { id: 45, book: "DA",  ref: "DA p. 660", title: "Necessity of Christ’s Death", text: "Nothing less than the death…", themes: ["Centrality of the Cross"] },
+      { id: 46, book: "DA",  ref: "DA p. 58", title: "Judgement and Vindication of the Cross", text: "In the day of final…", themes: ["Final Vindication"] },
+      { id: 47, book: "TM",  ref: "TM p. 433", title: "Song of Moses and the Lamb", text: "There is a day just…", themes: ["Final Vindication"] },
+      { id: 48, book: "GC",  ref: "GC pp. 651-652", title: "Science and Song of Christ Crucified", text: "The cross of Christ will…", themes: ["Final Vindication"] }
+    ];
 
-  // For the accordion in the Themes tab:
-  const themesAccordion = [
-    { name:"Justification by Faith",
-      desc: `From the very heart of the gospel flows the assurance that we stand before God not by our own merit but by the perfect obedience of Christ. In the third angel’s message this truth is proclaimed in all its freshness, calling sinners to lay aside every claim of human righteousness and to receive freely the robe of Christ’s own perfection. When we contemplate the cross, we see how divine love bore the penalty of our sin and credited us with Christ’s own righteousness—an exchange that leaves us accepted before the throne and empowered to live in humble gratitude.
+    const themesAccordion = [
+      {
+        name: "Justification by Faith",
+        desc: `From the very heart of the gospel flows the assurance that we stand before God not by our own merit but by the perfect obedience of Christ. In the third angel’s message this truth is proclaimed in all its freshness, calling sinners to lay aside every claim of human righteousness and to receive freely the robe of Christ’s own perfection. When we contemplate the cross, we see how divine love bore the penalty of our sin and credited us with Christ’s own righteousness—an exchange that leaves us accepted before the throne and empowered to live in humble gratitude.
 
-As this gift takes root in our hearts, it blossoms into a life of holiness and victory. Meditation on justification by faith leads us into a deeper experience of grace, strengthening our faith in seasons of trial and shaping our character in the likeness of our Savior. In times of tribulation and temptation, the knowledge that Christ’s finished work is our firm foundation sustains us, laying human glory in the dust and compelling us to walk in love, obedience, and unwavering trust.` },
-   // Add these to your `themesAccordion` array:
+As this gift takes root in our hearts, it blossoms into a life of holiness and victory. Meditation on justification by faith leads us into a deeper experience of grace, strengthening our faith in seasons of trial and shaping our character in the likeness of our Savior. In times of tribulation and temptation, the knowledge that Christ’s finished work is our firm foundation sustains us, laying human glory in the dust and compelling us to walk in love, obedience, and unwavering trust.`
+      },
+      {
+        name: "Centrality of the Cross",
+        desc: `Every strand of Christian doctrine finds its heartbeat at Calvary. The cross is described as “the center of attraction,” drawing our eyes away from human wisdom and fixing them on divine mercy. From the foundational assertion that “every doctrine and duty should radiate from Calvary” to Paul’s own high-priestly vision of Christ interceding for us, the quotations underscore that no teaching stands apart from the cross. When the cross is lifted high, it aligns our theology, our worship, and our daily living with the one true source of power and grace.
 
-{
-  name: "Centrality of the Cross",
-  desc: `Every strand of Christian doctrine finds its heartbeat at Calvary. The cross is described as “the center of attraction,” drawing our eyes away from human wisdom and fixing them on divine mercy. From the foundational assertion that “every doctrine and duty should radiate from Calvary” to Paul’s own high-priestly vision of Christ interceding for us, the quotations underscore that no teaching stands apart from the cross. When the cross is lifted high, it aligns our theology, our worship, and our daily living with the one true source of power and grace.
+In practical terms, making the cross central reshapes our motives and methods. It turns apologetics into a humble witness, scholarship into worship, and service into an outflow of gratitude. As one writer put it, “The sacrifice of Christ is the foundation of every discourse,” reminding us that when Calvary is center stage, every sermon, every lesson, and every act of mercy becomes a reflection of the same love that upheld the world. In that light, the cross doesn’t just complete the story—it writes the story we’re called to live.`
+      },
+      {
+        name: "Transforming Power of Love",
+        desc: `At the heart of the crucifixion beats an irresistible love that changes hearts. Quotations like “One look at the cross transforms” and “Christ’s love compels us” reveal that the matchless affection displayed on Calvary is not a mere doctrine but a dynamic force—subduing pride, awakening repentance, and igniting devotion. Time and again the writers testify that when we behold the Savior’s sufferings, we are drawn into a deeper communion, our motives purified, and our wills aligned with His.
 
-  In practical terms, making the cross central reshapes our motives and methods. It turns apologetics into a humble witness, scholarship into worship, and service into an outflow of gratitude. As one writer put it, “The sacrifice of Christ is the foundation of every discourse,” reminding us that when Calvary is center stage, every sermon, every lesson, and every act of mercy becomes a reflection of the same love that upheld the world. In that light, the cross doesn’t just complete the story—it writes the story we’re called to live.`  
-},
+This love is not static sentiment but a living energy that carries us through trial and triumph. From the call to “meditation that leads to transformation” to the assurance that “nothing reaches so fully down into the heart,” these passages affirm that Christ’s sacrificial love empowers us to conquer sin and cultivate Christlike character. Thus the cross becomes not only the proof of God’s love but the very source of our ongoing renewal—reshaping our desires, strengthening our faith, and sending us forth as ambassadors of that same redeeming grace.`
+      },
+      {
+        name: "Educational Foundation",
+        desc: `True learning begins—and flourishes—when it is anchored in the cross. Writers insist that “education and redemption are united” and that every student must first encounter the cross as the living curriculum. By teaching the cross “to every student,” we ground both the mind and heart in the reality of God’s character and the gospel story. This approach transforms education from mere information transfer into formation—shaping values, affections, and life purpose around the eternal truth of Christ’s sacrifice.
 
-{
-  name: "Transforming Power of Love",
-  desc: `At the heart of the crucifixion beats an irresistible love that changes hearts. Quotations like “One look at the cross transforms” and “Christ’s love compels us” reveal that the matchless affection displayed on Calvary is not a mere doctrine but a dynamic force—subduing pride, awakening repentance, and igniting devotion. Time and again the writers testify that when we behold the Savior’s sufferings, we are drawn into a deeper communion, our motives purified, and our wills aligned with His.
+When the cross is the cornerstone of teaching, knowledge becomes worship and lessons become invitations to transformation. The call for Adventists to be “foremost in uplifting Christ” emphasizes that all instruction—whether in the classroom, pulpits, or daily conversation—must revolve around the gospel message. In doing so, learners not only learn about God but come to know Him experientially, equipping them to teach others, defend truth, and live out the principles they’ve embraced at Calvary’s foot.`
+      },
+      {
+        name: "Final Vindication",
+        desc: `In the courtroom of the universe, the cross stands as both science and song. Passages like “Judgment and vindication of the cross” and “Science and song of Christ crucified” declare that even through eternity the cross will testify to God’s righteousness. As the redeemed praise around the throne, they will sing the mystery revealed at Calvary, vindicating the divine character before every created intellect. This theme reminds us that history’s final chapter will center on the same sacrifice that began our redemption.
 
-  This love is not static sentiment but a living energy that carries us through trial and triumph. From the call to “meditation that leads to transformation” to the assurance that “nothing reaches so fully down into the heart,” these passages affirm that Christ’s sacrificial love empowers us to conquer sin and cultivate Christlike character. Thus the cross becomes not only the proof of God’s love but the very source of our ongoing renewal—reshaping our desires, strengthening our faith, and sending us forth as ambassadors of that same redeeming grace.`  
-},
+Meanwhile, in the present “time of test,” the cross offers assurance and perspective. Writings about the “loud cry” and the “song of Moses and the Lamb” beckon believers to stand firm, knowing that Calvary has already established God’s ultimate triumph. Even in the face of Satan’s fiercest accusations, the cross remains the definitive answer—silencing every slander and demonstrating that love, not force, has always been God’s means of victory. Thus, from now until eternity, the cross remains our shield and our song of eternal vindication.`
+      }
+    ];
 
-{
-  name: "Educational Foundation",
-  desc: `True learning begins—and flourishes—when it is anchored in the cross. Writers insist that “education and redemption are united” and that every student must first encounter the cross as the living curriculum. By teaching the cross “to every student,” we ground both the mind and heart in the reality of God’s character and the gospel story. This approach transforms education from mere information transfer into formation—shaping values, affections, and life purpose around the eternal truth of Christ’s sacrifice.
+    const themeNames = themesAccordion.map(t => t.name);
+    let selectedTheme = null;
 
-  When the cross is the cornerstone of teaching, knowledge becomes worship and lessons become invitations to transformation. The call for Adventists to be “foremost in uplifting Christ” emphasizes that all instruction—whether in the classroom, pulpits, or daily conversation—must revolve around the gospel message. In doing so, learners not only learn about God but come to know Him experientially, equipping them to teach others, defend truth, and live out the principles they’ve embraced at Calvary’s foot.`  
-},
-
-{
-  name: "Final Vindication",
-  desc: `In the courtroom of the universe, the cross stands as both science and song. Passages like “Judgment and vindication of the cross” and “Science and song of Christ crucified” declare that even through eternity the cross will testify to God’s righteousness. As the redeemed praise around the throne, they will sing the mystery revealed at Calvary, vindicating the divine character before every created intellect. This theme reminds us that history’s final chapter will center on the same sacrifice that began our redemption.
-
-  Meanwhile, in the present “time of test,” the cross offers assurance and perspective. Writings about the “loud cry” and the “song of Moses and the Lamb” beckon believers to stand firm, knowing that Calvary has already established God’s ultimate triumph. Even in the face of Satan’s fiercest accusations, the cross remains the definitive answer—silencing every slander and demonstrating that love, not force, has always been God’s means of victory. Thus, from now until eternity, the cross remains our shield and our song of eternal vindication.`  
-}
-
-  ];
-
-  // Extract just the theme names for the Quotes navigator:
-  const themeNames = themesAccordion.map(t => t.name);
-
-  // ─── State ─────────────────────────────────────────────────────────────
-  let selectedTheme = null;
-
-  // ─── Build Themes Accordion ─────────────────────────────────────────────
-  const themeContainer = document.getElementById('themeContainer');
-  themesAccordion.forEach((t, idx) => {
-    const panel = document.createElement('div');
-    panel.innerHTML = `
-      <button class="w-full flex justify-between items-center px-4 py-2 bg-white border rounded-md"
-              data-theme-idx="${idx}">
-        <span class="font-medium">${t.name}</span>
-        <span id="icon-${idx}" class="transition-transform">+</span>
-      </button>
-      <div id="theme-content-${idx}" class="hidden px-4 py-3 bg-stone-50 border border-t-0 rounded-b-md">
-        ${t.desc}
-      </div>
-    `;
-    themeContainer.appendChild(panel);
-  });
-
-  themeContainer.addEventListener('click', e => {
-    const btn = e.target.closest('[data-theme-idx]');
-    if (!btn) return;
-    const idx = btn.dataset.themeIdx;
-    const content = document.getElementById(`theme-content-${idx}`);
-    const icon    = document.getElementById(`icon-${idx}`);
-    const isOpen  = !content.classList.contains('hidden');
-    content.classList.toggle('hidden', isOpen);
-    icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(45deg)';
-  });
-
-  // ─── Build Theme Navigator (Pane 1 of Quotes) ───────────────────────────
-  function buildThemeFilters() {
-    const container = document.getElementById('themeFilters');
-    // "All Themes" button
-    const allBtn = document.createElement('button');
-    allBtn.textContent = 'All Themes';
-    allBtn.className = 'block w-full text-left mb-1 py-1';
-    allBtn.addEventListener('click', () => {
-      selectedTheme = null;
-      highlightActiveTheme();
-      renderQuoteCards(searchInput.value);
+    // Build Themes Accordion
+    const themeContainer = document.getElementById('themeContainer');
+    themesAccordion.forEach((t, idx) => {
+      const panel = document.createElement('div');
+      panel.innerHTML = `
+        <button class="w-full flex justify-between items-center px-4 py-2 bg-slate-800 border border-slate-700 rounded-md"
+                data-theme-idx="${idx}">
+          <span class="font-medium text-slate-100">${t.name}</span>
+          <span id="icon-${idx}" class="transition-transform text-slate-400">+</span>
+        </button>
+        <div id="theme-content-${idx}" class="hidden px-4 py-3 bg-slate-700 border border-slate-700 rounded-b-md text-slate-200">
+          ${t.desc}
+        </div>
+      `;
+      themeContainer.appendChild(panel);
     });
-    container.appendChild(allBtn);
+    themeContainer.addEventListener('click', e => {
+      const btn = e.target.closest('[data-theme-idx]');
+      if (!btn) return;
+      const idx = btn.dataset.themeIdx;
+      const content = document.getElementById(`theme-content-${idx}`);
+      const icon    = document.getElementById(`icon-${idx}`);
+      const isOpen  = !content.classList.contains('hidden');
+      content.classList.toggle('hidden', isOpen);
+      icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(45deg)';
+    });
 
-    themeNames.forEach(name => {
-      const btn = document.createElement('button');
-      const count = quotes.filter(q => q.themes?.includes(name)).length;
-      btn.textContent = `${name} (${count})`;
-      btn.className = 'block w-full text-left mb-1 py-1';
-      btn.dataset.theme = name;
-      btn.addEventListener('click', () => {
-        selectedTheme = name;
+    // Build Theme Navigator
+    function buildThemeFilters() {
+      const container = document.getElementById('themeFilters');
+      const allBtn = document.createElement('button');
+      allBtn.textContent = 'All Themes';
+      allBtn.className = 'block w-full text-left mb-1 py-1 text-slate-200';
+      allBtn.addEventListener('click', () => {
+        selectedTheme = null;
         highlightActiveTheme();
         renderQuoteCards(searchInput.value);
       });
-      container.appendChild(btn);
-    });
-  }
+      container.appendChild(allBtn);
 
-  function highlightActiveTheme() {
-    document
-      .querySelectorAll('#themeFilters button')
-      .forEach(btn => {
-        const isAllBtn = btn.textContent === 'All Themes';
-        if ((isAllBtn && selectedTheme === null) ||
-            btn.dataset.theme === selectedTheme) {
-          btn.classList.add('font-bold', 'bg-sky-100');
+      themeNames.forEach(name => {
+        const btn = document.createElement('button');
+        const count = quotes.filter(q => q.themes?.includes(name)).length;
+        btn.textContent = `${name} (${count})`;
+        btn.className = 'block w-full text-left mb-1 py-1 text-slate-200';
+        btn.dataset.theme = name;
+        btn.addEventListener('click', () => {
+          selectedTheme = name;
+          highlightActiveTheme();
+          renderQuoteCards(searchInput.value);
+        });
+        container.appendChild(btn);
+      });
+    }
+    function highlightActiveTheme() {
+      document.querySelectorAll('#themeFilters button').forEach(btn => {
+        const isAll = btn.textContent === 'All Themes';
+        if ((isAll && selectedTheme === null) || btn.dataset.theme === selectedTheme) {
+          btn.classList.add('font-bold', 'bg-sky-600');
         } else {
-          btn.classList.remove('font-bold', 'bg-sky-100');
+          btn.classList.remove('font-bold', 'bg-sky-600');
         }
       });
-  }
+    }
 
-  // ─── Render Quote Cards (Pane 2) ────────────────────────────────────────
-  const searchInput = document.getElementById('searchInput');
-  function renderQuoteCards(filterText = '') {
-    const listEl = document.getElementById('quoteList');
-    listEl.innerHTML = '';
-    quotes
-      .filter(q => {
-        const textMatch = q.title.toLowerCase().includes(filterText.toLowerCase())
-                       || q.text.toLowerCase().includes(filterText.toLowerCase());
-        const themeMatch = !selectedTheme
-                        || q.themes?.includes(selectedTheme);
-        return textMatch && themeMatch;
-      })
-      .forEach(q => {
+    // Render Quote Cards
+    const searchInput = document.getElementById('searchInput');
+    function renderQuoteCards(filterText = '') {
+      const listEl = document.getElementById('quoteList');
+      listEl.innerHTML = '';
+      quotes.filter(q => {
+        const txt = filterText.toLowerCase();
+        const matchText = q.title.toLowerCase().includes(txt) || q.text.toLowerCase().includes(txt);
+        const matchTheme = !selectedTheme || q.themes?.includes(selectedTheme);
+        return matchText && matchTheme;
+      }).forEach(q => {
         const card = document.createElement('div');
-        card.className = "p-3 bg-white border rounded-md cursor-pointer hover:bg-sky-50";
+        card.className = "p-3 bg-slate-800 border border-slate-700 rounded-md cursor-pointer hover:bg-slate-700";
         card.dataset.id = q.id;
         card.innerHTML = `
-          <p class="font-semibold">${q.title}</p>
-          <p class="text-xs text-stone-500">${q.ref}</p>
+          <p class="font-semibold text-slate-100">${q.title}</p>
+          <p class="text-xs text-slate-400">${q.ref}</p>
         `;
         listEl.appendChild(card);
       });
-  }
+    }
 
-  // ─── Quote Detail (Pane 3) ─────────────────────────────────────────────
-  document.getElementById('quoteList').addEventListener('click', e => {
-    const id = e.target.closest('[data-id]')?.dataset.id;
-    if (!id) return;
-    const q = quotes.find(x => x.id == id);
-    document.getElementById('quoteDetail').innerHTML = `
-      <h3 class="text-lg font-semibold mb-2">${q.title}</h3>
-      <p class="mb-4 whitespace-pre-line">${q.text}</p>
-      <p class="text-sm text-stone-500">Reference: ${q.ref}</p>
-    `;
-  });
+    // Quote Detail and Image
+    document.getElementById('quoteList').addEventListener('click', e => {
+      const id = e.target.closest('[data-id]')?.dataset.id;
+      if (!id) return;
+      const q = quotes.find(x => x.id == id);
+      document.getElementById('quoteDetail').innerHTML = `
+        <h3 class="text-lg font-semibold mb-2 text-slate-100">${q.title}</h3>
+        <p class="mb-4 whitespace-pre-line text-slate-200">${q.text}</p>
+        <p class="text-sm text-slate-400">Reference: ${q.ref}</p>
+      `;
+      document.getElementById('quoteImage').src = q.imageUrl || document.getElementById('quoteImage').src;
+    });
+    searchInput.addEventListener('input', e => renderQuoteCards(e.target.value));
 
-  // ─── Search Listener ───────────────────────────────────────────────────
-  searchInput.addEventListener('input', e => {
-    renderQuoteCards(e.target.value);
-  });
-
-  // ─── Tabs Logic ────────────────────────────────────────────────────────
-  const tabBtns = document.querySelectorAll('.tab-btn');
-  const tabSecs = document.querySelectorAll('.tab-section');
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = btn.dataset.tab;
-      tabSecs.forEach(sec => {
-        sec.id === target
-          ? sec.classList.remove('hidden')
-          : sec.classList.add('hidden');
-      });
-      tabBtns.forEach(b => {
-        b.classList.toggle('bg-sky-600', b === btn);
-        b.classList.toggle('text-white',  b === btn);
+    // Tab Switching Logic
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        document.querySelectorAll('.tab-section').forEach(sec => {
+          sec.id === target ? sec.classList.remove('hidden') : sec.classList.add('hidden');
+        });
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          if (b === btn) {
+            b.classList.add('bg-sky-600', 'text-white');
+            b.classList.remove('text-slate-300');
+          } else {
+            b.classList.remove('bg-sky-600', 'text-white');
+            b.classList.add('text-slate-300');
+          }
+        });
       });
     });
-  });
 
-  // ─── Build Reference Chart ─────────────────────────────────────────────
-  function buildChart() {
-    const ctx = document.getElementById('refChart').getContext('2d');
-    const counts = {};
-    quotes.forEach(q => counts[q.book] = (counts[q.book]||0) + 1);
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: Object.keys(counts),
-        datasets: [{ label:'Count', data: Object.values(counts), borderWidth:1 }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: { y: { beginAtZero:true, ticks:{ precision:0 } } },
-        plugins: { legend:{ display:false } }
-      }
-    });
-  }
+    // Build Reference Chart
+    function buildChart() {
+      const ctx = document.getElementById('refChart').getContext('2d');
+      const counts = {};
+      quotes.forEach(q => counts[q.book] = (counts[q.book]||0) + 1);
+      new Chart(ctx, {
+        type: 'bar',
+        data: { labels: Object.keys(counts), datasets: [{ label:'Count', data: Object.values(counts), borderWidth:1 }] },
+        options: {
+          responsive:true, maintainAspectRatio:false,
+          scales:{ y:{ beginAtZero:true, ticks:{precision:0} } },
+          plugins:{ legend:{ display:false } }
+        }
+      });
+    }
 
-  // ─── Initialization ────────────────────────────────────────────────────
-  buildThemeFilters();
-  highlightActiveTheme();
-  renderQuoteCards();
-  buildChart();
+    // Initialization
+    buildThemeFilters();
+    highlightActiveTheme();
+    renderQuoteCards();
+    buildChart();
   </script>
 </body>
 </html>
