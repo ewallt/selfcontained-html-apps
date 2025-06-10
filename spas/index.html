@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Links Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .service-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            text-transform: capitalize;
+        }
+
+        .service-url {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+            word-break: break-all;
+        }
+
+        .service-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .service-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .category {
+            margin-bottom: 3rem;
+        }
+
+        .category-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Service Links Dashboard</h1>
+        
+        <div class="category">
+            <h2 class="category-title">📖 Religious & Educational</h2>
+            <div class="grid">
+                <div class="service-card">
+                    <h3 class="service-title">Centrality of the Cross</h3>
+                    <p class="service-url">https://centrality-of-the-cross.onrender.com</p>
+                    <a href="https://centrality-of-the-cross.onrender.com" target="_blank" class="service-link">Visit Site</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3 class="service-title">Sermon on the Mount</h3>
+                    <p class="service-url">https://sermon-on-the-mount.onrender.com</p>
+                    <a href="https://sermon-on-the-mount.onrender.com" target="_blank" class="service-link">Visit Site</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🎯 Interactive & Gaming</h2>
+            <div class="grid">
+                <div class="service-card">
+                    <h3 class="service-title">Hero Journey</h3>
+                    <p class="service-url">https://hero-journey.onrender.com</p>
+                    <a href="https://hero-journey.onrender.com" target="_blank" class="service-link">Visit Site</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3 class="service-title">Seventies Trivia Challenge</h3>
+                    <p class="service-url">https://seventies-trivia-challenge.onrender.com</p>
+                    <a href="https://seventies-trivia-challenge.onrender.com" target="_blank" class="service-link">Visit Site</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3 class="service-title">Sixties Trivia Challenge</h3>
+                    <p class="service-url">https://sixties-trivia-challenge.onrender.com</p>
+                    <a href="https://sixties-trivia-challenge.onrender.com" target="_blank" class="service-link">Visit Site</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🏛️ Historical</h2>
+            <div class="grid">
+                <div class="service-card">
+                    <h3 class="service-title">World War 2</h3>
+                    <p class="service-url">https://ww2-ae29.onrender.com</p>
+                    <a href="https://ww2-ae29.onrender.com" target="_blank" class="service-link">Visit Site</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3 class="service-title">WW2 Codebreaking</h3>
+                    <p class="service-url">https://ww2-codebreaking.onrender.com</p>
+                    <a href="https://ww2-codebreaking.onrender.com" target="_blank" class="service-link">Visit Site</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3 class="service-title">Spanish American War</h3>
+                    <p class="service-url">https://spanish-american-war.onrender.com</p>
+                    <a href="https://spanish-american-war.onrender.com" target="_blank" class="service-link">Visit Site</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3 class="service-title">Civil War</h3>
+                    <p class="service-url">https://civil-war.onrender.com</p>
+                    <a href="https://civil-war.onrender.com" target="_blank" class="service-link">Visit Site</a>
+                </div>
+                
+                <div class="service-card">
+                    <h3 class="service-title">Revolutionary War</h3>
+                    <p class="service-url">https://revolutionary-war.onrender.com</p>
+                    <a href="https://revolutionary-war.onrender.com" target="_blank" class="service-link">Visit Site</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🌆 Geography</h2>
+            <div class="grid">
+                <div class="service-card">
+                    <h3 class="service-title">City Neighborhoods</h3>
+                    <p class="service-url">https://city-neighborhoods.onrender.com</p>
+                    <a href="https://city-neighborhoods.onrender.com" target="_blank" class="service-link">Visit Site</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
