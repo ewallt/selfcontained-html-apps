@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Interactive Exploration of Jung's Psyche</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 
+        Chosen Palette: Cool Blues (Slate Gray, Deep Blue, Light Blue Accent)
+        Application Structure Plan: The SPA is designed as an interactive, non-linear map of the psyche. The core structure features a central diagram representing the main archetypes (Persona, Shadow, Anima/Animus, Self) around the Ego. This visual hub is more intuitive for exploring interconnected psychological concepts than a linear document. Clicking an element on this map dynamically loads its detailed information into an adjacent panel, which is tabbed for organized content (Definition, Role, Example). This design encourages exploration and helps users build a mental model of Jung's theory. The structure is chosen to transform passive reading into active discovery, making the abstract concepts more tangible and their relationships clearer. A modal is used for secondary archetypes to avoid cluttering the primary interface.
+        Visualization & Content Choices:
+        - Report Info: Central Thesis -> Goal: Inform -> Presentation: Hero text block -> Justification: Sets the stage immediately.
+        - Report Info: Core Archetypes (Persona, Shadow, etc.) & Their Relationships -> Goal: Organize/Relate -> Viz: Interactive diagram (HTML/CSS) -> Interaction: Click to update content panel -> Justification: Visually represents the structure of the psyche, making the theory's architecture intuitive. A diagram is superior to a list for showing relationships. No chart library needed as it's a conceptual map, not data-driven.
+        - Report Info: Definitions, Examples, Roles -> Goal: Inform/Detail -> Presentation: Tabbed content panel -> Interaction: JS show/hide content -> Justification: Organizes detailed information for the selected archetype without cluttering the main view.
+        - Report Info: Full list of other archetypes -> Goal: Inform/Reference -> Presentation: Grid of cards -> Interaction: Click to show modal with details -> Justification: Provides a quick, scannable reference with on-demand depth, preventing information overload.
+        CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .active-tab {
+            border-bottom: 2px solid #2563EB; /* blue-600 */
+            color: #2563EB;
+            font-weight: 600;
+        }
+        .inactive-tab {
+            border-bottom: 2px solid transparent;
+        }
+        .content-card {
+            background-color: #ffffff;
+            border: 1px solid #E2E8F0; /* slate-200 */
+            transition: all 0.3s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+            border-color: #2563EB; /* blue-600 */
+        }
+        .diagram-element {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #94A3B8; /* slate-400 */
+        }
+        .diagram-element:hover, .diagram-element.active {
+            border-color: #2563EB; /* blue-600 */
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.3);
+        }
+        .line {
+            position: absolute;
+            background-color: #CBD5E1; /* slate-300 */
+            z-index: -1;
+        }
+        #archetype-modal.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="antialiased bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+
+        <!-- Header and Thesis -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-900">An Interactive Map of the Psyche</h1>
+            <p class="mt-2 text-lg text-slate-600">Based on the Theories of Carl Jung</p>
+        </header>
+
+        <section id="thesis" class="max-w-4xl mx-auto text-center mb-16 p-6 bg-blue-50 rounded-lg border border-blue-200">
+            <h2 class="text-2xl font-semibold mb-3 text-blue-800">The Central Thesis</h2>
+            <p class="text-slate-700 leading-relaxed">
+                This application explores Carl Jung's revolutionary theory that the human psyche is not just a product of personal experience. He proposed a deeper, inherited layer called the **collective unconscious**, shared by all humanity. This universal realm contains **archetypes**—primordial, inborn patterns that shape our experiences, dreams, and myths. This guide is designed to help you explore these core concepts and understand their role in the lifelong journey toward psychological wholeness, a process Jung called **individuation**.
+            </p>
+        </section>
+
+        <!-- Main Interactive Section -->
+        <main class="flex flex-col md:flex-row gap-8 md:gap-12">
+            
+            <!-- Left Side: Interactive Diagram -->
+            <div class="w-full md:w-1/2 flex flex-col items-center">
+                 <h2 class="text-2xl font-semibold mb-6 text-center text-blue-800">Explore the Core of the Psyche</h2>
+                <div class="relative w-full max-w-md h-96 flex items-center justify-center">
+                     <!-- Lines connecting elements -->
+                    <div class="line" style="width: 1px; height: 120px; top: 18%; left: 50%;"></div>
+                    <div class="line" style="width: 1px; height: 120px; bottom: 18%; left: 50%;"></div>
+                    <div class="line" style="width: 120px; height: 1px; left: 18%; top: 50%;"></div>
+                    <div class="line" style="width: 120px; height: 1px; right: 18%; top: 50%;"></div>
+
+                    <!-- Diagram Elements -->
+                    <div id="diagram-persona" class="diagram-element absolute top-0 w-24 h-24 rounded-full flex items-center justify-center text-center p-2 bg-slate-100" onclick="handleDiagramClick('persona')">Persona</div>
+                    <div id="diagram-shadow" class="diagram-element absolute bottom-0 w-24 h-24 rounded-full flex items-center justify-center text-center p-2 bg-slate-100" onclick="handleDiagramClick('shadow')">Shadow</div>
+                    <div id="diagram-animus" class="diagram-element absolute left-0 w-24 h-24 rounded-full flex items-center justify-center text-center p-2 bg-slate-100" onclick="handleDiagramClick('animus')">Anima /<br>Animus</div>
+                    <div id="diagram-self" class="diagram-element absolute right-0 w-24 h-24 rounded-full flex items-center justify-center text-center p-2 bg-slate-100" onclick="handleDiagramClick('self')">The Self</div>
+                    
+                    <!-- Center Ego -->
+                    <div id="diagram-ego" class="w-28 h-28 rounded-lg border-2 border-blue-800 bg-blue-100 flex items-center justify-center text-center p-2 font-semibold shadow-lg">The Ego<br>(Consciousness)</div>
+                </div>
+            </div>
+
+            <!-- Right Side: Content Panel -->
+            <div class="w-full md:w-1/2 p-6 rounded-lg bg-white border border-slate-200 shadow-sm">
+                <h3 id="panel-title" class="text-3xl font-bold mb-4 text-blue-900">Select a Concept</h3>
+                
+                <!-- Tabs -->
+                <div class="flex border-b border-slate-200 mb-4">
+                    <button id="tab-definition" class="py-2 px-4 inactive-tab" onclick="handleTabClick('definition')">Definition</button>
+                    <button id="tab-example" class="py-2 px-4 inactive-tab" onclick="handleTabClick('example')">Examples</button>
+                    <button id="tab-role" class="py-2 px-4 inactive-tab" onclick="handleTabClick('role')">Role in Psyche</button>
+                </div>
+                
+                <!-- Content Area -->
+                <div id="panel-content" class="text-slate-700 leading-relaxed space-y-4 min-h-[250px]">
+                    <div id="content-initial" class="">
+                        <p>Click on an element in the diagram to the left—such as the **Persona** or **Shadow**—to learn about its meaning, its role in the psyche, and see how it manifests in our lives and culture.</p>
+                    </div>
+                    <div id="content-definition" class="hidden"></div>
+                    <div id="content-example" class="hidden"></div>
+                    <div id="content-role" class="hidden"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Other Archetypes Section -->
+        <section id="other-archetypes" class="mt-20">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-bold text-blue-900">The Broader Archetypal World</h2>
+                <p class="mt-2 max-w-2xl mx-auto text-slate-600">Beyond the core components of the personal psyche, the collective unconscious contains a vast number of other archetypes that appear in myths, legends, and fairy tales across the globe. Here are some of the most prominent.</p>
+            </div>
+            <div id="archetype-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+                 <!-- JS will populate this -->
+            </div>
+        </section>
+
+         <!-- Conclusion Section -->
+        <section id="conclusion" class="mt-20 max-w-4xl mx-auto text-center p-8 bg-blue-50 rounded-lg border border-blue-200">
+            <h2 class="text-2xl font-semibold mb-3 text-blue-800">Synthesis & Impact</h2>
+            <p class="text-slate-700 leading-relaxed">
+                Jung's theory fundamentally reshaped our understanding of the human mind. By showing that universal patterns manifest through common symbols, he provided a framework for deep-seated motivations and spiritual experiences that transcend the individual. His work emphasizes that psychological health depends on integrating these unconscious forces, offering a profound way to interpret mental life not as mere dysfunction, but as an expression of universal human dynamics.
+            </p>
+        </section>
+    </div>
+
+    <footer class="text-center py-6 mt-12 border-t border-slate-200">
+        <p class="text-slate-500">Interactive concept created from an analysis of Jungian theory.</p>
+    </footer>
+
+    <!-- Modal -->
+    <div id="archetype-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div id="modal-backdrop" class="absolute inset-0"></div>
+        <div class="relative w-full max-w-lg bg-white rounded-lg shadow-xl p-6 md:p-8">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-200">
+                <h3 id="modal-title" class="text-3xl font-bold text-blue-900"></h3>
+                <button id="modal-close-btn" class="text-slate-500 hover:text-blue-600 text-3xl leading-none">&times;</button>
+            </div>
+            <div id="modal-content" class="mt-4 text-slate-700 leading-relaxed text-base">
+                <!-- JS will populate this -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const appData = {
+            persona: {
+                title: "The Persona",
+                definition: "The social mask or role that an individual presents to the world. It serves as a mediator between the ego-consciousness and the external world to adapt to societal expectations and gain acceptance.",
+                role: "The Persona is an essential interface for navigating the social world. It allows us to play various roles (e.g., employee, parent, friend) required for a functional life. However, Jung warned that over-identifying with the Persona leads to inauthenticity and a disconnection from one's true Self.",
+                example: "<strong>In Personal Life:</strong> A stern, authoritative manager at work who is a gentle, playful parent at home is demonstrating two different Personas. <br><br><strong>In Culture:</strong> The term itself comes from the Latin word for an actor's mask. In literature, characters who lead a 'double life' are classic representations of the Persona archetype."
+            },
+            shadow: {
+                title: "The Shadow",
+                definition: "The unconscious aspects of the personality that the conscious ego represses or denies because they are considered inferior, undesirable, or unacceptable by society or personal morals.",
+                role: "The Shadow contains our primitive instincts, weaknesses, and repressed ideas. Confronting the Shadow is a critical and often difficult step in the process of individuation. By integrating its contents, one can achieve greater self-awareness, humility, and access to sources of vitality.",
+                example: "<strong>In Personal Life:</strong> Having an irrationally strong negative reaction to a trait in someone else often means you are projecting your own unacknowledged Shadow. <br><br><strong>In Culture:</strong> Dr. Jekyll's Mr. Hyde is the quintessential literary example. The Trickster figure in mythology (like Loki or Coyote) is often considered a 'collective shadow figure'."
+            },
+            animus: {
+                title: "The Anima / Animus",
+                definition: "The unconscious, contrasexual aspect of the psyche. The Anima is the inner feminine aspect of a man, and the Animus is the inner masculine aspect of a woman.",
+                role: "This archetype acts as a bridge to the collective unconscious and influences our relationships, particularly romantic ones. It shapes our perceptions of the opposite sex. Integrating the Anima/Animus leads to psychological balance, creativity, and a more profound understanding of oneself and others.",
+                example: "<strong>In Personal Life:</strong> A man's 'dream girl' is often a projection of his Anima. A woman's assertiveness in intellectual debate can be an expression of her Animus. <br><br><strong>In Culture:</strong> In myths and fairy tales, the mysterious princess who must be rescued or the heroic prince who provides guidance are common representations of the Anima and Animus."
+            },
+            self: {
+                title: "The Self",
+                definition: "The central archetype representing the unified totality of an individual's personality, including both conscious and unconscious realms. It is the true center and organizing principle of the psyche.",
+                role: "The Self represents the goal of the individuation process: to achieve wholeness and unity. Unlike the Ego, which is the center of consciousness, the Self encompasses the entire psyche. The Ego relates to the Self as the Earth does to the Sun.",
+                example: "<strong>In Personal Life:</strong> Moments of profound insight, wholeness, or spiritual experience are often considered manifestations of the Self. <br><br><strong>In Culture:</strong> The Self is often symbolized by symmetrical, whole figures called mandalas, or by divine or royal figures like a king or queen. In religion, figures like Christ or Buddha are seen as personifications of the Self archetype."
+            },
+            other_archetypes: [
+                "The Great Mother", "The Great Father", "The Child", "The Wise Old Man", "The Hero", "The Trickster", "The Mentor", "The Ruler", "The Creator", "The Sage", "The Innocent", "The Explorer", "The Rebel", "The Lover", "The Caregiver", "The Everyman"
+            ],
+            detailed_archetypes: {
+    'the-great-mother': {
+        title: "The Great Mother",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Dual Nature</h5><p>The Great Mother archetype represents the dual nature of creation and destruction. She is the source of all life, fertility, nourishment, and solace (the loving mother), but also represents the abyss, the devourer, and the pull toward death and the unconscious (the terrible mother).</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>This archetype is symbolized by the earth, caves, the moon, the ocean, and anything hollow or containing. In myths, she appears as figures like Demeter (nurturing) or Kali (destructive), representing the full cycle of life and death.</p>`
+    },
+     'the-great-father': {
+        title: "The Great Father",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Order and Authority</h5><p>As the counterpart to the Great Mother, the Great Father archetype represents structure, law, order, discipline, and consciousness. He embodies the world of rules, logic, and social hierarchy. In its positive form, it provides guidance and security; in its negative form, it can be rigid, dogmatic, and tyrannical.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>The Great Father is symbolized by figures of authority and power, such as a king, emperor, lawgiver, or patriarch. In myths, figures like Zeus or Odin embody this archetype, dispensing both wisdom and judgment.</p>`
+    },
+    'the-child': {
+        title: "The Child",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Potential and New Beginnings</h5><p>The Child archetype represents the potential for future growth, rebirth, and the emergence of something new. It embodies innocence, vulnerability, and the authentic self before it is shaped by the demands of the world. The appearance of the Child archetype often signals a need for change or the beginning of the individuation process.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>This archetype often appears as a divine or magical child in myths and fairy tales who must be protected. Figures like the baby Moses or the infant Hercules represent the future and the miraculous possibility of renewal.</p>`
+    },
+    'the-hero': {
+        title: "The Hero",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">The Hero's Journey</h5><p>The Hero archetype represents the ego's journey to overcome darkness and achieve selfhood. The hero's story typically involves a departure from the ordinary world, facing trials and tribulations, and a victorious return with a boon for their community. It is the archetypal story of overcoming obstacles and achieving transformation.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>The Hero is often born of humble or divine origins, faces a powerful adversary (like a dragon, symbolizing the devouring mother), and is aided by a wise mentor. Figures like Hercules, King Arthur, and Luke Skywalker are classic examples of the Hero archetype.</p>`
+    },
+     'the-wise-old-man': {
+        title: "The Wise Old Man",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Guidance and Insight</h5><p>This archetype represents humanity's collective knowledge, wisdom, and intuition. It appears in situations where the hero is in a desperate or hopeless situation from which they can only be rescued by a profound insight or a 'lucky idea'. The Wise Old Man offers guidance, not power.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>This figure often appears in dreams or stories as a wizard, guru, hermit, mentor, or any elder who offers sage advice. Examples include Merlin in the Arthurian legends, Obi-Wan Kenobi in Star Wars, and Gandalf in The Lord of the Rings.</p>`
+    },
+    'the-trickster': {
+        title: "The Trickster",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Disruption and Change</h5><p>The Trickster is a boundary-crosser who breaks rules, challenges authority, and disrupts the established order. Though often playful and humorous, the Trickster's actions can have serious consequences, serving as a catalyst for change and forcing a re-evaluation of assumptions. This figure is often an aspect of the Shadow.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>Mythological figures like Loki (Norse), Coyote (Native American), and Hermes (Greek) embody the Trickster. They are clever, amoral, and unpredictable, often bringing both trouble and valuable lessons to gods and mortals alike.</p>`
+    },
+    'the-mentor': {
+        title: "The Mentor",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Guidance and Training</h5><p>Similar to the Wise Old Man, the Mentor is a figure of wisdom, but is more actively involved in the Hero's development. The Mentor provides practical training, gives gifts (often magical), and offers strategic advice to prepare the Hero for the challenges ahead. Their role is to equip the Hero for the journey.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>The Mentor often appears as a teacher, trainer, or experienced guide. Figures like Merlin training King Arthur, or Haymitch Abernathy in The Hunger Games, fulfill this role by providing the protagonist with the skills and tools they need to succeed.</p>`
+    },
+    'the-ruler': {
+        title: "The Ruler",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Control and Responsibility</h5><p>The Ruler archetype seeks control and order. It represents the desire to lead, create structure, and take responsibility for a community or domain. In its positive form, it creates prosperity and security. Its shadow side is tyranny, rigidity, and an inability to delegate or trust others.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>Symbols include a throne, a crown, a castle, or a scepter. Figures like King Arthur, Mufasa from The Lion King, or even a responsible CEO embody the Ruler archetype.</p>`
+    },
+    'the-creator': {
+        title: "The Creator",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Imagination and Invention</h5><p>The Creator archetype is driven by the need to innovate and make something new. It represents imagination, artistry, and the desire to build things of enduring value. The shadow side can manifest as perfectionism, irresponsibility, or creating without considering the consequences.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>Symbols include an artist's studio, a workshop, a blank canvas, or a block of stone. Figures like the inventor Daedalus or the imaginative Willy Wonka are classic examples of the Creator.</p>`
+    },
+    'the-sage': {
+        title: "The Sage",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Wisdom and Truth</h5><p>The Sage represents the pursuit of knowledge, truth, and enlightenment through contemplation and understanding. Unlike the Mentor who teaches skills, the Sage seeks to understand the world and share that wisdom. Their power lies in their clarity of thought and their ability to see the world objectively.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>The Sage is often depicted as a philosopher, a hermit, a scholar, or a detective. Figures like Dumbledore from Harry Potter or Yoda from Star Wars embody the Sage, offering profound insights and a deep understanding of the forces at play.</p>`
+    },
+    'the-innocent': {
+        title: "The Innocent",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Simplicity and Optimism</h5><p>The Innocent archetype embodies purity, trust, and a simple, optimistic outlook on life. Their greatest desire is to find happiness and do the right thing. The shadow side of the Innocent is a deep denial of problems and a naivety that can be dangerous to themselves and others.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>Symbols often include gardens, flowers, and gentle animals. Characters like Dorothy from The Wizard of Oz or Forrest Gump exemplify the Innocent, navigating a complex world with a pure heart.</p>`
+    },
+    'the-explorer': {
+        title: "The Explorer",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Freedom and Discovery</h5><p>The Explorer archetype is driven by a need for freedom, adventure, and authenticity. They seek to discover new things about the world and themselves, often through travel and new experiences. The shadow side is a constant, aimless wandering and an inability to commit to people or places.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>Symbols include the open road, a compass, a map, or a distant horizon. Fictional characters like Indiana Jones or historical figures like Marco Polo embody the spirit of the Explorer.</p>`
+    },
+    'the-rebel': {
+        title: "The Rebel",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Revolution and Disruption</h5><p>The Rebel, or Outlaw, archetype seeks to overturn what isn't working. They are a disruptive force that challenges conventions and authority. While they can bring about positive change, their shadow side is a descent into nihilism, criminality, and self-destruction.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>Common symbols are fire, broken chains, or counter-culture attire. Figures like Robin Hood, who breaks unjust laws, or Katniss Everdeen from The Hunger Games, who defies a tyrannical system, are classic Rebels.</p>`
+    },
+    'the-lover': {
+        title: "The Lover",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Intimacy and Passion</h5><p>The Lover archetype governs all kinds of love—from parental love to friendship to spiritual passion. It seeks intimacy, connection, and the appreciation of beauty in all its forms. Its shadow can manifest as jealousy, promiscuity, and a fear of being alone that leads to a loss of identity.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>Symbols include a rose, a flame, or clasped hands. Figures like Romeo and Juliet or the goddess Aphrodite are powerful expressions of the Lover archetype.</p>`
+    },
+    'the-caregiver': {
+        title: "The Caregiver",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Compassion and Service</h5><p>The Caregiver is driven by the need to protect and care for others. They are compassionate, generous, and find fulfillment in acts of service. The shadow side of this archetype is martyrdom, enabling destructive behaviors in others, and suffering from burnout.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>Symbols include a hearth, a bandage, or a helping hand. Characters like Samwise Gamgee from The Lord of the Rings or historical figures like Mother Teresa embody the selfless nature of the Caregiver.</p>`
+    },
+    'the-everyman': {
+        title: "The Everyman",
+        content: `<h5 class="text-xl font-semibold text-blue-800 mb-2">Belonging and Realism</h5><p>The Everyman, or Orphan, archetype desires only to belong and connect with others. They are empathetic, realistic, and unpretentious, valuing fairness and community. Their shadow side is a tendency to become a victim and a fear of standing out that can lead to a loss of their own identity to blend in with the group.</p><br><h5 class="text-xl font-semibold text-blue-800 mb-2">Common Symbols</h5><p>Symbols include a family photo, a neighborhood gathering, or a comfortable, familiar setting. Characters like Bilbo Baggins (before his adventure) or Arthur Dent from The Hitchhiker's Guide to the Galaxy represent the Everyman.</p>`
+    }
+  }
+};
+
+        let currentSelection = null;
+        const panelTitle = document.getElementById('panel-title');
+        const initialContent = document.getElementById('content-initial');
+        const definitionContent = document.getElementById('content-definition');
+        const exampleContent = document.getElementById('content-example');
+        const roleContent = document.getElementById('content-role');
+        const tabs = ['definition', 'example', 'role'];
+
+        const modal = document.getElementById('archetype-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalBackdrop = document.getElementById('modal-backdrop');
+
+        function handleDiagramClick(archetypeId) {
+            if (currentSelection === archetypeId) return;
+            currentSelection = archetypeId;
+            const data = appData[archetypeId];
+            
+            document.querySelectorAll('.diagram-element').forEach(el => el.classList.remove('active'));
+            document.getElementById(`diagram-${archetypeId}`).classList.add('active');
+
+            panelTitle.textContent = data.title;
+            definitionContent.innerHTML = `<p>${data.definition}</p>`;
+            exampleContent.innerHTML = `<p>${data.example}</p>`;
+            roleContent.innerHTML = `<p>${data.role}</p>`;
+            
+            handleTabClick('definition', true);
+        }
+
+        function handleTabClick(tabId, force = false) {
+             if (!currentSelection && !force) return;
+            initialContent.classList.add('hidden');
+            tabs.forEach(t => {
+                const tabEl = document.getElementById(`tab-${t}`);
+                const contentEl = document.getElementById(`content-${t}`);
+                if (t === tabId) {
+                    tabEl.classList.remove('inactive-tab');
+                    tabEl.classList.add('active-tab');
+                    contentEl.classList.remove('hidden');
+                } else {
+                    tabEl.classList.remove('active-tab');
+                    tabEl.classList.add('inactive-tab');
+                    contentEl.classList.add('hidden');
+                }
+            });
+        }
+        
+        function populateArchetypeList() {
+            const listContainer = document.getElementById('archetype-list');
+            appData.other_archetypes.forEach(name => {
+                const card = document.createElement('div');
+                const archetypeKey = name.replace(/\s+/g, '-').toLowerCase();
+                
+                if (appData.detailed_archetypes[archetypeKey]) {
+                    card.className = 'content-card p-4 rounded-lg text-center cursor-pointer';
+                    card.onclick = () => showModal(archetypeKey);
+                } else {
+                     card.className = 'content-card p-4 rounded-lg text-center opacity-60';
+                }
+                
+                card.innerHTML = `<h4 class="font-semibold text-slate-800">${name}</h4>`;
+                listContainer.appendChild(card);
+            });
+        }
+
+        function showModal(archetypeKey) {
+            const data = appData.detailed_archetypes[archetypeKey];
+            if (!data) return;
+            modalTitle.textContent = data.title;
+            modalContent.innerHTML = data.content;
+            modal.classList.remove('hidden');
+        }
+
+        function hideModal() {
+            modal.classList.add('hidden');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+             populateArchetypeList();
+             modalCloseBtn.addEventListener('click', hideModal);
+             modalBackdrop.addEventListener('click', hideModal);
+        });
+
+    </script>
+</body>
+</html>
