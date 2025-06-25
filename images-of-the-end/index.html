@@ -1,428 +1,435 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronRight, Palette } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabbath School Lesson</title>
+    
+    <!-- Load Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load React and ReactDOM -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    
+    <!-- Load Babel for JSX transpilation in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Load Lucide Icons library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts for Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-const SabbathSchoolApp = () => {
-  const [openSections, setOpenSections] = useState({});
-  const [theme, setTheme] = useState('blue');
+    <style>
+        /* Apply the Inter font as the default */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body>
 
-  const themes = {
-    blue: {
-      name: 'Ocean Blue',
-      primary: 'bg-blue-600',
-      secondary: 'bg-blue-50',
-      accent: 'bg-blue-100',
-      text: 'text-blue-900',
-      border: 'border-blue-200'
-    },
-    green: {
-      name: 'Forest Green',
-      primary: 'bg-green-600',
-      secondary: 'bg-green-50',
-      accent: 'bg-green-100',
-      text: 'text-green-900',
-      border: 'border-green-200'
-    },
-    purple: {
-      name: 'Royal Purple',
-      primary: 'bg-purple-600',
-      secondary: 'bg-purple-50',
-      accent: 'bg-purple-100',
-      text: 'text-purple-900',
-      border: 'border-purple-200'
-    }
-  };
+    <!-- This is the root element where our React app will be mounted -->
+    <div id="root"></div>
 
-  const currentTheme = themes[theme];
+    <!-- The React code is placed inside a script tag with type="text/babel" -->
+    <script type="text/babel">
+        const { useState } = React;
 
-  const toggleSection = (sectionId) => {
-    setOpenSections(prev => ({
-      ...prev,
-      [sectionId]: !prev[sectionId]
-    }));
-  };
+        // Helper component to render Lucide icons from the global 'lucide' object
+        const Icon = ({ name, className = "w-6 h-6" }) => {
+            const iconHtml = lucide.icons[name] ? lucide.icons[name].toSvg({ class: className }) : '';
+            return <span dangerouslySetInnerHTML={{ __html: iconHtml }} />;
+        };
 
-  const cycleTheme = () => {
-    const themeKeys = Object.keys(themes);
-    const currentIndex = themeKeys.indexOf(theme);
-    const nextIndex = (currentIndex + 1) % themeKeys.length;
-    setTheme(themeKeys[nextIndex]);
-  };
+        const SabbathSchoolApp = () => {
+            const [openSections, setOpenSections] = useState({ overview: true }); // Start with overview open
+            const [theme, setTheme] = useState('blue');
 
-  const AccordionSection = ({ id, title, children, isOpen }) => (
-    <div className={`mb-4 border rounded-lg ${currentTheme.border} bg-white shadow-sm`}>
-      <button
-        onClick={() => toggleSection(id)}
-        className={`w-full px-4 py-3 text-left flex items-center justify-between ${currentTheme.primary} text-white rounded-t-lg ${!isOpen ? 'rounded-b-lg' : ''} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
-      >
-        <span className="font-semibold text-lg">{title}</span>
-        {isOpen ? <ChevronDown className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
-      </button>
-      {isOpen && (
-        <div className={`p-4 ${currentTheme.secondary} rounded-b-lg`}>
-          {children}
-        </div>
-      )}
-    </div>
-  );
+            const themes = {
+                blue: {
+                    name: 'Ocean Blue',
+                    primary: 'bg-blue-600',
+                    secondary: 'bg-blue-50',
+                    accent: 'bg-blue-100',
+                    text: 'text-blue-900',
+                    border: 'border-blue-200'
+                },
+                green: {
+                    name: 'Forest Green',
+                    primary: 'bg-green-600',
+                    secondary: 'bg-green-50',
+                    accent: 'bg-green-100',
+                    text: 'text-green-900',
+                    border: 'border-green-200'
+                },
+                purple: {
+                    name: 'Royal Purple',
+                    primary: 'bg-purple-600',
+                    secondary: 'bg-purple-50',
+                    accent: 'bg-purple-100',
+                    text: 'text-purple-900',
+                    border: 'border-purple-200'
+                }
+            };
 
-  const lessonsData = [
-    {
-      id: 'overview',
-      title: 'The Three-Act Pattern Overview',
-      content: (
-        <div className="space-y-4">
-          <div className={`p-4 ${currentTheme.accent} rounded-lg`}>
-            <h3 className={`font-bold text-lg mb-2 ${currentTheme.text}`}>God's Consistent Method Throughout History</h3>
-            <p className={`${currentTheme.text} mb-3`}>
-              Throughout Scripture, God follows the same three-act pattern before bringing judgment:
-            </p>
-            <div className="space-y-2">
-              <div className={`p-3 bg-white rounded border-l-4 border-yellow-400`}>
-                <strong>Act 1: WARNING</strong> - God sends a message calling for repentance
-              </div>
-              <div className={`p-3 bg-white rounded border-l-4 border-orange-400`}>
-                <strong>Act 2: REJECTION</strong> - Some choose to ignore despite clear evidence
-              </div>
-              <div className={`p-3 bg-white rounded border-l-4 border-red-400`}>
-                <strong>Act 3: CONSEQUENCES</strong> - Judgment falls, but God's people are delivered
-              </div>
-            </div>
-          </div>
-          <p className={`${currentTheme.text}`}>
-            This week's lesson shows how Jonah, Belshazzar, and Cyrus represent each act of this divine pattern, 
-            pointing forward to the final crisis and the Three Angels' Messages.
-          </p>
-        </div>
-      )
-    },
-    {
-      id: 'jonah',
-      title: 'Act 1: Jonah - The Warning Message',
-      content: (
-        <div className="space-y-4">
-          <div className={`p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded`}>
-            <h3 className="font-bold text-lg mb-2 text-yellow-800">The Reluctant Prophet</h3>
-            <p className="text-yellow-700 mb-3">
-              <strong>Jonah's Declaration:</strong> "I am a Hebrew; and I fear the LORD, the God of heaven, 
-              who made the sea and the dry land" (Jonah 1:9)
-            </p>
-          </div>
-          
-          <div className="space-y-3">
-            <div className="bg-white p-3 rounded border">
-              <strong className={currentTheme.text}>Parallel to First Angel's Message:</strong>
-              <p className={`${currentTheme.text} mt-1`}>
-                "Fear God and give glory to Him... worship Him who made heaven and earth, 
-                the sea and springs of water" (Rev 14:7)
-              </p>
-            </div>
-            
-            <div className="bg-white p-3 rounded border">
-              <strong className={currentTheme.text}>Key Points:</strong>
-              <ul className={`${currentTheme.text} mt-1 ml-4 list-disc`}>
-                <li>Both messages identify God as Creator</li>
-                <li>Both call for worship of the true God</li>
-                <li>Both are given by reluctant messengers</li>
-                <li>Both go to "Babylon" (Nineveh was part of Assyrian empire)</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-3 rounded border">
-              <strong className={currentTheme.text}>Modern Application:</strong>
-              <p className={`${currentTheme.text} mt-1`}>
-                We're called to give an unpopular message to spiritual "Nineveh": 
-                "Come out of her, my people" (Rev 18:4)
-              </p>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'belshazzar',
-      title: 'Act 2: Belshazzar - The Rejection',
-      content: (
-        <div className="space-y-4">
-          <div className={`p-4 bg-orange-50 border-l-4 border-orange-400 rounded`}>
-            <h3 className="font-bold text-lg mb-2 text-orange-800">Knowledge Without Humility</h3>
-            <p className="text-orange-700 mb-3">
-              <strong>Key Verse:</strong> "But you his son, Belshazzar, have not humbled your heart, 
-              although you knew all this" (Daniel 5:22)
-            </p>
-          </div>
-          
-          <div className="space-y-3">
-            <div className="bg-white p-3 rounded border">
-              <strong className={currentTheme.text}>Belshazzar's Problem:</strong>
-              <ul className={`${currentTheme.text} mt-1 ml-4 list-disc`}>
-                <li>Had all the evidence (knew Nebuchadnezzar's story)</li>
-                <li>Chose to ignore it despite clear proof</li>
-                <li>Deliberately profaned God's temple vessels</li>
-                <li>Heart issue, not head knowledge issue</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-3 rounded border">
-              <strong className={currentTheme.text}>The Handwriting on the Wall:</strong>
-              <p className={`${currentTheme.text} mt-1`}>
-                "MENE, MENE, TEKEL, UPHARSIN" - Weighed in the balances and found wanting. 
-                This is investigative judgment language from the sanctuary service.
-              </p>
-            </div>
-            
-            <div className="bg-white p-3 rounded border">
-              <strong className={currentTheme.text}>End-time Parallel:</strong>
-              <p className={`${currentTheme.text} mt-1`}>
-                Modern spiritual Babylon will similarly reject the final warning despite having 
-                clear evidence. It's not lack of knowledge but hardness of heart.
-              </p>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'cyrus',
-      title: 'Act 3: Cyrus - The Deliverance',
-      content: (
-        <div className="space-y-4">
-          <div className={`p-4 bg-red-50 border-l-4 border-red-400 rounded`}>
-            <h3 className="font-bold text-lg mb-2 text-red-800">The King from the East</h3>
-            <p className="text-red-700 mb-3">
-              <strong>The Pattern:</strong> Conquers by drying up the Euphrates River, 
-              defeats Babylon, and frees God's people to return home.
-            </p>
-          </div>
-          
-          <div className="space-y-3">
-            <div className="bg-white p-3 rounded border">
-              <strong className={currentTheme.text}>Historical Method:</strong>
-              <ul className={`${currentTheme.text} mt-1 ml-4 list-disc`}>
-                <li>Diverted the Euphrates River</li>
-                <li>Marched under the city walls</li>
-                <li>Found the gates unguarded (they were feasting)</li>
-                <li>Conquered in a single night</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-3 rounded border">
-              <strong className={currentTheme.text}>End-time Fulfillment:</strong>
-              <ul className={`${currentTheme.text} mt-1 ml-4 list-disc`}>
-                <li>Christ comes "from the east" (Matt 24:27)</li>
-                <li>Euphrates dries up (Rev 16:12)</li>
-                <li>Babylon falls suddenly</li>
-                <li>God's people delivered to "Promised Land" (New Earth)</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-3 rounded border">
-              <strong className={currentTheme.text}>Called "God's Anointed":</strong>
-              <p className={`${currentTheme.text} mt-1`}>
-                Isaiah 45:1 - Cyrus is called God's "anointed" (messiah), making him a type of Christ. 
-                He freed God's people and ordered the temple rebuilt.
-              </p>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'examples',
-      title: 'Other Biblical Examples',
-      content: (
-        <div className="space-y-4">
-          <p className={`${currentTheme.text} mb-4`}>
-            This three-act pattern appears throughout Scripture, showing God's consistent method:
-          </p>
-          
-          <div className="space-y-3">
-            <div className="bg-white p-4 rounded border">
-              <h4 className={`font-bold ${currentTheme.text} mb-2`}>Noah's Time</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
-                <div className="bg-yellow-100 p-2 rounded">
-                  <strong>Warning:</strong> "Repent, flood is coming"
-                </div>
-                <div className="bg-orange-100 p-2 rounded">
-                  <strong>Rejection:</strong> "Eating, drinking, marrying" (Matt 24:38)
-                </div>
-                <div className="bg-red-100 p-2 rounded">
-                  <strong>Consequences:</strong> The flood
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-4 rounded border">
-              <h4 className={`font-bold ${currentTheme.text} mb-2`}>Sodom & Gomorrah</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
-                <div className="bg-yellow-100 p-2 rounded">
-                  <strong>Warning:</strong> Angels warn Lot to flee
-                </div>
-                <div className="bg-orange-100 p-2 rounded">
-                  <strong>Rejection:</strong> City mocks the warning
-                </div>
-                <div className="bg-red-100 p-2 rounded">
-                  <strong>Consequences:</strong> Fire and brimstone
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-4 rounded border">
-              <h4 className={`font-bold ${currentTheme.text} mb-2`}>Israel's History</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
-                <div className="bg-yellow-100 p-2 rounded">
-                  <strong>Warning:</strong> Prophets call for repentance
-                </div>
-                <div className="bg-orange-100 p-2 rounded">
-                  <strong>Rejection:</strong> "Mocked God's messengers" (2 Chr 36:16)
-                </div>
-                <div className="bg-red-100 p-2 rounded">
-                  <strong>Consequences:</strong> Babylonian captivity
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-4 rounded border">
-              <h4 className={`font-bold ${currentTheme.text} mb-2`}>Christ's First Coming</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
-                <div className="bg-yellow-100 p-2 rounded">
-                  <strong>Warning:</strong> "Kingdom of heaven at hand"
-                </div>
-                <div className="bg-orange-100 p-2 rounded">
-                  <strong>Rejection:</strong> "His own received Him not" (John 1:11)
-                </div>
-                <div className="bg-red-100 p-2 rounded">
-                  <strong>Consequences:</strong> Jerusalem destroyed (70 AD)
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-white p-4 rounded border">
-              <h4 className={`font-bold ${currentTheme.text} mb-2`}>The Exodus</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
-                <div className="bg-yellow-100 p-2 rounded">
-                  <strong>Warning:</strong> "Let my people go"
-                </div>
-                <div className="bg-orange-100 p-2 rounded">
-                  <strong>Rejection:</strong> Pharaoh's heart hardened
-                </div>
-                <div className="bg-red-100 p-2 rounded">
-                  <strong>Consequences:</strong> Red Sea deliverance
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'angels',
-      title: 'Three Angels\' Messages Connection',
-      content: (
-        <div className="space-y-4">
-          <div className={`p-4 ${currentTheme.accent} rounded-lg`}>
-            <h3 className={`font-bold text-lg mb-2 ${currentTheme.text}`}>The Final Three-Act Drama</h3>
-            <p className={`${currentTheme.text}`}>
-              The Three Angels' Messages represent the final warning before Christ's return, 
-              following the same pattern we see throughout Scripture.
-            </p>
-          </div>
-          
-          <div className="space-y-3">
-            <div className="bg-white p-4 rounded border">
-              <h4 className="font-bold text-blue-800 mb-2">First Angel - The Warning</h4>
-              <p className="text-gray-700 mb-2">
-                <em>"Fear God and give glory to Him... worship Him who made heaven and earth, 
-                the sea and springs of water"</em> (Rev 14:7)
-              </p>
-              <ul className="text-gray-600 ml-4 list-disc">
-                <li>Emphasizes God as Creator (like Jonah)</li>
-                <li>Calls for true worship</li>
-                <li>Final warning to the world</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-4 rounded border">
-              <h4 className="font-bold text-orange-800 mb-2">Second Angel - The Rejection</h4>
-              <p className="text-gray-700 mb-2">
-                <em>"Babylon is fallen, is fallen... because she made all nations drink 
-                of the wine of her wrath"</em> (Rev 14:8)
-              </p>
-              <ul className="text-gray-600 ml-4 list-disc">
-                <li>Announces spiritual Babylon's fall</li>
-                <li>Like Belshazzar, rejected despite evidence</li>
-                <li>Judgment pronounced</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-4 rounded border">
-              <h4 className="font-bold text-red-800 mb-2">Third Angel - The Consequences</h4>
-              <p className="text-gray-700 mb-2">
-                <em>"If anyone worships the beast... he shall be tormented... 
-                Here is the patience of the saints"</em> (Rev 14:9-12)
-              </p>
-              <ul className="text-gray-600 ml-4 list-disc">
-                <li>Final separation between faithful and rebellious</li>
-                <li>God's people delivered (like Cyrus freed the exiles)</li>
-                <li>End of the great controversy</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className={`p-4 bg-green-50 border-l-4 border-green-400 rounded`}>
-            <p className="text-green-700">
-              <strong>Bottom Line:</strong> We're currently living in the "warning" phase. 
-              The pattern shows us what's coming and assures us that God will deliver His faithful people, 
-              just as He always has throughout history.
-            </p>
-          </div>
-        </div>
-      )
-    }
-  ];
+            const currentTheme = themes[theme];
 
-  return (
-    <div className={`min-h-screen ${currentTheme.secondary}`}>
-      {/* Header */}
-      <header className={`${currentTheme.primary} text-white p-4 sticky top-0 z-10 shadow-lg`}>
-        <div className="flex items-center justify-between max-w-4xl mx-auto">
-          <div>
-            <h1 className="text-xl font-bold">Sabbath School Lesson</h1>
-            <p className="text-sm opacity-90">Images of the End - Three-Act Pattern</p>
-          </div>
-          <button
-            onClick={cycleTheme}
-            className="p-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all"
-            title={`Switch to ${themes[Object.keys(themes)[(Object.keys(themes).indexOf(theme) + 1) % Object.keys(themes).length]].name}`}
-          >
-            <Palette className="w-6 h-6" />
-          </button>
-        </div>
-      </header>
+            const toggleSection = (sectionId) => {
+                setOpenSections(prev => ({
+                    ...prev,
+                    [sectionId]: !prev[sectionId]
+                }));
+            };
 
-      {/* Main Content */}
-      <main className="max-w-4xl mx-auto p-4">
-        <div className="space-y-2">
-          {lessonsData.map((lesson) => (
-            <AccordionSection
-              key={lesson.id}
-              id={lesson.id}
-              title={lesson.title}
-              isOpen={openSections[lesson.id]}
-            >
-              {lesson.content}
-            </AccordionSection>
-          ))}
-        </div>
-        
-        <div className={`mt-8 p-4 ${currentTheme.accent} rounded-lg text-center`}>
-          <p className={`text-sm ${currentTheme.text}`}>
-            <strong>Memory Text:</strong> "So he said to them, 'I am a Hebrew; and I fear the LORD, 
-            the God of heaven, who made the sea and the dry land'" (Jonah 1:9, NKJV)
-          </p>
-        </div>
-      </main>
-    </div>
-  );
-};
+            const cycleTheme = () => {
+                const themeKeys = Object.keys(themes);
+                const currentIndex = themeKeys.indexOf(theme);
+                const nextIndex = (currentIndex + 1) % themeKeys.length;
+                setTheme(themeKeys[nextIndex]);
+            };
 
-export default SabbathSchoolApp;
+            const AccordionSection = ({ id, title, children, isOpen }) => (
+                <div className={`mb-4 border rounded-lg ${currentTheme.border} bg-white shadow-sm transition-all duration-300`}>
+                    <button
+                        onClick={() => toggleSection(id)}
+                        className={`w-full px-4 py-3 text-left flex items-center justify-between ${currentTheme.primary} text-white rounded-t-lg ${!isOpen ? 'rounded-b-lg' : ''} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300`}
+                    >
+                        <span className="font-semibold text-lg">{title}</span>
+                        {isOpen ? <Icon name="chevron-down" className="w-5 h-5" /> : <Icon name="chevron-right" className="w-5 h-5" />}
+                    </button>
+                    {isOpen && (
+                        <div className={`p-4 ${currentTheme.secondary} rounded-b-lg`}>
+                            {children}
+                        </div>
+                    )}
+                </div>
+            );
+            
+            // --- Lesson Data Starts Here ---
+            const lessonsData = [
+                {
+                    id: 'overview',
+                    title: 'The Three-Act Pattern Overview',
+                    content: (
+                        <div className="space-y-4">
+                            <div className={`p-4 ${currentTheme.accent} rounded-lg`}>
+                                <h3 className={`font-bold text-lg mb-2 ${currentTheme.text}`}>God's Consistent Method Throughout History</h3>
+                                <p className={`${currentTheme.text} mb-3`}>
+                                    Throughout Scripture, God follows the same three-act pattern before bringing judgment:
+                                </p>
+                                <div className="space-y-2">
+                                    <div className={`p-3 bg-white rounded border-l-4 border-yellow-400`}>
+                                        <strong>Act 1: WARNING</strong> - God sends a message calling for repentance
+                                    </div>
+                                    <div className={`p-3 bg-white rounded border-l-4 border-orange-400`}>
+                                        <strong>Act 2: REJECTION</strong> - Some choose to ignore despite clear evidence
+                                    </div>
+                                    <div className={`p-3 bg-white rounded border-l-4 border-red-400`}>
+                                        <strong>Act 3: CONSEQUENCES</strong> - Judgment falls, but God's people are delivered
+                                    </div>
+                                </div>
+                            </div>
+                            <p className={`${currentTheme.text}`}>
+                                This week's lesson shows how Jonah, Belshazzar, and Cyrus represent each act of this divine pattern,
+                                pointing forward to the final crisis and the Three Angels' Messages.
+                            </p>
+                        </div>
+                    )
+                },
+                {
+                    id: 'jonah',
+                    title: 'Act 1: Jonah - The Warning Message',
+                    content: (
+                        <div className="space-y-4">
+                            <div className={`p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded`}>
+                                <h3 className="font-bold text-lg mb-2 text-yellow-800">The Reluctant Prophet</h3>
+                                <p className="text-yellow-700 mb-3">
+                                    <strong>Jonah's Declaration:</strong> "I am a Hebrew; and I fear the LORD, the God of heaven,
+                                    who made the sea and the dry land" (Jonah 1:9)
+                                </p>
+                            </div>
+
+                            <div className="space-y-3">
+                                <div className="bg-white p-3 rounded border">
+                                    <strong className={currentTheme.text}>Parallel to First Angel's Message:</strong>
+                                    <p className={`${currentTheme.text} mt-1`}>
+                                        "Fear God and give glory to Him... worship Him who made heaven and earth,
+                                        the sea and springs of water" (Rev 14:7)
+                                    </p>
+                                </div>
+
+                                <div className="bg-white p-3 rounded border">
+                                    <strong className={currentTheme.text}>Key Points:</strong>
+                                    <ul className={`${currentTheme.text} mt-1 ml-4 list-disc`}>
+                                        <li>Both messages identify God as Creator</li>
+                                        <li>Both call for worship of the true God</li>
+                                        <li>Both are given by reluctant messengers</li>
+                                        <li>Both go to "Babylon" (Nineveh was part of Assyrian empire)</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-white p-3 rounded border">
+                                    <strong className={currentTheme.text}>Modern Application:</strong>
+                                    <p className={`${currentTheme.text} mt-1`}>
+                                        We're called to give an unpopular message to spiritual "Nineveh":
+                                        "Come out of her, my people" (Rev 18:4)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: 'belshazzar',
+                    title: 'Act 2: Belshazzar - The Rejection',
+                    content: (
+                        <div className="space-y-4">
+                            <div className={`p-4 bg-orange-50 border-l-4 border-orange-400 rounded`}>
+                                <h3 className="font-bold text-lg mb-2 text-orange-800">Knowledge Without Humility</h3>
+                                <p className="text-orange-700 mb-3">
+                                    <strong>Key Verse:</strong> "But you his son, Belshazzar, have not humbled your heart,
+                                    although you knew all this" (Daniel 5:22)
+                                </p>
+                            </div>
+
+                            <div className="space-y-3">
+                                <div className="bg-white p-3 rounded border">
+                                    <strong className={currentTheme.text}>Belshazzar's Problem:</strong>
+                                    <ul className={`${currentTheme.text} mt-1 ml-4 list-disc`}>
+                                        <li>Had all the evidence (knew Nebuchadnezzar's story)</li>
+                                        <li>Chose to ignore it despite clear proof</li>
+                                        <li>Deliberately profaned God's temple vessels</li>
+                                        <li>Heart issue, not head knowledge issue</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-white p-3 rounded border">
+                                    <strong className={currentTheme.text}>The Handwriting on the Wall:</strong>
+                                    <p className={`${currentTheme.text} mt-1`}>
+                                        "MENE, MENE, TEKEL, UPHARSIN" - Weighed in the balances and found wanting.
+                                        This is investigative judgment language from the sanctuary service.
+                                    </p>
+                                </div>
+
+                                <div className="bg-white p-3 rounded border">
+                                    <strong className={currentTheme.text}>End-time Parallel:</strong>
+                                    <p className={`${currentTheme.text} mt-1`}>
+                                        Modern spiritual Babylon will similarly reject the final warning despite having
+                                        clear evidence. It's not lack of knowledge but hardness of heart.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: 'cyrus',
+                    title: 'Act 3: Cyrus - The Deliverance',
+                    content: (
+                        <div className="space-y-4">
+                            <div className={`p-4 bg-red-50 border-l-4 border-red-400 rounded`}>
+                                <h3 className="font-bold text-lg mb-2 text-red-800">The King from the East</h3>
+                                <p className="text-red-700 mb-3">
+                                    <strong>The Pattern:</strong> Conquers by drying up the Euphrates River,
+                                    defeats Babylon, and frees God's people to return home.
+                                </p>
+                            </div>
+
+                            <div className="space-y-3">
+                                <div className="bg-white p-3 rounded border">
+                                    <strong className={currentTheme.text}>Historical Method:</strong>
+                                    <ul className={`${currentTheme.text} mt-1 ml-4 list-disc`}>
+                                        <li>Diverted the Euphrates River</li>
+                                        <li>Marched under the city walls</li>
+                                        <li>Found the gates unguarded (they were feasting)</li>
+                                        <li>Conquered in a single night</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-white p-3 rounded border">
+                                    <strong className={currentTheme.text}>End-time Fulfillment:</strong>
+                                    <ul className={`${currentTheme.text} mt-1 ml-4 list-disc`}>
+                                        <li>Christ comes "from the east" (Matt 24:27)</li>
+                                        <li>Euphrates dries up (Rev 16:12)</li>
+                                        <li>Babylon falls suddenly</li>
+                                        <li>God's people delivered to "Promised Land" (New Earth)</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-white p-3 rounded border">
+                                    <strong className={currentTheme.text}>Called "God's Anointed":</strong>
+                                    <p className={`${currentTheme.text} mt-1`}>
+                                        Isaiah 45:1 - Cyrus is called God's "anointed" (messiah), making him a type of Christ.
+                                        He freed God's people and ordered the temple rebuilt.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: 'examples',
+                    title: 'Other Biblical Examples',
+                    content: (
+                        <div className="space-y-4">
+                            <p className={`${currentTheme.text} mb-4`}>
+                                This three-act pattern appears throughout Scripture, showing God's consistent method:
+                            </p>
+
+                            <div className="space-y-3">
+                                <div className="bg-white p-4 rounded-lg border">
+                                    <h4 className={`font-bold ${currentTheme.text} mb-2`}>Noah's Time</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
+                                        <div className="bg-yellow-100 p-2 rounded"><strong>Warning:</strong> "Repent, flood is coming"</div>
+                                        <div className="bg-orange-100 p-2 rounded"><strong>Rejection:</strong> "Eating, drinking, marrying" (Matt 24:38)</div>
+                                        <div className="bg-red-100 p-2 rounded"><strong>Consequences:</strong> The flood</div>
+                                    </div>
+                                </div>
+                                <div className="bg-white p-4 rounded-lg border">
+                                    <h4 className={`font-bold ${currentTheme.text} mb-2`}>Sodom & Gomorrah</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
+                                        <div className="bg-yellow-100 p-2 rounded"><strong>Warning:</strong> Angels warn Lot to flee</div>
+                                        <div className="bg-orange-100 p-2 rounded"><strong>Rejection:</strong> City mocks the warning</div>
+                                        <div className="bg-red-100 p-2 rounded"><strong>Consequences:</strong> Fire and brimstone</div>
+                                    </div>
+                                </div>
+                                <div className="bg-white p-4 rounded-lg border">
+                                    <h4 className={`font-bold ${currentTheme.text} mb-2`}>Israel's History</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
+                                        <div className="bg-yellow-100 p-2 rounded"><strong>Warning:</strong> Prophets call for repentance</div>
+                                        <div className="bg-orange-100 p-2 rounded"><strong>Rejection:</strong> "Mocked God's messengers" (2 Chr 36:16)</div>
+                                        <div className="bg-red-100 p-2 rounded"><strong>Consequences:</strong> Babylonian captivity</div>
+                                    </div>
+                                </div>
+                                <div className="bg-white p-4 rounded-lg border">
+                                    <h4 className={`font-bold ${currentTheme.text} mb-2`}>Christ's First Coming</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
+                                        <div className="bg-yellow-100 p-2 rounded"><strong>Warning:</strong> "Kingdom of heaven at hand"</div>
+                                        <div className="bg-orange-100 p-2 rounded"><strong>Rejection:</strong> "His own received Him not" (John 1:11)</div>
+                                        <div className="bg-red-100 p-2 rounded"><strong>Consequences:</strong> Jerusalem destroyed (70 AD)</div>
+                                    </div>
+                                </div>
+                                <div className="bg-white p-4 rounded-lg border">
+                                    <h4 className={`font-bold ${currentTheme.text} mb-2`}>The Exodus</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm">
+                                        <div className="bg-yellow-100 p-2 rounded"><strong>Warning:</strong> "Let my people go"</div>
+                                        <div className="bg-orange-100 p-2 rounded"><strong>Rejection:</strong> Pharaoh's heart hardened</div>
+                                        <div className="bg-red-100 p-2 rounded"><strong>Consequences:</strong> Red Sea deliverance</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                },
+                {
+                    id: 'angels',
+                    title: "Three Angels' Messages Connection",
+                    content: (
+                        <div className="space-y-4">
+                            <div className={`p-4 ${currentTheme.accent} rounded-lg`}>
+                                <h3 className={`font-bold text-lg mb-2 ${currentTheme.text}`}>The Final Three-Act Drama</h3>
+                                <p className={`${currentTheme.text}`}>
+                                    The Three Angels' Messages represent the final warning before Christ's return,
+                                    following the same pattern we see throughout Scripture.
+                                </p>
+                            </div>
+
+                            <div className="space-y-3">
+                                <div className="bg-white p-4 rounded-lg border">
+                                    <h4 className="font-bold text-blue-800 mb-2">First Angel - The Warning</h4>
+                                    <p className="text-gray-700 mb-2 italic">"Fear God and give glory to Him... worship Him who made heaven and earth, the sea and springs of water"</p>
+                                    <ul className="text-gray-600 ml-4 list-disc">
+                                        <li>Emphasizes God as Creator (like Jonah)</li>
+                                        <li>Calls for true worship</li>
+                                        <li>Final warning to the world</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-white p-4 rounded-lg border">
+                                    <h4 className="font-bold text-orange-800 mb-2">Second Angel - The Rejection</h4>
+                                    <p className="text-gray-700 mb-2 italic">"Babylon is fallen, is fallen... because she made all nations drink of the wine of her wrath"</p>
+                                    <ul className="text-gray-600 ml-4 list-disc">
+                                        <li>Announces spiritual Babylon's fall</li>
+                                        <li>Like Belshazzar, rejected despite evidence</li>
+                                        <li>Judgment pronounced</li>
+                                    </ul>
+                                </div>
+                                <div className="bg-white p-4 rounded-lg border">
+                                    <h4 className="font-bold text-red-800 mb-2">Third Angel - The Consequences</h4>
+                                    <p className="text-gray-700 mb-2 italic">"If anyone worships the beast... he shall be tormented... Here is the patience of the saints"</p>
+                                    <ul className="text-gray-600 ml-4 list-disc">
+                                        <li>Final separation between faithful and rebellious</li>
+                                        <li>God's people delivered (like Cyrus freed the exiles)</li>
+                                        <li>End of the great controversy</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className={`p-4 bg-green-50 border-l-4 border-green-400 rounded`}>
+                                <p className="text-green-700">
+                                    <strong>Bottom Line:</strong> We're currently living in the "warning" phase.
+                                    The pattern shows us what's coming and assures us that God will deliver His faithful people,
+                                    just as He always has throughout history.
+                                </p>
+                            </div>
+                        </div>
+                    )
+                }
+            ];
+            // --- Lesson Data Ends Here ---
+
+            return (
+                <div className={`min-h-screen ${currentTheme.secondary}`}>
+                    {/* Header */}
+                    <header className={`${currentTheme.primary} text-white p-4 sticky top-0 z-10 shadow-lg`}>
+                        <div className="flex items-center justify-between max-w-4xl mx-auto">
+                            <div>
+                                <h1 className="text-2xl font-bold">Sabbath School Lesson</h1>
+                                <p className="text-sm opacity-90">Images of the End - Three-Act Pattern</p>
+                            </div>
+                            <button
+                                onClick={cycleTheme}
+                                className="p-2 bg-white bg-opacity-20 rounded-full hover:bg-opacity-30 transition-all"
+                                title={`Switch to ${themes[Object.keys(themes)[(Object.keys(themes).indexOf(theme) + 1) % Object.keys(themes).length]].name}`}
+                            >
+                                <Icon name="palette" className="w-6 h-6" />
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="max-w-4xl mx-auto p-4 md:p-6">
+                        <div className="space-y-2">
+                            {lessonsData.map((lesson) => (
+                                <AccordionSection
+                                    key={lesson.id}
+                                    id={lesson.id}
+                                    title={lesson.title}
+                                    isOpen={!!openSections[lesson.id]}
+                                >
+                                    {lesson.content}
+                                </AccordionSection>
+                            ))}
+                        </div>
+
+                        <div className={`mt-8 p-4 ${currentTheme.accent} rounded-lg text-center`}>
+                            <p className={`text-sm ${currentTheme.text}`}>
+                                <strong>Memory Text:</strong> "So he said to them, 'I am a Hebrew; and I fear the LORD,
+                                the God of heaven, who made the sea and the dry land'" (Jonah 1:9, NKJV)
+                            </p>
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        // Render the main App component into the #root div
+        ReactDOM.render(<SabbathSchoolApp />, document.getElementById('root'));
+
+    </script>
+
+</body>
+</html>
