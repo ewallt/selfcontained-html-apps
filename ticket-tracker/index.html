@@ -2,27 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Simple Ticket Tracker</title>
+  <title>Ticket Tracker • Filter + Dark&nbsp;/ Light</title>
   <style>
-    body { font-family: sans-serif; padding: 1rem; max-width: 600px; margin: auto; }
-    form { margin-bottom: 1rem; }
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --border: #cccccc;
+      --accent: #0d6efd;
+      --row-alt: #f8f9fa;
+    }
+    .dark {
+      --bg: #1e1e1e;
+      --text: #e5e5e5;
+      --border: #444444;
+      --accent: #4dabf7;
+      --row-alt: #2b2b2b;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+      padding: 1rem;
+      max-width: 760px;
+      margin: auto;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    form, .toolbar { margin-bottom: 1rem; }
     label { display: block; margin-top: .5rem; }
-    input, textarea, select, button { width: 100%; padding: .5rem; margin-top: .25rem; }
+    input, textarea, select, button {
+      width: 100%;
+      padding: .5rem;
+      margin-top: .25rem;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    button.primary { background: var(--accent); color: #fff; cursor: pointer; }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
       table-layout: fixed;
     }
-    th, td { border: 1px solid #ccc; padding: .5rem; text-align: left; }
+    th, td {
+      border: 1px solid var(--border);
+      padding: .5rem;
+      text-align: left;
+    }
+    tr:nth-child(even) { background: var(--row-alt); }
     th:nth-child(1), td:nth-child(1) { width: 60px; }
     th:nth-child(3), td:nth-child(3) { width: 160px; }
     .actions button { margin-right: .5rem; }
+
+    .toolbar {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .toolbar select { max-width: 180px; }
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
   <h1>Ticket Tracker</h1>
+
+  <div class="toolbar">
+    <label>
+      Filter by Status
+      <select id="status-filter">
+        <option value="all">All</option>
+        <option value="Backlog">Backlog</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Done">Done</option>
+      </select>
+    </label>
+    <button id="theme-btn" class="theme-toggle" title="Toggle dark / light mode">🌙</button>
+  </div>
 
   <form id="ticket-form">
     <label>
@@ -33,7 +96,7 @@
       Description
       <textarea id="description" rows="3" required></textarea>
     </label>
-    <button type="submit">Add Ticket</button>
+    <button type="submit" class="primary">Add Ticket</button>
   </form>
 
   <table>
@@ -46,15 +109,33 @@
         <th>Actions</th>
       </tr>
     </thead>
-    <tbody id="ticket-list">
-      <!-- tickets will be rendered here -->
-    </tbody>
+    <tbody id="ticket-list"></tbody>
   </table>
 
   <script>
+    /* ---------------- Local state ---------------- */
     const STORAGE_KEY = 'tickets';
-    let tickets = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    const THEME_KEY   = 'ticketTheme'; // 'light' | 'dark'
 
+    let tickets = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    let filter  = 'all';
+
+    /* ---------------- Theme logic ---------------- */
+    function applyTheme(mode) {
+      document.documentElement.classList.toggle('dark', mode === 'dark');
+      document.getElementById('theme-btn').textContent = mode === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem(THEME_KEY, mode);
+    }
+
+    const savedTheme = localStorage.getItem(THEME_KEY) || 'light';
+    applyTheme(savedTheme);
+
+    document.getElementById('theme-btn').addEventListener('click', () => {
+      const newMode = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+      applyTheme(newMode);
+    });
+
+    /* ---------------- Ticket helpers ---------------- */
     function save() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(tickets));
     }
@@ -66,35 +147,31 @@
     function render() {
       const tbody = document.getElementById('ticket-list');
       tbody.innerHTML = '';
-      tickets.forEach(ticket => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${ticket.id}</td>
-          <!-- title cell now has a tooltip showing the description -->
-          <td title="${ticket.description.replace(/"/g, '&quot;')}">
-            ${ticket.title}
-          </td>
-          <td>
-            <select data-id="${ticket.id}" class="status-select">
-              <option${ticket.status==='Backlog'? ' selected':''}>Backlog</option>
-              <option${ticket.status==='In Progress'? ' selected':''}>In Progress</option>
-              <option${ticket.status==='Done'? ' selected':''}>Done</option>
-            </select>
-          </td>
-          <td>${formatDate(ticket.created)}</td>
-          <td class="actions">
-            <button data-id="${ticket.id}" class="delete-btn">Delete</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-      attachEventListeners();
+      tickets
+        .filter(t => filter === 'all' || t.status === filter)
+        .forEach(ticket => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${ticket.id}</td>
+            <td title="${ticket.description.replace(/\"/g, '&quot;')}">${ticket.title}</td>
+            <td>
+              <select data-id="${ticket.id}" class="status-select">
+                <option${ticket.status==='Backlog' ? ' selected' : ''}>Backlog</option>
+                <option${ticket.status==='In Progress' ? ' selected' : ''}>In Progress</option>
+                <option${ticket.status==='Done' ? ' selected' : ''}>Done</option>
+              </select>
+            </td>
+            <td>${formatDate(ticket.created)}</td>
+            <td class="actions"><button data-id="${ticket.id}" class="delete-btn">Delete</button></td>`;
+          tbody.appendChild(tr);
+        });
+      attachRowListeners();
     }
 
-    function attachEventListeners() {
+    function attachRowListeners() {
       document.querySelectorAll('.status-select').forEach(sel => {
         sel.addEventListener('change', e => {
-          const t = tickets.find(t=>t.id===e.target.dataset.id);
+          const t = tickets.find(t => t.id === e.target.dataset.id);
           t.status = e.target.value;
           save();
           render();
@@ -102,36 +179,33 @@
       });
       document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', e => {
-          tickets = tickets.filter(t=>t.id!==e.target.dataset.id);
+          tickets = tickets.filter(t => t.id !== e.target.dataset.id);
           save();
           render();
         });
       });
     }
 
+    /* ---------------- Events ---------------- */
     document.getElementById('ticket-form').addEventListener('submit', e => {
       e.preventDefault();
       const title = document.getElementById('title').value.trim();
       const desc  = document.getElementById('description').value.trim();
       if (!title) return;
-      const id = (tickets.length > 0
-        ? Math.max(...tickets.map(t=>+t.id))
-        : 0
-      ) + 1;
-      tickets.push({
-        id: id.toString(),
-        title,
-        description: desc,
-        status: 'Backlog',
-        created: Date.now()
-      });
+      const id = (tickets.length ? Math.max(...tickets.map(t => +t.id)) : 0) + 1;
+      tickets.push({ id: id.toString(), title, description: desc, status: 'Backlog', created: Date.now() });
       save();
       render();
       e.target.reset();
     });
 
+    document.getElementById('status-filter').addEventListener('change', e => {
+      filter = e.target.value;
+      render();
+    });
+
+    /* ---------------- Init ---------------- */
     render();
   </script>
-
 </body>
 </html>
