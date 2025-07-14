@@ -218,7 +218,7 @@
       <div class="mega-menu-column"><h3 class="theater-heading">Pacific Theater</h3>
         <a href="#" class="topic-link" onclick="switchTopic('topic-labour',this)">Attack on Pearl Harbor</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-sanitary',this)">Battle of Midway</a>
-        <a href="#" class="topic-link" onclick="switchTopic('topic-guadalcanal',this)">Guadalcanal Campaign</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-moral',this)">Guadalcanal Campaign</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-leyte',this)">Battle of Leyte Gulf</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-iwojima',this)">Battle of Iwo Jima</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-okinawa',this)">Battle of Okinawa</a>
@@ -1072,117 +1072,67 @@ nav: [
     `}
   ]
 }, /* <-- Keep this comma unless it's the last topic */
-      'topic-guadalcanal': {
-  title: 'Guadalcanal Campaign (1942–43)',
-  subtitle: 'A Digital Knowledge Base - The Six-Month Struggle for a Jungle Island',
+      'topic-moral': {
+  title: 'The Moral Mission: Reformers, Philanthropy, & The State',
+  subtitle: 'A Digital Knowledge Base – Victorian Social Reform Movements',
   nav: [
-    { id:'prelude',             text:'Prelude: The Japanese Advance South' },
-    { id:'operation_watchtower',text:'Operation Watchtower: The Landings' },
-    { id:'henderson_field',     text:'The Fight for Henderson Field' },
-    { id:'naval_battles',       text:'The Naval Battles: Ironbottom Sound' },
-    { id:'grinding_attrition',  text:'Grinding Attrition & "The Slot"' },
-    { id:'japanese_withdrawal', text:'The Japanese Withdrawal: Operation Ke' },
-    { id:'aftermath',           text:'Aftermath: A Decisive Allied Victory' },
-    { id:'timeline',            text:'Campaign Timeline' }
+    { id:'faces-of-reform',    text:'Faces of Reform' },
+    { id:'voluntary-action',   text:'Philanthropy & Voluntary Action' },
+    { id:'expanding-state',    text:'The Expanding State' },
+    { id:'legacy-debate',      text:'Legacy & Debate' },
+    { id:'reform-timeline',    text:'Victorian Reform Timeline' }
   ],
   sections: [
-    /* ---------- PRELUDE ---------- */
-    { id:'prelude', title:'Prelude: The Japanese Advance South', content:`
-      <h3>After Midway: Shifting Tides</h3>
-      <p>Following their stunning victory at the Battle of Midway in June 1942, the United States gained the strategic initiative in the Pacific. However, the Japanese Empire was still vast and powerful. Japanese forces continued to expand their defensive perimeter in the South Pacific, aiming to isolate Australia and New Zealand from the United States. A key part of this plan was the construction of an airfield on the remote, jungle-covered island of Guadalcanal in the Solomon Islands chain.</p>
-      <h3>A Threat to Allied Supply Lines</h3>
-      <p>An operational Japanese airfield on Guadalcanal would pose a grave threat to the vital Allied sea lanes connecting the U.S. with Australia. It would allow Japanese bombers to strike Allied shipping and project power further south. Recognizing this danger, the U.S. Joint Chiefs of Staff made a bold decision: to launch the first major American amphibious offensive of the Pacific War to seize the island and its partially completed airfield before it became operational.</p>
-      <div class="impact-grid">
-        <div class="impact-card"><h4>Strategic Importance</h4><p>Guadalcanal's location made it critical for controlling sea lines of communication in the South Pacific. Its airfield was the main prize.</p></div>
-        <div class="impact-card"><h4>A Hastily Planned Offensive</h4><p>The U.S. operation was planned and launched with considerable haste, reflecting the urgency of the situation. This led to initial logistical shortcomings.</p></div>
-        <div class="impact-card"><h4>Japan's Defensive Perimeter</h4><p>The Japanese saw Guadalcanal as an important outpost in their expanding defensive ring, designed to protect their conquests in Southeast Asia and the Central Pacific.</p></div>
-      </div>
-    `},
-    /* ---------- OPERATION WATCHTOWER ---------- */
-    { id:'operation_watchtower', title:'Operation Watchtower: The Landings (August 7, 1942)', content:`
-      <h3>The First American Offensive</h3>
-      <p>On August 7, 1942, the U.S. 1st Marine Division, under the command of Major General Alexander Vandegrift, landed on Guadalcanal and the nearby islands of Tulagi, Gavutu, and Tanambogo. The landings on Guadalcanal itself, codenamed Operation Watchtower, caught the Japanese construction troops completely by surprise. The Marines quickly secured the nearly completed airfield, renaming it Henderson Field after a Marine aviator killed at Midway.</p>
-      <h3>Disaster at Sea: The Battle of Savo Island</h3>
-      <p>The initial success on land was quickly overshadowed by a naval disaster. On the night of August 8-9, a powerful Japanese cruiser force, under Vice Admiral Gunichi Mikawa, launched a surprise night attack on the Allied naval force protecting the transports. In the ensuing Battle of Savo Island, the Japanese achieved a stunning victory, sinking four Allied heavy cruisers (three American, one Australian) and damaging others, with no losses to their own ships. Fearful of further attacks, the U.S. Navy withdrew its remaining carriers and transport ships, leaving the 16,000 Marines on Guadalcanal isolated, undersupplied, and vulnerable.</p>
+    { id:'faces-of-reform', title:'The Faces of Reform', content:`
+      <h3>The Architects of Change</h3>
+      <p>Victorian social reform was not an abstract process; it was driven by the tireless efforts of diverse and often courageous individuals. From aristocrats in Parliament to middle-class activists and social investigators, these key figures challenged the status quo, raised public awareness, and pushed for legislative change, leaving an indelible mark on British society.</p>
       <div class="figure-grid">
-        <div class="figure-card"><h4>Marines Ashore</h4><p>The 1st Marine Division faced minimal initial resistance on Guadalcanal itself, quickly capturing their main objective, the airfield.</p></div>
-        <div class="figure-card"><h4>Savo Island: "The Five-Star Catastrophe"</h4><p>It was one of the worst defeats in U.S. naval history. Poor communication, lack of radar proficiency, and Japanese superiority in night fighting tactics contributed to the Allied disaster.</p></div>
-        <div class="figure-card"><h4>Marines Isolated</h4><p>The withdrawal of the fleet left the Marines critically short of food, ammunition, heavy equipment, and air support, forcing them to rely on captured Japanese supplies for weeks.</p></div>
+        <div class="figure-card"><h4>Lord Shaftesbury</h4><p>An aristocratic and deeply religious reformer, Lord Shaftesbury was a leading parliamentary advocate for the vulnerable. He was a crucial voice in the campaigns to reform factories, protect child labourers, and improve conditions for lunatics and "climbing boys" (chimney sweeps).</p></div>
+        <div class="figure-card"><h4>Florence Nightingale</h4><p>A pivotal figure in the professionalization of nursing, Nightingale's work during the Crimean War and her subsequent advocacy for sanitation in hospitals dramatically improved medical care. While some aspects of her legacy are debated by historians, her influence on modern nursing remains profound.</p></div>
+        <div class="figure-card"><h4>Josephine Butler</h4><p>A pioneering feminist and social reformer, Butler led the successful and controversial campaign for the repeal of the Contagious Diseases Acts. Her work challenged the state's sexual double standard and its intervention into women's bodies, making her a key figure in the history of women's rights.</p></div>
+        <div class="figure-card"><h4>Charles Booth</h4><p>A pioneering social investigator, Booth's monumental statistical surveys of poverty in London provided concrete evidence that challenged the prevailing view of poverty as a moral failing. His work contributed to an "emerging environmental critique" that identified structural causes like low pay and irregular employment.</p></div>
       </div>
     `},
-    /* ---------- HENDERSON FIELD ---------- */
-    { id:'henderson_field', title:'The Fight for Henderson Field', content:`
-      <h3>The Linchpin of the Campaign</h3>
-      <p>For the next six months, the battle for Guadalcanal revolved around the desperate struggle for Henderson Field. The Japanese, realizing the strategic importance of the airfield, repeatedly launched determined ground assaults to recapture it. The U.S. Marines, later reinforced by U.S. Army units, fought tenaciously to hold it against overwhelming odds.</p>
-      <h3>Key Land Battles</h3>
+    { id:'voluntary-action', title:'Philanthropy and Voluntary Action', content:`
+      <h4>The Moral Imperative</h4>
+      <p>Much of the momentum for social reform came not from the state, but from a vibrant and extensive network of philanthropic organisations and voluntary activists. Driven by a powerful sense of religious and moral duty, the burgeoning middle class, in particular, channeled immense energy and resources into charitable causes. This philanthropic work sought to identify and aid the "deserving" poor while promoting values of sobriety, thrift, and diligence.</p>
+      <h4>A Distinct Political Voice</h4>
+      <p>Voluntary action also provided a crucial avenue for political engagement, especially for middle-class women who were excluded from formal politics. Their participation in pressure groups, most notably the highly effective anti-slavery movement, allowed them to develop a distinct political voice and influence public policy under the socially acceptable banner of humanitarianism. In provincial cities, the "civic gospel" inspired ambitious municipal projects, as local leaders and philanthropists collaborated to build a new, improved urban environment.</p>
+    `},
+    { id:'expanding-state', title:'The Expanding State: Landmark Legislation', content:`
+      <h3>The Growth of Government</h3>
+      <p>While often reactive and piecemeal, the Victorian era witnessed a significant and irreversible expansion of state power and responsibility. In response to the complex challenges of a new industrial society, Parliament passed a series of landmark acts that reshaped local government, criminal justice, and democratic participation, laying the groundwork for the modern regulatory state.</p>
+      <div class="badge-box"><h4>Key Acts of State Expansion:</h4>
+        <ul>
+          <li><strong>Poor Law Amendment Act (1834):</strong> A foundational, though deeply resented, act that centralized welfare through the punitive workhouse system based on the principle of "less eligibility."</li>
+          <li><strong>Municipal Corporations Act (1835):</strong> Transformed local government by replacing old, unaccountable corporations with elected town councils, increasing partisanship and accountability in urban areas.</li>
+          <li><strong>Second & Third Reform Acts (1867 & 1884):</strong> Successively expanded the male electoral franchise, granting the vote to urban working men and later to rural labourers, profoundly changing the political landscape.</li>
+          <li><strong>Habitual Criminals Act (1869):</strong> Exemplified the state's growing role in social control through the classification, surveillance, and management of a perceived "criminal class."</li>
+          <li><strong>County Councils Act (1888):</strong> A major democratic reform that significantly eroded the traditional administrative power of the landed aristocracy in rural localities.</li>
+        </ul>
+      </div>
+    `},
+    { id:'legacy-debate', title:'The Legacy of Reform: A Historical Debate', content:`
+      <h3>Interpreting Victorian Reform</h3>
+      <p>The legacy and true nature of Victorian social reform remain subjects of vigorous historical debate. While the era undoubtedly saw a massive expansion in state intervention, historians disagree on the pace, motivation, and ultimate beneficiaries of these changes, challenging older, more straightforward narratives of progress.</p>
       <div class="figure-grid">
-        <div class="figure-card"><h4>Battle of the Tenaru (Alligator Creek)</h4><p><em>(August 21, 1942)</em> In the first major Japanese counter-attack, Colonel Kiyonao Ichiki's elite detachment launched a series of suicidal frontal assaults against Marine positions along the Ilu River (mistakenly identified as the Tenaru). The Japanese were annihilated, with over 800 killed. It was a brutal lesson in the effectiveness of American firepower.</p></div>
-        <div class="figure-card"><h4>Battle of Edson's Ridge (Bloody Ridge)</h4><p><em>(September 12-14, 1942)</em> Major General Kiyotake Kawaguchi's brigade launched a determined three-day assault on a critical ridge defending Henderson Field, held by Colonel Merritt "Red Mike" Edson's 1st Raider Battalion and the 1st Parachute Battalion. In savage hand-to-hand fighting, the Marines held their ground, inflicting heavy casualties on the Japanese.</p></div>
-        <div class="figure-card"><h4>Battles for the Matanikau River</h4><p><em>(September-October 1942)</em> A series of fierce engagements were fought as both sides tried to control the area around the Matanikau River, west of Henderson Field. The Japanese launched a major offensive in late October, aiming to capture the airfield, but were again repulsed with heavy losses.</p></div>
-      </div>
-      <h3>The Cactus Air Force</h3>
-      <p>Operating from the primitive and constantly shelled Henderson Field, a motley collection of U.S. Marine, Navy, and Army pilots known as the "Cactus Air Force" played a vital role. Flying obsolete aircraft at times, they fought with incredible skill and bravery, inflicting heavy losses on Japanese bombers and fighters and attacking Japanese shipping attempting to reinforce the island.</p>
-    `},
-    /* ---------- NAVAL BATTLES ---------- */
-    { id:'naval_battles', title:'The Naval Battles: Ironbottom Sound', content:`
-      <h3>A Struggle for Sea Control</h3>
-      <p>The Guadalcanal campaign was characterized by a series of seven major naval battles, numerous minor engagements, and almost daily air attacks on shipping. Both sides poured naval resources into the struggle for control of the sea lanes around the island. The narrow channel between Guadalcanal, Savo Island, and Florida Island became known as "Ironbottom Sound" due to the sheer number of warships sunk there by both sides—over 50 in total.</p>
-      <h3>Key Naval Engagements</h3>
-      <div class="impact-grid">
-        <div class="impact-card"><h4>Battle of Savo Island (Aug 9, 1942)</h4><p>A devastating Japanese night victory that exposed the vulnerability of the initial Allied landings.</p></div>
-        <div class="impact-card"><h4>Battle of Cape Esperance (Oct 11-12, 1942)</h4><p>An American night victory, though confused, which helped to disrupt a major Japanese reinforcement effort.</p></div>
-        <div class="impact-card"><h4>Naval Battle of Guadalcanal (Nov 12-15, 1942)</h4><p>A brutal, chaotic series of night and day engagements. While costly for both sides (the U.S. lost two admirals), it was a decisive American strategic victory that prevented a major Japanese troop landing and bombardment of Henderson Field. The Japanese battleships <em>Hiei</em> and <em>Kirishima</em> were sunk.</p></div>
-        <div class="impact-card"><h4>Battle of Tassafaronga (Nov 30, 1942)</h4><p>A skillful Japanese tactical victory where their destroyers, using superior torpedo tactics, inflicted heavy damage on a U.S. cruiser force. However, it failed to prevent the U.S. from eventually dominating the waters.</p></div>
-      </div>
-      <p>These naval battles were critical. When the U.S. Navy controlled the waters by day, Henderson Field could be resupplied. When the Japanese Navy controlled them by night (often using their "Tokyo Express" destroyer runs), they could land troops and bombard Marine positions.</p>
-    `},
-    /* ---------- GRINDING ATTRITION ---------- */
-    { id:'grinding_attrition', title:'Grinding Attrition & The "Tokyo Express"', content:`
-      <h3>A War of Supply and Endurance</h3>
-      <p>The Guadalcanal campaign devolved into a brutal war of attrition. Both sides suffered immensely from combat casualties, tropical diseases (malaria, dysentery, dengue fever), and the harsh jungle environment. For the Marines and soldiers on the island, life was a constant struggle against the enemy, the elements, and starvation, especially in the early months.</p>
-      <h3>The "Tokyo Express"</h3>
-      <p>Unable to use slow transport ships due to American air superiority from Henderson Field during the day, the Japanese resorted to using fast destroyers and light cruisers to ferry troops and supplies to Guadalcanal under the cover of darkness. These nightly runs down "The Slot" (New Georgia Sound) became known to the Allies as the "Tokyo Express." While they managed to land thousands of troops, they could not bring in heavy equipment, artillery, or adequate food supplies.</p>
-      <div class="quote-box">
-        <p>"Guadalcanal is not a name but an emotion, recalling desperate fights in the air, on land, and by sea, and deeds of heroism and endurance which will long be remembered."</p>
-        <footer>Fleet Admiral Ernest J. King</footer>
-      </div>
-      <p>By late 1942, the tide was slowly turning. The U.S. poured in more men, aircraft, and supplies than the Japanese could match. The "Cactus Air Force" gained control of the skies over the island, and the U.S. Navy began to dominate the surrounding waters, making the "Tokyo Express" increasingly hazardous.</p>
-    `},
-    /* ---------- JAPANESE WITHDRAWAL ---------- */
-    { id:'japanese_withdrawal', title:'The Japanese Withdrawal: Operation Ke (Feb 1943)', content:`
-      <h3>An Impossible Situation</h3>
-      <p>By December 1942, the Japanese High Command realized that Guadalcanal had become an unsustainable drain on their resources. Their troops on the island were starving and suffering from rampant disease, and they could no longer effectively reinforce or resupply them. Emperor Hirohito himself intervened, ordering the Imperial General Headquarters to devise a plan for withdrawal.</p>
-      <h3>Operation Ke: A Masterful Deception</h3>
-      <p>The Japanese plan for evacuation, codenamed Operation Ke, was a masterpiece of deception. To convince the Americans they were actually preparing for another major offensive, the Japanese increased air activity, launched diversionary attacks, and broadcast false radio messages indicating the arrival of fresh troops. Meanwhile, under the cover of darkness, Japanese destroyers skillfully evacuated their remaining forces from the island.</p>
-      <p>The evacuation, conducted in three phases between February 1 and February 7, 1943, was remarkably successful. Approximately 10,600 Japanese soldiers were rescued. The Americans, completely fooled by the deception, did not realize the Japanese were withdrawing until the operation was nearly complete.</p>
-    `},
-    /* ---------- AFTERMATH ---------- */
-    { id:'aftermath', title:'Aftermath: A Decisive Allied Victory', content:`
-      <h3>The End of the Struggle</h3>
-      <p>On February 9, 1943, Major General Alexander Patch, commander of the U.S. Army forces on Guadalcanal, declared the island secure. The brutal six-month campaign was over. Guadalcanal was a decisive strategic victory for the Allies and a major turning point in the Pacific War.</p>
-      <h3>Consequences of the Campaign</h3>
-      <div class="impact-grid">
-        <div class="impact-card"><h4>Halted Japanese Expansion</h4><p>Guadalcanal marked the limit of Japanese expansion in the South Pacific. From this point forward, Japan would be on the defensive.</p></div>
-        <div class="impact-card"><h4>Irreplaceable Losses for Japan</h4><p>Japan suffered heavy losses: over 24,000 killed in action or died from disease and starvation. Critically, they lost hundreds of aircraft and, more importantly, hundreds of irreplaceable veteran aircrews. The losses in shipping, particularly destroyers, were also severe.</p></div>
-        <div class="impact-card"><h4>A Moral Victory</h4><p>The victory demonstrated that American forces could defeat the Japanese in savage jungle warfare and endure incredible hardship. It was a huge boost to Allied morale.</p></div>
-        <div class="impact-card"><h4>The Beginning of the Island-Hopping Campaign</h4><p>Guadalcanal provided a crucial springboard for the subsequent Allied island-hopping campaign across the Pacific towards the Japanese home islands. The lessons learned in amphibious warfare, jungle combat, and inter-service cooperation were invaluable.</p></div>
+        <div class="figure-card"><h4>A "Revolution in Government?"</h4><p>Early historians argued for a "Victorian revolution" in government. However, this is now contested by many who argue that state growth was a "halting and grudgingly" accepted process—a series of reactive measures to specific problems rather than a planned, ideological shift.</p></div>
+        <div class="figure-card"><h4>The "New Pessimism"</h4><p>Challenging "Whiggish" assumptions of continuous progress, the "new pessimism" school of thought argues that the material and social benefits of industrialization for the working class were slow to arrive and often offset by the harsh realities of urban life and poor working conditions.</p></div>
+        <div class="figure-card"><h4>The Welfare State's Origins</h4><p>Did the Victorian era lay the foundations for the modern welfare state? Some scholars, like D. Roberts, argue it did. Others contend that early public health and factory acts were not direct precursors, and that a truly comprehensive concept of state welfare only began to emerge from the 1880s onwards.</p></div>
       </div>
     `},
-    /* ---------- TIMELINE ---------- */
-    { id:'timeline', title:'Guadalcanal Campaign Timeline', content:`
+    { id:'reform-timeline', title:'Victorian Social Reform Timeline', content:`
       <div class="battle-timeline">
-        <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">Aug 7, 1942</div><h4>Operation Watchtower</h4><p>U.S. 1st Marine Division lands on Guadalcanal and surrounding islands, capturing the Japanese airfield.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">Aug 9, 1942</div><h4>Battle of Savo Island</h4><p>A devastating Allied naval defeat forces the withdrawal of U.S. naval support, isolating the Marines.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">Aug 21, 1942</div><h4>Battle of the Tenaru (Alligator Creek)</h4><p>First major Japanese land assault to recapture Henderson Field is decisively repulsed by the Marines.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">Sept 12-14, 1942</div><h4>Battle of Edson's Ridge (Bloody Ridge)</h4><p>Marines under Col. Edson successfully defend Henderson Field against a determined Japanese assault.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">Oct 23-26, 1942</div><h4>Battle for Henderson Field</h4><p>Large-scale Japanese offensive to seize the airfield is repulsed with heavy Japanese losses.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">Nov 12-15, 1942</div><h4>Naval Battle of Guadalcanal</h4><p>A series of brutal sea battles secures a decisive U.S. strategic victory, preventing a major Japanese reinforcement.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">7</div><div class="timeline-content"><div class="timeline-date">Dec 31, 1942</div><h4>Emperor Hirohito Approves Withdrawal</h4><p>The Japanese high command decides to evacuate their remaining forces from Guadalcanal.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">8</div><div class="timeline-content"><div class="timeline-date">Feb 1-7, 1943</div><h4>Operation Ke</h4><p>The Japanese successfully evacuate their remaining troops from Guadalcanal in a skillful deception operation.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">9</div><div class="timeline-content"><div class="timeline-date">Feb 9, 1943</div><h4>Guadalcanal Secured</h4><p>Organized Japanese resistance ends. The island is declared secure by U.S. forces.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">1834</div><h4>Poor Law Amendment Act</h4><p>The "New Poor Law" is passed, fundamentally reshaping welfare provision around the punitive workhouse system for decades to come.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">1842</div><h4>Chadwick's Report & Mines Act</h4><p>Two key events: Chadwick's seminal report on sanitary conditions is published, and the Mines Act restricts child and female labour underground.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">1848</div><h4>Public Health Act</h4><p>The first major Public Health Act is passed, establishing a General Board of Health, though its powers are largely permissive and its implementation slow.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">1867</div><h4>Second Reform Act</h4><p>A major expansion of the democratic franchise, granting the vote to many urban working-class men for the first time.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">1870</div><h4>Education Act</h4><p>The Forster Education Act establishes a national framework for elementary schooling, a crucial step towards universal education.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">1875</div><h4>Compulsory Public Health</h4><p>A new Public Health Act makes sanitary machinery compulsory across the country, marking a major step forward for state intervention.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">7</div><div class="timeline-content"><div class="timeline-date">1884</div><h4>Third Reform Act</h4><p>The franchise is extended further to include rural male householders, making the electorate significantly more democratic.</p></div></div>
       </div>
     `}
-  ] /* end sections */
+  ]
 }, /* <-- Keep this comma unless it's the last topic */
       'topic-leyte': {
   title: 'Battle of Leyte Gulf (1944)',
