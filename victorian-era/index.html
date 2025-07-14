@@ -213,6 +213,7 @@
         <a href="#" class="topic-link" onclick="switchTopic('topic-northafrica',this)">North African Campaign</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-italy',this)">Italian Campaign</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-western_empire',this)">Western Empire</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-legacy',this)">Imperial Networks, Culture, and Legacy</a>
       </div>
       <div class="mega-menu-column"><h3 class="theater-heading">Pacific Theater</h3>
         <a href="#" class="topic-link" onclick="switchTopic('topic-pearlharbor',this)">Attack on Pearl Harbor</a>
@@ -919,6 +920,57 @@ nav: [
         <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">1880s</div><h4>The "Scramble for Africa" Intensifies</h4><p>The decade marks the high point of competitive European colonization in Africa, with Britain acquiring vast new territories to pre-empt rivals and secure strategic interests.</p></div></div>
         <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">1898</div><h4>Battle of Omdurman</h4><p>An Anglo-Egyptian force decisively defeats the Mahdist army in the Sudan, re-establishing control over the region and showcasing the power of modern military technology.</p></div></div>
         <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">1899-1902</div><h4>The Second Boer War</h4><p>A long and costly conflict erupts between the British Empire and the Boer republics in South Africa, highlighting the immense financial and human cost of imperial warfare.</p></div></div>
+      </div>
+    `}
+  ]
+}, /* <-- Keep this comma unless it's the last topic */
+'topic-legacy': {
+  title: 'Imperial Networks, Culture, and Legacy',
+  subtitle: 'A Digital Knowledge Base – Victorian Britain: The Imperial Experience',
+  nav: [
+    { id:'global-networks', text:'Global Networks' },
+    { id:'empire-at-home',  text:'The Empire at Home' },
+    { id:'imperial-legacy', text:'Imperial Legacy & Debates' },
+    { id:'era-timeline',    text:'Victorian Era Timeline' }
+  ],
+  sections: [
+    { id:'global-networks', title:'Global Economic Networks', content:`
+      <h3>The Engine of Empire</h3>
+      <p>The British Empire was bound together by a vast and dynamic global network of trade, finance, and human migration. This intricate system funneled raw materials to Britain's factories, transported goods to markets across the world, and facilitated the movement of capital and people on an unprecedented scale, solidifying Britain's position as the pivot of the international economy.</p>
+      <div class="figure-grid">
+        <div class="figure-card"><h4>Commodity Flows</h4><p>Britain imported a vast array of raw materials and food from its empire, including Indian tea and cotton, Australian wool, West African palm oil, and South African gold. In return, it exported manufactured goods, with India alone taking one-fifth of all British textile exports by 1870.</p></div>
+        <div class="figure-card"><h4>Capital Investment</h4><p>British capital was exported on an enormous scale, rising from £700 million in 1870 to £2,000 million by 1900. This investment largely funded infrastructure like railways and colonial governments, creating both profits and a powerful mechanism of economic control.</p></div>
+        <div class="figure-card"><h4>Migration & Labour</h4><p>The Victorian era saw a massive movement of people. Millions of British and Irish migrants settled in the Dominions. Simultaneously, the abolition of slavery created labor shortages on plantations, leading to the indentured transport of over 1.5 million British Indian subjects to work across the empire.</p></div>
+      </div>
+    `},
+    { id:'empire-at-home', title:'The Empire at Home', content:`
+      <h4>An Imperial Culture</h4>
+      <p>The Empire was not just an overseas phenomenon; it profoundly shaped British domestic life, culture, and national identity. Events like the Great Exhibition of 1851 showcased Britain's imperial and industrial might to a mass audience. After 1870, fueled by a burgeoning mass media, the empire played an increasingly large role in popular culture, creating a sense of "jingoism"—an aggressive and patriotic pride in imperial accomplishments.</p>
+      <h4>Symbols and Critiques</h4>
+      <p>The image of Queen Victoria as "Empress of India" cemented the monarchy's role as the symbolic head of this global enterprise, and imperial imagery became common in advertising and everyday life. This popular support, however, was not universal. Influential critics like John Bright and Richard Cobden, proponents of the "Manchester School," argued that the empire was a costly and morally dubious project that corrupted British values and entangled the nation in expensive and unnecessary wars.</p>
+    `},
+    { id:'imperial-legacy', title:'The Imperial Legacy & Historical Debates', content:`
+      <h3>A Contested Inheritance</h3>
+      <p>The British Empire left a deep and complex legacy, both for Britain and its former colonies, that historians continue to debate. It shaped global economic patterns, influenced political systems, and left behind cultural and social frameworks that are still grappled with today. Understanding the empire requires engaging with these competing historical interpretations.</p>
+      <div class="badge-box"><h4>Key Historiographical Debates on the Empire:</h4>
+        <ul>
+          <li><strong>The "Gentlemanly Capitalism" Thesis:</strong> Argues that imperial expansion was driven primarily by the financial and service sectors of London, rather than by industrial manufacturers.</li>
+          <li><strong>Post-Colonial Critiques:</strong> Influenced by scholars like Edward Said, this approach emphasizes the centrality of race and "white supremacy" in shaping imperial relationships and knowledge systems.</li>
+          <li><strong>The Nature of Imperial Knowledge:</strong> Post-colonial historians contend that imperial knowledge was not neutral but a tool designed to manage and remake colonized societies, often ignoring indigenous agency.</li>
+          <li><strong>Legacy for the Colonized:</strong> A complex balance sheet including tangible benefits like infrastructure and administrative systems, weighed against economic disruption, trauma, and political subjugation.</li>
+          <li><strong>The Empire's Influence on Britain:</strong> Challenges the idea of a separate British and imperial history, arguing that Britain itself can only be fully understood as part of its own empire.</li>
+        </ul>
+      </div>
+    `},
+    { id:'era-timeline', title:'Victorian Era Timeline', content:`
+      <div class="battle-timeline">
+        <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">1837</div><h4>Queen Victoria's Accession</h4><p>The 64-year reign of Queen Victoria begins, marking the start of an era of unprecedented industrial growth and imperial expansion.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">1846</div><h4>Repeal of the Corn Laws</h4><p>A pivotal moment that signals Britain's full commitment to a free trade ideology, which became a key justification and tool of its economic empire.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">1851</div><h4>The Great Exhibition</h4><p>Held in London, this event showcases Britain's industrial and imperial prowess to the world, celebrating its role as the "workshop of the world."</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">1857-58</div><h4>The Indian Rebellion</h4><p>A major uprising against British rule in India leads to the end of Company rule and the establishment of the formal British Raj, a watershed moment in imperial history.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">1870s Onwards</div><h4>The "Scramble for Africa"</h4><p>The pace of European colonization in Africa intensifies, with Britain acquiring vast new territories in a competitive rush with other powers.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">1899-1902</div><h4>The Second Boer War</h4><p>A costly and challenging war in South Africa exposes the vulnerabilities and high price of maintaining the empire, sparking debate at home.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">7</div><div class="timeline-content"><div class="timeline-date">1901</div><h4>Death of Queen Victoria</h4><p>The death of the queen marks the symbolic end of the Victorian era, concluding a period that saw the British Empire reach its zenith.</p></div></div>
       </div>
     `}
   ]
