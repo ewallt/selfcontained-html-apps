@@ -212,6 +212,7 @@
       <div class="mega-menu-column"><h3 class="theater-heading">Mediterranean &amp; Africa</h3>
         <a href="#" class="topic-link" onclick="switchTopic('topic-northafrica',this)">North African Campaign</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-italy',this)">Italian Campaign</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-western_empire',this)">Western Empire</a>
       </div>
       <div class="mega-menu-column"><h3 class="theater-heading">Pacific Theater</h3>
         <a href="#" class="topic-link" onclick="switchTopic('topic-pearlharbor',this)">Attack on Pearl Harbor</a>
@@ -867,6 +868,57 @@ nav: [
         <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">1858</div><h4>Direct Rule in India</h4><p>Following the suppression of the rebellion, the British Crown takes direct control of India, ending the era of Company rule and establishing the British Raj.</p></div></div>
         <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">1877</div><h4>Victoria Proclaimed Empress of India</h4><p>The new title formally links the monarchy to the imperial project, symbolizing the central importance of India to the British Empire.</p></div></div>
         <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">1878-80</div><h4>Second Anglo-Afghan War</h4><p>Britain invades Afghanistan in an attempt to counter perceived Russian influence and secure the northwestern frontier of its Indian Empire.</p></div></div>
+      </div>
+    `}
+  ]
+}, /* <-- Keep this comma unless it's the last topic */
+'topic-western_empire': {
+  title: 'The Western Empire: The Scramble for Africa and the Atlantic',
+  subtitle: 'A Digital Knowledge Base – Victorian Britain: The Imperial Experience',
+  nav: [
+    { id:'scramble-for-africa', text:'The Scramble for Africa' },
+    { id:'wars-for-africa',     text:'Wars for Africa' },
+    { id:'western-holdings',    text:'Key Western Holdings' },
+    { id:'western-timeline',    text:'Western Timeline' }
+  ],
+  sections:[
+    { id:'scramble-for-africa', title:'The "Scramble for Africa"', content:`
+      <h4>The "New Imperialism"</h4>
+      <p>While Britain had long-standing interests in the Atlantic, the late Victorian era was defined by the "Scramble for Africa," a period of rapid and competitive colonization by European powers. After 1870, the pace of imperial acquisition on the continent quickened dramatically. This "new imperialism" was driven less by the promise of immediate economic gain and more by strategic rivalries and pre-emptive maneuvering.</p>
+      <h4>Strategic Motives over Economic Gain</h4>
+      <p>Britain's readiness to acquire vast new territories was often a defensive reaction, born from the fear that industrializing rivals like France and Germany would claim regions and close them off with protective tariffs. Ensuring open markets for free trade was a key consideration. In reality, much of newly-acquired tropical Africa yielded little economic benefit, accounting for only a small fraction of Britain's overseas trade by 1900. The primary drivers were geopolitical: securing strategic assets, blocking rivals, and maintaining the prestige of global power.</p>
+    `},
+    { id:'wars-for-africa', title:'Wars for Africa: Zulus and Boers', content:`
+      <h3>Conflict on the Frontier</h3>
+      <p>The expansion of British influence in Africa was not a peaceful process. It was met with fierce resistance from established indigenous powers and independent settler republics, leading to some of the most notable and challenging military conflicts of the Victorian era. These wars exposed the costs and complexities of maintaining the empire.</p>
+      <div class="figure-grid">
+        <div class="figure-card"><h4>The Anglo-Zulu War (1879)</h4><p>An attempt to confederate Southern Africa led to war with the powerful Zulu Kingdom. The campaign is infamous for the shocking British defeat at the Battle of Isandhlwana, where a Zulu force overwhelmed a modern British column, demonstrating the formidable nature of African resistance.</p></div>
+        <div class="figure-card"><h4>The First Boer War (1880-81)</h4><p>Conflict erupted when the Boers (descendants of Dutch settlers) of the Transvaal rebelled against British annexation. The war ended in a humiliating British defeat, affirming Boer resolve and temporarily securing their independence.</p></div>
+        <div class="figure-card"><h4>The Second Boer War (1899-1902)</h4><p>A much larger and more costly war fought over British control of the gold-rich Boer republics. It exposed deep fault-lines within the empire, required immense resources, and involved controversial tactics like concentration camps before a final British victory.</p></div>
+        <div class="figure-card"><h4>The Mahdist War (1881-99)</h4><p>In Sudan, a religious uprising led by Muhammad Ahmad, the "Mahdi," temporarily drove out Anglo-Egyptian forces. The British returned in the 1890s, culminating in the Battle of Omdurman (1898), where superior technology like the Maxim machine gun secured a decisive victory.</p></div>
+      </div>
+    `},
+    { id:'western-holdings', title:'Key Holdings in the West', content:`
+      <h3>Charting the Western Empire</h3>
+      <p>Britain's Western Empire was a diverse portfolio, combining long-established settler colonies, newly conquered African territories, and strategic outposts in the Atlantic. This sphere of influence was crucial for securing trade routes, accessing resources, and projecting power in a region of growing international competition.</p>
+      <div class="badge-box"><h4>Major Western Imperial Holdings:</h4>
+        <ul>
+          <li><strong>The Dominion of Canada:</strong> Britain's largest self-governing settler colony, a key source of timber and a cornerstone of its North American presence.</li>
+          <li><strong>Southern Africa:</strong> A region of intense conflict and strategic importance, including the Cape Colony and Natal, and later the Boer republics.</li>
+          <li><strong>West & East Africa:</strong> Territories acquired during the "Scramble," such as the Gold Coast (modern Ghana), Nigeria, and British East Africa (modern Kenya and Uganda).</li>
+          <li><strong>Egypt & The Sudan:</strong> While technically an Anglo-Egyptian condominium in the case of Sudan, this region was a vital strategic area, particularly due to the Suez Canal.</li>
+          <li><strong>Atlantic & American Holdings:</strong> Included the British West Indies, important for sugar and as naval bases, and strategic outposts like the Falkland Islands.</li>
+        </ul>
+      </div>
+    `},
+    { id:'western-timeline', title:'Western Empire Timeline', content:`
+      <div class="battle-timeline">
+        <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">1833</div><h4>Annexation of the Falkland Islands</h4><p>Britain re-establishes its claim over the Falkland Islands, securing a key strategic base in the South Atlantic controlling passage around Cape Horn.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">1867</div><h4>Dominion of Canada Formed</h4><p>The British North America Act creates the Dominion of Canada, uniting several colonies into a largely self-governing federation, a key step in the evolution of the empire.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">1879</div><h4>The Anglo-Zulu War</h4><p>Britain invades Zululand in a bid to create a confederation in Southern Africa, leading to the shocking defeat at Isandhlwana and the eventual destruction of the Zulu kingdom.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">1880s</div><h4>The "Scramble for Africa" Intensifies</h4><p>The decade marks the high point of competitive European colonization in Africa, with Britain acquiring vast new territories to pre-empt rivals and secure strategic interests.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">1898</div><h4>Battle of Omdurman</h4><p>An Anglo-Egyptian force decisively defeats the Mahdist army in the Sudan, re-establishing control over the region and showcasing the power of modern military technology.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">1899-1902</div><h4>The Second Boer War</h4><p>A long and costly conflict erupts between the British Empire and the Boer republics in South Africa, highlighting the immense financial and human cost of imperial warfare.</p></div></div>
       </div>
     `}
   ]
