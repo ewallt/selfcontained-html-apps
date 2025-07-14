@@ -225,6 +225,7 @@
       </div>
       <div class="mega-menu-column"><h3 class="theater-heading">Asian Mainland</h3>
         <a href="#" class="topic-link" onclick="switchTopic('topic-visual-arts',this)">Burma Campaign</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-literature',this)">X</a>        
       </div>
     </div>
   </nav>
@@ -1528,6 +1529,55 @@ nav: [
         <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">1849</div><h4>Ruskin's "Seven Lamps"</h4><p>John Ruskin publishes <em>The Seven Lamps of Architecture</em>, providing a powerful moral and aesthetic argument for the Gothic Revival movement.</p></div></div>
         <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">1851</div><h4>The Great Exhibition</h4><p>This monumental event in the Crystal Palace showcases British industrial design and technology, sparking debate about taste and mass production.</p></div></div>
         <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">1877</div><h4>Grosvenor Gallery Opens</h4><p>The gallery opens as an influential alternative to the Royal Academy, providing a key exhibition space for the Aesthetic Movement and Pre-Raphaelite artists.</p></div></div>
+      </div>
+    `}
+  ]
+}, 'topic-literature': {
+  title: 'The Printed Word & The Stage: Literature & Theatre',
+  subtitle: 'A Digital Knowledge Base – Victorian Arts, Literature & Aesthetic Movements',
+  nav: [
+    { id:'victorian-novel',    text:'The Victorian Novel' },
+    { id:'poetry-and-stage',   text:'Poetry & The Stage' },
+    { id:'key-literary-figs',  text:'Key Literary Figures' },
+    { id:'lit-theatre-timeline', text:'Literature Timeline' }
+  ],
+  sections: [
+    { id:'victorian-novel', title:'The Rise of the Victorian Novel', content:`
+      <h3>The Century of the Novel</h3>
+      <p>The nineteenth century was defined by the rise of the novel as the dominant literary form. Realism became its distinguishing feature, as authors explored the complex relationship between the individual and a society undergoing profound change. Through historical novels, social-problem novels, and tales of community life, Victorian writers created a rich tapestry of stories that captured the public imagination and commented on the great issues of the day.</p>
+      <div class="figure-grid">
+        <div class="figure-card"><h4>Charles Dickens</h4><p>The era's most celebrated novelist, Dickens masterfully used the format of serialisation, beginning with *The Pickwick Papers*, to build massive audiences. His works combined entertaining, sprawling narratives with sharp social commentary on wealth, poverty, and injustice in books like *Oliver Twist* and *Great Expectations*.</p></div>
+        <div class="figure-card"><h4>Eliot, Gaskell, & The Brontës</h4><p>A host of other brilliant novelists defined the era. George Eliot (Mary Ann Evans) explored provincial community mores in masterpieces like *Middlemarch*. Elizabeth Gaskell tackled urban industrial problems in *Mary Barton* and *North and South*, while the Brontë sisters penned passionate and enduring tales of romance and struggle.</p></div>
+        <div class="figure-card"><h4>Sensation Fiction</h4><p>A hugely popular genre emerged that brought melodrama into the domestic sphere. Novels like Wilkie Collins's *The Woman in White* and Mary Elizabeth Braddon's *Lady Audley's Secret* thrilled readers with tales of bigamy, adultery, murder, and duplicity, reflecting contemporary anxieties about identity and urban life.</p></div>
+      </div>
+    `},
+    { id:'poetry-and-stage', title:'Victorian Poetry & The Stage', content:`
+      <h4>Poetry in a Changing World</h4>
+      <p>In poetry, Alfred, Lord Tennyson and Robert Browning were the central figures of the age. Tennyson, as Poet Laureate, experimented with genre, blending Arthurian legends with contemporary concerns in *Idylls of the King*. Browning perfected the dramatic monologue, giving voice to a range of historical and fictional characters. In contrast to a male tendency to retreat to classical or medieval themes, leading female poets like Elizabeth Barrett Browning adopted a strong realist perspective, directly addressing social issues such as child labour, women's rights, and illegitimacy in her epic poem *Aurora Leigh*.</p>
+      <h4>A Diversifying Theatre</h4>
+      <p>Victorian theatre evolved dramatically as unlicensed venues began to challenge the traditional patent theatres with a wider variety of entertainment, including melodramas, pantomimes, and ballets. The Theatres Act of 1843 officially freed these independent theatres from restriction, fostering a more diverse and vibrant theatrical landscape. Domestic realism and sensation drama became hugely popular on stage, while the latter part of the century saw the rise of the witty and satirical comic operas of W. S. Gilbert and Arthur Sullivan, which elevated musical theatre to a new level of sophistication.</p>
+    `},
+    { id:'key-literary-figs', title:'Key Literary & Theatrical Figures', content:`
+      <h3>The Defining Voices of the Age</h3>
+      <p>Victorian Britain produced a wealth of literary and theatrical talent whose works defined the era and continue to be celebrated today. These authors and playwrights captured the spirit of their time, exploring its social problems, its moral certainties, and its hidden anxieties through novels, poems, and plays that reached an ever-expanding audience.</p>
+      <div class="badge-box"><h4>Key Figures in Victorian Literature & Theatre:</h4>
+        <ul>
+          <li><strong>Charles Dickens:</strong> The most famous and influential novelist of the era, a master of social commentary and serialised fiction.</li>
+          <li><strong>George Eliot (Mary Ann Evans):</strong> A pre-eminent realist novelist, known for her deep psychological insight and exploration of provincial life in works like *Middlemarch*.</li>
+          <li><strong>Alfred, Lord Tennyson:</strong> As Poet Laureate, he was the dominant and most celebrated poet of the Victorian age.</li>
+          <li><strong>Robert & Elizabeth Barrett Browning:</strong> A renowned literary couple; he was a master of the dramatic monologue, and she was a major poet who tackled contemporary social issues.</li>
+          <li><strong>W. S. Gilbert & Arthur Sullivan:</strong> The creators of a string of brilliant and hugely popular comic operas that satirized British society and institutions.</li>
+          <li><strong>Oscar Wilde:</strong> A leading poet and dramatist of the late-Victorian period, whose witty and paradoxical plays like *The Importance of Being Earnest* heralded a new era of theatre.</li>
+        </ul>
+      </div>
+    `},
+    { id:'lit-theatre-timeline', title:'Literature & Theatre Timeline', content:`
+      <div class="battle-timeline">
+        <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">1836-37</div><h4>The Pickwick Papers Published</h4><p>Charles Dickens's first novel is published in serial form, reviving the format and launching a career that would define Victorian literature.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">1841</div><h4>"Punch" Magazine Founded</h4><p>The iconic satirical magazine is launched, becoming a fixture of Victorian life and a platform for social and political commentary.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">1843</div><h4>Theatres Act</h4><p>Parliament passes legislation freeing independent theatres from the monopoly of the old patent houses, fostering a more diverse and competitive theatrical scene.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">1847-48</div><h4>"Vanity Fair" & "Jane Eyre"</h4><p>A pivotal year for the novel, with the publication of Thackeray's satirical masterpiece and Charlotte Brontë's passionate and revolutionary work.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">1871-72</div><h4>"Middlemarch" Published</h4><p>George Eliot's profound novel of provincial life is published, often cited by modern critics as one of the greatest novels in English.</p></div></div>
       </div>
     `}
   ]
