@@ -216,7 +216,7 @@
         <a href="#" class="topic-link" onclick="switchTopic('topic-legacy',this)">Imperial Networks, Culture, and Legacy</a>
       </div>
       <div class="mega-menu-column"><h3 class="theater-heading">Pacific Theater</h3>
-        <a href="#" class="topic-link" onclick="switchTopic('topic-pearlharbor',this)">Attack on Pearl Harbor</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-labour',this)">Attack on Pearl Harbor</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-midway',this)">Battle of Midway</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-guadalcanal',this)">Guadalcanal Campaign</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-leyte',this)">Battle of Leyte Gulf</a>
@@ -975,114 +975,53 @@ nav: [
     `}
   ]
 }, /* <-- Keep this comma unless it's the last topic */
-  'topic-pearlharbor': {
-  title: 'Attack on Pearl Harbor (1941)',
-  subtitle: 'A Digital Knowledge Base - "A Date Which Will Live in Infamy"',
+  'topic-labour': {
+  title: 'The Factory & The School: Labour & Child Reform',
+  subtitle: 'A Digital Knowledge Base – Victorian Social Reform Movements',
   nav: [
-    { id:'prelude',       text:'Prelude: A Collision Course' },
-    { id:'japanese_plan', text:'The Japanese Plan: Operation Z' },
-    { id:'forces',        text:'Opposing Forces' },
-    { id:'the_attack',    text:'The Attack: December 7, 1941' },
-    { id:'the_aftermath', text:'The Aftermath & Damage Assessment' },
-    { id:'consequences',  text:'Consequences: The "Sleeping Giant" Awakens' },
-    { id:'timeline',      text:'Timeline of the Attack' }
+    { id:'work-agency',         text:'Work & Agency' },
+    { id:'chartist-challenge',  text:'The Chartist Challenge' },
+    { id:'labour-legislation',  text:'Key Legislation' },
+    { id:'labour-timeline',     text:'Labour Reform Timeline' }
   ],
   sections: [
-    /* ---------- PRELUDE ---------- */
-    { id:'prelude', title:'Prelude: A Collision Course', content:`
-      <h3>Japanese Expansionism</h3>
-      <p>Throughout the 1930s, the Empire of Japan pursued an aggressive expansionist policy in Asia. Seeking resources and regional dominance, Japan invaded Manchuria in 1931 and launched a full-scale war against China in 1937. This aggression, part of Japan's ambition to create a "Greater East Asia Co-Prosperity Sphere," directly challenged the interests of the United States and other Western powers who had economic and territorial stakes in the region.</p>
-      <h3>The U.S. Response and Oil Embargo</h3>
-      <p>The United States responded to Japanese aggression with a series of economic sanctions and trade restrictions. The relationship deteriorated sharply after Japan allied with Germany and Italy in the Tripartite Pact (1940) and occupied French Indochina. The breaking point came in July 1941, when the United States, along with Britain and the Netherlands, imposed a total oil embargo on Japan. This was a critical blow, as Japan imported over 80% of its oil. The embargo forced Japan into a corner: either abandon its imperial ambitions in China and Southeast Asia, or go to war to seize the oil-rich Dutch East Indies.</p>
+    { id:'work-agency', title:'The "Condition of England": Work & Agency', content:`
+      <h4>The Realities of Industrial Labour</h4>
+      <p>The prosperity of the Industrial Revolution was built upon the often-harsh working conditions of the labouring classes. The "condition of England problem" became a major concern, with inadequate and uncertain incomes making life precarious for many. The concept of a "breadwinner wage," where a single male income could support an entire family, was a widespread aspiration but rarely a reality. Women often faced immense physical strain, working harder during pregnancy to save for a new child while contending with poor diet and a lack of medical care.</p>
+      <h4>The Rise of Worker Agency</h4>
+      <p>In response to these conditions, working people developed their own forms of organisation and mutual support. Though often dominated by men who promoted a bourgeois family model, the eventual legalisation of trade unions provided a powerful vehicle for collective action. Alongside unions, friendly societies became a crucial source of economic security and solidarity, offering members a degree of protection against hardship and demonstrating a high level of working-class self-organisation.</p>
+    `},
+    { id:'chartist-challenge', title:'The Chartist Challenge', content:`
+      <h3>The People's Charter</h3>
+      <p>Emerging in the wake of the 1832 Reform Act, which many working people saw as a betrayal, Chartism became the most formidable political movement of the early Victorian era. It was a mass movement that aimed to achieve political power for the working class, believing that parliamentary reform was the essential first step toward economic justice and "a fair day's wages for a fair day's work."</p>
       <div class="impact-grid">
-        <div class="impact-card"><h4>A Clash of Interests</h4><p>The fundamental conflict was between Japan's desire for a self-sufficient Asian empire and America's "Open Door Policy," which advocated for free trade and the territorial integrity of China.</p></div>
-        <div class="impact-card"><h4>The Oil Embargo</h4><p>This was the decisive factor. Without access to U.S. oil, the Imperial Japanese Navy could not operate for more than a year. War became a matter of when, not if, for Japan's military leaders.</p></div>
-        <div class="impact-card"><h4>Failed Diplomacy</h4><p>While diplomatic negotiations continued throughout late 1941, neither side was willing to compromise on its core principles. The Japanese military had already decided on war and used the talks as a screen for their preparations.</p></div>
+        <div class="impact-card"><h4>The Six Demands</h4><p>The movement was unified around the six points of the People's Charter: universal manhood suffrage, a secret ballot, no property qualifications for MPs, payment for MPs, equal-sized constituencies, and annual parliaments.</p></div>
+        <div class="impact-card"><h4>Methods of Agitation</h4><p>The Chartists mobilised millions of supporters through a sophisticated campaign of mass meetings, a dedicated press, and, most famously, three enormous national petitions presented to Parliament, demonstrating their scale and organisation.</p></div>
+        <div class="impact-card"><h4>Lasting Political Pressure</h4><p>Although the movement ultimately failed to achieve its goals in the short term, its massive scale and persistent agitation made the political establishment acutely aware that the issue of further democratic reform was unavoidable.</p></div>
       </div>
     `},
-    /* ---------- JAPANESE PLAN ---------- */
-    { id:'japanese_plan', title:'The Japanese Plan: Operation Z', content:`
-      <h3>Yamamoto's High-Stakes Gamble</h3>
-      <p>The plan to attack Pearl Harbor was masterminded by the commander of Japan's Combined Fleet, Admiral Isoroku Yamamoto. Yamamoto, who had studied at Harvard and served as a naval attaché in Washington D.C., understood America's industrial might and knew Japan could not win a long, protracted war. Therefore, he conceived a plan for a devastating, pre-emptive strike. The goal was to destroy the U.S. Pacific Fleet at its moorings, delivering a knockout blow that would demoralize the American public and give Japan a crucial six-month to one-year window to conquer Southeast Asia and fortify its new empire without American interference.</p>
-      <h3>The Kido Butai: The Carrier Strike Force</h3>
-      <p>The operation required absolute secrecy. A powerful carrier strike force, the "Kido Butai," was assembled under the command of Vice Admiral Chuichi Nagumo. It consisted of six of Japan's finest aircraft carriers, escorted by a flotilla of battleships, cruisers, and destroyers. This fleet would have to sail over 3,500 miles across the treacherous North Pacific, observing strict radio silence, to reach its launch point northwest of Hawaii undetected.</p>
-      <div class="figure-grid">
-        <div class="figure-card"><h4>The Main Objective</h4><p>The primary targets were the eight American battleships of the Pacific Fleet. Sinking them would, the Japanese believed, shatter American naval power in the Pacific for the foreseeable future.</p></div>
-        <div class="figure-card"><h4>Specialized Weapons</h4><p>Japan developed special shallow-running torpedoes, modified to work in the relatively shallow waters of Pearl Harbor, and armor-piercing bombs converted from naval shells specifically for the attack on the battleships.</p></div>
-        <div class="figure-card"><h4>A Simultaneous Offensive</h4><p>The attack on Pearl Harbor was not an isolated event. It was timed to coincide with simultaneous Japanese attacks on U.S. territories (the Philippines, Guam, Wake Island) and British possessions (Malaya, Singapore, Hong Kong).</p></div>
+    { id:'labour-legislation', title:'Landmark Child & Labour Legislation', content:`
+      <h3>The State Intervenes</h3>
+      <p>Responding to pressure from reformers and a shifting public consciousness, Parliament began a slow but significant process of legislative intervention to address the worst excesses of industrialisation. These pivotal acts sought to protect the most vulnerable workers—children and women—and laid the foundation for universal education, fundamentally redefining the nature of childhood and the state's role in social welfare.</p>
+      <div class="badge-box"><h4>Key Child & Labour Reform Acts:</h4>
+        <ul>
+          <li><strong>Mines Act (1842):</strong> A landmark act that prohibited all underground work for girls and women, as well as for boys under the age of ten, responding to shocking reports on conditions in the mines.</li>
+          <li><strong>Factory Act (1844):</strong> Continued the process of regulation by setting safety standards, such as the fencing of machinery, and restricting the working hours of women and children in the industrial workforce.</li>
+          <li><strong>Ten Hours Act (1847):</strong> The culmination of decades of popular agitation, this act limited the workday for women and children in textile factories to ten hours, a major victory for the reform movement.</li>
+          <li><strong>Education Act (1870):</strong> Established the framework for state-funded elementary schooling across England and Wales, making education available to all children and paving the way for universal literacy.</li>
+        </ul>
       </div>
     `},
-    /* ---------- FORCES ---------- */
-    { id:'forces', title:'Opposing Forces', content:`
-      <h3>Imperial Japanese Navy Strike Force (Kido Butai)</h3>
-      <div class="figure-grid">
-        <div class="figure-card"><h4>Command</h4><p>Vice Admiral Chuichi Nagumo commanded the carrier strike force. Commander Mitsuo Fuchida was chosen to lead the air attack.</p></div>
-        <div class="figure-card"><h4>Naval Force</h4><p>The core of the force was its six aircraft carriers: <em>Akagi</em>, <em>Kaga</em>, <em>Soryu</em>, <em>Hiryu</em>, <em>Shokaku</em>, and <em>Zuikaku</em>. This fleet was escorted by 2 battleships, 2 heavy cruisers, and numerous destroyers and support ships.</p></div>
-        <div class="figure-card"><h4>Air Power</h4><p>The carriers held a total of 414 aircraft, including Mitsubishi A6M "Zero" fighters for air superiority, Nakajima B5N "Kate" torpedo and level bombers, and Aichi D3A "Val" dive bombers.</p></div>
-      </div>
-      <h3>U.S. Pacific Fleet at Pearl Harbor</h3>
-      <div class="figure-grid">
-        <div class="figure-card"><h4>Command</h4><p>Admiral Husband E. Kimmel (Commander-in-Chief, U.S. Pacific Fleet) and Lieutenant General Walter Short (Commanding General, U.S. Army Hawaiian Department).</p></div>
-        <div class="figure-card"><h4>Naval Force in Port</h4><p>On the morning of the attack, over 90 U.S. naval vessels were in harbor. This included 8 battleships (7 of which were moored on "Battleship Row"), 8 cruisers, 30 destroyers, and various support craft.</p></div>
-        <div class="figure-card"><h4>The Missing Carriers: A Stroke of Luck</h4><p>Crucially, the three U.S. aircraft carriers of the Pacific Fleet were not in port. The USS <em>Lexington</em> and USS <em>Enterprise</em> were at sea delivering planes to Midway and Wake Islands, and the USS <em>Saratoga</em> was on the West Coast. This was a stroke of immense good fortune for the U.S., as aircraft carriers, not battleships, would prove to be the decisive naval weapon of the war.</p></div>
-      </div>
-    `},
-    /* ---------- THE ATTACK ---------- */
-    { id:'the_attack', title:'The Attack: December 7, 1941, "A Date Which Will Live in Infamy"', content:`
-      <h3>"Tora! Tora! Tora!"</h3>
-      <p>Just before 8:00 AM on Sunday, December 7, 1941, the first wave of 183 Japanese aircraft, led by Commander Fuchida, appeared in the skies over Oahu. The American naval base was completely unprepared, enjoying a peaceful weekend morning. Fuchida radioed back the code phrase for complete surprise: "Tora! Tora! Tora!" (Tiger! Tiger! Tiger!). The attack began with devastating precision.</p>
-      <h3>The Two Waves</h3>
-      <p>The first wave's primary targets were the battleships moored on "Battleship Row" and the American airfields. Torpedo bombers streaked in low to hit the battleships, while dive bombers and level bombers rained down armor-piercing bombs. "Zero" fighters strafed the airfields, destroying American planes parked wingtip-to-wingtip on the ground before they could take off.</p>
-      <p>An hour later, a second wave of 171 aircraft struck, targeting other ships and shipyard facilities. The resistance this time was much heavier, as American anti-aircraft gunners had scrambled to their posts, filling the sky with fire.</p>
-      <div class="quote-box">
-        <p>"Yesterday, December 7, 1941—a date which will live in infamy—the United States of America was suddenly and deliberately attacked by naval and air forces of the Empire of Japan."</p>
-        <footer>President Franklin D. Roosevelt, Address to Congress, December 8, 1941</footer>
-      </div>
-      <h3>The Sinking of the USS Arizona</h3>
-      <p>The most devastating loss occurred when a 1,760-pound armor-piercing bomb struck the forward magazine of the battleship USS <em>Arizona</em>. The resulting cataclysmic explosion instantly sank the ship and killed 1,177 of its crewmen, nearly half of the total American deaths in the attack. The shattered, submerged hulk of the <em>Arizona</em> remains at Pearl Harbor today as a memorial.</p>
-    `},
-    /* ---------- THE AFTERMATH ---------- */
-    { id:'the_aftermath', title:'The Aftermath & Damage Assessment', content:`
-      <h3>A Crippling Blow</h3>
-      <p>In less than two hours, the Japanese attack was over. The U.S. Pacific Fleet had been dealt a devastating blow. The naval base was shrouded in smoke from burning, crippled ships and facilities. The attack was a stunning tactical victory for Japan.</p>
-      <div class="impact-grid">
-        <div class="impact-card"><h4>Human Cost</h4><p>A total of 2,403 American service members and civilians were killed. Another 1,178 were wounded. Japanese losses were comparatively light: 64 men killed, 29 aircraft lost, and five midget submarines sunk.</p></div>
-        <div class="impact-card"><h4>Naval Losses</h4><p>All eight U.S. battleships in port were damaged, with four sunk. However, through incredible salvage efforts, all but two (the <em>Arizona</em> and <em>Oklahoma</em>) were eventually raised and returned to service later in the war. Numerous other cruisers and destroyers were also sunk or damaged.</p></div>
-        <div class="impact-card"><h4>Air Power Destroyed</h4><p>Over 188 American aircraft were destroyed, and another 159 were damaged, most of them on the ground. This temporarily crippled American air power in the Pacific.</p></div>
-      </div>
-      <h3>What the Japanese Missed</h3>
-      <p>Despite the immense destruction, the Japanese attack failed to achieve its most important long-term objectives. Admiral Nagumo, fearing a counter-attack, decided against launching a third wave. This decision proved critical. The attack failed to destroy:
-      <br>• The naval base's vital repair yards and machine shops.
-      <br>• The submarine base.
-      <br>• The vast fuel oil storage tanks (the "tank farm").
-      <br>• And most importantly, the American aircraft carriers.
-      <br>The survival of these assets meant that Pearl Harbor could quickly be restored as a functioning forward base, and the U.S. Navy still possessed its most crucial strategic weapon: the carrier.</p>
-    `},
-    /* ---------- CONSEQUENCES ---------- */
-    { id:'consequences', title:'Consequences: The "Sleeping Giant" Awakens', content:`
-      <h3>A Strategic Blunder</h3>
-      <p>While a masterful tactical success, the surprise attack on Pearl Harbor was one of the greatest strategic blunders in military history. The attack, intended to demoralize the United States and keep it out of the war, had the exact opposite effect. It shattered the powerful isolationist movement that had dominated American politics and instantly unified a shocked and outraged nation behind a single cause: total war and unconditional surrender.</p>
-      <h3>America Enters World War II</h3>
-      <p>On December 8, 1941, President Franklin D. Roosevelt addressed a joint session of Congress, calling the attack "a date which will live in infamy" and asking for a declaration of war against Japan, which was passed almost unanimously. On December 11, Germany and Italy, honoring their alliance with Japan, declared war on the United States. The conflicts in Europe and Asia had now merged into a single global war, and the full industrial and military might of the United States was now committed to the Allied cause.</p>
-      <div class="quote-box">
-        <p>"I fear all we have done is to awaken a sleeping giant and fill him with a terrible resolve."</p>
-        <footer>Attributed to Admiral Isoroku Yamamoto (though likely apocryphal, it accurately reflects his sentiments)</footer>
-      </div>
-    `},
-    /* ---------- TIMELINE ---------- */
-    { id:'timeline', title:'Timeline of the Attack', content:`
+    { id:'labour-timeline', title:'Labour & Education Reform Timeline', content:`
       <div class="battle-timeline">
-        <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">July 26, 1941</div><h4>U.S. Imposes Oil Embargo</h4><p>In response to Japanese occupation of French Indochina, the U.S. freezes Japanese assets and imposes a crippling oil embargo.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">Nov 26, 1941</div><h4>Japanese Strike Force Departs</h4><p>Vice Admiral Nagumo's carrier strike force, the Kido Butai, sails from Japan under strict radio silence, heading for Hawaii.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">Dec 7, 1941 (6:00 AM)</div><h4>First Wave Launched</h4><p>The first wave of 183 Japanese aircraft takes off from the carriers 230 miles north of Oahu.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">Dec 7, 1941 (7:48 AM)</div><h4>Attack Begins</h4><p>The surprise attack commences. Commander Fuchida sends the code "Tora! Tora! Tora!"</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">Dec 7, 1941 (8:10 AM)</div><h4>USS Arizona Destroyed</h4><p>A bomb strikes the Arizona's forward magazine, causing a catastrophic explosion that kills 1,177 crewmen.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">Dec 7, 1941 (8:54 AM)</div><h4>Second Wave Attacks</h4><p>The second wave of 171 Japanese aircraft strikes the base, meeting heavier anti-aircraft fire.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">7</div><div class="timeline-content"><div class="timeline-date">Dec 7, 1941 (~9:45 AM)</div><h4>Attack Ends</h4><p>The last Japanese planes depart, leaving the naval base in ruins. Nagumo decides against launching a third wave.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">8</div><div class="timeline-content"><div class="timeline-date">Dec 8, 1941</div><h4>U.S. Declares War</h4><p>President Roosevelt signs the declaration of war against Japan, officially bringing the United States into World War II.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">1838</div><h4>The People's Charter Published</h4><p>The publication of the People's Charter launches the Chartist movement, the first mass working-class political movement in Britain, demanding sweeping democratic reforms.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">1842</div><h4>Mines Act</h4><p>Parliament passes the Mines Act, a critical piece of early protective legislation that bans underground work for women and young children.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">1844</div><h4>Factory Act</h4><p>Further legislation is passed to regulate factory conditions, improve safety, and limit the working hours of women and children in the textile industry.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">1847</div><h4>Ten Hours Act</h4><p>After decades of intense lobbying and popular agitation, the Ten Hours Act is passed, a landmark victory for social reformers limiting the factory workday.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">1870</div><h4>Education Act</h4><p>The state establishes a national system of elementary education, marking a major step towards universal schooling and literacy for all children.</p></div></div>
       </div>
     `}
-  ] /* end sections */
+  ]
 }, /* <-- Keep this comma unless it's the last topic */
       'topic-midway': {
   title: 'Battle of Midway (1942)',
