@@ -217,7 +217,7 @@
       </div>
       <div class="mega-menu-column"><h3 class="theater-heading">Pacific Theater</h3>
         <a href="#" class="topic-link" onclick="switchTopic('topic-labour',this)">Attack on Pearl Harbor</a>
-        <a href="#" class="topic-link" onclick="switchTopic('topic-midway',this)">Battle of Midway</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-sanitary',this)">Battle of Midway</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-guadalcanal',this)">Guadalcanal Campaign</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-leyte',this)">Battle of Leyte Gulf</a>
         <a href="#" class="topic-link" onclick="switchTopic('topic-iwojima',this)">Battle of Iwo Jima</a>
@@ -1023,127 +1023,54 @@ nav: [
     `}
   ]
 }, /* <-- Keep this comma unless it's the last topic */
-      'topic-midway': {
-  title: 'Battle of Midway (1942)',
-  subtitle: 'A Digital Knowledge Base - The Decisive Turning Point in the Pacific',
+      'topic-sanitary': {
+  title: 'The Sanitary Revolution: Public Health & The Urban Crisis',
+  subtitle: 'A Digital Knowledge Base – Victorian Social Reform Movements',
   nav: [
-    { id:'prelude',            text:'Prelude: After Pearl Harbor' },
-    { id:'japanese_plan_mi',   text:'The Japanese Plan: Operation MI' },
-    { id:'american_advantage', text:'The American Advantage: Codebreaking' },
-    { id:'forces',             text:'Opposing Fleets' },
-    { id:'the_battle_begins',  text:'The Battle Begins: June 4, 1942' },
-    { id:'five_minutes',       text:'The "Five-Minute Window"' },
-    { id:'aftermath',          text:'Aftermath: A Decisive Victory' },
-    { id:'timeline',           text:'Battle Timeline' }
+    { id:'urban-crisis',       text:'The Urban Crisis' },
+    { id:'rise-of-sanitarian', text:'The Rise of the Sanitarian' },
+    { id:'public-health-dev',  text:'Key Developments' },
+    { id:'health-timeline',    text:'Public Health Timeline' }
   ],
   sections: [
-    /* ---------- PRELUDE ---------- */
-    { id:'prelude', title:'Prelude: After Pearl Harbor', content:`
-      <h3>Six Months of Japanese Victories</h3>
-      <p>In the six months following the attack on Pearl Harbor, the Empire of Japan conducted a stunningly successful offensive across the Pacific and Southeast Asia. They conquered the Philippines, Malaya, Singapore, the Dutch East Indies, and numerous islands, seeming invincible. The Japanese Combined Fleet, particularly its powerful aircraft carrier strike force (the Kido Butai), operated with impunity. However, one key objective remained: the destruction of the American aircraft carriers, which had escaped the attack on Pearl Harbor.</p>
-      <h3>The Doolittle Raid: A Shock to Japan</h3>
-      <p>On April 18, 1942, the United States achieved a major psychological victory with the Doolittle Raid. Sixteen B-25 bombers, launched from the aircraft carrier USS <em>Hornet</em>, bombed Tokyo and other Japanese cities. While the raid did minimal physical damage, it was a profound shock to the Japanese High Command and public, who believed their homeland was invulnerable. The raid convinced Admiral Isoroku Yamamoto that he had to eliminate the American carriers at all costs. This led him to formulate a plan to lure the U.S. fleet into a final, decisive battle where he could annihilate them.</p>
+    { id:'urban-crisis', title:'The Urban Health Crisis', content:`
+      <h3>The Cost of Unplanned Growth</h3>
+      <p>The unprecedented speed of urbanization in Victorian Britain created a severe public health crisis. As millions flocked to new industrial centers like London, Glasgow, and Liverpool, urban growth far outpaced the provision of adequate housing, clean water, and sanitation. This resulted in squalid, overcrowded living conditions that became breeding grounds for infectious disease and contributed to shockingly high mortality rates.</p>
       <div class="impact-grid">
-        <div class="impact-card"><h4>Yamamoto's Goal</h4><p>The primary Japanese objective was no longer just conquest, but the complete destruction of the U.S. Pacific Fleet's carrier forces, which posed a direct threat to Japan.</p></div>
-        <div class="impact-card"><h4>Battle of the Coral Sea</h4><p>In May 1942, the U.S. and Japanese fleets clashed in the Battle of the Coral Sea. While a tactical victory for Japan (sinking the carrier USS <em>Lexington</em>), it was a strategic victory for the U.S. as it halted the Japanese advance towards Australia. It also damaged two Japanese carriers, which were unable to participate in the upcoming Midway operation.</p></div>
+        <div class="impact-card"><h4>Catastrophic Child Mortality</h4><p>The lethal urban environment had a devastating effect on the young. In industrial cities like Sheffield and Manchester during the 1840s, it was not uncommon for half of all infants to die before their fifth birthday.</p></div>
+        <div class="impact-card"><h4>The "Teeming Slums"</h4><p>The rapid, unplanned growth of cities led to the proliferation of poorly maintained and intensely overcrowded dwellings. These "slums" lacked basic sanitation and clean water, creating the perfect conditions for disease to fester.</p></div>
+        <div class="impact-card"><h4>The Threat of Epidemics</h4><p>Contaminated water supplies and squalid living conditions allowed infectious diseases like cholera, typhus, and smallpox to spread with terrifying speed through the dense urban populations, causing devastating and recurring epidemics.</p></div>
       </div>
     `},
-    /* ---------- JAPANESE PLAN ---------- */
-    { id:'japanese_plan_mi', title:'The Japanese Plan: Operation MI', content:`
-      <h3>A Complex and Overconfident Plan</h3>
-      <p>Admiral Yamamoto devised an incredibly complex plan, Operation MI, to attack and occupy the tiny U.S.-held Midway Atoll. He believed the strategic importance of Midway would force the U.S. Pacific Fleet, under Admiral Chester W. Nimitz, to sail from Pearl Harbor to defend it. Yamamoto's main fleet, including his powerful battleships, would lie in wait. The Kido Butai, the carrier strike force commanded by Vice Admiral Chuichi Nagumo, would then ambush and destroy the American carriers as they approached.</p>
-      <div class="figure-grid">
-        <div class="figure-card">
-          <h4>The Lure</h4>
-          <p>The invasion of Midway was the bait. The Japanese assembled a large invasion force to take the island, which they were confident would draw out the American fleet.</p>
-        </div>
-        <div class="figure-card">
-          <h4>The Hammer</h4>
-          <p>Vice Admiral Nagumo's force of four veteran aircraft carriers (<em>Akagi, Kaga, Soryu, Hiryu</em>) would attack Midway's defenses and then lie in wait to attack the responding American carriers.</p>
-        </div>
-        <div class="figure-card">
-          <h4>Key Flaws</h4>
-          <p>The plan was too complex, with fleets dispersed over hundreds of miles of ocean, making mutual support impossible. It was also based on the arrogant assumption that the Americans were unaware of the plan and would react exactly as predicted. Japanese naval intelligence was convinced only two American carriers were operational.</p>
-        </div>
+    { id:'rise-of-sanitarian', title:'The Rise of the Sanitarian', content:`
+      <h4>The Intellectual Response to Crisis</h4>
+      <p>The horrifying conditions in Britain's industrial cities sparked a powerful intellectual and social response. At the forefront of this movement were reformers known as "sanitarians," who argued that environmental factors, not moral failings, were the root cause of poverty and disease among the working class. They rejected punitive approaches in favor of a new, scientific focus on prevention.</p>
+      <h4>Chadwick's Miasmatic Theory</h4>
+      <p>Sir Edwin Chadwick was the central figure in this movement. His seminal 1842 "General Report on the Sanitary Conditions of the Labouring Classes" was a landmark document that systematically linked disease to filth and overcrowding. Chadwick and his contemporaries subscribed to the "miasmatic theory" of disease, believing that illnesses were spread by foul-smelling air—the "miasma"—rising from decomposing organic matter. Though later proven incorrect, this theory drove the correct conclusion: cities needed to be cleaned through comprehensive water and waste management systems.</p>
+    `},
+    { id:'public-health-dev', title:'Key Public Health Developments', content:`
+      <h3>A New Era of Intervention</h3>
+      <p>Driven by the evidence presented by sanitarians and the fear of recurring epidemics, the state slowly and often reluctantly began to intervene in public health. This process was marked by fractious political debates and technical controversy, but it gradually established the principle that the government had a responsibility for the health of its citizens, paving the way for a more sanitary urban future.</p>
+      <div class="badge-box"><h4>Key Milestones in Public Health:</h4>
+        <ul>
+          <li><strong>Chadwick's 1842 Sanitary Report:</strong> The foundational document that statistically linked environment and disease, providing the intellectual basis for reform.</li>
+          <li><strong>Public Health Act (1848):</strong> The first major, though largely permissive, piece of public health legislation, which created a central General Board of Health.</li>
+          <li><strong>The "Civic Gospel":</strong> An ethos of municipal pride, particularly in the 1870s, which led cities like Birmingham to invest heavily in sanitation, waterworks, and other public improvements.</li>
+          <li><strong>Public Health Act (1875):</strong> A crucial turning point that established compulsory sanitary machinery across the country and codified the powers of local health authorities.</li>
+          <li><strong>Bacteriology & Notifiable Diseases:</strong> From the 1890s, the rise of bacteriology led to the compulsory notification of certain infectious diseases, shifting focus toward individual carriers as well as environmental factors.</li>
+        </ul>
       </div>
     `},
-    /* ---------- AMERICAN ADVANTAGE ---------- */
-    { id:'american_advantage', title:'The American Advantage: The Codebreakers', content:`
-      <h3>Station HYPO's Breakthrough</h3>
-      <p>The single most decisive factor in the American victory was a stunning intelligence breakthrough. A brilliant and eccentric team of U.S. Navy cryptanalysts at Station HYPO in Hawaii, led by Commander Joseph J. Rochefort, had partially broken the main Japanese naval code, JN-25B. They were able to decipher enough of the Japanese radio traffic to learn that a massive operation was being planned, but the primary target was identified only by the codename "AF".</p>
-      <h3>Confirming "AF" is Midway</h3>
-      <p>Rochefort and his team were convinced "AF" was Midway, but Washington was skeptical. To prove it, Rochefort devised a clever deception. He had the American garrison at Midway send out an unencrypted radio message complaining that their fresh-water distillation plant had broken down. Shortly after, a Japanese intelligence message was intercepted reporting that "AF is short on water." The trap had worked. The target was confirmed as Midway.</p>
-      <div class="impact-grid">
-        <div class="impact-card"><h4>A Decisive Edge</h4><p>Knowing the enemy's target, objective, and approximate timeline allowed Admiral Nimitz to disregard Japanese deception efforts and concentrate his limited forces to set a perfect ambush.</p></div>
-        <div class="impact-card"><h4>Nimitz's Calculated Risk</h4><p>Armed with this intelligence, Nimitz took a huge gamble. He committed all three of his available carriers, including the hastily repaired USS <em>Yorktown</em>, to the waters northeast of Midway, exactly where they could surprise the Japanese fleet.</p></div>
-      </div>
-    `},
-    /* ---------- FORCES ---------- */
-    { id:'forces', title:'Opposing Fleets', content:`
-      <h3>Japanese Combined Fleet</h3>
-      <div class="figure-grid">
-        <div class="figure-card"><h4>Command</h4><p>Admiral Isoroku Yamamoto (Overall Commander, on the battleship <em>Yamato</em>), Vice Admiral Chuichi Nagumo (Commander, 1st Carrier Strike Force).</p></div>
-        <div class="figure-card"><h4>Carrier Force (Kido Butai)</h4><p>Four veteran heavy carriers: <strong><em>Akagi</em>, <em>Kaga</em>, <em>Soryu</em>,</strong> and <strong><em>Hiryu</em></strong>, with approximately 248 carrier aircraft. This was the same elite force that had attacked Pearl Harbor.</p></div>
-        <div class="figure-card"><h4>Overall Strength</h4><p>A massive fleet of over 150 ships, including 11 battleships, numerous cruisers and destroyers, and the Midway invasion force. They held an overwhelming numerical advantage.</p></div>
-      </div>
-      <h3>U.S. Pacific Fleet</h3>
-      <div class="figure-grid">
-        <div class="figure-card"><h4>Command</h4><p>Admiral Chester W. Nimitz (Overall Commander, based at Pearl Harbor), Rear Admiral Frank J. Fletcher (Tactical Commander), Rear Admiral Raymond A. Spruance (Commander, Task Force 16).</p></div>
-        <div class="figure-card"><h4>Carrier Force</h4><p>Three heavy carriers: <strong>USS <em>Enterprise</em>, USS <em>Hornet</em>,</strong> and the miraculously repaired <strong>USS <em>Yorktown</em></strong>, with approximately 233 carrier aircraft. They also had land-based aircraft on Midway Atoll itself.</p></div>
-        <div class="figure-card"><h4>The Yorktown Miracle</h4><p>The USS <em>Yorktown</em>, heavily damaged at the Battle of the Coral Sea, was estimated to need three months of repairs. At Pearl Harbor, shipyard workers performed a miracle, making her battle-ready in just 72 hours, a crucial addition to the American force.</p></div>
-      </div>
-    `},
-    /* ---------- THE BATTLE BEGINS ---------- */
-    { id:'the_battle_begins', title:'The Battle Begins: June 4, 1942', content:`
-      <h3>The Attack on Midway</h3>
-      <p>At dawn on June 4, 1942, Admiral Nagumo launched his first wave of 108 aircraft to attack the defenses on Midway Island. The Japanese pilots inflicted significant damage on the island's facilities but failed to destroy its runways. The American land-based aircraft that rose to defend the island were decimated by the superior Japanese "Zero" fighters.</p>
-      <h3>The Sacrifice of the Torpedo Bombers</h3>
-      <p>Meanwhile, American carriers, waiting in ambush, launched their own strikes against the Japanese fleet. The first to attack were the slow, obsolete TBD Devastator torpedo bombers from the <em>Hornet</em>, <em>Enterprise</em>, and <em>Yorktown</em>. They flew in low and slow, and were slaughtered by the Japanese fighter patrol and anti-aircraft fire. Of the 41 torpedo planes that attacked, only six returned. They failed to score a single hit.</p>
-      <div class="quote-box">
-        <p>"The attacks of the torpedo planes were gallant, but hopeless... their sacrifice was not in vain."</p>
-        <footer>A U.S. Navy after-action report</footer>
-      </div>
-      <h3>A Fateful Decision</h3>
-      <p>The sacrifice of the torpedo squadrons, however, was critical. It drew the Japanese Zero fighter cover down to sea level to deal with the threat. It also convinced Nagumo that he needed to launch a second strike on Midway. He ordered his reserve planes, armed with torpedoes for anti-ship duty, to be re-armed with land-attack bombs. This left the decks of the Japanese carriers in a state of chaos, cluttered with bombs, torpedoes, and fuel lines—a tinderbox waiting for a spark.</p>
-    `},
-    /* ---------- FIVE MINUTES ---------- */
-    { id:'five_minutes', title:'The "Five-Minute Window" That Changed the War', content:`
-      <h3>"The Heavens Were Full of Dive Bombers"</h3>
-      <p>At the exact moment the Japanese carriers were at their most vulnerable—their fighter cover out of position and their decks crowded with ordnance—American SBD Dauntless dive bombers from the USS <em>Enterprise</em> and USS <em>Yorktown</em> arrived high overhead, completely unopposed. They had followed a lone Japanese destroyer that was heading back to the fleet, a stroke of navigational luck.</p>
-      <h3>Annihilation in an Instant</h3>
-      <p>Around 10:22 AM, the dive bombers began their attack. In a span of roughly five minutes, American bombs slammed into the decks of three of the four Japanese carriers:
-      <br>• The flagship <strong><em>Akagi</em></strong> was hit by a single bomb that ignited the fully armed and fueled aircraft in its hangar, starting uncontrollable fires.
-      <br>• The <strong><em>Kaga</em></strong> was struck by at least four bombs, turning the massive carrier into a raging inferno.
-      <br>• The <strong><em>Soryu</em></strong> also took three bomb hits, and the fires quickly reached her avgas tanks.
-      <br>In a matter of minutes, the heart of the Kido Butai had been ripped out. Three of Japan's finest aircraft carriers were doomed, consumed by fire and explosions.</p>
-    `},
-    /* ---------- AFTERMATH ---------- */
-    { id:'aftermath', title:'Aftermath: The Sinking of Hiryu and Yorktown', content:`
-      <h3>The Last Japanese Counter-Attack</h3>
-      <p>The sole surviving Japanese carrier, the <em>Hiryu</em>, immediately launched a counter-attack. Its planes found and severely damaged the USS <em>Yorktown</em>, leaving it dead in the water. But the <em>Hiryu's</em> location was now known. Later that afternoon, American dive bombers found the <em>Hiryu</em> and hit it with four bombs, leaving it ablaze and helpless.</p>
-      <h3>A Decisive Victory</h3>
-      <p>With all four of his carriers lost, Admiral Yamamoto, his plan in ruins, ordered a general retreat. The Battle of Midway was an overwhelming, almost unbelievable American victory. The crippled USS <em>Yorktown</em>, while under tow, was later found and sunk by a Japanese submarine on June 7, but this did nothing to change the outcome. The tide of the Pacific War had turned.</p>
-      <div class="impact-grid">
-        <div class="impact-card"><h4>Catastrophic Japanese Losses</h4><p>Japan lost its four best aircraft carriers, a heavy cruiser, and over 248 aircraft. Crucially, they lost thousands of personnel, including over 100 irreplaceable veteran pilots.</p></div>
-        <div class="impact-card"><h4>Modest U.S. Losses</h4><p>The U.S. lost one carrier (the <em>Yorktown</em>), one destroyer, and 150 aircraft. While significant, these losses were sustainable and replaceable.</p></div>
-        <div class="impact-card"><h4>The Initiative Passes</h4><p>After Midway, Japan lost its ability to conduct major offensive operations in the Pacific. The strategic initiative passed permanently to the United States, which would remain on the offensive for the rest of the war.</p></div>
-        <div class="impact-card"><h4>The End of an Era</h4><p>The battle confirmed that the aircraft carrier, not the battleship, was the new queen of naval warfare. Japan's naval air power was shattered and would never fully recover.</p></div>
-      </div>
-    `},
-    /* ---------- TIMELINE ---------- */
-    { id:'timeline', title:'Battle of Midway Timeline', content:`
+    { id:'health-timeline', title:'Public Health Reform Timeline', content:`
       <div class="battle-timeline">
-        <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">April 18, 1942</div><h4>Doolittle Raid</h4><p>U.S. bombers raid Tokyo, shocking the Japanese high command and providing the impetus for the Midway operation.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">May 28, 1942</div><h4>U.S. Fleet Sorties</h4><p>Armed with intelligence, U.S. carrier task forces leave Pearl Harbor to set an ambush near Midway.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">June 4, 1942 (04:30)</div><h4>Japanese Attack Midway</h4><p>Admiral Nagumo launches his first air strike against Midway Island.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">June 4, 1942 (07:00-09:30)</div><h4>Torpedo Squadrons Attack</h4><p>U.S. torpedo bombers attack the Japanese fleet and are almost completely wiped out, but they draw the Japanese fighter patrol out of position.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">June 4, 1942 (10:22-10:28)</div><h4>The Five Minutes</h4><p>U.S. dive bombers strike, mortally wounding the Japanese carriers <em>Akagi</em>, <em>Kaga</em>, and <em>Soryu</em> in a stunningly short period.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">June 4, 1942 (Afternoon)</div><h4>Hiryu Sunk</h4><p>After its planes damage the USS <em>Yorktown</em>, the last Japanese carrier, <em>Hiryu</em>, is found and sunk by U.S. aircraft.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">7</div><div class="timeline-content"><div class="timeline-date">June 5, 1942</div><h4>Japanese Retreat</h4><p>Admiral Yamamoto, his carrier force destroyed, orders a general retreat of the entire Japanese fleet.</p></div></div>
-        <div class="timeline-item"><div class="timeline-dot">8</div><div class="timeline-content"><div class="timeline-date">June 7, 1942</div><h4>Battle Ends</h4><p>The crippled USS <em>Yorktown</em>, which had survived the battle, is sunk by a Japanese submarine. The battle is officially over.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">1842</div><h4>Chadwick's Sanitary Report</h4><p>Edwin Chadwick publishes his influential report, establishing a clear link between poor sanitation and disease and laying the groundwork for the public health movement.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">1848</div><h4>First Public Health Act</h4><p>In response to recurring cholera epidemics, Parliament passes the first Public Health Act, a permissive law establishing a General Board of Health.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">1858</div><h4>The "Great Stink"</h4><p>A hot summer causes the polluted River Thames to smell so foul it forces Parliament to act, leading to the commissioning of Joseph Bazalgette's London sewer system.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">1875</div><h4>Compulsory Public Health Act</h4><p>A new, more comprehensive Public Health Act is passed, establishing compulsory sanitary machinery across the country and codifying the powers of local authorities.</p></div></div>
+        <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">1899</div><h4>Compulsory Notification of Diseases</h4><p>The notification of certain infectious diseases becomes compulsory, reflecting the influence of bacteriology and marking a shift towards more targeted public health interventions.</p></div></div>
       </div>
     `}
-  ] /* end sections */
+  ]
 }, /* <-- Keep this comma unless it's the last topic */
       'topic-guadalcanal': {
   title: 'Guadalcanal Campaign (1942–43)',
