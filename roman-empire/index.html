@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Roman Empire Chronicle</title>
+  <style>
+    /* Global Reset & Base Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Georgia", serif;
+      line-height: 1.6;
+      background-color: #EAEAEA;
+      color: #333333;
+    }
+
+    /* Top Bar & Mega-Menu Toggle */
+    #master-top-bar {
+      background-color: #2F4F4F;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 250;
+    }
+    #master-top-bar .site-title {
+      font-family: "Impact", Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      color: #D3D3D3; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px;
+    }
+    #mega-menu-toggle {
+      background:#D3D3D3;color:#2F4F4F;border:2px solid #A9A9A9;border-radius:5px;
+      padding:0.6rem 1.2rem;cursor:pointer;font-family:"Impact",Haettenschweiler,"Arial Narrow Bold",sans-serif;
+      font-size:0.9rem;text-transform:uppercase;letter-spacing:1px;transition:.3s;
+    }
+    #mega-menu-toggle:hover{background:#A9A9A9;color:#fff}
+    #mega-menu-toggle.active{background:#B22222;color:#fff;border-color:#8B0000}
+
+    /* Mega-menu panel */
+    #mega-menu-panel{
+      display:none;position:fixed;top:60px;left:0;width:100%;height:calc(100vh - 60px);
+      background:rgba(47,79,79,.98);z-index:300;padding:2rem;overflow-y:auto;
+      box-shadow:0 5px 15px rgba(0,0,0,.3);animation:fadeInMega .3s ease-out;
+    }
+    @keyframes fadeInMega{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    #mega-menu-panel.open{display:block}
+    .mega-menu-columns{display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-around}
+    .mega-menu-column{flex:1;min-width:220px;margin-bottom:1rem}
+    .mega-menu-column .theater-heading{
+      font-family:"Impact",Haettenschweiler,"Arial Narrow Bold",sans-serif;
+      color:#BDBDBD;font-size:1.2rem;margin-bottom:.75rem;padding-bottom:.5rem;
+      border-bottom:1px solid #778899;text-transform:uppercase;
+    }
+    .mega-menu-column .topic-link{
+      display:block;color:#EAEAEA;text-decoration:none;padding:.5rem .25rem;border-radius:2px;
+      transition:.2s;font-size:.95rem;
+    }
+    .mega-menu-column .topic-link:hover{background:#778899;color:#fff}
+    .mega-menu-column .topic-link.active-topic{background:#B22222;color:#fff;font-weight:bold}
+    #page-content{padding-top:60px}
+
+    /* Topic container */
+    .topic-container{
+      display:none;font-family:"Georgia",serif;line-height:1.6;color:#2c3e50;
+      background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+      animation:fadeInTopic .5s ease-in-out;padding:1px 0;min-height:calc(100vh - 60px);
+    }
+    .topic-container.active{display:block}
+    @keyframes fadeInTopic{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    .topic-container .container{
+      max-width:1200px;margin:20px auto;background:rgba(255,255,255,.95);
+      backdrop-filter:blur(10px);border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.1);overflow:hidden;
+    }
+    .topic-container .header{
+      background:linear-gradient(45deg,#1a237e,#3949ab);color:white;padding:3rem 2rem;text-align:center;
+      position:relative;overflow:hidden;
+    }
+    .topic-container .header::before{
+      content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+      background:url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><circle cx=\"20\" cy=\"20\" r=\"2\" fill=\"rgba(255,255,255,0.05)\"/><circle cx=\"80\" cy=\"40\" r=\"1.5\" fill=\"rgba(255,255,255,0.05)\"/><circle cx=\"40\" cy=\"70\" r=\"1\" fill=\"rgba(255,255,255,0.05)\"/></svg>');
+      animation:float 20s infinite linear;opacity:.7;
+    }
+    @keyframes float{0%{transform:translate(-50px,-50px)}100%{transform:translate(50px,50px)}}
+    .topic-container .header h1{font-size:2.8rem;margin-bottom:.8rem;text-shadow:1px 1px 3px rgba(0,0,0,.4)}
+    .topic-container .header p{font-size:1.1rem;opacity:.85}
+
+    .topic-container .nav{background:#495057;padding:.9rem 0;position:sticky;top:60px;z-index:100}
+    .topic-container .nav-container{max-width:1200px;margin:0 auto;display:flex;justify-content:center;
+      flex-wrap:wrap;gap:.8rem;padding:0 1.5rem}
+    .topic-container .nav-btn{
+      background:linear-gradient(45deg,#5a7a99,#435c74);color:white;border:none;padding:.7rem 1.3rem;
+      border-radius:20px;cursor:pointer;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+      font-size:.85rem;font-weight:bold;transition:.3s;box-shadow:0 3px 12px rgba(0,0,0,.2);
+    }
+    .topic-container .nav-btn:hover{
+      transform:translateY(-2px);box-shadow:0 5px 18px rgba(0,0,0,.3);
+      background:linear-gradient(45deg,#435c74,#304252);
+    }
+    .topic-container .nav-btn.active{
+      background:linear-gradient(45deg,#c0392b,#a93226);box-shadow:0 3px 12px rgba(192,57,43,.4);
+    }
+
+    .topic-container .content{padding:2.5rem 2rem}
+    .topic-container .section{display:none;padding-bottom:1.5rem;margin-bottom:1.5rem;animation:fadeInSection .6s}
+    .topic-container .section.active{display:block}
+    @keyframes fadeInSection{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+    .topic-container .section h2{
+      font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#23272a;font-size:2.3rem;
+      margin-bottom:1.8rem;text-align:center;position:relative;padding-bottom:8px;
+    }
+    .topic-container .section h2::after{
+      content:"";position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
+      width:90px;height:3px;background:linear-gradient(45deg,#5a7a99,#c0392b);border-radius:1.5px;
+    }
+    .topic-container .section h3{
+      font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#343a40;font-size:1.7rem;
+      border-left:3px solid #5a7a99;margin:1.8rem 0 .9rem;padding-left:.9rem;
+    }
+    .topic-container .section p{
+      font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin-bottom:1.3rem;font-size:1.05rem;
+      text-align:justify;line-height:1.7;color:#333;
+    }
+
+    /* Figure & impact cards */
+    .figure-grid,.impact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:1.8rem;margin:1.8rem 0;}
+    .figure-card,.impact-card{
+      background:linear-gradient(135deg,#fdfdfe,#f1f3f5);border-radius:12px;padding:1.8rem;
+      box-shadow:0 7px 20px rgba(0,0,0,.08);transition:.3s;border:1px solid rgba(0,0,0,.08);
+    }
+    .figure-card:hover,.impact-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
+    .figure-card h4,.impact-card h4{
+      font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#23272a;font-size:1.3rem;
+      margin-bottom:.9rem;padding-bottom:.4rem;border-bottom:2px solid #5a7a99;
+    }
+    .impact-card{text-align:center;border-top:3px solid}
+    .impact-card:nth-child(1){border-top-color:#007bff}.impact-card:nth-child(2){border-top-color:#6c757d}
+    .impact-card:nth-child(3){border-top-color:#ffc107}.impact-card:nth-child(4){border-top-color:#28a745}
+
+    /* Timeline */
+    .battle-timeline{position:relative;margin:2.5rem 0;padding-left:0}
+    .timeline-item{display:flex;margin-bottom:1.8rem;position:relative}
+    .timeline-item::before{
+      content:"";position:absolute;left:18px;top:0;bottom:-1.8rem;width:2px;
+      background:linear-gradient(to bottom,#5a7a99,#435c74);
+    }
+    .timeline-item:last-child::before{height:36px;bottom:auto}
+    .timeline-dot{
+      width:36px;height:36px;background:linear-gradient(45deg,#6c757d,#495057);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:.9em;
+      margin-right:1.8rem;box-shadow:0 3px 8px rgba(0,0,0,.25);flex-shrink:0;z-index:1;
+    }
+    .timeline-content{
+      background:white;padding:1.3rem;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.08);flex:1;
+      border-left:3px solid #5a7a99;
+    }
+    .timeline-content h4{color:#23272a;margin-bottom:.4rem;font-size:1.2rem}
+    .timeline-date{color:#6c757d;font-size:.85rem;font-weight:bold;margin-bottom:.4rem}
+
+    /* Badge box */
+    .badge-box{
+      background:linear-gradient(135deg,#3a3f44,#495057);color:white;padding:1.8rem;border-radius:12px;
+      margin:1.8rem 0;box-shadow:0 8px 25px rgba(0,0,0,.25);
+    }
+    .badge-box h4{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#e9ecef;
+      margin-bottom:.9rem;font-size:1.3rem}
+    .badge-box ul{list-style:none;padding-left:0}
+    .badge-box li{margin-bottom:.7rem;padding-left:1.3rem;position:relative}
+    .badge-box li::before{content:"»";position:absolute;left:0;color:#ffc107;font-weight:bold}
+
+    /* Footer */
+    .footer{background:#23272a;color:white;text-align:center;padding:1.8rem;margin-top:2rem}
+
+    /* Responsive tweaks */
+    @media(max-width:768px){
+      #master-top-bar .site-title{font-size:1.2rem}
+      #mega-menu-toggle{font-size:.8rem;padding:.5rem .8rem}
+      #mega-menu-panel{padding:1rem;top:50px;height:calc(100vh - 50px)}
+      #page-content{padding-top:50px}
+      .topic-container .header h1{font-size:2rem}
+      .topic-container .nav{top:50px}
+      .topic-container .nav-container{flex-direction:column;align-items:center}
+      .topic-container .content{padding:1.5rem 1rem}
+      .topic-container .section h2{font-size:1.8rem}
+      .figure-grid{grid-template-columns:1fr}
+      .timeline-item{flex-direction:column}
+      .timeline-dot{margin-right:0;margin-bottom:.9rem;align-self:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <header id="master-top-bar">
+    <span class="site-title">The Roman Empire Chronicle</span>
+    <button id="mega-menu-toggle">Select Period ▼</button>
+  </header>
+
+  <nav id="mega-menu-panel">
+    <div class="mega-menu-columns">
+      <div class="mega-menu-column">
+        <h3 class="theater-heading">Origins & Political Evolution of Rome</h3>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-regal-plebeian',this)">Regal Foundations → Plebeian Victory (753 – 287 BCE)</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-high-republic',this)">High Republic & Mediterranean Expansion (287 – 133 BCE)</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-late-republic',this)">Crisis of the Late Republic (133 – 31 BCE)</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-augustus',this)">Augustus & The Principate Settlement (31 BCE – 14 CE)</a>
+      </div>
+      <div class="mega-menu-column">
+        <h3 class="theater-heading">Conquest, Legions & Frontiers</h3>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-conquest-west',this)">Italian Unification & Western Mediterranean Wars (350 – 146 BCE)</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-conquest-east',this)">Eastern Expansion & Provincial Framework (200 – 30 BCE)</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-imperial-frontiers',this)">Imperial Frontiers: Rhine–Danube to Parthia (30 BCE – 138 CE)</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-consolidation',this)">Consolidation & Defense: Walls, Forts, and Mobile Response (138 – 235 CE)</a>
+      </div>
+      <div class="mega-menu-column">
+        <h3 class="theater-heading">Roman Commerce: Networks, Money & Markets</h3>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-agrarian',this)">Agrarian Foundations & Rural Economy (c. 500 BCE – 200 CE)</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-urban-life',this)">Urbanisation & City Life (2nd c. BCE – 300 CE)</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-trade-networks',this)">Trade Networks, Money & Markets (200 BCE – 300 CE)</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-engineering',this)">Engineering & Infrastructure (312 BCE – 200 CE)</a>
+      </div>
+      <div class="mega-menu-column">
+        <h3 class="theater-heading">Social Hierarchy, Family & Daily Habits</h3>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-social-hierarchy',this)">Social Hierarchy, Family & Daily Habits</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-entertainment',this)">Entertainment, Leisure & Public Spectacle</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-roman-religion',this)">Religion, Rituals & Sacred Spaces</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-intellectual',this)">Education, Law & Intellectual Culture</a>
+      </div>
+      <div class="mega-menu-column">
+        <h3 class="theater-heading">Religion, Ideas & Transformation</h3>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-state-cult',this)">State Religion & the Imperial Cult</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-mystery-cults',this)">Mystery Religions & Imported Cults</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-christianity',this)">Rise of Christianity & Church–Empire Relations</a>
+        <a href="#" class="topic-link" onclick="switchTopic('topic-philosophy',this)">Philosophy, Theology & Late-Antique Thought</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="page-content">
+    <div id="topic-master-container" class="topic-container"></div>
+  </div>
+
+  <script>
+    /* ========== DATA ========== */
+    const romanData = {
+      'topic-regal-plebeian': {
+        title: 'Regal Foundations → Plebeian Victory (753 – 287 BCE)',
+        subtitle: 'A Digital Knowledge Base – Origins & Political Evolution of Rome',
+        nav: [
+          { id: 'regal-rome', text: 'Regal Rome & Its Overthrow' },
+          { id: 'conflict-of-orders', text: 'The Conflict of the Orders' },
+          { id: 'republican-reforms', text: 'Key Republican Reforms' },
+          { id: 'early-rome-timeline', text: 'Early Rome Timeline' }
+        ],
+        sections: [
+          { id: 'regal-rome', title: 'Regal Rome & Its Overthrow', content: `
+            <h3>Rome's Mythic Origins</h3>
+            <p>The story of Rome begins not with historical records, but with powerful founding myths that shaped its identity for centuries. These legends tell of a city born from divine will and fratricidal conflict, setting the stage for its destiny. This regal period, heavily influenced by the neighbouring Etruscan civilization, established the initial political and religious institutions that the later Republic would both build upon and react against.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>The Founding (753 BCE)</h4><p>The legend of Romulus and Remus, twin brothers nursed by a she-wolf and descended from the Trojan hero Aeneas, culminates in Romulus founding Rome on the Palatine Hill after killing his brother in a dispute.</p></div>
+              <div class="impact-card"><h4>The Seven Kings</h4><p>A line of seven legendary kings, from the founder Romulus to the warlike Tullus Hostilius and the Etruscan Tarquins, are credited with establishing Rome's core religious, social, and military customs.</p></div>
+              <div class="impact-card"><h4>The Fall of the Monarchy (509 BCE)</h4><p>The rule of the final, tyrannical king, Tarquinius Superbus, ended in a popular uprising. This overthrow of the monarchy instilled in the Romans a deep-seated hatred of kingship that would define their political culture for 500 years.</p></div>
+            </div>
+          `},
+          { id: 'conflict-of-orders', title: 'The Conflict of the Orders', content: `
+            <h4>Patricians vs. Plebeians</h4>
+            <p>The early Roman Republic was not a democracy. Power was monopolized by the Patricians, a small group of aristocratic clans who controlled the Senate, the priesthoods, and the highest magistracies. The vast majority of the citizenry, the Plebeians, were excluded from political power and subject to arbitrary and unwritten laws. This inequality sparked a prolonged domestic struggle for rights that would define the first two centuries of the Republic.</p>
+            <h4>The Power of the People</h4>
+            <p>The key weapon for the plebeians was a form of collective action akin to a general strike, the *secessio plebis* (secession of the plebs). On several occasions, the entire plebeian population would withdraw from the city to a nearby hill, refusing to work or fight until their demands were met. Faced with a city unable to function or defend itself, the patrician elite was repeatedly forced to concede to plebeian demands, gradually and grudgingly reshaping the Roman state.</p>
+          `},
+          { id: 'republican-reforms', title: 'Key Republican Reforms', content: `
+            <h3>Forging a New State</h3>
+            <p>The Conflict of the Orders was not a violent revolution, but a long series of political battles that resulted in landmark legal and constitutional reforms. These changes created new offices to protect the common people, codified the law, and ultimately gave the plebeian assemblies the power to legislate for the entire Roman state, creating a more balanced and stable political system.</p>
+            <div class="badge-box"><h4>Key Reforms of the Early Republic:</h4>
+              <ul>
+                <li><strong>The Tribunate of the Plebs:</strong> The creation of powerful officials, the Tribunes, who were elected by the plebeians and held the power to veto the actions of any magistrate or the Senate.</li>
+                <li><strong>The Twelve Tables (c. 450 BCE):</strong> The first written and published code of Roman law. This was a monumental victory for the plebs, as it made the law transparent and applicable to all citizens equally.</li>
+                <li><strong>The Licinian-Sextian Laws (367 BCE):</strong> Landmark legislation that formally opened the highest office, the Consulship, to plebeian candidates, breaking the patrician monopoly on executive power.</li>
+                <li><strong>Lex Hortensia (287 BCE):</strong> The final and decisive law of the conflict, which gave resolutions passed by the plebeian assembly (*plebiscita*) the force of law for the entire Roman state, without needing Senate approval.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'early-rome-timeline', title: 'Early Rome Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">753 BCE</div><h4>Legendary Founding of Rome</h4><p>The city of Rome is traditionally founded by its first king, Romulus.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">509 BCE</div><h4>Establishment of the Republic</h4><p>The last king, Tarquinius Superbus, is overthrown, and the Roman Republic is established with two annually elected Consuls as its heads of state.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">494 BCE</div><h4>First Secession of the Plebs</h4><p>The plebeians withdraw from the city for the first time, forcing the patricians to agree to the creation of the Tribunate of the Plebs.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">c. 450 BCE</div><h4>The Twelve Tables</h4><p>The first written code of Roman law is created and displayed in the Forum, a major step towards legal equality.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">367 BCE</div><h4>Licinian-Sextian Laws</h4><p>Landmark laws are passed that, among other reforms, allow plebeians to be elected as Consul for the first time.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">287 BCE</div><h4>Lex Hortensia</h4><p>This law gives resolutions passed by the Plebeian Assembly the force of law, effectively ending the two-century-long Conflict of the Orders.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-high-republic': {
+        title: 'High Republic & Mediterranean Expansion (287 – 133 BCE)',
+        subtitle: 'A Digital Knowledge Base – Origins & Political Evolution of Rome',
+        nav: [
+            { id: 'republican-machine', text: 'The Republican Machine' },
+            { id: 'wars-of-conquest', text: 'Wars of Conquest' },
+            { id: 'key-figures-institutions', text: 'Key Figures & Institutions' },
+            { id: 'middle-republic-timeline', text: 'Middle Republic Timeline' }
+        ],
+        sections: [
+          { id: 'republican-machine', title: 'The Republican Machine at Its Zenith', content: `
+            <h4>The Mixed Constitution</h4>
+            <p>Following the resolution of the Conflict of the Orders, the Roman Republic entered its most stable and successful phase. The Greek historian Polybius, observing Rome during this period, famously analyzed its government as a "mixed constitution." He argued that Rome's strength came from its unique balance of political elements: the Consuls represented a monarchical element (executive power), the Senate an aristocratic one (deliberative power), and the popular Assemblies a democratic one (electoral and legislative power). This system, he believed, created a state of equilibrium that was both resilient and highly effective.</p>
+            <h4>The Cursus Honorum</h4>
+            <p>Political life for the Roman elite was structured by the *cursus honorum*, or "course of honors." This was the expected sequence of public offices an aspiring politician would hold, from the lower-level quaestorship (finance) and aedileship (public works) up to the praetorship (judicial) and, the ultimate prize, the consulship. This system ensured that Rome's leaders had broad experience in military, administrative, and legal affairs before reaching the pinnacle of power.</p>
+          `},
+          { id: 'wars-of-conquest', title: 'The Wars of Mediterranean Conquest', content: `
+            <h3>From Italian to Mediterranean Power</h3>
+            <p>With its internal political situation stabilized and its control over Italy secured, the Roman Republic embarked on a period of relentless and unprecedented military expansion. In just over a century, Rome transformed from a regional Italian power into the undisputed master of the Mediterranean world, defeating every major rival it encountered through a combination of military discipline, strategic brilliance, and immense manpower.</p>
+            <div class="figure-grid">
+              <div class="figure-card"><h4>The Punic Wars</h4><p>The three epic wars against the Phoenician city of Carthage were the defining conflicts of the era. From the struggle for Sicily in the First Punic War to Hannibal's legendary invasion of Italy in the Second, these wars culminated in the total destruction of Carthage and secured Rome's dominance over the Western Mediterranean.</p></div>
+              <div class="figure-card"><h4>The Macedonian Wars</h4><p>Looking east, Rome engaged in a series of wars against the Hellenistic successor kingdoms of Alexander the Great. The defeat of Macedon and the Greek leagues brought the Greek mainland under Roman control, opening the door for further expansion into Asia Minor.</p></div>
+              <div class="figure-card"><h4>The Spoils of Empire</h4><p>These conquests fundamentally transformed Rome. The establishment of the first provinces (Sicily, Sardinia) created a new model of imperial governance. An economy fueled by the immense spoils of war—tribute, slaves, and resources—began to emerge, enriching the state and its ruling class but also sowing the seeds of future social conflict.</p></div>
+            </div>
+          `},
+          { id: 'key-figures-institutions', title: 'Key Figures & Institutions', content: `
+            <h3>Architects of an Empire</h3>
+            <p>The High Republic was shaped by formidable military leaders, conservative statesmen, and the core political institutions that guided the state. These figures and bodies were responsible for navigating the challenges of rapid expansion while attempting to maintain the traditional values of the Republic.</p>
+            <div class="badge-box"><h4>Key Figures & Institutions of the High Republic:</h4>
+              <ul>
+                <li><strong>Scipio Africanus:</strong> The brilliant Roman general whose strategic genius led to the defeat of Hannibal at the Battle of Zama, ending the Second Punic War.</li>
+                <li><strong>Cato the Elder:</strong> A prominent conservative senator and censor, famous for his strict adherence to traditional Roman morality (*mos maiorum*) and his persistent call for the destruction of Carthage.</li>
+                <li><strong>The Senate:</strong> The central political body of the Republic, composed of former magistrates. It guided foreign policy, controlled state finances, and was the ultimate source of political authority.</li>
+                <li><strong>The Cursus Honorum:</strong> The formal political ladder that structured the careers of the Roman elite, ensuring experienced leadership.</li>
+                <li><strong>Polybius:</strong> The Greek historian held hostage in Rome whose work, *The Histories*, provides the most important contemporary analysis of Rome's rise to power and its "mixed constitution."</li>
+              </ul>
+            </div>
+          `},
+          { id: 'middle-republic-timeline', title: 'Middle Republic Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">264–241 BCE</div><h4>First Punic War</h4><p>Rome challenges Carthage for control of Sicily, building a navy from scratch and ultimately emerging victorious, gaining its first overseas province.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">218–201 BCE</div><h4>Second Punic War</h4><p>Hannibal Barca launches his famous invasion of Italy. Despite devastating Roman defeats at Trasimene and Cannae, Rome ultimately prevails under Scipio Africanus.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">200–148 BCE</div><h4>The Macedonian Wars</h4><p>A series of four wars fought against the Hellenistic kingdoms of Macedon, which result in Roman control over Greece and the eastern Mediterranean.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">149–146 BCE</div><h4>Third Punic War</h4><p>Rome launches a final war against a much-weakened Carthage, ending in the city's complete destruction and the creation of the province of Africa.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">146 BCE</div><h4>Destruction of Corinth</h4><p>In the same year as Carthage's fall, Rome sacks the wealthy Greek city of Corinth, a brutal demonstration of its now-uncontested power across the Mediterranean.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-late-republic': {
+        title: 'Crisis of the Late Republic (133 – 31 BCE)',
+        subtitle: 'A Digital Knowledge Base – Origins & Political Evolution of Rome',
+        nav: [
+            { id: 'gracchi-violence', text: 'The Gracchi & Political Violence' },
+            { id: 'age-of-warlords', text: 'The Age of Warlords' },
+            { id: 'key-republican-crises', text: 'Key Republican Crises' },
+            { id: 'collapse-timeline', text: 'The Republic\'s Collapse Timeline' }
+        ],
+        sections: [
+          { id: 'gracchi-violence', title: 'The Gracchi & The Dawn of Political Violence', content: `
+            <h4>The Seeds of Crisis</h4>
+            <p>The immense wealth and territory gained through conquest created deep-seated social and economic problems back in Italy. Vast, slave-worked estates (*latifundia*) displaced small citizen-farmers, who flocked to Rome, creating a landless, volatile urban proletariat. This crisis of land and citizenship set the stage for the breakdown of the Republican system.</p>
+            <h4>The Gracchan Reforms</h4>
+            <p>In 133 BCE, the tribune Tiberius Gracchus attempted to address this crisis by proposing legislation to redistribute public land to the poor. His efforts bypassed the Senate and were met with violent opposition from the wealthy elite (*optimates*), who ultimately had him and his supporters murdered. A decade later, his brother Gaius Gracchus pursued an even broader reform agenda, only to meet a similarly violent end. The Gracchan crisis was a watershed moment: it introduced political violence into the heart of Rome and created a deep, lasting rift between the reformist *populares* and the conservative *optimates*.</p>
+          `},
+          { id: 'age-of-warlords', title: 'The Age of Warlords', content: `
+            <h3>The Rise of the Generals</h3>
+            <p>As the Republic's political institutions began to fray, power shifted from the Senate to ambitious individuals who could command the personal loyalty of Rome's legions. A series of powerful generals transformed the Roman army from a state-controlled citizen militia into a professional force of loyal clients, using their military might to achieve political dominance and, ultimately, to wage war on the state itself.</p>
+            <div class="figure-grid">
+              <div class="figure-card"><h4>Marius & Sulla</h4><p>The rivalry between Gaius Marius, who professionalized the army by recruiting landless citizens, and his aristocratic rival Lucius Cornelius Sulla culminated in the first full-scale civil war. Sulla's subsequent march on Rome and his revival of the dictatorship set a terrifying precedent for future warlords.</p></div>
+              <div class="figure-card"><h4>The First Triumvirate</h4><p>An informal but powerful political alliance formed by three of Rome's most powerful men: the military hero Pompey the Great, the fabulously wealthy Marcus Licinius Crassus, and the ambitious Julius Caesar. Together, they subverted the Senate and dominated Roman politics for a decade.</p></div>
+              <div class="figure-card"><h4>Julius Caesar's Dictatorship</h4><p>After defeating Pompey in a second civil war, Julius Caesar rose to a position of supreme power. He was eventually named "Dictator for Life," a move that was seen by many senators as the final death blow to the Republic and which led directly to his assassination.</p></div>
+              <div class="figure-card"><h4>The Second Triumvirate</h4><p>Following Caesar's murder, his heir Octavian formed a formal, state-sanctioned Triumvirate with Mark Antony and Lepidus. This alliance initiated a bloody purge of their political enemies and ultimately devolved into the final civil war of the Republic.</p></div>
+            </div>
+          `},
+          { id: 'key-republican-crises', title: 'Key Crises of the Republic', content: `
+            <h3>The Unraveling of the Republic</h3>
+            <p>The last century of the Republic was not a single event, but a series of escalating crises that eroded its constitutional framework. Each crisis built upon the last, making the return to traditional governance impossible and paving the way for the emergence of one-man rule.</p>
+            <div class="badge-box"><h4>Core Crises of the Late Republic:</h4>
+              <ul>
+                <li><strong>The Gracchan Land Crisis:</strong> The violent political conflict over land reform that introduced murder as a political tool and created the populares/optimates divide.</li>
+                <li><strong>The Marian Military Reforms:</strong> The shift from a citizen militia to a professional army loyal to its general rather than the state, creating private armies for ambitious commanders.</li>
+                <li><strong>Sulla's Dictatorship & Proscriptions:</strong> The first march on Rome by a Roman general and the use of state-sanctioned murder lists to eliminate political rivals.</li>
+                <li><strong>The Rise of Extra-Constitutional Triumvirates:</strong> Powerful alliances between strongmen that bypassed the Senate and effectively controlled the state.</li>
+                <li><strong>The Final Civil War:</strong> The ultimate power struggle between Octavian and Mark Antony, which ended the Republican system for good.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'collapse-timeline', title: 'The Republic\'s Collapse Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">133 BCE</div><h4>Tribunate of Tiberius Gracchus</h4><p>Tiberius Gracchus's attempt at land reform and his subsequent murder marks the beginning of the "Roman Revolution."</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">88–82 BCE</div><h4>Sulla's Civil Wars</h4><p>The first great civil war of the Late Republic, culminating in Sulla's dictatorship and a purge of his political enemies.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">60 BCE</div><h4>First Triumvirate Forms</h4><p>Caesar, Pompey, and Crassus form an informal political alliance to dominate the Roman state, subverting the authority of the Senate.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">49 BCE</div><h4>Caesar Crosses the Rubicon</h4><p>By bringing his army into Italy against the Senate's orders, Caesar initiates the civil war that will lead to his dictatorship.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">44 BCE</div><h4>Assassination of Julius Caesar</h4><p>A group of senators, fearing Caesar's ambition to become king, assassinate him on the Ides of March, sparking the final round of civil wars.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">31 BCE</div><h4>Battle of Actium</h4><p>Octavian's naval forces decisively defeat the fleet of Mark Antony and Cleopatra, ending the last of the civil wars and leaving Octavian as the sole ruler of Rome.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-augustus': {
+        title: 'Augustus & The Principate Settlement (31 BCE – 14 CE)',
+        subtitle: 'A Digital Knowledge Base – Origins & Political Evolution of Rome',
+        nav: [
+            { id: 'restored-republic', text: 'The "Restored" Republic' },
+            { id: 'powers-of-princeps', text: 'Powers of the Princeps' },
+            { id: 'augustan-legacy-debate', text: 'The Augustan Legacy: A Debate' },
+            { id: 'augustan-age-timeline', text: 'The Augustan Age Timeline' }
+        ],
+        sections: [
+          { id: 'restored-republic', title: 'The "Restoration" of the Republic', content: `
+            <h4>The Master of Rome</h4>
+            <p>Following his victory at Actium, Octavian was the undisputed master of the Roman world. However, with Rome's deep-seated hatred of kingship, he could not simply declare himself a monarch. Instead, he embarked on a brilliant and carefully staged political settlement designed to create a system of one-man rule under the guise of restoring the old Republic. This new political order, known as the Principate, would provide the template for imperial government for the next two centuries.</p>
+            <h4>The First & Second Settlements</h4>
+            <p>In two key constitutional settlements in 27 BCE and 23 BCE, Octavian made a great show of "handing back" his extraordinary powers to the Senate and the Roman People. In return, a grateful Senate bestowed upon him the new, honorific name "Augustus" and granted him specific, legally-defined powers that, while appearing traditional, effectively cemented his supreme authority. He claimed to have restored the Republic, stating he held no more power than his colleagues in any magistracy, but in reality, he controlled the army, the finances, and the political agenda.</p>
+          `},
+          { id: 'powers-of-princeps', title: 'The Powers of the Princeps', content: `
+            <h3>The Legal Foundations of Autocracy</h3>
+            <p>Augustus's genius was to ground his new autocratic position in a collection of traditional, Republican-era powers. By holding these powers simultaneously and for life, he could command the state legally, without needing to be a king or a dictator. This gave his rule a veneer of legitimacy that was crucial for its acceptance by the Roman elite.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>Tribunician Power</h4><p><em>(Tribunicia Potestas)</em> This gave Augustus the powers of a Tribune—to propose legislation, summon the Senate, and veto other magistrates—without holding the office itself. It was the main source of his civil authority in Rome.</p></div>
+              <div class="impact-card"><h4>Proconsular Imperium</h4><p><em>(Imperium Proconsulare Maius)</em> This "greater" proconsular power granted him supreme command over Rome's most important military provinces, where the majority of the legions were stationed, making him the effective commander-in-chief of the army.</p></div>
+              <div class="impact-card"><h4>Princeps Senatus</h4><p>As the "first man of the Senate," Augustus had the right to speak first in any debate, allowing him to set the agenda and heavily influence the outcome of senatorial discussions.</p></div>
+              <div class="impact-card"><h4>Ideological Propaganda</h4><p>Augustus masterfully used art, architecture (like the Ara Pacis), coinage, and literature to promote his regime. This propaganda celebrated him as the bringer of peace (*Pax Romana*), the restorer of tradition, and the savior of the state.</p></div>
+            </div>
+          `},
+          { id: 'augustan-legacy-debate', title: 'The Augustan Legacy: A Debate', content: `
+            <h3>Restorer or Revolutionary?</h3>
+            <p>The nature of the Augustan settlement has been a subject of historical debate since his own time. Was Augustus the selfless restorer of the Republic who ended a century of civil war, or a cunning autocrat who merely disguised his monarchy in Republican dress? The answer depends heavily on which sources one emphasizes.</p>
+            <div class="badge-box"><h4>Perspectives on the Augustan Settlement:</h4>
+              <ul>
+                <li><strong>Augustus's Narrative (*Res Gestae*):</strong> In his own official autobiography, Augustus presented himself as the savior of the state who, by universal consent, restored constitutional order and held no illegal powers.</li>
+                <li><strong>Tacitus's Critique:</strong> The later historian Tacitus, writing with a nostalgic view of Republican liberty, saw the Augustan settlement as the end of true political freedom and the beginning of a creeping, often corrupt, monarchy.</li>
+                <li><strong>The Pax Romana:</strong> A key part of Augustus's legacy was the unprecedented era of peace, stability, and prosperity that his long rule ushered in after decades of brutal civil war.</li>
+                <li><strong>The Template for Empire:</strong> Regardless of its presentation, the Principate established by Augustus proved to be a remarkably stable and enduring framework for governing the Roman Empire for over two hundred years.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'augustan-age-timeline', title: 'The Augustan Age Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">31 BCE</div><h4>Battle of Actium</h4><p>Octavian's victory establishes him as the sole ruler of the Roman world, ending the final civil war of the Republic.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">27 BCE</div><h4>The First Settlement</h4><p>Octavian "restores" the Republic and is granted the new name Augustus by the Senate. This event is traditionally seen as the beginning of the Roman Empire.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">23 BCE</div><h4>The Second Settlement</h4><p>Augustus refines his constitutional position, basing his authority primarily on tribunician power and greater proconsular imperium.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">17 BCE</div><h4>Secular Games</h4><p>Augustus holds the Secular Games, a major religious festival designed to celebrate the dawning of a new golden age under his rule.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">2 BCE</div><h4>"Pater Patriae"</h4><p>Augustus is granted the title *Pater Patriae* ("Father of his Country"), the culmination of his lifetime of honors.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">14 CE</div><h4>Death of Augustus</h4><p>After a reign of over 40 years, Augustus dies, and his designated heir, Tiberius, succeeds him, confirming the new dynastic and monarchical nature of the Roman state.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-conquest-west': {
+        title: 'Italian Unification & Western Mediterranean Wars (350 – 146 BCE)',
+        subtitle: 'A Digital Knowledge Base – Conquest, Legions & Frontiers of Rome',
+        nav: [
+            { id: 'conquest-of-italy', text: 'Conquest of Italy' },
+            { id: 'punic-wars', text: 'The Punic Wars' },
+            { id: 'republican-legion', text: 'The Republican Legion' },
+            { id: 'western-expansion-timeline', text: 'Western Expansion Timeline' }
+        ],
+        sections: [
+          { id: 'conquest-of-italy', title: 'The Conquest of Italy', content: `
+            <h3>Forging an Alliance</h3>
+            <p>During the middle Republic, Rome methodically asserted its dominance over the Italian peninsula. This was not a simple process of annexation, but a series of brutal wars and strategic alliances. The pivotal Samnite Wars tested Rome's military resilience against formidable mountain tribes and ultimately paved the way for its control over central and southern Italy.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>The Samnite Wars</h4><p>A series of three grueling wars fought against the Samnites for control of the Italian peninsula. Roman tenacity and organization eventually overcame their fierce rivals.</p></div>
+              <div class="impact-card"><h4>The Latin Federation</h4><p>Rather than simply conquering, Rome integrated its vanquished foes. It granted varying degrees of citizenship or "Latin Rights" to create a federation of allies (*socii*) bound to Rome by treaty.</p></div>
+              <div class="impact-card"><h4>Victory in Magna Graecia</h4><p>Rome's final subjugation of the wealthy Greek city-states in Southern Italy, including the defeat of King Pyrrhus of Epirus, cemented its mastery over the entire peninsula.</p></div>
+            </div>
+          `},
+          { id: 'punic-wars', title: 'The Punic Wars: A Struggle for Supremacy', content: `
+            <h4>A Clash of Titans</h4>
+            <p>With Italy secured, Rome's ambition brought it into direct conflict with the other great power of the Western Mediterranean: the maritime empire of Carthage. The three Punic Wars were an epic, century-long struggle for survival and supremacy that defined the era and ultimately catapulted Rome to a position of uncontested dominance. The Greek historian Polybius provided the most extensive contemporary account of these titanic conflicts.</p>
+            <h4>From Sicily to Zama</h4>
+            <p>The First Punic War was a naval struggle for control of Sicily, forcing Rome to build a powerful fleet from scratch to challenge Carthaginian sea power. The Second Punic War is famous for the legendary invasion of Italy by the Carthaginian general Hannibal, who inflicted a series of devastating defeats on the Romans. Despite being brought to the brink of collapse, Rome's resilience and the strategic brilliance of Scipio Africanus led to Hannibal's final defeat in Africa. The Third Punic War was a brutal final act, ending in the complete destruction of the city of Carthage in 146 BCE and the creation of the Roman province of Africa.</p>
+          `},
+          { id: 'republican-legion', title: 'The Republican Legion', content: `
+            <h3>The Engine of Conquest</h3>
+            <p>Rome's expansion was powered by its army, the legion. During the Republic, this was not a professional standing army but a citizen-militia, composed of property-owning farmers who served the state in seasonal campaigns. Its success rested on harsh discipline, superior organization, and an adaptable tactical system that evolved to meet new challenges on the battlefield.</p>
+            <div class="badge-box"><h4>Key Features of the Republican Army:</h4>
+              <ul>
+                <li><strong>The Manipular System:</strong> The legion was organized into flexible maniples arranged in a checkerboard formation (*quincunx*), allowing it to adapt to rough terrain and envelop enemies.</li>
+                <li><strong>Citizen-Soldiers:</strong> The ideal of the citizen-soldier defending his land and the state was a core Roman value. Service was a civic duty tied to property and status.</li>
+                <li><strong>Integration of Allies (*Socii*):</strong> Rome's Italian allies were required to provide troops, significantly bolstering the size and manpower pool of Roman armies.</li>
+                <li><strong>Discipline & Engineering:</strong> The Roman army was renowned for its strict discipline and its engineering prowess, constructing fortified camps (*castra*) every night on the march.</li>
+                <li><strong>Naval Development:</strong> During the First Punic War, Rome rapidly built and mastered naval warfare, developing innovative tactics like the *corvus* (a boarding bridge) to turn sea battles into land battles.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'western-expansion-timeline', title: 'Western Expansion Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">343–290 BCE</div><h4>The Samnite Wars</h4><p>Rome engages in a series of crucial wars against the Samnites, ultimately establishing its dominance over the peoples of the Italian peninsula.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">264–241 BCE</div><h4>First Punic War</h4><p>Rome and Carthage battle for control of Sicily. Rome develops a powerful navy and emerges victorious, gaining its first overseas province.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">218–201 BCE</div><h4>Second Punic War</h4><p>The epic struggle against Hannibal. After suffering catastrophic defeats, Rome's resilience leads to victory under Scipio Africanus at the Battle of Zama.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">146 BCE</div><h4>Destruction of Carthage</h4><p>Following the brief Third Punic War, Rome utterly destroys its long-time rival, Carthage, and annexes its territory as the province of Africa.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-conquest-east': {
+        title: 'Eastern Expansion & Provincial Framework (200 – 30 BCE)',
+        subtitle: 'A Digital Knowledge Base – Conquest, Legions & Frontiers of Rome',
+        nav: [
+            { id: 'conquest-of-east', text: 'Conquest of the East' },
+            { id: 'tools-of-empire', text: 'The Tools of Empire' },
+            { id: 'features-eastern-expansion', text: 'Features of Eastern Expansion' },
+            { id: 'eastern-expansion-timeline', text: 'Eastern Expansion Timeline' }
+        ],
+        sections: [
+          { id: 'conquest-of-east', title: 'The Conquest of the East', content: `
+            <h3>Clash of Empires</h3>
+            <p>After securing the West, Rome turned its attention to the wealthy and sophisticated Hellenistic kingdoms of the Eastern Mediterranean, the successor states to the empire of Alexander the Great. In a series of calculated wars and diplomatic maneuvers, Rome systematically dismantled these older empires, absorbing their immense wealth and territory and establishing itself as the sole superpower of the ancient world.</p>
+            <div class="figure-grid">
+              <div class="figure-card"><h4>The Macedonian Wars</h4><p>A series of four conflicts against the Antigonid kingdom of Macedon. The decisive Roman victory at the Battle of Pydna (168 BCE) ended the kingdom and effectively brought the Greek mainland under Roman political control.</p></div>
+              <div class="figure-card"><h4>The Syrian War</h4><p>The defeat of the powerful Seleucid Empire under Antiochus III at the Battle of Magnesia (190 BCE) shattered its military power and forced it to cede vast territories in Asia Minor, securing Roman dominance in the region.</p></div>
+              <div class="figure-card"><h4>The Annexation of Egypt</h4><p>The final act of Hellenistic independence ended with the naval Battle of Actium (31 BCE). Octavian's victory over Mark Antony and Queen Cleopatra VII led directly to the annexation of Ptolemaic Egypt, which became a personal possession of the new Roman emperor.</p></div>
+            </div>
+          `},
+          { id: 'tools-of-empire', title: 'The Tools of Empire', content: `
+            <h4>Governing the Conquests</h4>
+            <p>Rome's rapid acquisition of overseas territories necessitated the development of new administrative tools to govern its expanding empire. The primary instrument was the province, a defined territory subject to Roman law and administered by a Roman governor, typically a former consul or praetor. These governors held immense power, commanding local troops and overseeing the collection of taxes. The system was designed to extract wealth and resources from the provinces to benefit Rome.</p>
+            <h4>Client-Kings and Tax Farmers</h4>
+            <p>Direct rule was not always desirable or practical. On its volatile eastern frontiers, Rome often preferred to use "client-kings." These were local, friendly rulers who were allowed to govern their own kingdoms in exchange for protecting Roman interests and acting as a buffer against external threats like Parthia. To collect provincial taxes, Rome often used a system of "tax farming," auctioning off the right to collect taxes to private companies of *publicani*. This system was notoriously corrupt and often led to the severe exploitation of provincial populations.</p>
+          `},
+          { id: 'features-eastern-expansion', title: 'Key Features of Eastern Expansion', content: `
+            <h3>The New Imperial Model</h3>
+            <p>The conquest of the East established the administrative and economic framework that would define the Roman Empire for centuries. This model was based on a combination of direct military control, economic exploitation, and strategic alliances that allowed Rome to manage a vast and diverse set of territories.</p>
+            <div class="badge-box"><h4>Key Aspects of Eastern Expansion:</h4>
+              <ul>
+                <li><strong>Provincial Governance:</strong> The system of appointing former magistrates as governors to rule conquered territories on behalf of the Roman state.</li>
+                <li><strong>Tax Farming (*Publicani*):</strong> The use of private corporations to collect provincial taxes, a system notorious for its potential for corruption and extortion.</li>
+                <li><strong>Client-Kingdoms:</strong> A key foreign policy tool, using allied local monarchs to manage frontier regions and act as a buffer against major powers like Parthia.</li>
+                <li><strong>The Imperial Road Network:</strong> The construction of an extensive network of paved roads to link provinces, facilitate rapid troop movement, and encourage trade.</li>
+                <li><strong>The Spoils Economy:</strong> The immense flow of tribute, slaves, and resources from the wealthy eastern provinces, which profoundly enriched the Roman state and its ruling elite.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'eastern-expansion-timeline', title: 'Eastern Expansion Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">200–197 BCE</div><h4>Second Macedonian War</h4><p>Rome decisively defeats Philip V of Macedon, marking the beginning of Roman military and political intervention in the Greek world.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">190 BCE</div><h4>Battle of Magnesia</h4><p>Roman forces crush the army of the Seleucid king Antiochus III, shattering his power and establishing Roman hegemony in Asia Minor.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">168 BCE</div><h4>Battle of Pydna</h4><p>The Roman victory in the Third Macedonian War leads to the dismemberment of the Macedonian kingdom and firms up Roman control over Greece.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">133 BCE</div><h4>Pergamum Bequeathed to Rome</h4><p>King Attalus III of Pergamum dies and bequeaths his wealthy kingdom in Asia Minor to the Roman Republic, creating the province of Asia.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">31–30 BCE</div><h4>Annexation of Egypt</h4><p>Following the Battle of Actium, Octavian annexes the Ptolemaic Kingdom of Egypt, the last and wealthiest of the Hellenistic successor states.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-imperial-frontiers': {
+        title: 'Imperial Frontiers: Rhine–Danube to Parthia (30 BCE – 138 CE)',
+        subtitle: 'A Digital Knowledge Base – Conquest, Legions & Frontiers of Rome',
+        nav: [
+            { id: 'augustan-frontiers', text: 'The Augustan Frontiers' },
+            { id: 'flavian-trajanic-expansion', text: 'Flavian & Trajanic Expansion' },
+            { id: 'roman-limes', text: 'The Roman Limes' },
+            { id: 'early-empire-timeline', text: 'Early Empire Timeline' }
+        ],
+        sections: [
+          { id: 'augustan-frontiers', title: 'The Augustan Frontiers', content: `
+            <h3>Expansion and Consolidation</h3>
+            <p>The reign of Augustus marked a critical period of frontier policy. While he engaged in significant expansion to rationalize and secure the empire's borders, his reign was also defined by a newfound caution following a major military disaster. This created a dual policy of aggressive consolidation alongside a more prudent, defensive-minded strategy for the future.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>Push to the Elbe</h4><p>Augustus initially pursued an ambitious policy of expanding Roman territory deep into Germany, aiming to establish the Elbe River as the new frontier. This campaign made significant early progress.</p></div>
+              <div class="impact-card"><h4>The Varus Disaster (9 CE)</h4><p>In the Teutoburg Forest, a Germanic coalition led by Arminius ambushed and annihilated three Roman legions under Publius Quinctilius Varus. This catastrophic defeat halted Roman expansion into Germany for good.</p></div>
+              <div class="impact-card"><h4>Pacification of Spain & The Alps</h4><p>Augustus completed the conquest of the Iberian Peninsula and pacified the Alpine tribes, securing these long-troubled regions and fully integrating them into the empire's provincial system.</p></div>
+              <div class="impact-card"><h4>Eastern Client-Zones</h4><p>On the volatile eastern frontier, Augustus largely preferred indirect rule. He used diplomacy to manage the powerful Parthian Empire and appointed "client-kings" in kingdoms like Armenia to act as a strategic buffer.</p></div>
+            </div>
+          `},
+          { id: 'flavian-trajanic-expansion', title: 'Flavian & Trajanic Expansion', content: `
+            <h4>A New Era of Conquest</h4>
+            <p>While the Julio-Claudians who followed Augustus largely adhered to his advice to contain the empire, the later Flavian dynasty and, most notably, Emperor Trajan, pursued a more aggressive and expansionist foreign policy. This period saw the last major wars of conquest in Roman history, pushing the empire's borders to their greatest ever territorial extent.</p>
+            <h4>From Britain to Mesopotamia</h4>
+            <p>Under the emperor Claudius, Rome launched the successful invasion of Britain in 43 CE, adding a new and distant province. Later, under the Flavians, Roman control was consolidated. The emperor Trajan embarked on two major campaigns that defined his reign. The Dacian Wars resulted in the conquest and annexation of Dacia (modern Romania), a region rich in gold mines. Shortly after, he launched a massive invasion of the Parthian Empire, capturing its capital and marching all the way to the Persian Gulf, annexing Mesopotamia as a new province, though it was abandoned by his successor Hadrian.</p>
+          `},
+          { id: 'roman-limes', title: 'The Roman Limes: A Defensive System', content: `
+            <h3>Securing the Borders</h3>
+            <p>As the era of rapid expansion gave way to a need for permanent defense, the Romans developed a sophisticated system of frontier fortifications known as the *limes*. This was not a single, uniform wall, but a complex defensive network of roads, watchtowers, forts, and barriers tailored to the geography and threats of each specific frontier. The *limes* marked the physical and ideological boundary between the Roman world and the "barbarian" lands beyond.</p>
+            <div class="badge-box"><h4>Key Components of the Frontier System:</h4>
+              <ul>
+                <li><strong>Legionary Fortresses:</strong> Large, permanent bases for the legions, typically located at strategic river crossings or road junctions behind the main frontier line.</li>
+                <li><strong>Auxiliary Forts (*Castra*):</strong> A dense chain of smaller forts garrisoned by non-citizen auxiliary units, forming the backbone of the frontier defense.</li>
+                <li><strong>The Rhine-Danube Frontier:</strong> The most heavily fortified border of the empire, a continuous line of forts and watchtowers stretching across continental Europe.</li>
+                <li><strong>Offensive Fortifications:</strong> In the early stages, many forts were built of earth and timber, reflecting a more temporary and offensive posture, designed to support campaigns deep into enemy territory.</li>
+                <li><strong>Military Roads:</strong> A crucial element of the system, military roads allowed for rapid communication, supply, and the deployment of reinforcements to threatened sectors of the frontier.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'early-empire-timeline', title: 'Early Empire Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">9 CE</div><h4>The Varus Disaster</h4><p>Three Roman legions are ambushed and annihilated in the Teutoburg Forest, a traumatic defeat that ends Roman ambitions to conquer Germany east of the Rhine.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">43 CE</div><h4>Conquest of Britain</h4><p>Emperor Claudius launches the successful invasion and conquest of southern Britain, adding a new province to the Roman Empire.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">69 CE</div><h4>Year of the Four Emperors</h4><p>A brief but bloody period of civil war following the death of Nero, from which the Flavian dynasty emerges victorious.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">101–106 CE</div><h4>The Dacian Wars</h4><p>Emperor Trajan conquers the powerful kingdom of Dacia (modern Romania), annexing it as a new province and securing its rich gold mines.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">114–117 CE</div><h4>Trajan's Parthian War</h4><p>Trajan launches a massive invasion of the Parthian Empire, briefly annexing Mesopotamia and pushing the Roman Empire to its furthest territorial extent.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">117 CE</div><h4>Accession of Hadrian</h4><p>Hadrian becomes emperor and immediately abandons Trajan's eastern conquests, initiating a new imperial policy focused on consolidation rather than expansion.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-consolidation': {
+        title: 'Consolidation & Defense: Walls, Forts, and Mobile Response (138 – 235 CE)',
+        subtitle: 'A Digital Knowledge Base – Conquest, Legions & Frontiers of Rome',
+        nav: [
+            { id: 'expansion-to-consolidation', text: 'Expansion to Consolidation' },
+            { id: 'fortified-frontiers', text: 'The Fortified Frontiers' },
+            { id: 'grand-strategy-debate', text: 'The "Grand Strategy" Debate' },
+            { id: 'high-empire-timeline', text: 'High Empire Timeline' }
+        ],
+        sections: [
+          { id: 'expansion-to-consolidation', title: 'From Expansion to Consolidation', content: `
+            <h4>Hadrian's Imperial Policy</h4>
+            <p>The accession of Emperor Hadrian in 117 CE marked a profound and lasting shift in Roman imperial policy. Reversing the aggressive expansionism of his predecessor Trajan, Hadrian immediately abandoned the newly conquered provinces of Mesopotamia and Armenia. He embraced the earlier advice of Augustus to keep the empire "within its bounds." This initiated a new strategic era focused not on further conquest, but on the consolidation, fortification, and permanent delineation of the existing frontiers.</p>
+            <h4>A Fixed Border World</h4>
+            <p>Under Hadrian and his Antonine successors, the Roman Empire transitioned to a strategy of permanent perimeter defense. The goal was to create a stable and secure world, separated from the "barbarian" lands by clear, man-made boundaries. This involved a massive investment in military infrastructure and a reorganization of the army to serve as a frontier garrison force, a policy that would define the High Empire.</p>
+          `},
+          { id: 'fortified-frontiers', title: 'The Fortified Frontiers', content: `
+            <h3>A Ring of Fortifications</h3>
+            <p>The policy of consolidation manifested in the construction of some of the most famous and imposing defensive systems in history. Across the empire, from the misty hills of northern Britain to the deserts of Africa and the forests of Germany, Rome built a remarkable series of walls, forts, and barriers designed to control movement and defend its vast territory.</p>
+            <div class="figure-grid">
+              <div class="figure-card"><h4>Hadrian's Wall</h4><p>The most iconic Roman frontier, a 73-mile-long stone wall built across the north of Britain, complete with forts (*castella*), milecastles, and turrets. It served as a powerful physical and psychological barrier.</p></div>
+              <div class="figure-card"><h4>The Antonine Wall</h4><p>Built for a brief period north of Hadrian's Wall in Scotland, this turf wall represented a temporary forward push before Roman forces withdrew back to the line of Hadrian's Wall.</p></div>
+              <div class="figure-card"><h4>The German Limes</h4><p>A continuous frontier system stretching for over 300 miles along the Rhine and Danube rivers. It consisted of a network of stone forts, watchtowers, and a physical barrier of either a palisade fence or a stone wall.</p></div>
+              <div class="figure-card"><h4>Desert Frontiers</h4><p>In North Africa and the East, Rome built complex chains of desert forts and linear barriers, like the *Fossatum Africae*, designed to control the movement of nomadic tribes and protect agricultural areas.</p></div>
+            </div>
+          `},
+          { id: 'grand-strategy-debate', title: 'The "Grand Strategy" Debate', content: `
+            <h3>A Master Plan or Pragmatic Response?</h3>
+            <p>For centuries, historians have debated the nature of Roman frontier policy. Was there a coherent, centrally-directed "grand strategy" that dictated a uniform approach to imperial defense, or were the frontiers a patchwork of ad-hoc, pragmatic responses to local threats and conditions? This debate gets to the heart of how we understand the functioning of the Roman state.</p>
+            <div class="badge-box"><h4>Core Arguments in the "Grand Strategy" Debate:</h4>
+              <ul>
+                <li><strong>The "Grand Strategy" Thesis:</strong> Championed by scholars like Edward Luttwak, this view argues that Rome had a sophisticated, evolving central policy of perimeter defense, progressing from flexible defense to a rigid "defense-in-depth."</li>
+                <li><strong>The "Regional Pragmatism" Critique:</strong> This opposing view argues that the immense variety in frontier structures demonstrates there was no single master plan. Instead, frontier systems were adaptive, reactive responses to specific local threats.</li>
+                <li><strong>Uniformity in Mode:</strong> A middle-ground view suggests that while there was no single grand strategy, a "remarkable uniformity" in the *choice* of defensive mode (i.e., linear fortifications) did emerge, reflecting a shared military culture and understanding of defense.</li>
+                <li><strong>Purpose of Frontiers:</strong> A related debate questions whether the frontiers were primarily for military protection, for regulating trade and customs, or for creating a clear cultural and ideological dividing line between the Roman and "barbarian" worlds.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'high-empire-timeline', title: 'High Empire Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">c. 122 CE</div><h4>Construction of Hadrian's Wall Begins</h4><p>Following his accession, Emperor Hadrian initiates the construction of his famous wall in Britain, signaling a major shift from expansion to consolidation.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">c. 142 CE</div><h4>Antonine Wall Built</h4><p>Under Hadrian's successor, Antoninus Pius, the frontier is briefly pushed north with the construction of a new turf wall in Scotland.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">c. 161 CE</div><h4>Romans Abandon the Antonine Wall</h4><p>Roman forces withdraw from the Antonine Wall, re-establishing Hadrian's Wall as the permanent northern frontier of the province of Britannia.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">166–180 CE</div><h4>The Marcomannic Wars</h4><p>A series of major wars fought along the Danube frontier under Emperor Marcus Aurelius against Germanic and Sarmatian tribes, representing the most serious threat to the empire in over a century.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">193 CE</div><h4>Year of the Five Emperors</h4><p>A period of civil war following the assassination of Commodus, from which Septimius Severus emerges as the new emperor, founding the Severan dynasty.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-agrarian': {
+        title: 'Agrarian Foundations & Rural Economy (c. 500 BCE – 200 CE)',
+        subtitle: 'A Digital Knowledge Base – Roman Commerce: Networks, Money & Markets',
+        nav: [
+            { id: 'roman-farm', text: 'The Roman Farm' },
+            { id: 'labour-and-land', text: 'Labour and Land' },
+            { id: 'rural-economic-systems', text: 'Key Rural Economic Systems' },
+            { id: 'agrarian-timeline', text: 'Agrarian Economy Timeline' }
+        ],
+        sections: [
+          { id: 'roman-farm', title: 'The Roman Farm', content: `
+            <h3>The Agricultural Engine</h3>
+            <p>Agriculture was the bedrock of the Roman economy, the source of its wealth, and the foundation of its social structure. The vast majority of the empire's population was engaged in farming, and control of land was the primary measure of status and power. The agricultural system was diverse, ranging from small family plots to vast, factory-like estates that produced food for the empire's burgeoning cities and armies.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>Latifundia & Small Farms</h4><p>The rural landscape was dominated by two contrasting models: the traditional small, subsistence farm worked by a citizen family, and the *latifundia*—vast, slave-worked estates owned by the wealthy elite.</p></div>
+              <div class="impact-card"><h4>The Mediterranean Triad</h4><p>The core of Roman agriculture was the "Mediterranean Triad": the cultivation of grain (primarily wheat), grapes (for wine), and olives (for oil). These were the staple products of the Roman diet and economy.</p></div>
+              <div class="impact-card"><h4>The Villa System</h4><p>The rural villa was a key feature of the Roman countryside. It served not only as a luxury residence for the wealthy landowner but also as the administrative center for a large agricultural enterprise, managing production, storage, and transport.</p></div>
+            </div>
+          `},
+          { id: 'labour-and-land', title: 'Labour and Land', content: `
+            <h4>The Human Cost of Agriculture</h4>
+            <p>The human element of the rural economy was defined by a stark social hierarchy and recurring political conflict over land. The widespread use of slave labour on the large estates created immense profits for the elite but also fueled social tensions and fears of rebellion. For free citizens, access to land was a constant struggle and a central issue in Roman politics.</p>
+            <h4>The Landless and the Veteran</h4>
+            <p>As the *latifundia* grew, many small farmers were displaced, moving to the cities and creating a large, landless proletariat. The distribution of public land (*ager publicus*) to these citizens and to veteran soldiers upon retirement was a recurring and explosive political issue. Figures from the Gracchi brothers to Augustus used the promise of land grants to gain popular support and reward their loyal troops, demonstrating the deep connection between land ownership, military service, and political power.</p>
+          `},
+          { id: 'rural-economic-systems', title: 'Key Rural Economic Systems', content: `
+            <h3>Managing the Land</h3>
+            <p>The Roman agrarian economy was supported by complex systems of labor management, state intervention, and regional specialization. These systems ensured that the vast agricultural output of the provinces could be mobilized to feed the capital, supply the armies, and generate wealth for the state and its ruling class.</p>
+            <div class="badge-box"><h4>Key Systems of the Agrarian Economy:</h4>
+              <ul>
+                <li><strong>Slave Labour:</strong> The primary workforce on the large agricultural estates (*latifundia*), a system that was brutal, efficient, and fundamental to the wealth of the Roman elite.</li>
+                <li><strong>The Annona (Grain Dole):</strong> The massive, state-organized system for importing and distributing free or subsidized grain to the populace of Rome, essential for maintaining social stability.</li>
+                <li><strong>Land Distribution & Colonization:</strong> The state-sponsored practice of settling veteran soldiers in new colonies or providing them with land grants, which both rewarded military service and spread Roman culture.</li>
+                <li><strong>Regional Specialization:</strong> Different provinces became known for specific products, creating a web of interdependence. Egypt was the "breadbasket" for grain, Baetica (Spain) was famous for its olive oil, and Gaul was a major producer of wine.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'agrarian-timeline', title: 'Agrarian Economy Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">c. 133 BCE</div><h4>Gracchan Land Reforms</h4><p>The tribune Tiberius Gracchus attempts to pass radical land reform legislation, highlighting the deep social tensions caused by the displacement of small farmers.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">c. 50s BCE</div><h4>Caesar's Land Grants</h4><p>Julius Caesar settles many of his veteran soldiers on agricultural land in Italy and the provinces, a practice continued by Augustus.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">30 BCE</div><h4>Annexation of Egypt</h4><p>Rome secures control over Egypt, the richest agricultural region of the Mediterranean, ensuring a stable and massive supply of grain for the city of Rome.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">c. 2 BCE</div><h4>Augustan Grain Distributions</h4><p>Augustus records making massive distributions of grain and money to the plebs of Rome, funded from his personal wealth and the spoils of war, institutionalizing the *Annona*.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-urban-life': {
+        title: 'Urbanisation & City Life (2nd c. BCE – 300 CE)',
+        subtitle: 'A Digital Knowledge Base – Roman Commerce: Networks, Money & Markets',
+        nav: [
+            { id: 'roman-metropolis', text: 'The Roman Metropolis' },
+            { id: 'provincial-capitals', text: 'Provincial Capitals' },
+            { id: 'urban-elite-euergetism', text: 'The Urban Elite & Euergetism' },
+            { id: 'urban-development-timeline', text: 'Urban Development Timeline' }
+        ],
+        sections: [
+          { id: 'roman-metropolis', title: 'The Roman Metropolis', content: `
+            <h3>The Million-Person City</h3>
+            <p>The city of Rome was the heart of the empire, a bustling, cosmopolitan metropolis with a population that swelled to over one million people at its peak. This unprecedented urban density was supported by a complex infrastructure and created a unique social environment, characterized by both magnificent public architecture and squalid living conditions for the majority of its inhabitants.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>Insulae vs. Domus</h4><p>A stark social divide was visible in housing. The wealthy lived in luxurious private homes (*domus*), while the vast majority of the population was packed into multi-story, often poorly built, apartment blocks called *insulae*.</p></div>
+              <div class="impact-card"><h4>Water, Baths & Sanitation</h4><p>A network of magnificent aqueducts supplied Rome with fresh water, feeding hundreds of public baths, fountains, and latrines. However, sanitation remained a major problem, with waste often dumped into the streets.</p></div>
+              <div class="impact-card"><h4>"Bread and Circuses"</h4><p>To keep the massive and often volatile urban population content, the emperors provided free distributions of grain (*panem*) and spectacular public entertainment (*circenses*), such as gladiatorial games and chariot races.</p></div>
+            </div>
+          `},
+          { id: 'provincial-capitals', title: 'Provincial Capitals', content: `
+            <h4>A Network of Cities</h4>
+            <p>The Roman model of urban life was not confined to Rome itself. Across the empire, a network of major provincial capitals emerged as centers of Roman administration, culture, and commerce. Cities like Alexandria in Egypt, Antioch in Syria, and a rebuilt Carthage in Africa became major metropolises in their own right. In the western provinces, new cities like Londinium (London) and Lutetia (Paris) were founded and developed along Roman lines.</p>
+            <h4>Centers of Romanization</h4>
+            <p>These provincial cities were crucial engines of "Romanization." They featured the characteristic public buildings of Roman life: a central forum, temples, basilicas (law courts), theatres, amphitheaters, and public baths. The construction of this infrastructure was often encouraged by Roman governors, like Agricola in Britain, and funded by local elites eager to demonstrate their loyalty and status, spreading Roman architectural and cultural norms throughout the empire.</p>
+          `},
+          { id: 'urban-elite-euergetism', title: 'The Urban Elite & Euergetism', content: `
+            <h3>Governing the Cities</h3>
+            <p>The day-to-day governance of the empire's cities was largely in the hands of the local municipal elites. This system allowed Rome to administer its vast territory with a relatively small central bureaucracy. The success and splendour of a city depended heavily on the wealth and ambition of its leading citizens.</p>
+            <div class="badge-box"><h4>Key Aspects of Urban Governance:</h4>
+              <ul>
+                <li><strong>The Decurions (City Council):</strong> Each city was governed by a council of around 100 of its wealthiest citizens, who were responsible for local administration and public funds.</li>
+                <li><strong>Euergetism ("Doing Good Deeds"):</strong> The widespread practice where wealthy individuals would spend lavishly from their own fortunes to fund the construction of public buildings (temples, baths, theatres) or to sponsor games and festivals.</li>
+                <li><strong>A Path to Status:</strong> This civic generosity was a primary way for the local elite to gain honor, prestige, and popularity among their fellow citizens, and to demonstrate their loyalty to the Roman state.</li>
+                <li><strong>Municipal Charters:</strong> Cities were often granted formal charters by Rome that laid out their legal status, rights, and responsibilities, creating a standardized framework for urban life across the empire.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'urban-development-timeline', title: 'Urban Development Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">c. 150 BCE</div><h4>Peak of the Insulae</h4><p>Historical records indicate that the city of Rome contained over 46,000 *insulae* (apartment blocks), highlighting the extreme population density of the late Republic.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">27 BCE – 14 CE</div><h4>Augustan Building Program</h4><p>Augustus famously claims to have "found Rome a city of brick and left it a city of marble," undertaking a massive program of urban renewal and monumental construction.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">64 CE</div><h4>The Great Fire of Rome</h4><p>A massive fire devastates the city, leading Emperor Nero to implement a new urban plan with wider streets, building codes, and fire safety measures.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">78–84 CE</div><h4>Agricola in Britain</h4><p>The Roman governor Agricola actively encourages the Romano-British elite to adopt Roman urban lifestyles by building forums, temples, and houses in the Roman style.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">c. 113 CE</div><h4>Trajan's Forum Dedicated</h4><p>Emperor Trajan dedicates his massive new forum and market complex in Rome, the largest and most magnificent of the imperial forums.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-trade-networks': {
+        title: 'Trade Networks, Money & Markets (200 BCE – 300 CE)',
+        subtitle: 'A Digital Knowledge Base – Roman Commerce: Networks, Money & Markets',
+        nav: [
+            { id: 'arteries-of-trade', text: 'The Arteries of Trade' },
+            { id: 'money-and-markets', text: 'Money & Markets' },
+            { id: 'commercial-institutions', text: 'Key Commercial Institutions' },
+            { id: 'commerce-timeline', text: 'Commerce Timeline' }
+        ],
+        sections: [
+          { id: 'arteries-of-trade', title: 'The Arteries of Trade', content: `
+            <h3>Connecting an Empire</h3>
+            <p>The vast Roman Empire was knitted together by a complex and remarkably efficient network of trade routes that crossed land and sea. This commercial web allowed for the movement of bulk staple goods, luxury items, raw materials, and manufactured products on an unprecedented scale, fueling the economy and supplying the needs of its cities and armies.</p>
+            <div class="figure-grid">
+              <div class="figure-card"><h4>The Mediterranean Sea-Lanes</h4><p>The Mediterranean, called *Mare Nostrum* ("Our Sea") by the Romans, was the empire's central highway. Sea transport was vastly cheaper and more efficient than land transport, making it the primary route for moving bulk goods like Egyptian grain, Spanish olive oil, and Gallic wine in ubiquitous clay jars known as amphorae.</p></div>
+              <div class="figure-card"><h4>The Eastern Luxury Routes</h4><p>Lucrative long-distance trade routes connected Rome to the exotic markets of the East. The Red Sea and Indian Ocean maritime circuit, combined with overland caravan routes like the Silk Road, brought valuable luxury goods such as spices, silks, pearls, and incense to the Roman world.</p></div>
+              <div class="figure-card"><h4>Northern River Networks</h4><p>In Europe, major rivers like the Rhine and Danube served as crucial arteries for both commerce and military supply. They facilitated trade with tribes living beyond the frontiers and were essential for moving troops and equipment along the heavily fortified *limes*.</p></div>
+              <div class="figure-card"><h4>Provincial Land Routes</h4><p>The famous network of Roman roads was vital not only for the military but also for regional trade. These durable, all-weather roads enabled the overland movement of goods, such as the long-distance transport of ceramic building materials in Britain or pottery from Gaul to the German frontier.</p></div>
+            </div>
+          `},
+          { id: 'money-and-markets', title: 'Money & Markets', content: `
+            <h4>A Monetized Economy</h4>
+            <p>The Roman economy was highly monetized, relying on a sophisticated system of coinage to facilitate trade, taxation, and state payments. The state minted vast quantities of gold (*aureus*), silver (*denarius*), and bronze coins, which circulated throughout the empire, creating a common economic zone. While the provided sources do not detail specific monetary reforms, the sheer scale of imperial expenditures recorded by emperors like Augustus demonstrates the importance of a stable and abundant currency.</p>
+            <h4>Mechanisms of Commerce</h4>
+            <p>Beyond coinage, the Roman commercial world relied on concepts of banking and credit to finance large-scale ventures. At the local level, daily commerce took place in organized market halls (*macellae*) and at informal street stalls and carts. To provide structure and social support, merchants and craftsmen often organized themselves into guilds or associations known as *collegia*.</p>
+          `},
+          { id: 'commercial-institutions', title: 'Key Commercial Institutions', content: `
+            <h3>The Framework of Commerce</h3>
+            <p>Roman trade did not happen in a vacuum. It was supported by a framework of physical infrastructure, state regulations, and private associations that managed the flow of goods and capital across the empire.</p>
+            <div class="badge-box"><h4>Key Institutions of Roman Commerce:</h4>
+              <ul>
+                <li><strong>Ports & Harbours:</strong> Major engineered port complexes, like Ostia at the mouth of the Tiber, were critical hubs for managing the massive volume of maritime import and export trade.</li>
+                <li><strong>Customs Stations (*Portoria*):</strong> A network of customs posts was established at provincial borders and major ports to levy taxes on goods in transit, providing a significant source of state revenue.</li>
+                <li><strong>Marketplaces (*Macellae*):</strong> In cities and even at military forts on the frontier, organized market halls were built to centralize and regulate the sale of foodstuffs and other goods.</li>
+                <li><strong>Merchant Guilds (*Collegia*):</strong> Private associations of merchants, shippers, and craftsmen who worked in the same trade. These guilds provided social benefits and represented the interests of their members.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'commerce-timeline', title: 'Commerce Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">c. 211 BCE</div><h4>Introduction of the Denarius</h4><p>During the Second Punic War, Rome introduces the silver *denarius*, the coin that would become the backbone of its monetary system for the next four centuries.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">1st c. BCE</div><h4>Rise of Tax Farming</h4><p>Private corporations of *publicani* reach the height of their power, winning contracts to collect taxes in the newly conquered and wealthy eastern provinces.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">c. 30 BCE – 14 CE</div><h4>Augustan Economic Stabilization</h4><p>The reign of Augustus brings the *Pax Romana*, creating a secure environment for trade to flourish. He standardizes the currency and invests heavily in infrastructure.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">c. 100 CE</div><h4>Trajan's Port at Ostia</h4><p>Emperor Trajan constructs a massive new hexagonal harbor at Portus, near Ostia, to better accommodate the large grain ships from Egypt and protect them from storms.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-engineering': {
+        title: 'Engineering & Infrastructure (312 BCE – 200 CE)',
+        subtitle: 'A Digital Knowledge Base – Roman Commerce: Networks, Money & Markets',
+        nav: [
+            { id: 'roman-road', text: 'The Roman Road' },
+            { id: 'mastery-of-water-stone', text: 'Mastery of Water & Stone' },
+            { id: 'engineering-marvels', text: 'Key Engineering Marvels' },
+            { id: 'engineering-timeline', text: 'Engineering Timeline' }
+        ],
+        sections: [
+          { id: 'roman-road', title: 'The Roman Road', content: `
+            <h4>The Backbone of the Empire</h4>
+            <p>The most famous and enduring legacy of Roman engineering is its vast network of roads. Famously proclaiming that "all roads lead to Rome," this system was the primary instrument for the rapid movement of legions, the administration of provinces, and the flow of commerce. The roads were meticulously engineered for durability and drainage, often built in straight lines and paved with stone. Many modern European highways still follow the routes laid down by Roman military engineers over two millennia ago.</p>
+            <h4>The Via Appia</h4>
+            <p>The first and most famous of the great Roman roads was the Via Appia (Appian Way), begun in 312 BCE by the censor Appius Claudius Caecus. It linked Rome to southern Italy, serving as a vital military supply line. Its construction set the standard for all future Roman road-building, showcasing an emphasis on durability, efficiency, and monumental scale that was both practical and a powerful statement of Roman authority.</p>
+          `},
+          { id: 'mastery-of-water-stone', title: 'The Mastery of Water & Stone', content: `
+            <h3>Engineering an Urban World</h3>
+            <p>Roman engineers were masters of civil and hydraulic engineering, creating structures and systems that enabled the growth of large, complex cities and showcased the power and beneficence of the state. Their innovative use of materials and architectural principles allowed them to build on a scale previously unimaginable.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>The Aqueducts</h4><p>Perhaps the most impressive Roman achievement, aqueducts were massive channels, often carried on towering arches, that used gravity to transport fresh water from distant sources to cities, supplying public baths, fountains, and private homes.</p></div>
+              <div class="impact-card"><h4>The Concrete Revolution</h4><p>The Roman invention of concrete (*opus caementicium*) was a technological game-changer. This versatile and incredibly strong building material allowed them to construct massive, durable structures like harbor foundations, vaults, and domes.</p></div>
+              <div class="impact-card"><h4>Arches, Vaults, & Domes</h4><p>The Romans perfected the use of the arch, which they extended to create barrel vaults and cross vaults, enabling them to build vast interior spaces. This culminated in the construction of monumental domes, most famously for the Pantheon in Rome.</p></div>
+              <div class="impact-card"><h4>Harbours & Lighthouses</h4><p>Roman engineers constructed massive artificial harbours, like the Portus complex at Ostia, using concrete breakwaters to create safe anchorage for the large fleets of merchant ships that supplied the empire.</p></div>
+            </div>
+          `},
+          { id: 'engineering-marvels', title: 'Key Engineering Marvels', content: `
+            <h3>The Infrastructure of Empire</h3>
+            <p>The Roman Empire was built and sustained by a collection of monumental engineering projects. This infrastructure was not merely functional; it was a powerful symbol of Roman technological superiority, organizational skill, and imperial grandeur, projects that often endured for centuries.</p>
+            <div class="badge-box"><h4>Key Roman Engineering Achievements:</h4>
+              <ul>
+                <li><strong>The Road Network (e.g., Via Appia):</strong> The vast system of paved roads that connected the empire, facilitating military movement, communication, and trade.</li>
+                <li><strong>Aqueducts (e.g., Pont du Gard):</strong> The sophisticated systems that brought millions of gallons of fresh water to Roman cities for public baths and fountains.</li>
+                <li><strong>Bridges & Tunnels:</strong> Masterful feats of engineering that allowed Roman roads to cross rivers and pass through mountains, ensuring direct and efficient routes.</li>
+                <li><strong>Large-Scale Public Buildings:</strong> The use of concrete and the arch to build massive structures like the Colosseum, the Pantheon, and imperial bath complexes.</li>
+                <li><strong>Harbour Complexes (e.g., Portus, Caesarea Maritima):</strong> The construction of large, artificial deep-water ports to support the immense volume of maritime trade.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'engineering-timeline', title: 'Engineering Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">312 BCE</div><h4>Via Appia & Aqua Appia</h4><p>Construction begins on the first great Roman road (the Appian Way) and the first Roman aqueduct, two foundational infrastructure projects.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">c. 27 BCE – 14 CE</div><h4>Augustan Building Program</h4><p>Augustus presides over a massive urban renewal program in Rome, restoring 82 temples and building new forums, theatres, and the first imperial bath complex.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">c. 41–52 CE</div><h4>Claudian Harbour at Ostia</h4><p>Emperor Claudius begins construction of a large artificial harbour at Portus, near Ostia, to improve the grain supply to Rome.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">70–80 CE</div><h4>The Colosseum Built</h4><p>The Flavian Amphitheatre, the largest in the Roman world, is constructed in Rome, a masterpiece of architectural and structural engineering.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">c. 126 CE</div><h4>The Pantheon Rebuilt</h4><p>The Pantheon is rebuilt under Emperor Hadrian, featuring its famous, unreinforced concrete dome, which remains the largest in the world.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-social-hierarchy': {
+        title: 'Social Hierarchy, Family & Daily Habits',
+        subtitle: 'A Digital Knowledge Base – Social Hierarchy, Family & Daily Habits in the Roman World',
+        nav: [
+            { id: 'social-pyramid', text: 'The Social Pyramid' },
+            { id: 'roman-family-household', text: 'The Roman Family & Household' },
+            { id: 'day-in-the-life', text: 'A Day in the Life' },
+            { id: 'daily-life-timeline', text: 'Daily Life Timeline' }
+        ],
+        sections: [
+          { id: 'social-pyramid', title: 'The Roman Social Pyramid', content: `
+            <h3>A World of Classes</h3>
+            <p>Roman society was intensely hierarchical, with a person's rights, duties, and quality of life largely determined by their legal status and social class. This rigid structure, defined by birth, wealth, and freedom, dictated every aspect of Roman life, from political power and housing to the food one ate.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>Senatorial & Equestrian Orders</h4><p>At the apex were the ruling elites. The senatorial order, descended from Rome's ancient patrician families, held the highest political offices. Below them, the wealthy equestrian order served as administrators and businessmen.</p></div>
+              <div class="impact-card"><h4>The Plebs (Common Citizens)</h4><p>The vast majority of Roman citizens were plebeians. While they had basic rights, their influence was limited. To maintain stability, emperors often provided them with a dole of free grain and mass entertainment ("Bread and Circuses").</p></div>
+              <div class="impact-card"><h4>Freedmen (Liberti)</h4><p>A large and often economically successful class, freedmen were former slaves who had been granted their freedom. They were barred from high office but played a vital role as craftsmen, merchants, and entrepreneurs in the urban economy.</p></div>
+              <div class="impact-card"><h4>Slaves (Servi)</h4><p>At the bottom of the social ladder were slaves, who were considered property. They formed the backbone of the labor force, working in agriculture, mines, and wealthy households, and performing every task from manual labor to highly skilled professions like teaching and medicine.</p></div>
+            </div>
+          `},
+          { id: 'roman-family-household', title: 'The Roman Family & Household', content: `
+            <h4>The Paterfamilias</h4>
+            <p>The cornerstone of Roman society was the family (*familia*), which was structured around the absolute authority of the *paterfamilias*, the male head of the household. His power (*patria potestas*) was legally extensive, giving him control over his wife, children, and slaves. This included the right to arrange marriages, sell children into slavery, and even, in early Roman law, the power of life and death over his dependents, though this authority diminished over time.</p>
+            <h4>The Role of Women</h4>
+            <p>Roman women were primarily responsible for managing the household and overseeing the early education of their children. While initially restricted in their public roles, their legal status improved significantly by the late Republic. They gained the right to own property and initiate divorce. In daily life, women of the upper classes could attend public events like games and theatre, and many women of the lower classes worked in trades as bakers, pharmacists, and shopkeepers.</p>
+          `},
+          { id: 'day-in-the-life', title: 'A Day in the Life', content: `
+            <h3>Daily Routines and Habits</h3>
+            <p>The daily rhythm of Roman life was structured and predictable for most inhabitants. The day began at dawn, with a short workday followed by an afternoon dedicated to leisure and socializing. These routines were shaped by the climate, the economy, and deep-seated cultural traditions.</p>
+            <div class="badge-box"><h4>Typical Roman Daily Routines:</h4>
+              <ul>
+                <li><strong>The Workday:</strong> Most Romans worked a six-hour day, from sunrise to about noon, after which business would largely cease for the day.</li>
+                <li><strong>Diet & Cuisine:</strong> The staple diet for the majority consisted of bread, cereals, vegetables, and olive oil. Meat was a luxury, typically consumed only after a religious sacrifice.</li>
+                <li><strong>Shopping & Markets:</strong> Daily necessities were purchased from small, individual shops (*tabernae*) or from street carts and stalls in the public market halls (*macellae*).</li>
+                <li><strong>Household Religion:</strong> A common morning ritual involved paying respects at the *lararium*, a small shrine in the home dedicated to the household gods (*lares*) and spirits of the ancestors.</li>
+                <li><strong>Client-Patron Ties:</strong> The morning was also the time for the *salutatio*, a formal ritual where lower-status clients would visit the homes of their wealthy patrons to pay respects and receive assistance.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'daily-life-timeline', title: 'Daily Life Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">c. 150 BCE</div><h4>The Age of Insulae</h4><p>Historical records indicate that the city of Rome contained over 46,000 *insulae* (apartment blocks), reflecting the extreme density and housing conditions of daily life for the masses.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">11 BCE</div><h4>Augustan Largesse</h4><p>Augustus records a massive distribution of 400 sesterces per man to the urban plebs, an example of the imperial patronage that shaped daily life in Rome.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">64 CE</div><h4>Nero's Urban Reforms</h4><p>Following the Great Fire of Rome, Emperor Nero implements new building codes and street plans, significantly altering the physical environment of daily life in the capital.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">c. 80 CE</div><h4>Colosseum Inaugurated</h4><p>The inauguration of the Flavian Amphitheatre marks a high point in the provision of mass public entertainment as a regular feature of Roman life.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">c. 400 CE</div><h4>The Height of the Baths</h4><p>At its peak, the city of Rome boasts over 800 public bath complexes, demonstrating the central importance of bathing to Roman hygiene and social routines.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-entertainment': {
+        title: 'Entertainment, Leisure & Public Spectacle',
+        subtitle: 'A Digital Knowledge Base – Social Hierarchy, Family & Daily Habits in the Roman World',
+        nav: [
+            { id: 'culture-of-spectacle', text: 'The Culture of Spectacle' },
+            { id: 'roman-baths', text: 'The Roman Baths' },
+            { id: 'leisure-institutions', text: 'Key Leisure Institutions' },
+            { id: 'entertainment-timeline', text: 'Entertainment Timeline' }
+        ],
+        sections: [
+          { id: 'culture-of-spectacle', title: 'The Culture of Spectacle', content: `
+            <h3>Bread and Circuses</h3>
+            <p>Public entertainment was a cornerstone of Roman society and a crucial tool of political power. The Roman state and its wealthy elite sponsored lavish and often brutal public spectacles to keep the vast urban population of Rome content and distracted. These events, known as *ludi* (games), were held on numerous public holidays and were a central feature of Roman life, reinforcing social hierarchies and celebrating imperial power.</p>
+            <div class="figure-grid">
+              <div class="figure-card"><h4>Gladiatorial Games</h4><p>The most famous and brutal of the Roman spectacles, gladiatorial contests pitted trained fighters against each other, often to the death, in purpose-built amphitheaters. Wild beast hunts (*venationes*) were also a popular and bloody part of the day's events.</p></div>
+              <div class="figure-card"><h4>Chariot Racing</h4><p>The most popular of all Roman spectacles, chariot races were held in massive stadiums called circuses. Professional teams, known by their colours (Reds, Whites, Blues, Greens), inspired a fanatical following among the populace, much like modern sports teams.</p></div>
+              <div class="figure-card"><h4>The Theatre</h4><p>Roman theatre was also a popular form of entertainment. While the tragedies of Greek drama were respected, the public vastly preferred light-hearted comedies, farces, and pantomimes, which often featured stock characters, crude humor, and elaborate staging.</p></div>
+            </div>
+          `},
+          { id: 'roman-baths', title: 'The Roman Baths', content: `
+            <h4>The Social Center of the City</h4>
+            <p>The public baths, or *thermae*, were an institution unique to the Roman world. Far more than just a place for hygiene, they were the vibrant social centers of every Roman city. For a very small entrance fee, citizens of all classes could enjoy a variety of amenities and social activities. The bathing ritual itself involved moving through a sequence of rooms with different temperatures: a warm room (*tepidarium*), a hot room (*caldarium*), and a cold plunge bath (*frigidarium*).</p>
+            <h4>More Than Just a Bath</h4>
+            <p>The grand imperial bath complexes, like those of Caracalla and Diocletian in Rome, were massive leisure centers. In addition to the bathing facilities, they included gymnasiums (*palaestrae*) for exercise, swimming pools, libraries, lecture halls, gardens, and food stalls. The baths were where Romans went to socialize, conduct business, exercise, and relax, making them an essential part of the daily routine for men and women across the social spectrum (though they typically bathed at separate times).</p>
+          `},
+          { id: 'leisure-institutions', title: 'Key Leisure Institutions & Concepts', content: `
+            <h3>The Infrastructure of Leisure</h3>
+            <p>Roman leisure was not an ad-hoc affair; it was supported by a massive infrastructure of purpose-built venues and social customs. These institutions were central to urban life and provided the framework for the mass entertainment that characterized the Roman world.</p>
+            <div class="badge-box"><h4>Key Institutions & Concepts of Roman Leisure:</h4>
+              <ul>
+                <li><strong>The Amphitheatre (e.g., Colosseum):</strong> The iconic, elliptical arena specifically designed for gladiatorial contests and other blood sports.</li>
+                <li><strong>The Circus (e.g., Circus Maximus):</strong> The vast, oblong stadium designed for the immense spectacle of chariot racing.</li>
+                <li><strong>The Public Baths (*Thermae*):</strong> The essential public institution for hygiene, health, and socializing, open to all classes.</li>
+                <li><strong>Imperial Patronage:</strong> The practice of emperors and the wealthy elite sponsoring lavish games and spectacles to win popular favor and display their power.</li>
+                <li><strong>The Festival Calendar:</strong> The large number of official public holidays (*feriae*) throughout the year, many of which were dedicated to religious festivals and public games.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'entertainment-timeline', title: 'Entertainment Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">264 BCE</div><h4>First Gladiatorial Games</h4><p>The first recorded gladiatorial contest is held in Rome, not as public entertainment, but as a private funeral rite (*munus*) for an aristocrat.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">1st c. BCE</div><h4>Rise of Public Games</h4><p>During the Late Republic, ambitious politicians like Julius Caesar begin to stage increasingly lavish public games to win popular support for their political careers.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">33 BCE</div><h4>Agrippa's Aedileship</h4><p>As aedile, Marcus Agrippa, Augustus's close friend, undertakes a massive program of public works, including repairing aqueducts and sponsoring games, setting a new standard for imperial beneficence.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">80 CE</div><h4>Inauguration of the Colosseum</h4><p>The Flavian Amphitheatre is inaugurated by Emperor Titus with 100 days of spectacular games, establishing it as the premier venue for public spectacle in the Roman world.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">216 CE</div><h4>Baths of Caracalla Opened</h4><p>Emperor Caracalla opens his massive public bath complex in Rome, capable of accommodating thousands of bathers at once and showcasing the scale of imperial leisure projects.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-roman-religion': {
+        title: 'Religion, Rituals & Sacred Spaces',
+        subtitle: 'A Digital Knowledge Base – Social Hierarchy, Family & Daily Habits in the Roman World',
+        nav: [
+            { id: 'roman-pantheon', text: 'The Roman Pantheon' },
+            { id: 'personal-imported-faiths', text: 'Personal & Imported Faiths' },
+            { id: 'religious-concepts-festivals', text: 'Key Religious Concepts & Festivals' },
+            { id: 'religious-history-timeline', text: 'Religious History Timeline' }
+        ],
+        sections: [
+          { id: 'roman-pantheon', title: 'The Roman Pantheon', content: `
+            <h4>A Religion of the State</h4>
+            <p>Roman religion was, first and foremost, a matter of public and civic duty. It was less concerned with personal salvation or faith and more with the correct performance of collective rituals to maintain the *pax deorum*—the "peace of the gods." The Romans believed that the security, stability, and success of their state depended directly on keeping the gods happy. The state religion was centered on a pantheon of major deities, many adapted from Greek mythology, led by the Capitoline Triad of Jupiter, Juno, and Minerva.</p>
+            <h4>The Role of the Priesthood</h4>
+            <p>Religious authority was held by a number of priestly colleges, whose members were typically drawn from the senatorial elite. The most important of these were the Pontiffs, led by the *Pontifex Maximus*, who oversaw state religious rites. Other colleges, like the Augurs, were responsible for divination—interpreting the will of the gods by observing natural signs, such as the flight of birds or the entrails of sacrificial animals. This deep integration of religion and state meant that political and religious life were inseparable.</p>
+          `},
+          { id: 'personal-imported-faiths', title: 'Personal & Imported Faiths', content: `
+            <h3>A Diverse Spiritual World</h3>
+            <p>Alongside the formal and often impersonal state religion, the Roman Empire was home to a vibrant and diverse landscape of personal and imported faiths. These cults and beliefs offered a more intimate and emotionally satisfying spiritual experience that catered to the personal needs of individuals across the empire.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>Household Gods</h4><p>At the heart of private Roman religion were the household gods. The *Lares* were spirits that protected the home, and the *Penates* guarded the pantry. Every Roman family maintained a small shrine (*lararium*) in their home where daily offerings were made to these spirits.</p></div>
+              <div class="impact-card"><h4>The Imperial Cult</h4><p>A crucial political and religious development, the Imperial Cult involved the worship of the *genius* (divine spirit) of the living emperor and the deification of deceased emperors. It served as a powerful symbol of loyalty and unity across the diverse empire.</p></div>
+              <div class="impact-card"><h4>Mystery Religions</h4><p>Hugely popular eastern "mystery cults," such as those of the Egyptian goddess Isis and the Persian god Mithras, spread throughout the empire via soldiers and merchants. These cults offered secret initiation rites, a sense of community, and the promise of personal salvation or an afterlife.</p></div>
+            </div>
+          `},
+          { id: 'religious-concepts-festivals', title: 'Key Religious Concepts & Festivals', content: `
+            <h3>The Fabric of Roman Belief</h3>
+            <p>Roman religious life was structured by a set of core beliefs, practices, and a calendar of festivals that marked the passing of the year. These concepts governed the relationship between mortals and the divine and reinforced the social and political order of the Roman world.</p>
+            <div class="badge-box"><h4>Key Roman Religious Concepts & Festivals:</h4>
+              <ul>
+                <li><strong>Pax Deorum (Peace of the Gods):</strong> The central belief that correct, precise ritual and sacrifice maintained the gods' favor, thus ensuring the security and prosperity of Rome. Impiety could bring divine wrath upon the state.</li>
+                <li><strong>Priestly Colleges (e.g., Pontiffs, Augurs):</strong> The official bodies of priests, drawn from the elite, who were responsible for performing public rites, interpreting divine will, and maintaining the religious calendar.</li>
+                <li><strong>Divination & Augury:</strong> The widespread practice of discerning the will of the gods through the interpretation of omens, such as the flight of birds, thunder, or the patterns in the entrails of sacrificial animals.</li>
+                <li><strong>Saturnalia & Lupercalia:</strong> Two of Rome's most famous public festivals. Saturnalia was a winter festival of feasting and role-reversal, while the Lupercalia was an ancient, wild fertility rite held in February.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'religious-history-timeline', title: 'Religious History Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">c. 509 BCE</div><h4>Temple of Jupiter Optimus Maximus</h4><p>The great temple to the Capitoline Triad (Jupiter, Juno, Minerva) is dedicated on the Capitoline Hill, establishing the central focus of Roman state religion for centuries.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">204 BCE</div><h4>Cult of Cybele Arrives</h4><p>During the Second Punic War, the Roman state officially imports the cult of the eastern mother goddess Cybele, following a prophecy in the Sibylline Books.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">42 BCE</div><h4>Deification of Julius Caesar</h4><p>Following his assassination, the Senate officially deifies Julius Caesar, creating the first *divus* and setting the precedent for the imperial cult.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">12 BCE</div><h4>Augustus becomes Pontifex Maximus</h4><p>Augustus assumes the role of chief priest of the Roman state, formally uniting the highest political and religious authority in one person.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">c. 250 CE</div><h4>Persecution of Decius</h4><p>Emperor Decius issues an edict requiring all inhabitants of the empire to sacrifice to the Roman gods, leading to the first empire-wide, systematic persecution of Christians.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-intellectual': {
+        title: 'Education, Law & Intellectual Culture',
+        subtitle: 'A Digital Knowledge Base – Social Hierarchy, Family & Daily Habits in the Roman World',
+        nav: [
+            { id: 'roman-education-literature', text: 'Roman Education & Literature' },
+            { id: 'roman-legal-system', text: 'The Roman Legal System' },
+            { id: 'intellectual-traditions', text: 'Key Intellectual Traditions' },
+            { id: 'intellectual-legal-timeline', text: 'Intellectual & Legal Timeline' }
+        ],
+        sections: [
+          { id: 'roman-education-literature', title: 'Roman Education & Literature', content: `
+            <h4>The Educated Roman</h4>
+            <p>For the Roman elite, education was essential for a successful public career. The system was largely adapted from Greek models and was focused on producing effective orators and administrators. A boy's education typically began at home, followed by attendance at a primary school (*ludus*). The next stage was the grammar school, where he would study Greek and Latin literature in depth. The final stage was the school of rhetoric, where he learned the art of public speaking and persuasive argument, the most critical skill for a life in law or politics.</p>
+            <h4>A Bilingual World</h4>
+            <p>The Roman literary and intellectual world was profoundly bilingual. While Latin was the language of government and law, Greek was the language of high culture, philosophy, and science. An educated Roman was expected to be fluent in both. The great works of Latin literature, from the poetry of Virgil and Ovid to the orations of Cicero, were deeply influenced by their Greek predecessors, creating a rich Greco-Roman cultural synthesis.</p>
+          `},
+          { id: 'roman-legal-system', title: 'The Roman Legal System', content: `
+            <h3>The Enduring Legacy of Roman Law</h3>
+            <p>Perhaps Rome's most significant and lasting contribution to Western civilization was its sophisticated legal system. Roman law was characterized by its precision, its systematic organization, and its ability to evolve to meet the needs of a vast and complex empire. The principles and categories developed by Roman jurists have profoundly influenced the civil law systems of modern Europe and beyond.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>Ius Civile (Civil Law)</h4><p>The body of law that applied exclusively to Roman citizens. It was derived from foundational texts like the Twelve Tables and was expanded over centuries by legislation and interpretation.</p></div>
+              <div class="impact-card"><h4>Ius Gentium (Law of Nations)</h4><p>As Rome expanded, it developed the *ius gentium*, a body of law that applied to all people, citizen or foreigner. It was based on principles of natural law and reason considered to be universally applicable.</p></div>
+              <div class="impact-card"><h4>The Jurists</h4><p>A class of highly respected legal experts, or jurists, played a crucial role. Their written opinions and interpretations of the law (*responsa*) became a major source of legal authority, systematizing and refining Roman jurisprudence.</p></div>
+              <div class="impact-card"><h4>Courtroom Rhetoric</h4><p>The Roman legal system was adversarial. Success in the courtroom depended heavily on the skill of the orator (*orator*) to present a persuasive and compelling argument before a magistrate or jury.</p></div>
+            </div>
+          `},
+          { id: 'intellectual-traditions', title: 'Key Intellectual Traditions', content: `
+            <h3>Schools of Thought</h3>
+            <p>Roman intellectual culture was heavily shaped by the great philosophical schools of ancient Greece. While the Romans were often more concerned with practical application than abstract theory, these philosophical traditions provided the elite with moral frameworks for living a virtuous life and navigating the challenges of public service.</p>
+            <div class="badge-box"><h4>Key Intellectual Traditions in Rome:</h4>
+              <ul>
+                <li><strong>Stoicism:</strong> The most influential philosophy among the Roman ruling class. It emphasized duty, virtue, self-control, and the endurance of hardship, as exemplified by the writings of Seneca and Emperor Marcus Aurelius.</li>
+                <li><strong>Epicureanism:</strong> A philosophy that taught that the goal of life was to achieve a state of tranquility (*ataraxia*) through the pursuit of modest pleasures and the avoidance of pain and fear.</li>
+                <li><strong>Roman Science & Medicine:</strong> The Romans were master engineers but largely practical in their scientific pursuits. They adopted and applied Greek medical knowledge, particularly the theories of Galen, and excelled in public health and sanitation.</li>
+                <li><strong>The Book Trade & Libraries:</strong> A flourishing book trade and the establishment of public and private libraries, such as the great libraries in Rome founded by Augustus, allowed for the preservation and circulation of literary and scholarly knowledge.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'intellectual-legal-timeline', title: 'Intellectual & Legal Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">c. 450 BCE</div><h4>The Twelve Tables</h4><p>The first codification of Roman law is published, establishing the foundation of the *ius civile*.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">1st c. BCE</div><h4>Cicero's Career</h4><p>The career of Marcus Tullius Cicero, Rome's greatest orator and a key transmitter of Greek philosophy to the Latin-speaking world, reaches its height.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">28 BCE</div><h4>First Public Library in Rome</h4><p>Augustus establishes the first of two public libraries in Rome, a major step in the public dissemination of knowledge.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">c. 65 CE</div><h4>Death of Seneca</h4><p>The death of Seneca the Younger, a leading Stoic philosopher and advisor to Emperor Nero, marks a key moment in Roman philosophical history.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">c. 130 CE</div><h4>The Perpetual Edict</h4><p>Under Emperor Hadrian, the jurist Salvius Julianus codifies the praetor's edicts, a major step in the systematization of Roman law.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-state-cult': {
+        title: 'State Religion & the Imperial Cult',
+        subtitle: 'A Digital Knowledge Base – Rome\'s Imperial Devotion: State Religion and Cult',
+        nav: [
+            { id: 'republican-state-religion', text: 'Republican State Religion' },
+            { id: 'birth-of-imperial-cult', text: 'Birth of the Imperial Cult' },
+            { id: 'features-of-imperial-cult', text: 'Key Features of the Imperial Cult' },
+            { id: 'imperial-cult-timeline', text: 'Imperial Cult Timeline' }
+        ],
+        sections: [
+          { id: 'republican-state-religion', title: 'The Republican State Religion', content: `
+            <h3>The Foundation of Roman Worship</h3>
+            <p>The state religion of the Roman Republic was fundamentally a civic and political institution. Its primary purpose was to secure the state's well-being by maintaining the *pax deorum*—the "peace with the gods." This was achieved through the precise and collective performance of public rituals, sacrifices, and festivals. At the heart of this system was the worship of a pantheon of gods led by the Capitoline Triad: Jupiter Optimus Maximus, Juno, and Minerva.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>The Capitoline Triad</h4><p>Jupiter, the king of the gods; Juno, his wife and queen; and Minerva, the goddess of wisdom, were the central deities of the Roman state, housed in a magnificent temple on the Capitoline Hill.</p></div>
+              <div class="impact-card"><h4>Priestly Colleges</h4><p>Religious rites were overseen by official colleges of priests drawn from the elite. The Pontiffs, led by the *Pontifex Maximus*, controlled the religious calendar, while the Augurs interpreted divine signs (*auspices*).</p></div>
+              <div class="impact-card"><h4>The Festival Cycle</h4><p>The Roman year was marked by numerous public festivals and games (*ludi*), which were religious ceremonies designed to honor the gods and ensure their continued favor toward Rome.</p></div>
+              <div class="impact-card"><h4>Pax Deorum (Peace of the Gods)</h4><p>This was the core belief of Roman religion: if the community performed the correct rituals, the gods would be favorable to Rome. Impiety or neglect could bring divine wrath and disaster upon the state.</p></div>
+            </div>
+          `},
+          { id: 'birth-of-imperial-cult', title: 'The Birth of the Imperial Cult', content: `
+            <h4>From Man to God</h4>
+            <p>The transition from Republic to Empire brought about a profound transformation in Roman religion: the emergence of emperor worship. This development had its roots in Hellenistic traditions of ruler-worship, but it was adapted to a Roman context with characteristic pragmatism. The cult began with the posthumous deification of Julius Caesar, who was officially declared a god (*divus*) by the Senate after his assassination.</p>
+            <h4>Augustus's Careful Path</h4>
+            <p>His adopted son, Augustus, masterfully built upon this precedent. While refusing to be worshipped as a living god in Rome itself—to avoid the hated charge of monarchy—he encouraged the worship of his *genius* (his divine guiding spirit) and fostered a system of reverence that linked his personal authority to the security of the state. He built a temple to the "Deified Julius" and accepted numerous divine honors, such as having his name included in sacred hymns. This laid the foundation for a system where deceased emperors were routinely deified by their successors, creating a divine lineage for the imperial house.</p>
+          `},
+          { id: 'features-of-imperial-cult', title: 'Key Features of the Imperial Cult', content: `
+            <h3>The Political Glue of Empire</h3>
+            <p>The Imperial Cult became one of the most important institutions for fostering unity and loyalty across the vast and diverse Roman Empire. It provided a common focus for public devotion and a clear way for provincials and soldiers to demonstrate their allegiance to the Roman state and its leader.</p>
+            <div class="badge-box"><h4>Key Practices of the Imperial Cult:</h4>
+              <ul>
+                <li><strong>Deification (*Divus*):</strong> The official, posthumous elevation of an emperor to the status of a god by a vote of the Senate.</li>
+                <li><strong>Worship of the Emperor's Genius:</strong> The practice of offering sacrifices to the divine spirit of the *living* emperor, a way to show loyalty without directly worshipping him as a god.</li>
+                <li><strong>Provincial Temples & Inscriptions:</strong> The construction of temples dedicated to "Rome and Augustus" in provincial capitals, and the widespread use of inscriptions to publicize the emperor's achievements.</li>
+                <li><strong>Imperial Priesthoods (e.g., Seviri Augustales):</strong> The creation of special priesthoods, often filled by wealthy freedmen and local elites in the provinces, to administer the local cult.</li>
+                <li><strong>Vows & Sacrifices for the Emperor's Health:</strong> Regular public rituals undertaken throughout the empire that tied the personal well-being of the emperor directly to the health of the state.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'imperial-cult-timeline', title: 'Imperial Cult Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">42 BCE</div><h4>Deification of Julius Caesar</h4><p>Two years after his assassination, the Senate officially recognizes Julius Caesar as a state god (*Divus Iulius*), the pivotal first step in the creation of the imperial cult.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">29 BCE</div><h4>Temple of the Deified Julius</h4><p>Octavian (the future Augustus) dedicates a temple in the Roman Forum to his deified adoptive father, cementing the new cult in the heart of Rome.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">12 BCE</div><h4>Augustus becomes Pontifex Maximus</h4><p>Augustus takes on the role of chief priest, uniting the highest political and religious authority in his person and solidifying his control over the state religion.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">13 BCE</div><h4>Ara Pacis Voted</h4><p>The Senate votes to build the Ara Pacis, the Altar of Augustan Peace, a monument that subtly blends traditional religion with celebrations of Augustus's achievements.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">14 CE</div><h4>Deification of Augustus</h4><p>Immediately following his death, the Senate officially deifies Augustus, establishing the precedent for the posthumous deification of "good" emperors.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-mystery-cults': {
+        title: 'Mystery Religions & Imported Cults',
+        subtitle: 'A Digital Knowledge Base – Rome\'s Imperial Devotion: State Religion and Cult',
+        nav: [
+            { id: 'appeal-of-mysteries', text: 'The Appeal of the Mysteries' },
+            { id: 'major-eastern-cults', text: 'Major Eastern Cults' },
+            { id: 'syncretism-state-response', text: 'Syncretism & State Response' },
+            { id: 'imported-cults-timeline', text: 'Imported Cults Timeline' }
+        ],
+        sections: [
+          { id: 'appeal-of-mysteries', title: 'The Appeal of the Mysteries', content: `
+            <h4>A More Personal Faith</h4>
+            <p>While Roman state religion focused on the collective good of the community, many inhabitants of the empire sought a more personal and emotionally fulfilling spiritual experience. This need was met by a variety of "mystery religions," so-called because they involved secret initiation rites and doctrines revealed only to members. These cults, mostly originating in the Hellenistic East, gained enormous popularity across the empire, particularly during the imperial period.</p>
+            <h4>Promise of Salvation</h4>
+            <p>Unlike the official state cults, which were largely transactional, the mystery religions offered their adherents a direct, personal relationship with a deity. They promised not just worldly success, but also spiritual purification, a sense of belonging to a close-knit community of fellow initiates, and, most importantly, the hope of a blessed afterlife or personal salvation. This personal focus made them immensely attractive to people from all social classes, especially soldiers, merchants, women, and slaves.</p>
+          `},
+          { id: 'major-eastern-cults', title: 'Major Eastern Cults in Rome', content: `
+            <h3>New Gods for a New Empire</h3>
+            <p>As the Roman Empire expanded, it absorbed not only new territories but also new gods. Carried along the trade routes by soldiers, sailors, merchants, and slaves, a number of powerful and popular deities from Egypt, Anatolia, and Persia found a new home in Rome and the western provinces, where their dramatic rituals and promises of salvation won them a huge following.</p>
+            <div class="figure-grid">
+              <div class="figure-card"><h4>The Cult of Isis & Serapis</h4><p>The Egyptian goddess Isis, a maternal figure who promised resurrection and a blessed afterlife, became one of the most popular deities in the Roman world. Her cult, often linked with that of the Greco-Egyptian god Serapis, was particularly attractive to women.</p></div>
+              <div class="figure-card"><h4>The Cult of Cybele & Attis</h4><p>The cult of the Great Mother goddess, Cybele, was imported from Phrygia (modern Turkey). It was known for its dramatic and ecstatic rituals, including the "Day of Blood," performed by its famously self-castrated priests, the *galli*.</p></div>
+              <div class="figure-card"><h4>The Cult of Mithras</h4><p>The Persian god of light, Mithras, was the focus of a male-only mystery cult that became extremely popular among soldiers and merchants. Worshippers met in underground temples (*mithraea*) and progressed through seven grades of initiation, sharing a ritual meal.</p></div>
+              <div class="figure-card"><h4>The Cult of Dionysus/Bacchus</h4><p>The ancient Greek god of wine, ecstasy, and theatre had a long and sometimes troubled history in Rome. His secret rites, the *Bacchanalia*, were viewed with suspicion by the state for their potential to subvert public morality, leading to a major crackdown in the 2nd century BCE.</p></div>
+            </div>
+          `},
+          { id: 'syncretism-state-response', title: 'Syncretism & State Response', content: `
+            <h3>Managing Foreign Faiths</h3>
+            <p>The Roman state had a complex and pragmatic relationship with the multitude of foreign cults that took root in its territory. While generally tolerant, Roman authorities could also be deeply suspicious of religions that they perceived as a threat to public order or traditional Roman values (*mos maiorum*).</p>
+            <div class="badge-box"><h4>Rome's Approach to Imported Cults:</h4>
+              <ul>
+                <li><strong>Syncretism:</strong> The common practice of blending foreign and Roman deities. The Romans often identified foreign gods with their own, such as identifying the Greek Zeus with Jupiter, which helped to integrate new faiths.</li>
+                <li><strong>State Sanction:</strong> The Roman state had official mechanisms for incorporating new gods. The Sibylline Books, a collection of prophecies, could be consulted to authorize the official adoption of a foreign cult if it was deemed necessary for the state's welfare.</li>
+                <li><strong>Periods of Suppression:</strong> When a cult was seen as subversive or immoral, the state could act harshly. The Senate famously suppressed the Bacchanalia in 186 BCE, and the cult of Isis was periodically expelled from Rome.</li>
+                <li><strong>Social Appeal & Integration:</strong> Despite occasional suppression, these cults thrived because they appealed to specific social groups—soldiers to Mithras, women to Isis—and became a vibrant and integral part of the empire's diverse religious landscape.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'imported-cults-timeline', title: 'Imported Cults Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">204 BCE</div><h4>Arrival of Cybele</h4><p>During the darkest days of the Second Punic War, the Roman state officially imports the cult of the "Great Mother" goddess Cybele from Asia Minor, based on a Sibylline prophecy.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">186 BCE</div><h4>Suppression of the Bacchanalia</h4><p>The Roman Senate issues a decree that severely restricts the worship of Bacchus (Dionysus), fearing the secret, nocturnal rites were a source of conspiracy and moral corruption.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">1st c. BCE</div><h4>Spread of the Cult of Isis</h4><p>The Egyptian cult of Isis gains significant popularity in Italy and throughout the Mediterranean, despite several attempts by the authorities to expel it from the city of Rome.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">2nd c. CE</div><h4>Height of Mithraism</h4><p>The cult of the Persian god Mithras reaches its peak of popularity, especially among soldiers stationed along the Rhine and Danube frontiers and in Britain.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-christianity': {
+        title: 'Rise of Christianity & Church–Empire Relations',
+        subtitle: 'A Digital Knowledge Base – Rome\'s Imperial Devotion: State Religion and Cult',
+        nav: [
+            { id: 'jesus-pauline-missions', text: 'The Jesus Movement & Pauline Missions' },
+            { id: 'conflict-persecution', text: 'Conflict & Persecution' },
+            { id: 'path-to-acceptance', text: 'The Path to Acceptance' },
+            { id: 'early-christianity-timeline', text: 'Early Christianity Timeline' }
+        ],
+        sections: [
+          { id: 'jesus-pauline-missions', title: 'The Jesus Movement & Pauline Missions', content: `
+            <h4>Origins in Judea</h4>
+            <p>Christianity began as a small apocalyptic Jewish sect in the Roman province of Judea in the 1st century CE. It was centered on the life, teachings, death, and resurrection of its founder, Jesus of Nazareth. The early "Jesus movement" was one of many competing Jewish groups in the region, and its initial followers were all Jewish.</p>
+            <h4>Paul's Mission to the Gentiles</h4>
+            <p>The pivotal figure in transforming Christianity from a small Jewish sect into a distinct world religion was Paul of Tarsus. A Pharisaic Jew who had initially persecuted Christians, Paul underwent a dramatic conversion experience. He argued that the teachings of Jesus were meant not just for Jews, but for all people (*Gentiles*). Over the course of three extensive missionary journeys, Paul traveled throughout the Eastern Mediterranean—in Asia Minor, Greece, and Macedonia—founding new Christian communities in major Roman cities and writing a series of influential letters (*epistles*) that would form a core part of the New Testament.</p>
+          `},
+          { id: 'conflict-persecution', title: 'Conflict & Persecution', content: `
+            <h3>An Illegal Religion</h3>
+            <p>For the first three centuries of its existence, Christianity's relationship with the Roman state was often one of suspicion and hostility. While persecutions were often localized and sporadic, Christians were viewed as a subversive and antisocial group whose beliefs and practices clashed with Roman tradition and authority.</p>
+            <div class="impact-grid">
+              <div class="impact-card"><h4>Refusal of the Imperial Cult</h4><p>The primary point of conflict was the Christian refusal to offer sacrifices to the Roman gods and the divine spirit (*genius*) of the emperor. This was seen not as a matter of private belief, but as an act of treasonous disloyalty to the state.</p></div>
+              <div class="impact-card"><h4>The Neronian Persecution (64 CE)</h4><p>Following the Great Fire of Rome, Emperor Nero falsely blamed the Christians and launched the first major, though localized, persecution. This event established a precedent for treating Christians as criminals.</p></div>
+              <div class="impact-card"><h4>Empire-Wide Persecutions</h4><p>In the mid-3rd century CE, emperors like Decius launched the first empire-wide persecutions, requiring all citizens to obtain a certificate proving they had sacrificed to the gods. The most severe and systematic "Great Persecution" was launched by Diocletian in 303 CE.</p></div>
+            </div>
+          `},
+          { id: 'path-to-acceptance', title: 'The Path to Acceptance', content: `
+            <h3>From Persecuted Sect to State Religion</h3>
+            <p>In a dramatic reversal of fortune, Christianity went from a persecuted minority religion to the dominant faith of the Roman Empire within a single century. This transformation was driven by a series of pivotal imperial decisions that fundamentally altered the religious and political landscape of the ancient world.</p>
+            <div class="badge-box"><h4>Key Turning Points for Christianity:</h4>
+              <ul>
+                <li><strong>The Edict of Milan (313 CE):</strong> Following his victory at the Milvian Bridge, Emperor Constantine and his co-emperor Licinius issued the Edict of Milan, which granted official tolerance to Christianity and ended the period of persecution.</li>
+                <li><strong>The Council of Nicaea (325 CE):</strong> Constantine convened the first ecumenical council of the Church at Nicaea to settle theological disputes, particularly Arianism, and to establish a unified Christian orthodoxy.</li>
+                <li><strong>The Edict of Thessalonica (380 CE):</strong> Emperor Theodosius I issued a decree making Nicene Christianity the official state religion of the Roman Empire, effectively outlawing traditional pagan worship.</li>
+                <li><strong>Transformation of Civic Space:</strong> With imperial patronage, Christianity began to dominate the urban landscape. Great basilicas were constructed, often on the sites of pagan temples, and the Church began to assume many of the civic functions previously held by traditional cults.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'early-christianity-timeline', title: 'Early Christianity Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">c. 30 CE</div><h4>Crucifixion of Jesus</h4><p>Jesus of Nazareth is crucified in Jerusalem under the authority of the Roman prefect Pontius Pilate.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">c. 40s–60s CE</div><h4>The Pauline Missions</h4><p>The Apostle Paul undertakes his missionary journeys, spreading Christianity to Gentile communities throughout the Eastern Mediterranean.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">64 CE</div><h4>Neronian Persecution</h4><p>Following the Great Fire of Rome, Emperor Nero launches the first major Roman persecution of Christians.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">303 CE</div><h4>The Great Persecution</h4><p>Emperor Diocletian initiates the last and most severe empire-wide persecution of Christians in an attempt to restore traditional Roman values.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">313 CE</div><h4>Edict of Milan</h4><p>Emperor Constantine grants official tolerance to Christianity, ending the era of persecution.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">6</div><div class="timeline-content"><div class="timeline-date">325 CE</div><h4>Council of Nicaea</h4><p>Constantine convenes the first ecumenical council to establish orthodox Christian doctrine.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">7</div><div class="timeline-content"><div class="timeline-date">380 CE</div><h4>Christianity becomes State Religion</h4><p>Emperor Theodosius I makes Nicene Christianity the official state religion of the Roman Empire.</p></div></div>
+            </div>
+          `}
+        ]
+      },
+      'topic-philosophy': {
+        title: 'Philosophy, Theology & Late-Antique Thought',
+        subtitle: 'A Digital Knowledge Base – Rome\'s Imperial Devotion: State Religion and Cult',
+        nav: [
+            { id: 'roman-philosophy', text: 'The Roman Philosophical Landscape' },
+            { id: 'rise-of-platonism', text: 'The Rise of Platonism' },
+            { id: 'faith-and-philosophy', text: 'The Fusion of Faith & Philosophy' },
+            { id: 'late-antique-thought-timeline', text: 'Late-Antique Thought Timeline' }
+        ],
+        sections: [
+          { id: 'roman-philosophy', title: 'The Roman Philosophical Landscape', content: `
+            <h3>Schools of Thought for a Ruling Class</h3>
+            <p>While the Romans were renowned more for their practical achievements in law and engineering than for abstract thought, the educated Roman elite was deeply influenced by the major philosophical schools of Greece. Philosophy was not merely an intellectual exercise; it provided a moral compass and a guide for living a virtuous and meaningful life, especially for those in public service.</p>
+            <div class="figure-grid">
+              <div class="figure-card"><h4>Stoicism</h4><p>By far the most influential philosophy among the Roman ruling class. Stoicism taught that virtue, reason, and living in accordance with nature were the highest goods. It emphasized duty, self-control, and the calm endurance of misfortune. Its leading Roman proponents included the statesman Seneca and the emperor Marcus Aurelius.</p></div>
+              <div class="figure-card"><h4>Epicureanism</h4><p>In contrast to Stoicism, Epicureanism taught that the main goal of life was to achieve a state of tranquility and freedom from fear (*ataraxia*) by pursuing modest pleasures and living a quiet life away from the turmoil of politics. Its most famous Latin expression is Lucretius's poem *De rerum natura*.</p></div>
+              <div class="figure-card"><h4>Skepticism</h4><p>Adherents of Skepticism, particularly the Academic Skeptics like Cicero, argued that certain knowledge was impossible to attain. They advocated for suspending judgment and instead making decisions based on probability and reason, a practical approach well-suited to the courtroom and the Senate.</p></div>
+            </div>
+          `},
+          { id: 'rise-of-platonism', title: 'The Rise of Platonism', content: `
+            <h4>A New Spiritual Philosophy</h4>
+            <p>In the later Roman Empire, the philosophical landscape began to shift. While Stoicism remained influential, the various schools of thought deriving from the teachings of Plato gained prominence. These schools, known collectively as Platonism, were more metaphysical and spiritual in their focus than the earlier, more ethics-focused philosophies.</p>
+            <h4>Plotinus and Neo-Platonism</h4>
+            <p>The most important development was the emergence of Neo-Platonism in the 3rd century CE, founded by the philosopher Plotinus. Neo-Platonism taught that all reality emanates from a single, transcendent, and unknowable source called "the One." The goal of human life, for a Neo-Platonist, was to achieve a mystical union with this divine source through intellectual and spiritual purification. This highly spiritual and hierarchical philosophy would become the dominant intellectual force of the late antique world and would profoundly influence the development of early Christian theology.</p>
+          `},
+          { id: 'faith-and-philosophy', title: 'The Fusion of Faith & Philosophy', content: `
+            <h3>A New Synthesis</h3>
+            <p>The late Roman Empire was a period of intense intellectual cross-pollination, as the rising Christian faith encountered the established traditions of classical Greek philosophy. Early Christian thinkers, many of whom were trained in philosophy, began to use the language and concepts of Platonism to explain and defend their own theology, creating a powerful new intellectual synthesis that would form the foundation of Western thought for over a thousand years.</p>
+            <div class="badge-box"><h4>Key Aspects of the Christian-Philosophical Synthesis:</h4>
+              <ul>
+                <li><strong>The Logos Concept:</strong> Early Christian theologians like Justin Martyr adopted the Greek philosophical concept of the *Logos* (divine reason or word) to explain the nature of Christ as the incarnation of divine reason.</li>
+                <li><strong>Augustine of Hippo:</strong> The most important figure in this synthesis. Trained as a rhetorician and influenced by Neo-Platonism, Augustine's monumental works, like *Confessions* and *The City of God*, masterfully fused Platonic philosophy with Christian doctrine.</li>
+                <li><strong>Educational Institutions:</strong> The great philosophical schools of the late antique world, particularly in Alexandria and Athens, became centers of debate and exchange between pagan and Christian intellectuals.</li>
+                <li><strong>Textual Transmission:</strong> Both pagan and Christian scholars played a crucial role in the copying, commenting on, and preserving of classical philosophical texts, ensuring their survival into the Middle Ages.</li>
+              </ul>
+            </div>
+          `},
+          { id: 'late-antique-thought-timeline', title: 'Late-Antique Thought Timeline', content: `
+            <div class="battle-timeline">
+              <div class="timeline-item"><div class="timeline-dot">1</div><div class="timeline-content"><div class="timeline-date">c. 65 CE</div><h4>Death of Seneca</h4><p>The death of Seneca the Younger, a leading Stoic philosopher, marks a high point for the influence of Stoicism in the early Roman Empire.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">2</div><div class="timeline-content"><div class="timeline-date">180 CE</div><h4>Death of Marcus Aurelius</h4><p>The death of the "philosopher-emperor" Marcus Aurelius, whose *Meditations* are a classic text of Stoic thought, marks the end of an era.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">3</div><div class="timeline-content"><div class="timeline-date">c. 204–270 CE</div><h4>Life of Plotinus</h4><p>The life of Plotinus, the founder of Neo-Platonism. His teachings, compiled by his student Porphyry in the *Enneads*, become the dominant philosophy of the late empire.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">4</div><div class="timeline-content"><div class="timeline-date">354–430 CE</div><h4>Life of Augustine of Hippo</h4><p>The life of Augustine, the most influential Christian theologian of the ancient world, whose work masterfully synthesizes Christian doctrine with Neo-Platonic philosophy.</p></div></div>
+              <div class="timeline-item"><div class="timeline-dot">5</div><div class="timeline-content"><div class="timeline-date">529 CE</div><h4>Closing of the Academy in Athens</h4><p>The Byzantine Emperor Justinian I closes the ancient Platonic Academy in Athens, an event often seen as marking the final end of classical antiquity.</p></div></div>
+            </div>
+          `}
+        ]
+      }
+    };
+
+    /* ========== RENDERING ========== */
+    function renderTopic(id) {
+      const data = romanData[id]; if (!data) return;
+      const master = document.getElementById('topic-master-container');
+      master.innerHTML = `
+        <div class="container">
+          <header class="header"><h1>${data.title}</h1><p>${data.subtitle}</p></header>
+          ${data.nav.length ? `
+            <nav class="nav"><div class="nav-container">
+              ${data.nav.map((n, i) => `<button class="nav-btn${i === 0 ? ' active' : ''}" 
+                onclick="showSection('${n.id}',this)">${n.text}</button>`).join('')}
+            </div></nav>` : ''}
+          <main class="content">
+            ${data.sections.map((s, i) => `<section id="${s.id}" class="section${i === 0 ? ' active' : ''}">
+              <h2>${s.title}</h2>${s.content}</section>`).join('')}
+          </main>
+          <footer class="footer"><p>&copy; 2025 The Roman Empire Chronicle</p></footer>
+        </div>`;
+      master.classList.add('active');
+    }
+
+    /* ========== NAVIGATION HANDLERS ========== */
+    function switchTopic(id, link) {
+      event.preventDefault();
+      document.querySelectorAll('.topic-link').forEach(a => a.classList.remove('active-topic'));
+      if (link) link.classList.add('active-topic');
+      renderTopic(id);
+
+      const panel = document.getElementById('mega-menu-panel');
+      const toggle = document.getElementById('mega-menu-toggle');
+      if (panel.classList.contains('open')) {
+        panel.classList.remove('open'); toggle.classList.remove('active'); toggle.textContent = 'Select Period ▼';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showSection(secId, btn) {
+      const master = document.getElementById('topic-master-container');
+      master.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      master.querySelector(`#${secId}`).classList.add('active');
+      master.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    /* ========== MEGA-MENU TOGGLE & INITIAL RENDER ========== */
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('mega-menu-toggle');
+      const panel = document.getElementById('mega-menu-panel');
+      toggle.addEventListener('click', () => {
+        panel.classList.toggle('open'); toggle.classList.toggle('active');
+        toggle.textContent = panel.classList.contains('open') ? 'Close Menu ▲' : 'Select Period ▼';
+      });
+      document.addEventListener('click', e => {
+        if (!panel.contains(e.target) && !toggle.contains(e.target) && panel.classList.contains('open')) {
+          panel.classList.remove('open'); toggle.classList.remove('active'); toggle.textContent = 'Select Period ▼';
+        }
+      });
+      /* first topic */
+      renderTopic('topic-regal-plebeian');
+      document.querySelector('.topic-link[onclick*="topic-regal-plebeian"]').classList.add('active-topic');
+    });
+  </script>
+</body>
+</html>
