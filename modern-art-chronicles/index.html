@@ -199,6 +199,58 @@
       .timeline-item{flex-direction:column}
       .timeline-dot{margin-right:0;margin-bottom:.9rem;align-self:flex-start}
     }
+
+/* Mega Menu Hero Image */
+.mega-menu-hero {
+  margin-top: 3rem;  /* Changed from 2rem to move it down more */
+  text-align: center;
+  border-top: 1px solid #778899;
+  padding-top: 2.5rem;  /* Increased padding for more space */
+  padding-left: 10%;    /* NEW: Add left padding to shift right */
+  padding-right: 10%;   /* NEW: Add right padding to balance */
+}
+
+.mega-menu-image {
+  width: 100%;
+  max-width: 640px;  /* Changed from 800px to make it narrower */
+  height: 474px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease;
+  margin: 0 auto;  /* NEW: Ensure centering */
+}
+
+.mega-menu-image:hover {
+  transform: scale(1.02);
+}
+
+.mega-menu-image-caption {
+  color: #EAEAEA;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  font-style: italic;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  max-width: 600px;  /* NEW: Match image width */
+  margin-left: auto;  /* NEW: Center the caption */
+  margin-right: auto; /* NEW: Center the caption */
+}
+
+@media(max-width:768px){
+  .mega-menu-hero {
+    padding-left: 5%;   /* Less padding on mobile */
+    padding-right: 5%;
+  }
+  
+  .mega-menu-image {
+    height: 180px;
+    max-width: 90%;  /* More responsive on mobile */
+  }
+  
+  .mega-menu-image-caption {
+    font-size: 0.95rem;
+  }
+}
   </style>
 </head>
 <body>
@@ -209,6 +261,12 @@
 
   <nav id="mega-menu-panel">
     <div class="mega-menu-columns"><div class="mega-menu-column"><h3 class="theater-heading">Impressionism & Post-Impressionism</h3><a href="#" class="topic-link" onclick="switchTopic('salon-des-refuses', this)">Salon des Refusés</a><a href="#" class="topic-link" onclick="switchTopic('monet-optics', this)">Monet & Optics</a><a href="#" class="topic-link" onclick="switchTopic('degas-urban-life', this)">Degas & Urban Life</a><a href="#" class="topic-link" onclick="switchTopic('cezannes-structure', this)">Cézanne's Structure</a></div><div class="mega-menu-column"><h3 class="theater-heading">Symbolism & Art Nouveau<br><br></h3><a href="#" class="topic-link" onclick="switchTopic('fin-de-siecle-symbolism', this)">Fin-de-Siècle Symbolism</a><a href="#" class="topic-link" onclick="switchTopic('klimts-vienna', this)">Klimt's Vienna</a><a href="#" class="topic-link" onclick="switchTopic('art-nouveau-architecture', this)">Art Nouveau Architecture</a></div><div class="mega-menu-column"><h3 class="theater-heading">Fauvism & German Expressionism</h3><a href="#" class="topic-link" onclick="switchTopic('fauvist-colour-form', this)">Fauvist Colour & Form</a><a href="#" class="topic-link" onclick="switchTopic('die-brucke-primitivism', this)">Die Brücke Primitivism</a><a href="#" class="topic-link" onclick="switchTopic('der-blaue-reiter-spiritualism', this)">Der Blaue Reiter Spiritualism</a></div><div class="mega-menu-column"><h3 class="theater-heading">Cubism, Futurism & Early Abstraction</h3><a href="#" class="topic-link" onclick="switchTopic('analytic-cubism-principles', this)">Analytic Cubism Principles</a><a href="#" class="topic-link" onclick="switchTopic('futurist-dynamism', this)">Futurist Dynamism</a><a href="#" class="topic-link" onclick="switchTopic('kandinsky-non-objective-art', this)">Kandinsky & Non-Objective Art</a><a href="#" class="topic-link" onclick="switchTopic('malevich-suprematism', this)">Malevich Suprematism</a></div><div class="mega-menu-column"><h3 class="theater-heading">Surrealism to Abstract Expressionism</h3><a href="#" class="topic-link" onclick="switchTopic('surrealist-automatism', this)">Surrealist Automatism</a><a href="#" class="topic-link" onclick="switchTopic('dalis-paranoiac-critical', this)">Dalí’s Paranoiac-Critical</a><a href="#" class="topic-link" onclick="switchTopic('emigre-abstract-expressionists', this)">Émigré Abstract Expressionists</a><a href="#" class="topic-link" onclick="switchTopic('colour-field-painting', this)">Colour-Field Painting</a></div></div>
+
+<div class="mega-menu-hero">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/Henri_Fantin-Latour_-_A_Studio_at_Les_Batignolles_-_Google_Art_Project.jpg"
+             alt="Art Movements Overview" 
+             class="mega-menu-image" />        
+    </div>
   </nav>
 
   <div id="page-content">
