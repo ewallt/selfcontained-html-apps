@@ -34,6 +34,28 @@
             border-radius: 4px;
             white-space: pre-wrap;
             word-wrap: break-word;
+            position: relative;
+        }
+        .image-icon {
+            display: inline-block;
+            margin-left: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .image-icon:hover {
+            opacity: 1;
+        }
+        .prompt-image {
+            margin-top: 10px;
+            max-width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            display: none;
+        }
+        .prompt-image.visible {
+            display: block;
         }
         /* Basic responsiveness for smaller screens */
         @media (max-width: 860px) { /* Adjusted breakpoint slightly due to wider columns */
@@ -77,33 +99,60 @@
         {
           "scene_name": "Water Lilies (Giverny)",
           "prompts": [
-            "Monet's Giverny water lily pond at dusk, impressionistic style of Claude Monet, soft violet and blue light on reflective water, pastel palette of blues, pinks, and deep greens, serene, dreamlike atmosphere with dissolving forms.",
-            "Close-up of luminous water lilies floating on a tranquil pond, style of Claude Monet, capturing the subtle textures and reflections, dappled sunlight through willow leaves, vibrant blues, greens, and pinks, peaceful and immersive.",
-            "Panoramic view of Monet's water garden with the Japanese bridge arching over lily pads, impressionistic style, lush foliage and blooming lilies, early morning mist creating soft, diffused light, ethereal and beautiful."
+            {
+              "text": "Monet's Giverny water lily pond at dusk, impressionistic style of Claude Monet, soft violet and blue light on reflective water, pastel palette of blues, pinks, and deep greens, serene, dreamlike atmosphere with dissolving forms.",
+              "image_url": "https://cdn.midjourney.com/0f866696-cf85-433b-871d-1cbd0b18a15d/0_2.png"
+            },
+            {
+              "text": "Close-up of luminous water lilies floating on a tranquil pond, style of Claude Monet, capturing the subtle textures and reflections, dappled sunlight through willow leaves, vibrant blues, greens, and pinks, peaceful and immersive.",
+              "image_url": "https://cdn.midjourney.com/5f289ea2-01d8-4686-bc8b-17943cbc489d/0_2.png"
+            },
+            {
+              "text": "Panoramic view of Monet's water garden with the Japanese bridge arching over lily pads, impressionistic style, lush foliage and blooming lilies, early morning mist creating soft, diffused light, ethereal and beautiful.",
+              "image_url": "https://cdn.midjourney.com/d38fa433-1486-4887-998a-d7f7167ee4f6/0_0.png"
+            }
           ]
         },
         {
           "scene_name": "Haystacks Series",
           "prompts": [
-            "Golden haystacks in a field at sunset, impressionistic style of Claude Monet, warm, hazy light casting long shadows, rich orange, yellow, and purple hues, capturing the fleeting effects of light on rural forms, peaceful and rustic mood.",
-            "Haystacks in a snow-covered field under a pale winter sun, style of Claude Monet, crisp, cool light casting pale blue shadows, a muted palette of whites, blues, and subtle ochres, tranquil and stark composition, visible textured brushstrokes.",
-            "Row of haystacks in a vibrant summer field under a bright blue sky, style of Claude Monet, capturing the changing light and color across their surfaces, bold strokes of yellow, gold, and green, sense of warmth and abundance."
+            {
+              "text": "Golden haystacks in a field at sunset, impressionistic style of Claude Monet, warm, hazy light casting long shadows, rich orange, yellow, and purple hues, capturing the fleeting effects of light on rural forms, peaceful and rustic mood."
+            },
+            {
+              "text": "Haystacks in a snow-covered field under a pale winter sun, style of Claude Monet, crisp, cool light casting pale blue shadows, a muted palette of whites, blues, and subtle ochres, tranquil and stark composition, visible textured brushstrokes."
+            },
+            {
+              "text": "Row of haystacks in a vibrant summer field under a bright blue sky, style of Claude Monet, capturing the changing light and color across their surfaces, bold strokes of yellow, gold, and green, sense of warmth and abundance."
+            }
           ]
         },
         {
           "scene_name": "Rouen Cathedral Series",
           "prompts": [
-            "Rouen Cathedral facade in full, bright morning sunlight, impressionistic style of Claude Monet, textured stone details dissolved in light, a palette of blues, whites, and ochres, capturing the ephemeral quality of light on architecture, awe-inspiring and monumental feel.",
-            "Rouen Cathedral at dusk, shadows deepening on the Gothic facade, style of Claude Monet, subtle shifts in color from blues to purples, capturing the transient effects of fading light, moody and atmospheric.",
-            "Rouen Cathedral in misty weather, soft, diffused light blurring architectural details, style of Claude Monet, a muted palette of greys, blues, and lavenders, ethereal and almost dreamlike representation."
+            {
+              "text": "Rouen Cathedral facade in full, bright morning sunlight, impressionistic style of Claude Monet, textured stone details dissolved in light, a palette of blues, whites, and ochres, capturing the ephemeral quality of light on architecture, awe-inspiring and monumental feel."
+            },
+            {
+              "text": "Rouen Cathedral at dusk, shadows deepening on the Gothic facade, style of Claude Monet, subtle shifts in color from blues to purples, capturing the transient effects of fading light, moody and atmospheric."
+            },
+            {
+              "text": "Rouen Cathedral in misty weather, soft, diffused light blurring architectural details, style of Claude Monet, a muted palette of greys, blues, and lavenders, ethereal and almost dreamlike representation."
+            }
           ]
         },
         {
           "scene_name": "Parisian Life & Boulevards",
           "prompts": [
-            "Bustling Boulevard des Capucines in Paris, afternoon light, style of Claude Monet, capturing the fleeting movement of urban life, pedestrians and carriages as blurs of color, short, broken brushstrokes, diffuse light, vibrant yet harmonious color palette.",
-            "View of the Gare Saint-Lazare train station, steam and smoke billowing from locomotives, style of Claude Monet, interplay of light, steam, and industrial forms, a palette of blues, grays, and blacks with touches of color, capturing modern urban energy.",
-            "A sunny afternoon in the Tuileries Garden, Parisians strolling and relaxing, style of Claude Monet, dappled sunlight through trees, bright colors of dresses and parasols, lively and leisurely atmosphere."
+            {
+              "text": "Bustling Boulevard des Capucines in Paris, afternoon light, style of Claude Monet, capturing the fleeting movement of urban life, pedestrians and carriages as blurs of color, short, broken brushstrokes, diffuse light, vibrant yet harmonious color palette."
+            },
+            {
+              "text": "View of the Gare Saint-Lazare train station, steam and smoke billowing from locomotives, style of Claude Monet, interplay of light, steam, and industrial forms, a palette of blues, grays, and blacks with touches of color, capturing modern urban energy."
+            },
+            {
+              "text": "A sunny afternoon in the Tuileries Garden, Parisians strolling and relaxing, style of Claude Monet, dappled sunlight through trees, bright colors of dresses and parasols, lively and leisurely atmosphere."
+            }
           ]
         }
       ]
@@ -114,33 +163,57 @@
         {
           "scene_name": "People Gathering (Lively Parties)",
           "prompts": [
-            "A vibrant outdoor dance at Moulin de la Galette, style of Pierre-Auguste Renoir, dappled sunlight filtering through trees, joyful figures dancing and conversing, a warm palette of blues, pinks, and yellows, convivial and energetic atmosphere.",
-            "Elegant figures at a riverside luncheon, 'Luncheon of the Boating Party' ambiance, style of Renoir, soft, warm light, a rich palette of reds, whites, and lush greens, capturing a moment of leisure and camaraderie.",
-            "Boating party on the Seine, style of Pierre-Auguste Renoir, bright summer light reflecting on water, charming figures in leisurely poses, vibrant colors and feathery brushstrokes, carefree and joyful mood."
+            {
+              "text": "A vibrant outdoor dance at Moulin de la Galette, style of Pierre-Auguste Renoir, dappled sunlight filtering through trees, joyful figures dancing and conversing, a warm palette of blues, pinks, and yellows, convivial and energetic atmosphere."
+            },
+            {
+              "text": "Elegant figures at a riverside luncheon, 'Luncheon of the Boating Party' ambiance, style of Renoir, soft, warm light, a rich palette of reds, whites, and lush greens, capturing a moment of leisure and camaraderie."
+            },
+            {
+              "text": "Boating party on the Seine, style of Pierre-Auguste Renoir, bright summer light reflecting on water, charming figures in leisurely poses, vibrant colors and feathery brushstrokes, carefree and joyful mood."
+            }
           ]
         },
         {
           "scene_name": "Bathers",
           "prompts": [
-            "A group of luminous female bathers by a secluded stream, style of Pierre-Auguste Renoir, soft, diffused light enhancing rosy skin tones, a sensual palette of warm flesh tones, blues, and greens, idyllic and gentle scene with soft focus.",
-            "Single nude bather drying herself in a sunlit clearing, style of Renoir, delicate modeling of form, warm light on skin, lush green foliage in background, serene and intimate atmosphere.",
-            "Children playing by the water's edge, style of Pierre-Auguste Renoir, capturing their innocent charm, soft sunlight, a palette of bright pastels and warm skin tones, playful and tender."
+            {
+              "text": "A group of luminous female bathers by a secluded stream, style of Pierre-Auguste Renoir, soft, diffused light enhancing rosy skin tones, a sensual palette of warm flesh tones, blues, and greens, idyllic and gentle scene with soft focus."
+            },
+            {
+              "text": "Single nude bather drying herself in a sunlit clearing, style of Renoir, delicate modeling of form, warm light on skin, lush green foliage in background, serene and intimate atmosphere."
+            },
+            {
+              "text": "Children playing by the water's edge, style of Pierre-Auguste Renoir, capturing their innocent charm, soft sunlight, a palette of bright pastels and warm skin tones, playful and tender."
+            }
           ]
         },
         {
           "scene_name": "Portraits of Women & Children",
           "prompts": [
-            "Charming portrait of a young girl with flowers in her hair, style of Pierre-Auguste Renoir, delicate light caressing her features, soft focus, a palette of peaches, creams, and vibrant floral hues, intimate and sweet mood.",
-            "Elegant woman in a fashionable Parisian dress, seated in an interior, style of Renoir, soft, flattering light, rich textures of fabric, warm color palette, capturing grace and social standing.",
-            "Two sisters reading a book together, style of Pierre-Auguste Renoir, focused intimacy, soft indoor light, delicate rendering of expressions and clothing, tender and quiet scene."
+            {
+              "text": "Charming portrait of a young girl with flowers in her hair, style of Pierre-Auguste Renoir, delicate light caressing her features, soft focus, a palette of peaches, creams, and vibrant floral hues, intimate and sweet mood."
+            },
+            {
+              "text": "Elegant woman in a fashionable Parisian dress, seated in an interior, style of Renoir, soft, flattering light, rich textures of fabric, warm color palette, capturing grace and social standing."
+            },
+            {
+              "text": "Two sisters reading a book together, style of Pierre-Auguste Renoir, focused intimacy, soft indoor light, delicate rendering of expressions and clothing, tender and quiet scene."
+            }
           ]
         },
         {
           "scene_name": "Gardens & Flowers",
           "prompts": [
-            "Lush, vibrant flower garden in full bloom, style of Pierre-Auguste Renoir, bright, dappled sunlight, a rich profusion of reds, pinks, and yellows against green foliage, joyous and abundant atmosphere.",
-            "Still life of roses in a vase, style of Renoir, soft light illuminating delicate petals, a warm palette of pinks, reds, and greens, romantic and beautifully textured.",
-            "Woman picking flowers in a sunlit garden, style of Pierre-Auguste Renoir, harmonious integration of figure and landscape, feathery brushstrokes, bright, cheerful colors, idyllic and charming."
+            {
+              "text": "Lush, vibrant flower garden in full bloom, style of Pierre-Auguste Renoir, bright, dappled sunlight, a rich profusion of reds, pinks, and yellows against green foliage, joyous and abundant atmosphere."
+            },
+            {
+              "text": "Still life of roses in a vase, style of Renoir, soft light illuminating delicate petals, a warm palette of pinks, reds, and greens, romantic and beautifully textured."
+            },
+            {
+              "text": "Woman picking flowers in a sunlit garden, style of Pierre-Auguste Renoir, harmonious integration of figure and landscape, feathery brushstrokes, bright, cheerful colors, idyllic and charming."
+            }
           ]
         }
       ]
@@ -151,33 +224,57 @@
         {
           "scene_name": "Ballet Dancers (Rehearsals & Performance)",
           "prompts": [
-            "Ballet dancers rehearsing on a wooden stage, observed from an unusual angle, style of Edgar Degas, dramatic stage lighting from below casting strong shadows, a palette of whites, blues, and ochres, dynamic composition capturing movement and off-center framing.",
-            "Prima ballerina taking a bow on stage, footlights illuminating her tutu, style of Degas, capturing the theatrical atmosphere and momentary gesture, rich colors of costume against dark background.",
-            "Young dancers at the barre in a rehearsal room, style of Edgar Degas, cool light from a large window, focused on lines and forms, disciplined yet graceful poses, muted color palette."
+            {
+              "text": "Ballet dancers rehearsing on a wooden stage, observed from an unusual angle, style of Edgar Degas, dramatic stage lighting from below casting strong shadows, a palette of whites, blues, and ochres, dynamic composition capturing movement and off-center framing."
+            },
+            {
+              "text": "Prima ballerina taking a bow on stage, footlights illuminating her tutu, style of Degas, capturing the theatrical atmosphere and momentary gesture, rich colors of costume against dark background."
+            },
+            {
+              "text": "Young dancers at the barre in a rehearsal room, style of Edgar Degas, cool light from a large window, focused on lines and forms, disciplined yet graceful poses, muted color palette."
+            }
           ]
         },
         {
           "scene_name": "Racehorses & Jockeys",
           "prompts": [
-            "Jockeys on racehorses before the start of a race, tense and energetic, style of Edgar Degas, bright, outdoor light, vibrant silks of the jockeys against a green track, sense of anticipation and nervous energy, bold lines and innovative cropping.",
-            "Racehorses thundering down the track, captured mid-stride, style of Degas, dynamic sense of movement and speed, dusty atmosphere, a palette of greens, browns, and bright jockey colors.",
-            "Horses and jockeys at a parade or training session, style of Edgar Degas, observing the forms and movements of the animals, clear light, careful study of anatomy and posture, snapshot-like composition."
+            {
+              "text": "Jockeys on racehorses before the start of a race, tense and energetic, style of Edgar Degas, bright, outdoor light, vibrant silks of the jockeys against a green track, sense of anticipation and nervous energy, bold lines and innovative cropping."
+            },
+            {
+              "text": "Racehorses thundering down the track, captured mid-stride, style of Degas, dynamic sense of movement and speed, dusty atmosphere, a palette of greens, browns, and bright jockey colors."
+            },
+            {
+              "text": "Horses and jockeys at a parade or training session, style of Edgar Degas, observing the forms and movements of the animals, clear light, careful study of anatomy and posture, snapshot-like composition."
+            }
           ]
         },
         {
           "scene_name": "Parisian Nightlife (Cafes & Theaters)",
           "prompts": [
-            "Scene in a Parisian café-concert, performers on stage and audience members, style of Edgar Degas, artificial gaslight creating strong contrasts and a smoky atmosphere, vibrant colors and candid expressions, capturing the lively and sometimes seedy nightlife.",
-            "Absinthe drinker alone at a café table, melancholic mood, style of Degas, somber palette with touches of artificial light, psychological depth, observing social alienation.",
-            "Orchestra musicians in the pit, viewed from above, style of Edgar Degas, unusual perspective, dark clothing contrasting with instruments and stage lights, capturing the unseen elements of theatre."
+            {
+              "text": "Scene in a Parisian café-concert, performers on stage and audience members, style of Edgar Degas, artificial gaslight creating strong contrasts and a smoky atmosphere, vibrant colors and candid expressions, capturing the lively and sometimes seedy nightlife."
+            },
+            {
+              "text": "Absinthe drinker alone at a café table, melancholic mood, style of Degas, somber palette with touches of artificial light, psychological depth, observing social alienation."
+            },
+            {
+              "text": "Orchestra musicians in the pit, viewed from above, style of Edgar Degas, unusual perspective, dark clothing contrasting with instruments and stage lights, capturing the unseen elements of theatre."
+            }
           ]
         },
         {
           "scene_name": "Nudes (Bathers/At the Tub)",
           "prompts": [
-            "Woman bathing in a shallow tub, an intimate, unposed moment, style of Edgar Degas, soft interior light, muted color palette with focus on form and line, private and voyeuristic perspective, pastel texture.",
-            "Nude woman drying herself with a towel after a bath, style of Degas, strong contours and bold forms, capturing the texture of flesh and fabric, often in pastel with hatched strokes.",
-            "Woman combing her hair, seen from the back, style of Edgar Degas, focusing on the lines of the body and the everyday gesture, simple setting, subtle color harmonies."
+            {
+              "text": "Woman bathing in a shallow tub, an intimate, unposed moment, style of Edgar Degas, soft interior light, muted color palette with focus on form and line, private and voyeuristic perspective, pastel texture."
+            },
+            {
+              "text": "Nude woman drying herself with a towel after a bath, style of Degas, strong contours and bold forms, capturing the texture of flesh and fabric, often in pastel with hatched strokes."
+            },
+            {
+              "text": "Woman combing her hair, seen from the back, style of Edgar Degas, focusing on the lines of the body and the everyday gesture, simple setting, subtle color harmonies."
+            }
           ]
         }
       ]
@@ -188,33 +285,57 @@
         {
           "scene_name": "Rural Landscapes & Agricultural Scenes",
           "prompts": [
-            "Peasants working in a sunlit hay field, figures integrated into the landscape, style of Camille Pissarro, warm, natural light, earthy tones of greens, browns, and blues, harmonious depiction of rural labor, peaceful and ordered composition.",
-            "Orchard in bloom with a peasant woman tending to trees, style of Pissarro, bright spring light, a delicate palette of pinks, whites, and fresh greens, serene and idyllic.",
-            "View of a small village nestled in rolling hills, style of Camille Pissarro, clear, gentle light, a patchwork of fields and rooftops, peaceful depiction of French countryside life."
+            {
+              "text": "Peasants working in a sunlit hay field, figures integrated into the landscape, style of Camille Pissarro, warm, natural light, earthy tones of greens, browns, and blues, harmonious depiction of rural labor, peaceful and ordered composition."
+            },
+            {
+              "text": "Orchard in bloom with a peasant woman tending to trees, style of Pissarro, bright spring light, a delicate palette of pinks, whites, and fresh greens, serene and idyllic."
+            },
+            {
+              "text": "View of a small village nestled in rolling hills, style of Camille Pissarro, clear, gentle light, a patchwork of fields and rooftops, peaceful depiction of French countryside life."
+            }
           ]
         },
         {
           "scene_name": "Parisian Boulevards (High Viewpoint)",
           "prompts": [
-            "Overhead view of a bustling Parisian boulevard on a rainy autumn day, style of Camille Pissarro, soft, diffused light reflecting on wet streets, a rich palette of autumnal colors mixed with urban grays, capturing the movement of crowds and carriages.",
-            "Boulevard Montmartre at night, illuminated by streetlights and shop windows, style of Pissarro, pointillist influence with dabs of color creating a shimmering effect, capturing the vibrant nocturnal city.",
-            "Sunny morning on a Parisian boulevard, people strolling, carriages passing, style of Camille Pissarro, bright, clear light, lively atmosphere, high viewpoint creating a sense of urban panorama."
+            {
+              "text": "Overhead view of a bustling Parisian boulevard on a rainy autumn day, style of Camille Pissarro, soft, diffused light reflecting on wet streets, a rich palette of autumnal colors mixed with urban grays, capturing the movement of crowds and carriages."
+            },
+            {
+              "text": "Boulevard Montmartre at night, illuminated by streetlights and shop windows, style of Pissarro, pointillist influence with dabs of color creating a shimmering effect, capturing the vibrant nocturnal city."
+            },
+            {
+              "text": "Sunny morning on a Parisian boulevard, people strolling, carriages passing, style of Camille Pissarro, bright, clear light, lively atmosphere, high viewpoint creating a sense of urban panorama."
+            }
           ]
         },
         {
           "scene_name": "Market Scenes",
           "prompts": [
-            "Lively outdoor market in a French provincial town, style of Camille Pissarro, bustling with vendors and shoppers, colorful displays of produce and goods, dappled sunlight, capturing the social hub of rural life.",
-            "Peasant women selling goods at a market stall, style of Pissarro, focused on figures and their interactions, naturalistic depiction, earthy color palette.",
-            "Grain market in Pontoise, style of Camille Pissarro, architectural setting with figures engaged in commerce, sense of community and daily routine, subdued lighting."
+            {
+              "text": "Lively outdoor market in a French provincial town, style of Camille Pissarro, bustling with vendors and shoppers, colorful displays of produce and goods, dappled sunlight, capturing the social hub of rural life."
+            },
+            {
+              "text": "Peasant women selling goods at a market stall, style of Pissarro, focused on figures and their interactions, naturalistic depiction, earthy color palette."
+            },
+            {
+              "text": "Grain market in Pontoise, style of Camille Pissarro, architectural setting with figures engaged in commerce, sense of community and daily routine, subdued lighting."
+            }
           ]
         },
         {
           "scene_name": "Snowy Landscapes",
           "prompts": [
-            "Snow-covered road with a village in the distance under a cool, overcast sky, style of Camille Pissarro, a subtle palette of whites, grays, and blues with touches of muted color, quiet and atmospheric scene, gentle brushwork.",
-            "Hoarfrost on trees and fields in the early morning, style of Pissarro, delicate, sparkling light, cool color palette, capturing the crispness of a winter morning.",
-            "Peasant figure walking on a snowy path, style of Camille Pissarro, sense of solitude and the harshness of winter, muted tones, emphasis on atmospheric conditions."
+            {
+              "text": "Snow-covered road with a village in the distance under a cool, overcast sky, style of Camille Pissarro, a subtle palette of whites, grays, and blues with touches of muted color, quiet and atmospheric scene, gentle brushwork."
+            },
+            {
+              "text": "Hoarfrost on trees and fields in the early morning, style of Pissarro, delicate, sparkling light, cool color palette, capturing the crispness of a winter morning."
+            },
+            {
+              "text": "Peasant figure walking on a snowy path, style of Camille Pissarro, sense of solitude and the harshness of winter, muted tones, emphasis on atmospheric conditions."
+            }
           ]
         }
       ]
@@ -225,33 +346,57 @@
         {
           "scene_name": "Domestic Interiors (Women & Children)",
           "prompts": [
-            "Woman and child in a sunlit drawing-room, engaged in quiet activity, style of Berthe Morisot, bright, natural light filtering through a window, a light and airy palette of whites, greens, and soft pastels, intimate and delicate atmosphere, feathery brushstrokes.",
-            "Young woman reading a book by a window, style of Morisot, soft, diffused daylight enhancing her contemplative mood, delicate brushwork, a palette of whites, pale blues, and rose, serene and personal scene.",
-            "Mother nursing her baby in a softly lit interior, style of Berthe Morisot, tender and intimate moment, gentle color harmonies, focus on maternal bond."
+            {
+              "text": "Woman and child in a sunlit drawing-room, engaged in quiet activity, style of Berthe Morisot, bright, natural light filtering through a window, a light and airy palette of whites, greens, and soft pastels, intimate and delicate atmosphere, feathery brushstrokes."
+            },
+            {
+              "text": "Young woman reading a book by a window, style of Morisot, soft, diffused daylight enhancing her contemplative mood, delicate brushwork, a palette of whites, pale blues, and rose, serene and personal scene."
+            },
+            {
+              "text": "Mother nursing her baby in a softly lit interior, style of Berthe Morisot, tender and intimate moment, gentle color harmonies, focus on maternal bond."
+            }
           ]
         },
         {
           "scene_name": "Gardens & Outdoor Leisure",
           "prompts": [
-            "Woman with a parasol seated in a lush summer garden, style of Berthe Morisot, bright, dappled sunlight, vibrant greens and floral colors, leisurely and elegant atmosphere, quick, light brushstrokes.",
-            "Children playing in a park or private garden, style of Morisot, capturing their spontaneous movements and joyful energy, fresh, bright colors, sunlit setting.",
-            "Family group enjoying an afternoon outdoors, style of Berthe Morisot, informal and relaxed poses, harmonious interaction between figures and nature, light-filled and painterly."
+            {
+              "text": "Woman with a parasol seated in a lush summer garden, style of Berthe Morisot, bright, dappled sunlight, vibrant greens and floral colors, leisurely and elegant atmosphere, quick, light brushstrokes."
+            },
+            {
+              "text": "Children playing in a park or private garden, style of Morisot, capturing their spontaneous movements and joyful energy, fresh, bright colors, sunlit setting."
+            },
+            {
+              "text": "Family group enjoying an afternoon outdoors, style of Berthe Morisot, informal and relaxed poses, harmonious interaction between figures and nature, light-filled and painterly."
+            }
           ]
         },
         {
           "scene_name": "Coastal Scenes (Boats & Harbors)",
           "prompts": [
-            "Boats on a shimmering harbor on a bright summer day, style of Berthe Morisot, bright marine light, quick, fluid brushstrokes capturing reflections on water, a palette of blues, whites, and light greys, fresh and spontaneous feel.",
-            "Woman and child on a beach looking out to sea, style of Morisot, soft, coastal light, serene atmosphere, a delicate palette of blues, sands, and whites.",
-            "View of a harbor with sailboats, style of Berthe Morisot, capturing the effects of light and wind, dynamic yet graceful composition, light, airy brushwork."
+            {
+              "text": "Boats on a shimmering harbor on a bright summer day, style of Berthe Morisot, bright marine light, quick, fluid brushstrokes capturing reflections on water, a palette of blues, whites, and light greys, fresh and spontaneous feel."
+            },
+            {
+              "text": "Woman and child on a beach looking out to sea, style of Morisot, soft, coastal light, serene atmosphere, a delicate palette of blues, sands, and whites."
+            },
+            {
+              "text": "View of a harbor with sailboats, style of Berthe Morisot, capturing the effects of light and wind, dynamic yet graceful composition, light, airy brushwork."
+            }
           ]
         },
         {
           "scene_name": "Portraits of Family & Friends",
           "prompts": [
-            "Portrait of the artist's daughter, Julie Manet, with her dog, style of Berthe Morisot, intimate and affectionate portrayal, soft lighting, delicate brushwork capturing youthful features.",
-            "Woman in an evening dress, perhaps at a social gathering, style of Morisot, elegant and refined, subtle play of light on fabric, capturing a sense of social grace.",
-            "Self-portrait with a pensive or focused expression, style of Berthe Morisot, often in a domestic setting, conveying her identity as both woman and artist, subtle use of color and light."
+            {
+              "text": "Portrait of the artist's daughter, Julie Manet, with her dog, style of Berthe Morisot, intimate and affectionate portrayal, soft lighting, delicate brushwork capturing youthful features."
+            },
+            {
+              "text": "Woman in an evening dress, perhaps at a social gathering, style of Morisot, elegant and refined, subtle play of light on fabric, capturing a sense of social grace."
+            },
+            {
+              "text": "Self-portrait with a pensive or focused expression, style of Berthe Morisot, often in a domestic setting, conveying her identity as both woman and artist, subtle use of color and light."
+            }
           ]
         }
       ]
@@ -262,33 +407,57 @@
         {
           "scene_name": "River Landscapes (Seine, Loing)",
           "prompts": [
-            "The River Seine near Bougival in early spring, shimmering reflections of trees and sky on water, style of Alfred Sisley, soft, clear light, a fresh palette of greens, blues, and pale yellows, tranquil and luminous atmosphere.",
-            "Barges on the Loing Canal, style of Sisley, calm water reflecting the sky, towpaths and trees lining the canal, peaceful depiction of everyday river life, subtle color harmonies.",
-            "Bridge at Villeneuve-la-Garenne spanning a wide river, style of Alfred Sisley, capturing the structure against the sky and water, bright, open light, harmonious composition."
+            {
+              "text": "The River Seine near Bougival in early spring, shimmering reflections of trees and sky on water, style of Alfred Sisley, soft, clear light, a fresh palette of greens, blues, and pale yellows, tranquil and luminous atmosphere."
+            },
+            {
+              "text": "Barges on the Loing Canal, style of Sisley, calm water reflecting the sky, towpaths and trees lining the canal, peaceful depiction of everyday river life, subtle color harmonies."
+            },
+            {
+              "text": "Bridge at Villeneuve-la-Garenne spanning a wide river, style of Alfred Sisley, capturing the structure against the sky and water, bright, open light, harmonious composition."
+            }
           ]
         },
         {
           "scene_name": "Snowy Landscapes",
           "prompts": [
-            "Snow-covered road with a line of bare trees under a winter sky, Louveciennes, style of Alfred Sisley, cool, diffused light, a subtle palette of whites, grays, and muted blues with delicate pinks in the sky, quiet and melancholic mood.",
-            "Village street under a blanket of snow, style of Sisley, soft textures of snow, subtle shadows, capturing the stillness of a winter day, peaceful and atmospheric.",
-            "Hoarfrost on the banks of the Seine, style of Alfred Sisley, delicate icy textures on trees and grass, pale winter light, serene and crisp atmosphere."
+            {
+              "text": "Snow-covered road with a line of bare trees under a winter sky, Louveciennes, style of Alfred Sisley, cool, diffused light, a subtle palette of whites, grays, and muted blues with delicate pinks in the sky, quiet and melancholic mood."
+            },
+            {
+              "text": "Village street under a blanket of snow, style of Sisley, soft textures of snow, subtle shadows, capturing the stillness of a winter day, peaceful and atmospheric."
+            },
+            {
+              "text": "Hoarfrost on the banks of the Seine, style of Alfred Sisley, delicate icy textures on trees and grass, pale winter light, serene and crisp atmosphere."
+            }
           ]
         },
         {
           "scene_name": "French Countryside (Villages & Fields)",
           "prompts": [
-            "View of Moret-sur-Loing, capturing the medieval town and its bridge, style of Alfred Sisley, clear, gentle light, harmonious composition of architecture and nature, peaceful and picturesque.",
-            "Fields of wheat or barley under a summer sky, style of Sisley, gentle breeze suggested in the movement of crops, bright, natural light, serene depiction of rural France.",
-            "Small lane winding through a village, style of Alfred Sisley, cottages with gardens, quiet, everyday scene, soft light and harmonious colors."
+            {
+              "text": "View of Moret-sur-Loing, capturing the medieval town and its bridge, style of Alfred Sisley, clear, gentle light, harmonious composition of architecture and nature, peaceful and picturesque."
+            },
+            {
+              "text": "Fields of wheat or barley under a summer sky, style of Sisley, gentle breeze suggested in the movement of crops, bright, natural light, serene depiction of rural France."
+            },
+            {
+              "text": "Small lane winding through a village, style of Alfred Sisley, cottages with gardens, quiet, everyday scene, soft light and harmonious colors."
+            }
           ]
         },
         {
           "scene_name": "Flooding Scenes (Port-Marly)",
           "prompts": [
-            "Flooding at Port-Marly, houses surrounded by water, trees reflected in the still floodwaters, style of Alfred Sisley, overcast sky with subtle light effects, a palette of grays, blues, and browns, capturing the unusual stillness and reflective surfaces.",
-            "Boats navigating flooded streets, style of Sisley, capturing the disruption and altered landscape, muted colors, focus on reflections and atmosphere.",
-            "The banks of the Seine during a flood, style of Alfred Sisley, capturing the expanse of water and the vulnerability of the landscape, subtle depiction of light on water, somber yet beautiful."
+            {
+              "text": "Flooding at Port-Marly, houses surrounded by water, trees reflected in the still floodwaters, style of Alfred Sisley, overcast sky with subtle light effects, a palette of grays, blues, and browns, capturing the unusual stillness and reflective surfaces."
+            },
+            {
+              "text": "Boats navigating flooded streets, style of Sisley, capturing the disruption and altered landscape, muted colors, focus on reflections and atmosphere."
+            },
+            {
+              "text": "The banks of the Seine during a flood, style of Alfred Sisley, capturing the expanse of water and the vulnerability of the landscape, subtle depiction of light on water, somber yet beautiful."
+            }
           ]
         }
       ]
@@ -301,33 +470,57 @@
         {
           "scene_name": "Mothers and Children",
           "prompts": [
-            "Mother tenderly bathing a young child in a softly lit room, style of Mary Cassatt, soft interior light, a warm and gentle palette of pastels and whites, intimate and affectionate atmosphere, strong yet delicate lines defining forms.",
-            "Mother reading to her child, their heads close together, style of Cassatt, focused intimacy, natural light from a window, capturing the bond and quiet concentration.",
-            "A woman holding her baby, their faces reflecting deep affection, style of Mary Cassatt, clear forms, often with patterned backgrounds, emphasizing the emotional connection."
+            {
+              "text": "Mother tenderly bathing a young child in a softly lit room, style of Mary Cassatt, soft interior light, a warm and gentle palette of pastels and whites, intimate and affectionate atmosphere, strong yet delicate lines defining forms."
+            },
+            {
+              "text": "Mother reading to her child, their heads close together, style of Cassatt, focused intimacy, natural light from a window, capturing the bond and quiet concentration."
+            },
+            {
+              "text": "A woman holding her baby, their faces reflecting deep affection, style of Mary Cassatt, clear forms, often with patterned backgrounds, emphasizing the emotional connection."
+            }
           ]
         },
         {
           "scene_name": "Women in Domestic Interiors",
           "prompts": [
-            "Young woman sewing or knitting by a window, absorbed in her task, style of Mary Cassatt, serene domestic scene, natural light illuminating her work, quiet and contemplative mood.",
-            "Woman writing a letter at a desk, style of Cassatt, elegant interior setting, focused expression, capturing a moment of private activity, often using mirrors to expand space.",
-            "Two women having tea together, engaged in conversation, style of Mary Cassatt, refined social interaction, attention to contemporary dress and setting, subtle psychological interplay."
+            {
+              "text": "Young woman sewing or knitting by a window, absorbed in her task, style of Mary Cassatt, serene domestic scene, natural light illuminating her work, quiet and contemplative mood."
+            },
+            {
+              "text": "Woman writing a letter at a desk, style of Cassatt, elegant interior setting, focused expression, capturing a moment of private activity, often using mirrors to expand space."
+            },
+            {
+              "text": "Two women having tea together, engaged in conversation, style of Mary Cassatt, refined social interaction, attention to contemporary dress and setting, subtle psychological interplay."
+            }
           ]
         },
         {
           "scene_name": "Opera and Theater Scenes",
           "prompts": [
-            "Young woman in an elegant dress seated in a theater box, perhaps with opera glasses, observing the performance or the audience, style of Mary Cassatt, ambient theater lighting casting subtle glows, rich jewel tones and blacks, capturing a moment of social observation and spectacle.",
-            "Woman in a loge at the opera, fanning herself, style of Cassatt, focus on the individual within the public space, dynamic composition, interplay of light and shadow.",
-            "View from a theater box looking out at the audience or stage, style of Mary Cassatt, capturing the atmosphere of the event, fashionable attire, sense of social ritual."
+            {
+              "text": "Young woman in an elegant dress seated in a theater box, perhaps with opera glasses, observing the performance or the audience, style of Mary Cassatt, ambient theater lighting casting subtle glows, rich jewel tones and blacks, capturing a moment of social observation and spectacle."
+            },
+            {
+              "text": "Woman in a loge at the opera, fanning herself, style of Cassatt, focus on the individual within the public space, dynamic composition, interplay of light and shadow."
+            },
+            {
+              "text": "View from a theater box looking out at the audience or stage, style of Mary Cassatt, capturing the atmosphere of the event, fashionable attire, sense of social ritual."
+            }
           ]
         },
         {
           "scene_name": "Children Portraits",
           "prompts": [
-            "Portrait of a young girl in a white dress, perhaps holding a pet, style of Mary Cassatt, capturing her innocent yet distinct personality, clear, bright light, direct gaze.",
-            "Two children playing together with toys in an interior setting, style of Cassatt, naturalistic poses and expressions, focus on their interaction and absorption in play.",
-            "Child looking pensive or thoughtful, style of Mary Cassatt, capturing a fleeting expression, simple background, emphasizing the child's inner world."
+            {
+              "text": "Portrait of a young girl in a white dress, perhaps holding a pet, style of Mary Cassatt, capturing her innocent yet distinct personality, clear, bright light, direct gaze."
+            },
+            {
+              "text": "Two children playing together with toys in an interior setting, style of Cassatt, naturalistic poses and expressions, focus on their interaction and absorption in play."
+            },
+            {
+              "text": "Child looking pensive or thoughtful, style of Mary Cassatt, capturing a fleeting expression, simple background, emphasizing the child's inner world."
+            }
           ]
         }
       ]
@@ -338,33 +531,57 @@
         {
           "scene_name": "New York Cityscapes (Rainy Days, Avenues)",
           "prompts": [
-            "Rainy day on Fifth Avenue, New York City, with horse-drawn carriages and pedestrians with umbrellas, style of Childe Hassam, wet, reflective surfaces of streets and sidewalks, muted urban colors with vibrant touches, energetic and atmospheric, broken brushstrokes.",
-            "Union Square in springtime, bustling with people and early automobiles, style of Hassam, bright, dappled light through new leaves, capturing the energy of the modern city.",
-            "Late afternoon on a broad New York avenue, long shadows and glowing windows, style of Childe Hassam, capturing the unique light and atmosphere of the city at dusk, impressionistic rendering of urban life."
+            {
+              "text": "Rainy day on Fifth Avenue, New York City, with horse-drawn carriages and pedestrians with umbrellas, style of Childe Hassam, wet, reflective surfaces of streets and sidewalks, muted urban colors with vibrant touches, energetic and atmospheric, broken brushstrokes."
+            },
+            {
+              "text": "Union Square in springtime, bustling with people and early automobiles, style of Hassam, bright, dappled light through new leaves, capturing the energy of the modern city."
+            },
+            {
+              "text": "Late afternoon on a broad New York avenue, long shadows and glowing windows, style of Childe Hassam, capturing the unique light and atmosphere of the city at dusk, impressionistic rendering of urban life."
+            }
           ]
         },
         {
           "scene_name": "New England Coastal Scenes (Isles of Shoals)",
           "prompts": [
-            "Sun-drenched Isles of Shoals coastline, Appledore Island, New England, with rocky shores, wildflowers, and sparkling blue water, style of Childe Hassam, bright, clear sunlight creating vivid contrasts, a vibrant palette of blues, greens, and whites, fresh and breezy atmosphere.",
-            "Old fisherman's cottage by the sea, Isles of Shoals, style of Hassam, weathered textures and bright sunlight, capturing the character of coastal New England.",
-            "Poppy garden overlooking the ocean, style of Childe Hassam, vibrant red poppies against a backdrop of blue sea and sky, intense color and light, quintessentially American Impressionist."
+            {
+              "text": "Sun-drenched Isles of Shoals coastline, Appledore Island, New England, with rocky shores, wildflowers, and sparkling blue water, style of Childe Hassam, bright, clear sunlight creating vivid contrasts, a vibrant palette of blues, greens, and whites, fresh and breezy atmosphere."
+            },
+            {
+              "text": "Old fisherman's cottage by the sea, Isles of Shoals, style of Hassam, weathered textures and bright sunlight, capturing the character of coastal New England."
+            },
+            {
+              "text": "Poppy garden overlooking the ocean, style of Childe Hassam, vibrant red poppies against a backdrop of blue sea and sky, intense color and light, quintessentially American Impressionist."
+            }
           ]
         },
         {
           "scene_name": "Flag Series (WWI Parades)",
           "prompts": [
-            "Avenue of the Allies, Fifth Avenue adorned with numerous American and Allied flags during WWI, style of Childe Hassam, patriotic and celebratory mood, bright colors of red, white, and blue against historic architecture, dynamic and vibrant, dappled light through flags.",
-            "Flags waving along a grand city street, creating a rhythmic pattern of color and movement, style of Hassam, capturing the public spirit and pageantry.",
-            "Rainy day with flags, style of Childe Hassam, reflections of flag colors on wet streets, adding a layer of atmosphere to the patriotic display."
+            {
+              "text": "Avenue of the Allies, Fifth Avenue adorned with numerous American and Allied flags during WWI, style of Childe Hassam, patriotic and celebratory mood, bright colors of red, white, and blue against historic architecture, dynamic and vibrant, dappled light through flags."
+            },
+            {
+              "text": "Flags waving along a grand city street, creating a rhythmic pattern of color and movement, style of Hassam, capturing the public spirit and pageantry."
+            },
+            {
+              "text": "Rainy day with flags, style of Childe Hassam, reflections of flag colors on wet streets, adding a layer of atmosphere to the patriotic display."
+            }
           ]
         },
         {
           "scene_name": "Garden Scenes & Window Views",
           "prompts": [
-            "Woman reading in a sunlit garden filled with blooming flowers, style of Childe Hassam, dappled light, vibrant floral colors, peaceful and idyllic scene.",
-            "View from a window looking out onto a city street or garden, style of Hassam, interplay of interior and exterior light, framing the scene, often with a figure near the window.",
-            "Cos Cob, Connecticut, garden scene with figures, style of Childe Hassam, capturing the leisurely atmosphere of an American art colony, bright sunlight and lush greenery."
+            {
+              "text": "Woman reading in a sunlit garden filled with blooming flowers, style of Childe Hassam, dappled light, vibrant floral colors, peaceful and idyllic scene."
+            },
+            {
+              "text": "View from a window looking out onto a city street or garden, style of Hassam, interplay of interior and exterior light, framing the scene, often with a figure near the window."
+            },
+            {
+              "text": "Cos Cob, Connecticut, garden scene with figures, style of Childe Hassam, capturing the leisurely atmosphere of an American art colony, bright sunlight and lush greenery."
+            }
           ]
         }
       ]
@@ -375,33 +592,57 @@
         {
           "scene_name": "Valencian Beach Scenes (Children Playing)",
           "prompts": [
-            "Children playing and splashing in the surf on a sunlit Valencian beach, white foaming waves, style of Joaquín Sorolla, brilliant, intense sunlight creating strong contrasts and dazzling highlights on wet skin and sand, a luminous palette of blues, whites, and sandy yellows, joyful and energetic scene with loose, bold brushwork.",
-            "Naked children running along the shoreline, their bodies glistening in the sun, style of Sorolla, capturing freedom and innocence, dynamic movement, brilliant Mediterranean light.",
-            "Young girl in a white dress on the beach, shading her eyes from the sun, style of Joaquín Sorolla, strong contrasts of light and shadow, vibrant blues of the sea and sky, capturing a fleeting moment of summer."
+            {
+              "text": "Children playing and splashing in the surf on a sunlit Valencian beach, white foaming waves, style of Joaquín Sorolla, brilliant, intense sunlight creating strong contrasts and dazzling highlights on wet skin and sand, a luminous palette of blues, whites, and sandy yellows, joyful and energetic scene with loose, bold brushwork."
+            },
+            {
+              "text": "Naked children running along the shoreline, their bodies glistening in the sun, style of Sorolla, capturing freedom and innocence, dynamic movement, brilliant Mediterranean light."
+            },
+            {
+              "text": "Young girl in a white dress on the beach, shading her eyes from the sun, style of Joaquín Sorolla, strong contrasts of light and shadow, vibrant blues of the sea and sky, capturing a fleeting moment of summer."
+            }
           ]
         },
         {
           "scene_name": "Fishermen at Work (Mediterranean Coast)",
           "prompts": [
-            "Valencian fishermen hauling a boat ashore with oxen under the bright Mediterranean sun, style of Joaquín Sorolla, dynamic figures in motion, bright, direct light on water, white sails, and animal hides, a vibrant palette capturing the heat and light, powerful and authentic depiction of labor.",
-            "Fisherwomen mending nets on the beach, style of Sorolla, strong figures and colorful attire, bright sunlight, capturing the daily life of the fishing community.",
-            "Return of the fishing boats at sunset, style of Joaquín Sorolla, warm, golden light on sails and water, figures silhouetted against the glowing sky, picturesque and evocative."
+            {
+              "text": "Valencian fishermen hauling a boat ashore with oxen under the bright Mediterranean sun, style of Joaquín Sorolla, dynamic figures in motion, bright, direct light on water, white sails, and animal hides, a vibrant palette capturing the heat and light, powerful and authentic depiction of labor."
+            },
+            {
+              "text": "Fisherwomen mending nets on the beach, style of Sorolla, strong figures and colorful attire, bright sunlight, capturing the daily life of the fishing community."
+            },
+            {
+              "text": "Return of the fishing boats at sunset, style of Joaquín Sorolla, warm, golden light on sails and water, figures silhouetted against the glowing sky, picturesque and evocative."
+            }
           ]
         },
         {
           "scene_name": "Gardens of Spain (Sunlit Patios)",
           "prompts": [
-            "Elegant woman in a white dress strolling through a lush, sun-dappled garden in Andalusia, perhaps the Alcázar of Seville, style of Joaquín Sorolla, dappled light filtering through flowers and leaves creating intricate patterns, a rich palette of greens, vibrant floral colors, and brilliant whites, serene and luminous atmosphere.",
-            "Fountain in a sunlit Spanish patio, surrounded by colorful tiles and flowers, style of Sorolla, capturing the interplay of light, water, and architecture, cool shadows and bright highlights.",
-            "Children playing in a sun-filled garden, style of Joaquín Sorolla, vibrant colors of flowers and foliage, capturing their joyful energy amidst the beauty of the Spanish garden."
+            {
+              "text": "Elegant woman in a white dress strolling through a lush, sun-dappled garden in Andalusia, perhaps the Alcázar of Seville, style of Joaquín Sorolla, dappled light filtering through flowers and leaves creating intricate patterns, a rich palette of greens, vibrant floral colors, and brilliant whites, serene and luminous atmosphere."
+            },
+            {
+              "text": "Fountain in a sunlit Spanish patio, surrounded by colorful tiles and flowers, style of Sorolla, capturing the interplay of light, water, and architecture, cool shadows and bright highlights."
+            },
+            {
+              "text": "Children playing in a sun-filled garden, style of Joaquín Sorolla, vibrant colors of flowers and foliage, capturing their joyful energy amidst the beauty of the Spanish garden."
+            }
           ]
         },
         {
           "scene_name": "Portraits in Outdoor Light",
           "prompts": [
-            "Portrait of a woman in a white dress seated on a beach, style of Joaquín Sorolla, bright, natural sunlight, wind gently blowing her hair and dress, capturing her elegance and the coastal atmosphere.",
-            "Family group portrait in a sunlit garden, style of Sorolla, informal and relaxed poses, dappled light, capturing the affection and character of the sitters.",
-            "Self-portrait of the artist painting outdoors, style of Joaquín Sorolla, capturing his intense focus and the vibrant light of his surroundings, often with bold, direct brushwork."
+            {
+              "text": "Portrait of a woman in a white dress seated on a beach, style of Joaquín Sorolla, bright, natural sunlight, wind gently blowing her hair and dress, capturing her elegance and the coastal atmosphere."
+            },
+            {
+              "text": "Family group portrait in a sunlit garden, style of Sorolla, informal and relaxed poses, dappled light, capturing the affection and character of the sitters."
+            },
+            {
+              "text": "Self-portrait of the artist painting outdoors, style of Joaquín Sorolla, capturing his intense focus and the vibrant light of his surroundings, often with bold, direct brushwork."
+            }
           ]
         }
       ]
@@ -412,33 +653,57 @@
         {
           "scene_name": "Beer Gardens & Social Gatherings",
           "prompts": [
-            "People enjoying a leisurely afternoon in a sunlit beer garden in Bavaria, under large chestnut trees, style of Max Liebermann, dappled light casting flickering shadows on tables and figures, a lively palette of greens, browns, and touches of bright color from clothing, convivial and relaxed atmosphere.",
-            "Restaurant terrace by a lake, style of Liebermann, figures dining and conversing, bright but gentle light, capturing a moment of bourgeois leisure.",
-            "Crowded café scene in Amsterdam, style of Max Liebermann, observing social interactions, varied figures, atmospheric lighting, impressionistic rendering of urban life."
+            {
+              "text": "People enjoying a leisurely afternoon in a sunlit beer garden in Bavaria, under large chestnut trees, style of Max Liebermann, dappled light casting flickering shadows on tables and figures, a lively palette of greens, browns, and touches of bright color from clothing, convivial and relaxed atmosphere."
+            },
+            {
+              "text": "Restaurant terrace by a lake, style of Liebermann, figures dining and conversing, bright but gentle light, capturing a moment of bourgeois leisure."
+            },
+            {
+              "text": "Crowded café scene in Amsterdam, style of Max Liebermann, observing social interactions, varied figures, atmospheric lighting, impressionistic rendering of urban life."
+            }
           ]
         },
         {
           "scene_name": "Dutch Rural Labor (Net Menders, Orphanages)",
           "prompts": [
-            "Dutch peasant women mending fishing nets on the dunes, style of Max Liebermann, strong figures against a windswept coastal landscape, muted, earthy palette, capturing the dignity and hardship of labor.",
-            "Girls from an Amsterdam orphanage sewing or playing in a courtyard, style of Liebermann, sympathetic portrayal, clear, sober light, focus on everyday life and community.",
-            "Cobbler working in his shop, style of Max Liebermann, detailed interior, focused artisan, capturing traditional craftsmanship, often with a Rembrandtesque light."
+            {
+              "text": "Dutch peasant women mending fishing nets on the dunes, style of Max Liebermann, strong figures against a windswept coastal landscape, muted, earthy palette, capturing the dignity and hardship of labor."
+            },
+            {
+              "text": "Girls from an Amsterdam orphanage sewing or playing in a courtyard, style of Liebermann, sympathetic portrayal, clear, sober light, focus on everyday life and community."
+            },
+            {
+              "text": "Cobbler working in his shop, style of Max Liebermann, detailed interior, focused artisan, capturing traditional craftsmanship, often with a Rembrandtesque light."
+            }
           ]
         },
         {
           "scene_name": "Wannsee Garden & Villa",
           "prompts": [
-            "The artist's vibrant flower garden at his villa on Lake Wannsee, on a sunny summer day, with figures strolling or seated, style of Max Liebermann, bright, clear light illuminating colorful blooms and green lawns, peaceful and colorful scene, loose, impressionistic brushwork.",
-            "View from the terrace of the Wannsee villa looking out over the lake, style of Liebermann, figures enjoying the view, bright light reflecting on water, idyllic and personal.",
-            "Birch trees along a path in the Wannsee garden, style of Max Liebermann, dappled sunlight, capturing the textures and patterns of the trees, serene and naturalistic."
+            {
+              "text": "The artist's vibrant flower garden at his villa on Lake Wannsee, on a sunny summer day, with figures strolling or seated, style of Max Liebermann, bright, clear light illuminating colorful blooms and green lawns, peaceful and colorful scene, loose, impressionistic brushwork."
+            },
+            {
+              "text": "View from the terrace of the Wannsee villa looking out over the lake, style of Liebermann, figures enjoying the view, bright light reflecting on water, idyllic and personal."
+            },
+            {
+              "text": "Birch trees along a path in the Wannsee garden, style of Max Liebermann, dappled sunlight, capturing the textures and patterns of the trees, serene and naturalistic."
+            }
           ]
         },
         {
           "scene_name": "Sporting Events (Polo, Riding)",
           "prompts": [
-            "Polo match in progress, riders and horses in dynamic motion, style of Max Liebermann, capturing the energy and elegance of the sport, bright outdoor light, lively composition.",
-            "Riders on horseback along a park lane or beach, style of Liebermann, portraying leisure and social status, clear light, focus on the movement of horses.",
-            "Tennis players on a court, style of Max Liebermann, capturing a moment of genteel sport, bright sunlight, fashionable attire, dynamic poses."
+            {
+              "text": "Polo match in progress, riders and horses in dynamic motion, style of Max Liebermann, capturing the energy and elegance of the sport, bright outdoor light, lively composition."
+            },
+            {
+              "text": "Riders on horseback along a park lane or beach, style of Liebermann, portraying leisure and social status, clear light, focus on the movement of horses."
+            },
+            {
+              "text": "Tennis players on a court, style of Max Liebermann, capturing a moment of genteel sport, bright sunlight, fashionable attire, dynamic poses."
+            }
           ]
         }
       ]
@@ -449,33 +714,57 @@
         {
           "scene_name": "Plein Air Landscapes (Riversides, Alps)",
           "prompts": [
-            "Elegant lady in a flowing white dress reclining by a sun-dappled riverbank, an informal plein air study with impressionistic touches, style of John Singer Sargent, dappled sunlight, fluid, confident brushwork capturing light on fabric, a palette of lush greens, brilliant whites, and subtle flesh tones, relaxed and sophisticated atmosphere.",
-            "Alpine landscape with glaciers and rocky peaks, style of Sargent, capturing the clear mountain air and strong sunlight, bold brushwork, study of light and shadow on grand forms.",
-            "Olive groves in Corfu, style of John Singer Sargent, dappled sunlight through silvery leaves, capturing the textures and Mediterranean light, fluid and spontaneous."
+            {
+              "text": "Elegant lady in a flowing white dress reclining by a sun-dappled riverbank, an informal plein air study with impressionistic touches, style of John Singer Sargent, dappled sunlight, fluid, confident brushwork capturing light on fabric, a palette of lush greens, brilliant whites, and subtle flesh tones, relaxed and sophisticated atmosphere."
+            },
+            {
+              "text": "Alpine landscape with glaciers and rocky peaks, style of Sargent, capturing the clear mountain air and strong sunlight, bold brushwork, study of light and shadow on grand forms."
+            },
+            {
+              "text": "Olive groves in Corfu, style of John Singer Sargent, dappled sunlight through silvery leaves, capturing the textures and Mediterranean light, fluid and spontaneous."
+            }
           ]
         },
         {
           "scene_name": "Venetian Canal Scenes (Gondolas, Architecture)",
           "prompts": [
-            "Gondolas on a Venetian canal reflecting ornate buildings under a hazy sky, watercolor style of John Singer Sargent, luminous, transparent washes suggesting form and light, capturing the shimmer of light on water and weathered stone, a palette of blues, ochres, and greys, atmospheric and fluid.",
-            "Side canal in Venice with figures on a bridge, style of Sargent, capturing everyday life and picturesque architecture, often with dramatic light and shadow.",
-            "Santa Maria della Salute seen from the Grand Canal, style of John Singer Sargent, focusing on the architecture and its reflection, bold brushwork, capturing the unique atmosphere of Venice."
+            {
+              "text": "Gondolas on a Venetian canal reflecting ornate buildings under a hazy sky, watercolor style of John Singer Sargent, luminous, transparent washes suggesting form and light, capturing the shimmer of light on water and weathered stone, a palette of blues, ochres, and greys, atmospheric and fluid."
+            },
+            {
+              "text": "Side canal in Venice with figures on a bridge, style of Sargent, capturing everyday life and picturesque architecture, often with dramatic light and shadow."
+            },
+            {
+              "text": "Santa Maria della Salute seen from the Grand Canal, style of John Singer Sargent, focusing on the architecture and its reflection, bold brushwork, capturing the unique atmosphere of Venice."
+            }
           ]
         },
         {
           "scene_name": "Informal Portraits & Figure Studies (In Sunlight)",
           "prompts": [
-            "Two women resting under parasols in a sunlit meadow, ('Nonchaloir'), style of John Singer Sargent, capturing a moment of leisure and intimacy, brilliant light on white dresses, impressionistic handling of landscape.",
-            "Artist friends painting outdoors, style of Sargent, candid and relaxed poses, capturing the camaraderie and creative process, bright, natural light.",
-            "Children playing in a garden, style of John Singer Sargent, spontaneous and lively, dappled sunlight, capturing their youthful energy with fluid brushstrokes."
+            {
+              "text": "Two women resting under parasols in a sunlit meadow, ('Nonchaloir'), style of John Singer Sargent, capturing a moment of leisure and intimacy, brilliant light on white dresses, impressionistic handling of landscape."
+            },
+            {
+              "text": "Artist friends painting outdoors, style of Sargent, candid and relaxed poses, capturing the camaraderie and creative process, bright, natural light."
+            },
+            {
+              "text": "Children playing in a garden, style of John Singer Sargent, spontaneous and lively, dappled sunlight, capturing their youthful energy with fluid brushstrokes."
+            }
           ]
         },
         {
           "scene_name": "Garden Studies (Rose Arches, Lily Ponds)",
           "prompts": [
-            "Rose arches and trellises in a vibrant English garden, style of John Singer Sargent, profusion of colorful blooms, dappled sunlight, capturing the texture and richness of the garden.",
-            "Lily ponds with reflections, style of Sargent, (similar to Monet but with his own touch), focusing on light and color, fluid brushwork, serene and decorative.",
-            "Figures resting or reading in a lush garden setting, style of John Singer Sargent, integrating figures harmoniously with nature, capturing the play of light and shadow, relaxed and elegant."
+            {
+              "text": "Rose arches and trellises in a vibrant English garden, style of John Singer Sargent, profusion of colorful blooms, dappled sunlight, capturing the texture and richness of the garden."
+            },
+            {
+              "text": "Lily ponds with reflections, style of Sargent, (similar to Monet but with his own touch), focusing on light and color, fluid brushwork, serene and decorative."
+            },
+            {
+              "text": "Figures resting or reading in a lush garden setting, style of John Singer Sargent, integrating figures harmoniously with nature, capturing the play of light and shadow, relaxed and elegant."
+            }
           ]
         }
       ]
@@ -488,33 +777,57 @@
         {
           "scene_name": "Starry Nights & Night Cafes",
           "prompts": [
-            "A swirling, starlit night sky over a quiet village with a prominent cypress tree, style of Vincent van Gogh, deep blues and vibrant yellows, visible impasto brushstrokes creating texture and dynamic movement, emotive and mystical atmosphere.",
-            "Exterior of a brightly lit café at night, with starry sky above and figures on the terrace, style of Van Gogh, warm yellows and oranges contrasting with deep blues, capturing the glow and social atmosphere.",
-            "The Rhône river under a starry night, reflections of gaslight on water, style of Vincent van Gogh, tranquil yet vibrant, deep blues and sparkling yellows, capturing a sense of wonder."
+            {
+              "text": "A swirling, starlit night sky over a quiet village with a prominent cypress tree, style of Vincent van Gogh, deep blues and vibrant yellows, visible impasto brushstrokes creating texture and dynamic movement, emotive and mystical atmosphere."
+            },
+            {
+              "text": "Exterior of a brightly lit café at night, with starry sky above and figures on the terrace, style of Van Gogh, warm yellows and oranges contrasting with deep blues, capturing the glow and social atmosphere."
+            },
+            {
+              "text": "The Rhône river under a starry night, reflections of gaslight on water, style of Vincent van Gogh, tranquil yet vibrant, deep blues and sparkling yellows, capturing a sense of wonder."
+            }
           ]
         },
         {
           "scene_name": "Sunflowers & Irises",
           "prompts": [
-            "Vibrant bouquet of sunflowers in a simple earthenware vase against a bright yellow background, style of Vincent van Gogh, rich yellows, oranges, and browns, thick application of paint showing texture, conveying life, energy, and decay, bold and iconic.",
-            "Field of irises with their distinctive purple and blue blooms, style of Van Gogh, strong outlines and expressive forms, vibrant colors against green foliage and earthy soil.",
-            "Still life of a few sunflowers, some wilting, style of Vincent van Gogh, capturing their life cycle, expressive brushwork, poignant and beautiful."
+            {
+              "text": "Vibrant bouquet of sunflowers in a simple earthenware vase against a bright yellow background, style of Vincent van Gogh, rich yellows, oranges, and browns, thick application of paint showing texture, conveying life, energy, and decay, bold and iconic."
+            },
+            {
+              "text": "Field of irises with their distinctive purple and blue blooms, style of Van Gogh, strong outlines and expressive forms, vibrant colors against green foliage and earthy soil."
+            },
+            {
+              "text": "Still life of a few sunflowers, some wilting, style of Vincent van Gogh, capturing their life cycle, expressive brushwork, poignant and beautiful."
+            }
           ]
         },
         {
           "scene_name": "Wheat Fields & Cypresses",
           "prompts": [
-            "Golden wheat field with dark, flame-like cypresses under a turbulent azure sky, style of Vincent van Gogh, intense colors of yellow, green, and blue, expressive, visible brushwork conveying strong emotion and wind, dramatic and agitated mood.",
-            "Path through a wheat field with crows flying overhead, style of Van Gogh, conveying a sense of unease or vastness, dynamic brushstrokes, often with a stormy sky.",
-            "Reapers in a wheat field under a blazing sun, style of Vincent van Gogh, celebrating rural labor, intense yellow and ochre colors, capturing the heat and intensity of harvest."
+            {
+              "text": "Golden wheat field with dark, flame-like cypresses under a turbulent azure sky, style of Vincent van Gogh, intense colors of yellow, green, and blue, expressive, visible brushwork conveying strong emotion and wind, dramatic and agitated mood."
+            },
+            {
+              "text": "Path through a wheat field with crows flying overhead, style of Van Gogh, conveying a sense of unease or vastness, dynamic brushstrokes, often with a stormy sky."
+            },
+            {
+              "text": "Reapers in a wheat field under a blazing sun, style of Vincent van Gogh, celebrating rural labor, intense yellow and ochre colors, capturing the heat and intensity of harvest."
+            }
           ]
         },
         {
           "scene_name": "Self-Portraits & Peasant Studies",
           "prompts": [
-            "Intense self-portrait with swirling brushstrokes and piercing gaze, style of Vincent van Gogh, capturing psychological depth and emotional turmoil, often with a palette reflecting his current state of mind.",
-            "The Potato Eaters, a group of peasants sharing a meager meal under lamplight, style of Van Gogh, earthy tones, rough features, conveying the harshness and dignity of their lives.",
-            "Portrait of Postman Joseph Roulin, style of Vincent van Gogh, bold colors and strong characterization, often with a decorative, patterned background."
+            {
+              "text": "Intense self-portrait with swirling brushstrokes and piercing gaze, style of Vincent van Gogh, capturing psychological depth and emotional turmoil, often with a palette reflecting his current state of mind."
+            },
+            {
+              "text": "The Potato Eaters, a group of peasants sharing a meager meal under lamplight, style of Van Gogh, earthy tones, rough features, conveying the harshness and dignity of their lives."
+            },
+            {
+              "text": "Portrait of Postman Joseph Roulin, style of Vincent van Gogh, bold colors and strong characterization, often with a decorative, patterned background."
+            }
           ]
         }
       ]
@@ -525,33 +838,57 @@
         {
           "scene_name": "Still Lifes (Apples, Oranges, Skulls)",
           "prompts": [
-            "Still life with apples and oranges on a draped cloth, objects rendered with solidity and geometric form, style of Paul Cézanne, multiple viewpoints creating a sense of depth and structure, a rich palette of reds, oranges, greens, and blues, structured and contemplative composition.",
-            "Table with a skull, fruit, and pitcher, style of Cézanne, vanitas theme, exploring form, volume, and spatial relationships, somber yet rich colors.",
-            "Basket of apples tilting precariously on a table, style of Paul Cézanne, emphasizing the underlying geometry and weight of objects, constructive brushstrokes, vibrant, modulated colors."
+            {
+              "text": "Still life with apples and oranges on a draped cloth, objects rendered with solidity and geometric form, style of Paul Cézanne, multiple viewpoints creating a sense of depth and structure, a rich palette of reds, oranges, greens, and blues, structured and contemplative composition."
+            },
+            {
+              "text": "Table with a skull, fruit, and pitcher, style of Cézanne, vanitas theme, exploring form, volume, and spatial relationships, somber yet rich colors."
+            },
+            {
+              "text": "Basket of apples tilting precariously on a table, style of Paul Cézanne, emphasizing the underlying geometry and weight of objects, constructive brushstrokes, vibrant, modulated colors."
+            }
           ]
         },
         {
           "scene_name": "Mont Sainte-Victoire Landscapes",
           "prompts": [
-            "Mont Sainte-Victoire landscape seen from Les Lauves, the mountain built with patches of color and geometric planes, style of Paul Cézanne, fragmented planes of color building form and atmosphere, a palette of blues, greens, and ochres, study of underlying structure and enduring nature, faceted brushwork.",
-            "Pine trees framing a view of Mont Sainte-Victoire, style of Cézanne, exploring the relationship between foreground and background, structured composition, harmonious cool colors.",
-            "View of Mont Sainte-Victoire with the Château Noir, style of Paul Cézanne, solid architectural forms integrated into the landscape, analytical approach to form and color."
+            {
+              "text": "Mont Sainte-Victoire landscape seen from Les Lauves, the mountain built with patches of color and geometric planes, style of Paul Cézanne, fragmented planes of color building form and atmosphere, a palette of blues, greens, and ochres, study of underlying structure and enduring nature, faceted brushwork."
+            },
+            {
+              "text": "Pine trees framing a view of Mont Sainte-Victoire, style of Cézanne, exploring the relationship between foreground and background, structured composition, harmonious cool colors."
+            },
+            {
+              "text": "View of Mont Sainte-Victoire with the Château Noir, style of Paul Cézanne, solid architectural forms integrated into the landscape, analytical approach to form and color."
+            }
           ]
         },
         {
           "scene_name": "Bathers (Groups in Landscape)",
           "prompts": [
-            "A group of monumental male or female bathers in a stylized landscape by a river, figures integrated with nature, style of Paul Cézanne, simplified human forms often arranged in triangular compositions, a palette of blues, greens, and flesh tones, classical yet modern feeling, emphasizing geometric shapes and structure.",
-            "Large Bathers, an iconic composition with nude figures forming architectural arrangements under arching trees, style of Cézanne, timeless and monumental quality.",
-            "Individual bather standing by the water, style of Paul Cézanne, focusing on the solid form of the figure, simplified anatomy, harmonious with the landscape."
+            {
+              "text": "A group of monumental male or female bathers in a stylized landscape by a river, figures integrated with nature, style of Paul Cézanne, simplified human forms often arranged in triangular compositions, a palette of blues, greens, and flesh tones, classical yet modern feeling, emphasizing geometric shapes and structure."
+            },
+            {
+              "text": "Large Bathers, an iconic composition with nude figures forming architectural arrangements under arching trees, style of Cézanne, timeless and monumental quality."
+            },
+            {
+              "text": "Individual bather standing by the water, style of Paul Cézanne, focusing on the solid form of the figure, simplified anatomy, harmonious with the landscape."
+            }
           ]
         },
         {
           "scene_name": "Portraits (Madame Cézanne, Gardener)",
           "prompts": [
-            "Portrait of Madame Cézanne in a red armchair, style of Paul Cézanne, serene and composed, with a focus on form and structure rather than fleeting expression, simplified planes and subtle color modeling.",
-            "Portrait of a gardener, Vallier, style of Cézanne, conveying solidity and dignity, figure often integrated with a simple background, earthy tones.",
-            "Self-portrait with a cap, style of Paul Cézanne, introspective and analytical, using constructive brushstrokes to build form, often with a somber palette."
+            {
+              "text": "Portrait of Madame Cézanne in a red armchair, style of Paul Cézanne, serene and composed, with a focus on form and structure rather than fleeting expression, simplified planes and subtle color modeling."
+            },
+            {
+              "text": "Portrait of a gardener, Vallier, style of Cézanne, conveying solidity and dignity, figure often integrated with a simple background, earthy tones."
+            },
+            {
+              "text": "Self-portrait with a cap, style of Paul Cézanne, introspective and analytical, using constructive brushstrokes to build form, often with a somber palette."
+            }
           ]
         }
       ]
@@ -562,33 +899,57 @@
         {
           "scene_name": "Tahitian Women & Tropical Landscapes",
           "prompts": [
-            "Two Tahitian women on a vibrant beach, one perhaps holding a mango, with symbolic motifs and idols in the background, style of Paul Gauguin, flat planes of bold, exotic color (Synthetism), strong outlines (Cloisonnism), a palette of rich oranges, reds, deep blues, and greens, mysterious and spiritual atmosphere.",
-            "Tahitian woman lying on a colorful pareu in a traditional hut, style of Gauguin, ('Manao tupapau' - Spirit of the Dead Watching), mysterious and evocative, rich, dark colors with vibrant accents.",
-            "Lush tropical landscape in Tahiti with stylized trees and figures, style of Paul Gauguin, bold, non-naturalistic colors, simplified forms, conveying a sense of paradise and primitivism."
+            {
+              "text": "Two Tahitian women on a vibrant beach, one perhaps holding a mango, with symbolic motifs and idols in the background, style of Paul Gauguin, flat planes of bold, exotic color (Synthetism), strong outlines (Cloisonnism), a palette of rich oranges, reds, deep blues, and greens, mysterious and spiritual atmosphere."
+            },
+            {
+              "text": "Tahitian woman lying on a colorful pareu in a traditional hut, style of Gauguin, ('Manao tupapau' - Spirit of the Dead Watching), mysterious and evocative, rich, dark colors with vibrant accents."
+            },
+            {
+              "text": "Lush tropical landscape in Tahiti with stylized trees and figures, style of Paul Gauguin, bold, non-naturalistic colors, simplified forms, conveying a sense of paradise and primitivism."
+            }
           ]
         },
         {
           "scene_name": "Breton Peasant Life & Religious Scenes",
           "prompts": [
-            "Breton village scene with peasant women in traditional white coiffes and dark dresses during a religious festival or pardon, style of Paul Gauguin (Synthetism), simplified forms, areas of flat, unmodulated color, earthy tones with symbolic use of intense color (e.g., 'The Yellow Christ'), rustic and evocative mood.",
-            "Vision After the Sermon (Jacob Wrestling with the Angel), style of Gauguin, Breton women observing a spiritual vision, bold red ground, strong diagonals, separating reality and vision.",
-            "Self-portrait as Christ in the Garden of Olives, style of Paul Gauguin, red hair, anguished expression, symbolic and autobiographical, fusing religious themes with personal suffering."
+            {
+              "text": "Breton village scene with peasant women in traditional white coiffes and dark dresses during a religious festival or pardon, style of Paul Gauguin (Synthetism), simplified forms, areas of flat, unmodulated color, earthy tones with symbolic use of intense color (e.g., 'The Yellow Christ'), rustic and evocative mood."
+            },
+            {
+              "text": "Vision After the Sermon (Jacob Wrestling with the Angel), style of Gauguin, Breton women observing a spiritual vision, bold red ground, strong diagonals, separating reality and vision."
+            },
+            {
+              "text": "Self-portrait as Christ in the Garden of Olives, style of Paul Gauguin, red hair, anguished expression, symbolic and autobiographical, fusing religious themes with personal suffering."
+            }
           ]
         },
         {
           "scene_name": "Symbolist Self-Portraits",
           "prompts": [
-            "Self-portrait with halo and snake, ('Self-Portrait with Yellow Christ' in background often misattributed, but think symbolic elements), style of Paul Gauguin, conveying dual nature of saint and sinner, bold colors and symbolic imagery, introspective and challenging.",
-            "Self-portrait 'Les Misérables' dedicated to Van Gogh, style of Gauguin, portraying himself as an outcast hero, strong features, symbolic background elements.",
-            "Self-portrait with a palette, style of Paul Gauguin, asserting his identity as an artist, often with a somber or intense expression, using color symbolically."
+            {
+              "text": "Self-portrait with halo and snake, ('Self-Portrait with Yellow Christ' in background often misattributed, but think symbolic elements), style of Paul Gauguin, conveying dual nature of saint and sinner, bold colors and symbolic imagery, introspective and challenging."
+            },
+            {
+              "text": "Self-portrait 'Les Misérables' dedicated to Van Gogh, style of Gauguin, portraying himself as an outcast hero, strong features, symbolic background elements."
+            },
+            {
+              "text": "Self-portrait with a palette, style of Paul Gauguin, asserting his identity as an artist, often with a somber or intense expression, using color symbolically."
+            }
           ]
         },
         {
           "scene_name": "Still Lifes with Exotic Elements",
           "prompts": [
-            "Still life with tropical fruits, flowers, and idols from Tahiti, style of Paul Gauguin, rich, vibrant colors, simplified forms, decorative and symbolic arrangement.",
-            "Faa Iheihe (Tahitian Pastoral), style of Gauguin, figures amidst lush vegetation, bright, decorative colors, celebrating the beauty and exoticism of Tahitian life and landscape, though it's more than a still life, it has that arranged quality.",
-            "Still life with Japanese woodblock print in the background, style of Paul Gauguin, showing Japonisme influence, bold patterns and colors, fusion of cultures."
+            {
+              "text": "Still life with tropical fruits, flowers, and idols from Tahiti, style of Paul Gauguin, rich, vibrant colors, simplified forms, decorative and symbolic arrangement."
+            },
+            {
+              "text": "Faa Iheihe (Tahitian Pastoral), style of Gauguin, figures amidst lush vegetation, bright, decorative colors, celebrating the beauty and exoticism of Tahitian life and landscape, though it's more than a still life, it has that arranged quality."
+            },
+            {
+              "text": "Still life with Japanese woodblock print in the background, style of Paul Gauguin, showing Japonisme influence, bold patterns and colors, fusion of cultures."
+            }
           ]
         }
       ]
@@ -599,33 +960,57 @@
         {
           "scene_name": "Parisian Leisure (La Grande Jatte, Parks)",
           "prompts": [
-            "A Sunday afternoon on the island of La Grande Jatte, Parisians in their Sunday best enjoying leisure by the river Seine, pointillist style of Georges Seurat, figures in profile and formal poses, tiny dots of contrasting color creating a luminous, shimmering effect, a palette of bright greens, blues, yellows, and reds, formal and meticulously ordered composition.",
-            "Figures strolling in a Parisian park, such as Parc de la Villette, style of Seurat, pointillist technique, capturing the light and atmosphere of an urban green space, ordered and serene.",
-            "Models posing in the artist's studio ('Les Poseuses'), style of Georges Seurat, pointillist nudes against a backdrop of his own 'La Grande Jatte', exploring form and color theory, classical yet modern."
+            {
+              "text": "A Sunday afternoon on the island of La Grande Jatte, Parisians in their Sunday best enjoying leisure by the river Seine, pointillist style of Georges Seurat, figures in profile and formal poses, tiny dots of contrasting color creating a luminous, shimmering effect, a palette of bright greens, blues, yellows, and reds, formal and meticulously ordered composition."
+            },
+            {
+              "text": "Figures strolling in a Parisian park, such as Parc de la Villette, style of Seurat, pointillist technique, capturing the light and atmosphere of an urban green space, ordered and serene."
+            },
+            {
+              "text": "Models posing in the artist's studio ('Les Poseuses'), style of Georges Seurat, pointillist nudes against a backdrop of his own 'La Grande Jatte', exploring form and color theory, classical yet modern."
+            }
           ]
         },
         {
           "scene_name": "Circus & Can-Can Dancers",
           "prompts": [
-            "The Circus (Le Cirque), a female acrobat on horseback and clowns performing under bright artificial lights in a lively ring, style of Georges Seurat (pointillism), dynamic figures and patterns of light and color, vibrant, unmixed colors applied in precise dots, energetic and captivating scene with a sense of spectacle.",
-            "Can-can dancer performing at a cabaret, style of Seurat, capturing the energetic, high-kicking movement, pointillist technique applied to theatrical lighting and costume.",
-            "Chahut (Cancan), dancers and musicians in a dynamic, upward-sweeping composition, style of Georges Seurat, conveying the excitement and artificiality of Parisian nightlife, pointillist dots creating vibrant energy."
+            {
+              "text": "The Circus (Le Cirque), a female acrobat on horseback and clowns performing under bright artificial lights in a lively ring, style of Georges Seurat (pointillism), dynamic figures and patterns of light and color, vibrant, unmixed colors applied in precise dots, energetic and captivating scene with a sense of spectacle."
+            },
+            {
+              "text": "Can-can dancer performing at a cabaret, style of Seurat, capturing the energetic, high-kicking movement, pointillist technique applied to theatrical lighting and costume."
+            },
+            {
+              "text": "Chahut (Cancan), dancers and musicians in a dynamic, upward-sweeping composition, style of Georges Seurat, conveying the excitement and artificiality of Parisian nightlife, pointillist dots creating vibrant energy."
+            }
           ]
         },
         {
           "scene_name": "Coastal Landscapes & Seascapes (Gravelines, Honfleur)",
           "prompts": [
-            "View of the harbor at Gravelines, with boats and calm water under a luminous sky, pointillist style of Georges Seurat, serene and ordered composition, precise dots of color capturing the subtle light and atmosphere of the coast, often with a strong horizontal emphasis.",
-            "Seascape at Honfleur, style of Seurat, focusing on the horizon and the play of light on the water, meticulous pointillist technique, tranquil and almost abstract.",
-            "The Bec du Hoc, Grandcamp, style of Georges Seurat, rugged cliffs against the sea, pointillist application creating texture and light, sense of stillness and timelessness."
+            {
+              "text": "View of the harbor at Gravelines, with boats and calm water under a luminous sky, pointillist style of Georges Seurat, serene and ordered composition, precise dots of color capturing the subtle light and atmosphere of the coast, often with a strong horizontal emphasis."
+            },
+            {
+              "text": "Seascape at Honfleur, style of Seurat, focusing on the horizon and the play of light on the water, meticulous pointillist technique, tranquil and almost abstract."
+            },
+            {
+              "text": "The Bec du Hoc, Grandcamp, style of Georges Seurat, rugged cliffs against the sea, pointillist application creating texture and light, sense of stillness and timelessness."
+            }
           ]
         },
         {
           "scene_name": "Eiffel Tower Studies",
           "prompts": [
-            "The Eiffel Tower, newly constructed, standing against a Parisian sky, rendered in the pointillist style of Georges Seurat, shimmering structure created with precise dots of color, a palette of blues, grays, and ochres, capturing the modernity and monumentality of the structure.",
-            "Eiffel Tower seen through a haze or at dusk, style of Seurat, pointillist dots conveying atmospheric effects and the tower's lights, innovative and iconic.",
-            "Study of the Eiffel Tower's structure, style of Georges Seurat, focusing on its geometric form and intricate latticework, pointillist technique emphasizing its modernity."
+            {
+              "text": "The Eiffel Tower, newly constructed, standing against a Parisian sky, rendered in the pointillist style of Georges Seurat, shimmering structure created with precise dots of color, a palette of blues, grays, and ochres, capturing the modernity and monumentality of the structure."
+            },
+            {
+              "text": "Eiffel Tower seen through a haze or at dusk, style of Seurat, pointillist dots conveying atmospheric effects and the tower's lights, innovative and iconic."
+            },
+            {
+              "text": "Study of the Eiffel Tower's structure, style of Georges Seurat, focusing on its geometric form and intricate latticework, pointillist technique emphasizing its modernity."
+            }
           ]
         }
       ]
@@ -636,33 +1021,57 @@
         {
           "scene_name": "Moulin Rouge & Cabaret Dancers",
           "prompts": [
-            "Dancers performing the can-can at the Moulin Rouge, a flurry of skirts, legs, and exuberant energy, style of Henri de Toulouse-Lautrec, dynamic lines capturing movement, bold colors, and theatrical gas lighting, a palette of reds, blacks, and yellows, energetic and risqué atmosphere.",
-            "La Goulue entering the Moulin Rouge, style of Toulouse-Lautrec, capturing her confident and flamboyant personality, bold composition and characteristic linework.",
-            "Jane Avril dancing, her distinctive style captured with fluid lines and expressive posture, style of Henri de Toulouse-Lautrec, often with simplified backgrounds to emphasize the figure, dynamic and iconic."
+            {
+              "text": "Dancers performing the can-can at the Moulin Rouge, a flurry of skirts, legs, and exuberant energy, style of Henri de Toulouse-Lautrec, dynamic lines capturing movement, bold colors, and theatrical gas lighting, a palette of reds, blacks, and yellows, energetic and risqué atmosphere."
+            },
+            {
+              "text": "La Goulue entering the Moulin Rouge, style of Toulouse-Lautrec, capturing her confident and flamboyant personality, bold composition and characteristic linework."
+            },
+            {
+              "text": "Jane Avril dancing, her distinctive style captured with fluid lines and expressive posture, style of Henri de Toulouse-Lautrec, often with simplified backgrounds to emphasize the figure, dynamic and iconic."
+            }
           ]
         },
         {
           "scene_name": "Parisian Nightlife Personalities",
           "prompts": [
-            "Portrait of Aristide Bruant in his signature black cape and red scarf, performing at a café-concert, style of Henri de Toulouse-Lautrec, strong silhouette and bold graphic quality, capturing his commanding stage presence.",
-            "Yvette Guilbert singing, her long black gloves and expressive gestures, style of Toulouse-Lautrec, incisive characterization, economical lines, focusing on her unique performance style.",
-            "At the Moulin Rouge, a group scene with identifiable figures like La Goulue, Toulouse-Lautrec himself, and other patrons, style of Henri de Toulouse-Lautrec, capturing the atmosphere and social dynamics of the famed cabaret, often with a slightly cynical or observant viewpoint."
+            {
+              "text": "Portrait of Aristide Bruant in his signature black cape and red scarf, performing at a café-concert, style of Henri de Toulouse-Lautrec, strong silhouette and bold graphic quality, capturing his commanding stage presence."
+            },
+            {
+              "text": "Yvette Guilbert singing, her long black gloves and expressive gestures, style of Toulouse-Lautrec, incisive characterization, economical lines, focusing on her unique performance style."
+            },
+            {
+              "text": "At the Moulin Rouge, a group scene with identifiable figures like La Goulue, Toulouse-Lautrec himself, and other patrons, style of Henri de Toulouse-Lautrec, capturing the atmosphere and social dynamics of the famed cabaret, often with a slightly cynical or observant viewpoint."
+            }
           ]
         },
         {
           "scene_name": "Brothel Scenes (Elles Series)",
           "prompts": [
-            "Woman at her toilette in a brothel, an intimate, unglamorous moment from the 'Elles' series, style of Henri de Toulouse-Lautrec, sensitive portrayal, soft colors, capturing everyday life within the maisons closes.",
-            "Two women in bed in a brothel, style of Toulouse-Lautrec, conveying a sense of intimacy or ennui, subtle psychological observation, often in lithograph.",
-            "Woman reclining on a chaise lounge, ('Femme couchée - Réveil'), style of Henri de Toulouse-Lautrec, capturing a private moment with empathy, expressive lines and muted tones."
+            {
+              "text": "Woman at her toilette in a brothel, an intimate, unglamorous moment from the 'Elles' series, style of Henri de Toulouse-Lautrec, sensitive portrayal, soft colors, capturing everyday life within the maisons closes."
+            },
+            {
+              "text": "Two women in bed in a brothel, style of Toulouse-Lautrec, conveying a sense of intimacy or ennui, subtle psychological observation, often in lithograph."
+            },
+            {
+              "text": "Woman reclining on a chaise lounge, ('Femme couchée - Réveil'), style of Henri de Toulouse-Lautrec, capturing a private moment with empathy, expressive lines and muted tones."
+            }
           ]
         },
         {
           "scene_name": "Circus & Theatre Performers",
           "prompts": [
-            "Clownesse Cha-U-Kao at the Moulin Rouge, style of Henri de Toulouse-Lautrec, capturing her distinctive costume and personality, often with a sense of melancholy behind the performance.",
-            "Equestrienne performing in a circus ring, style of Toulouse-Lautrec, focusing on the skill and spectacle, dynamic lines capturing the movement of horse and rider.",
-            "Actor in costume on stage, style of Henri de Toulouse-Lautrec, capturing a dramatic moment or character, bold composition and theatrical lighting."
+            {
+              "text": "Clownesse Cha-U-Kao at the Moulin Rouge, style of Henri de Toulouse-Lautrec, capturing her distinctive costume and personality, often with a sense of melancholy behind the performance."
+            },
+            {
+              "text": "Equestrienne performing in a circus ring, style of Toulouse-Lautrec, focusing on the skill and spectacle, dynamic lines capturing the movement of horse and rider."
+            },
+            {
+              "text": "Actor in costume on stage, style of Henri de Toulouse-Lautrec, capturing a dramatic moment or character, bold composition and theatrical lighting."
+            }
           ]
         }
       ]
@@ -673,33 +1082,57 @@
         {
           "scene_name": "Exotic Jungle Scenes",
           "prompts": [
-            "Lush, exotic jungle scene with a hidden tiger or lion peering through oversized, meticulously detailed flowers and foliage, naïve style of Henri Rousseau, vibrant greens and fantastical flora, dreamlike and mysterious atmosphere, flat perspective, every leaf painted.",
-            "Monkeys playing in a dense jungle canopy with exotic birds and fruits, style of Rousseau, imaginative and vibrant, sense of wonder and untamed nature.",
-            "Snake charmer in a moonlit jungle, playing a flute to an entranced serpent, style of Henri Rousseau, mysterious and magical, dark, rich colors with highlights."
+            {
+              "text": "Lush, exotic jungle scene with a hidden tiger or lion peering through oversized, meticulously detailed flowers and foliage, naïve style of Henri Rousseau, vibrant greens and fantastical flora, dreamlike and mysterious atmosphere, flat perspective, every leaf painted."
+            },
+            {
+              "text": "Monkeys playing in a dense jungle canopy with exotic birds and fruits, style of Rousseau, imaginative and vibrant, sense of wonder and untamed nature."
+            },
+            {
+              "text": "Snake charmer in a moonlit jungle, playing a flute to an entranced serpent, style of Henri Rousseau, mysterious and magical, dark, rich colors with highlights."
+            }
           ]
         },
         {
           "scene_name": "Dreamlike Allegories",
           "prompts": [
-            "The Sleeping Gypsy, a dark-skinned woman in colorful striped robes asleep in a desert landscape under a full moon, a curious lion standing over her, style of Henri Rousseau, surreal juxtaposition of elements, clear, sharp lines defining forms, a palette of blues, browns, and creams, poetic and enigmatic mood.",
-            "The Dream, a nude woman reclining on a sofa in the middle of a vibrant jungle, surrounded by exotic animals and flowers, style of Rousseau, fantastical and illogical, rich colors and meticulous detail.",
-            "War (La Guerre), a fierce figure on horseback riding over a field of corpses, style of Henri Rousseau, allegorical and disturbing, stark composition and symbolic colors."
+            {
+              "text": "The Sleeping Gypsy, a dark-skinned woman in colorful striped robes asleep in a desert landscape under a full moon, a curious lion standing over her, style of Henri Rousseau, surreal juxtaposition of elements, clear, sharp lines defining forms, a palette of blues, browns, and creams, poetic and enigmatic mood."
+            },
+            {
+              "text": "The Dream, a nude woman reclining on a sofa in the middle of a vibrant jungle, surrounded by exotic animals and flowers, style of Rousseau, fantastical and illogical, rich colors and meticulous detail."
+            },
+            {
+              "text": "War (La Guerre), a fierce figure on horseback riding over a field of corpses, style of Henri Rousseau, allegorical and disturbing, stark composition and symbolic colors."
+            }
           ]
         },
         {
           "scene_name": "Formal Portraits",
           "prompts": [
-            "Self-portrait of the artist with a lamp, standing formally with palette and brush, perhaps with a landscape or ship in the background, style of Henri Rousseau, stiff pose, meticulously rendered details, asserting his artistic identity.",
-            "Portrait of a woman in a formal dress, standing in a stylized garden or interior, style of Rousseau, flat perspective, intense gaze, precise details on clothing and surroundings, charming and slightly unsettling.",
-            "Group portrait of local figures or a family, style of Henri Rousseau, stiffly posed figures, detailed clothing, often with a slightly awkward but endearing quality."
+            {
+              "text": "Self-portrait of the artist with a lamp, standing formally with palette and brush, perhaps with a landscape or ship in the background, style of Henri Rousseau, stiff pose, meticulously rendered details, asserting his artistic identity."
+            },
+            {
+              "text": "Portrait of a woman in a formal dress, standing in a stylized garden or interior, style of Rousseau, flat perspective, intense gaze, precise details on clothing and surroundings, charming and slightly unsettling."
+            },
+            {
+              "text": "Group portrait of local figures or a family, style of Henri Rousseau, stiffly posed figures, detailed clothing, often with a slightly awkward but endearing quality."
+            }
           ]
         },
         {
           "scene_name": "Suburban Landscapes & City Outskirts",
           "prompts": [
-            "View of the outskirts of Paris, with factories, bridges, and early automobiles or airships, style of Henri Rousseau, meticulous detail, clean lines, capturing the encroachment of modernity on nature, often with a slightly surreal quality.",
-            "Suburban street scene with figures and houses, style of Rousseau, precise rendering of architectural details, often with a quiet, slightly melancholic atmosphere.",
-            "Landscape with a bridge and river, style of Henri Rousseau, simplified forms, clear light, detailed foliage, capturing a specific locality with his unique vision."
+            {
+              "text": "View of the outskirts of Paris, with factories, bridges, and early automobiles or airships, style of Henri Rousseau, meticulous detail, clean lines, capturing the encroachment of modernity on nature, often with a slightly surreal quality."
+            },
+            {
+              "text": "Suburban street scene with figures and houses, style of Rousseau, precise rendering of architectural details, often with a quiet, slightly melancholic atmosphere."
+            },
+            {
+              "text": "Landscape with a bridge and river, style of Henri Rousseau, simplified forms, clear light, detailed foliage, capturing a specific locality with his unique vision."
+            }
           ]
         }
       ]
@@ -712,33 +1145,57 @@
         {
           "scene_name": "Misty Landscapes & Ponds (Ville-d'Avray)",
           "prompts": [
-            "Misty morning landscape with feathery trees and a solitary figure by a calm pond at Ville-d'Avray, style of Jean-Baptiste-Camille Corot, soft, diffused light creating a silvery sheen, a subtle palette of silvery greens, blues, and grays, poetic and tranquil atmosphere.",
-            "Woman reading by a willow tree near a misty lake, style of Corot, gentle, contemplative mood, harmonious blend of figure and nature, soft, hazy light.",
-            "Souvenir de Mortefontaine, ethereal landscape with figures by a lake, style of Jean-Baptiste-Camille Corot, dreamlike quality, soft focus, silvery tones, capturing an idealized memory of nature."
+            {
+              "text": "Misty morning landscape with feathery trees and a solitary figure by a calm pond at Ville-d'Avray, style of Jean-Baptiste-Camille Corot, soft, diffused light creating a silvery sheen, a subtle palette of silvery greens, blues, and grays, poetic and tranquil atmosphere."
+            },
+            {
+              "text": "Woman reading by a willow tree near a misty lake, style of Corot, gentle, contemplative mood, harmonious blend of figure and nature, soft, hazy light."
+            },
+            {
+              "text": "Souvenir de Mortefontaine, ethereal landscape with figures by a lake, style of Jean-Baptiste-Camille Corot, dreamlike quality, soft focus, silvery tones, capturing an idealized memory of nature."
+            }
           ]
         },
         {
           "scene_name": "Italian Landscapes & Ruins",
           "prompts": [
-            "View of the Roman Campagna with ancient aqueducts or ruins under a clear, soft sky, perhaps with peasants resting, style of Jean-Baptiste-Camille Corot, harmonious composition, warm, gentle light, a palette of earthy tones, pale blues, and muted greens, picturesque and serene mood.",
-            "The Coliseum seen through trees, style of Corot, balancing architectural grandeur with natural elements, classical yet personal interpretation.",
-            "Narni, the Bridge of Augustus over the Nera River, style of Jean-Baptiste-Camille Corot, clear light, solid forms, capturing the Italian landscape with a sense of timelessness."
+            {
+              "text": "View of the Roman Campagna with ancient aqueducts or ruins under a clear, soft sky, perhaps with peasants resting, style of Jean-Baptiste-Camille Corot, harmonious composition, warm, gentle light, a palette of earthy tones, pale blues, and muted greens, picturesque and serene mood."
+            },
+            {
+              "text": "The Coliseum seen through trees, style of Corot, balancing architectural grandeur with natural elements, classical yet personal interpretation."
+            },
+            {
+              "text": "Narni, the Bridge of Augustus over the Nera River, style of Jean-Baptiste-Camille Corot, clear light, solid forms, capturing the Italian landscape with a sense of timelessness."
+            }
           ]
         },
         {
           "scene_name": "Forest Interiors & Peasant Figures",
           "prompts": [
-            "Dense forest interior with sunlight filtering through leaves, a peasant figure walking along a path, style of Jean-Baptiste-Camille Corot, capturing the play of light and shadow, rich greens and browns, intimate and naturalistic.",
-            "Woodcutter working in a sun-dappled forest clearing, style of Corot, focus on the figure's activity within the natural setting, realistic yet poetic.",
-            "Fontainebleau Forest scene with towering trees and rocky outcrops, style of Jean-Baptiste-Camille Corot, strong sense of place, detailed observation of nature, precursor to Barbizon ideals."
+            {
+              "text": "Dense forest interior with sunlight filtering through leaves, a peasant figure walking along a path, style of Jean-Baptiste-Camille Corot, capturing the play of light and shadow, rich greens and browns, intimate and naturalistic."
+            },
+            {
+              "text": "Woodcutter working in a sun-dappled forest clearing, style of Corot, focus on the figure's activity within the natural setting, realistic yet poetic."
+            },
+            {
+              "text": "Fontainebleau Forest scene with towering trees and rocky outcrops, style of Jean-Baptiste-Camille Corot, strong sense of place, detailed observation of nature, precursor to Barbizon ideals."
+            }
           ]
         },
         {
           "scene_name": "Portraits of Women (Pensive Moods)",
           "prompts": [
-            "Pensive woman in rustic or classical attire, perhaps holding a mandolin or flowers, seated by a window with soft light, style of Jean-Baptiste-Camille Corot, soft, natural light, muted colors, gentle modeling of form creating a quiet and introspective mood.",
-            "Woman with a Pearl, style of Corot, reminiscent of Leonardo da Vinci, enigmatic expression, soft focus, subtle color harmonies.",
-            "Young girl reading in an interior, style of Jean-Baptiste-Camille Corot, absorbed in her book, quiet domestic scene, gentle light and delicate rendering."
+            {
+              "text": "Pensive woman in rustic or classical attire, perhaps holding a mandolin or flowers, seated by a window with soft light, style of Jean-Baptiste-Camille Corot, soft, natural light, muted colors, gentle modeling of form creating a quiet and introspective mood."
+            },
+            {
+              "text": "Woman with a Pearl, style of Corot, reminiscent of Leonardo da Vinci, enigmatic expression, soft focus, subtle color harmonies."
+            },
+            {
+              "text": "Young girl reading in an interior, style of Jean-Baptiste-Camille Corot, absorbed in her book, quiet domestic scene, gentle light and delicate rendering."
+            }
           ]
         }
       ]
@@ -749,33 +1206,57 @@
         {
           "scene_name": "Peasant Farmers Toiling (Gleaners, Sower)",
           "prompts": [
-            "Peasant gleaners, three women bent over working in a harvested wheat field under a vast, luminous sky, style of Jean-François Millet, warm late afternoon light casting long shadows, earthy tones of gold, brown, and muted blues, depicting the dignity and solemnity of rural labor.",
-            "The Sower, a powerful, silhouetted figure striding across a darkening field at dusk, scattering seeds with a sweeping gesture, style of Millet, dramatic composition against a somber sky, a palette of deep browns, blues, and grays, heroic and timeless portrayal of agricultural life.",
-            "Man with a Hoe, a weary peasant leaning on his tool in a barren field, style of Jean-François Millet, conveying the exhaustion and hardship of rural labor, stark realism, somber tones."
+            {
+              "text": "Peasant gleaners, three women bent over working in a harvested wheat field under a vast, luminous sky, style of Jean-François Millet, warm late afternoon light casting long shadows, earthy tones of gold, brown, and muted blues, depicting the dignity and solemnity of rural labor."
+            },
+            {
+              "text": "The Sower, a powerful, silhouetted figure striding across a darkening field at dusk, scattering seeds with a sweeping gesture, style of Millet, dramatic composition against a somber sky, a palette of deep browns, blues, and grays, heroic and timeless portrayal of agricultural life."
+            },
+            {
+              "text": "Man with a Hoe, a weary peasant leaning on his tool in a barren field, style of Jean-François Millet, conveying the exhaustion and hardship of rural labor, stark realism, somber tones."
+            }
           ]
         },
         {
           "scene_name": "Pastoral Scenes (Shepherds, Flocks)",
           "prompts": [
-            "Shepherdess knitting while tending her flock of sheep at sunset on a quiet plain, style of Jean-François Millet, soft, golden light creating a peaceful ambiance, tranquil pastoral scene, a palette of warm earth tones and muted greens, peaceful and contemplative mood.",
-            "Shepherd bringing his flock home in the evening, style of Millet, silhouetted figures against a fading sky, sense of rural routine and connection to nature.",
-            "Noonday Rest, peasants sleeping in a field beside haystacks, style of Jean-François Millet, capturing a moment of respite from labor, warm sunlight, peaceful yet depicting exhaustion."
+            {
+              "text": "Shepherdess knitting while tending her flock of sheep at sunset on a quiet plain, style of Jean-François Millet, soft, golden light creating a peaceful ambiance, tranquil pastoral scene, a palette of warm earth tones and muted greens, peaceful and contemplative mood."
+            },
+            {
+              "text": "Shepherd bringing his flock home in the evening, style of Millet, silhouetted figures against a fading sky, sense of rural routine and connection to nature."
+            },
+            {
+              "text": "Noonday Rest, peasants sleeping in a field beside haystacks, style of Jean-François Millet, capturing a moment of respite from labor, warm sunlight, peaceful yet depicting exhaustion."
+            }
           ]
         },
         {
           "scene_name": "Rural Domestic Life",
           "prompts": [
-            "Woman feeding chickens in a farmyard, style of Jean-François Millet, simple, everyday scene of rural life, naturalistic depiction, earthy color palette.",
-            "The Angelus, a peasant couple pausing from their work in the fields to pray as the church bells ring at dusk, style of Millet, conveying piety and the rhythm of rural life, soft, crepuscular light, somber and reverent mood.",
-            "Peasant family at home, perhaps around a simple meal or hearth, style of Jean-François Millet, capturing the bonds and simplicity of rural domesticity, warm interior light."
+            {
+              "text": "Woman feeding chickens in a farmyard, style of Jean-François Millet, simple, everyday scene of rural life, naturalistic depiction, earthy color palette."
+            },
+            {
+              "text": "The Angelus, a peasant couple pausing from their work in the fields to pray as the church bells ring at dusk, style of Millet, conveying piety and the rhythm of rural life, soft, crepuscular light, somber and reverent mood."
+            },
+            {
+              "text": "Peasant family at home, perhaps around a simple meal or hearth, style of Jean-François Millet, capturing the bonds and simplicity of rural domesticity, warm interior light."
+            }
           ]
         },
         {
           "scene_name": "Evening & Twilight Landscapes",
           "prompts": [
-            "End of the Day, a peasant returning home from the fields as twilight descends, style of Jean-François Millet, silhouetted figure against a glowing sky, conveying weariness and peace.",
-            "Moonlit landscape with a solitary figure or sheep, style of Millet, quiet and mysterious atmosphere, subtle gradations of dark tones, poetic and somber.",
-            "Starry Night (different from Van Gogh's), a landscape under a night sky, style of Jean-François Millet, conveying the vastness and quietude of the countryside at night, subtle and deep colors."
+            {
+              "text": "End of the Day, a peasant returning home from the fields as twilight descends, style of Jean-François Millet, silhouetted figure against a glowing sky, conveying weariness and peace."
+            },
+            {
+              "text": "Moonlit landscape with a solitary figure or sheep, style of Millet, quiet and mysterious atmosphere, subtle gradations of dark tones, poetic and somber."
+            },
+            {
+              "text": "Starry Night (different from Van Gogh's), a landscape under a night sky, style of Jean-François Millet, conveying the vastness and quietude of the countryside at night, subtle and deep colors."
+            }
           ]
         }
       ]
@@ -786,33 +1267,57 @@
         {
           "scene_name": "Forest of Fontainebleau (Majestic Oaks)",
           "prompts": [
-            "Majestic oak trees in the Forest of Fontainebleau at sunset, gnarled branches against a fiery sky, style of Théodore Rousseau, dramatic, golden light filtering through dense foliage, rich, dark greens and browns with highlights of orange and yellow, solemn and grand atmosphere.",
-            "Clearing in the Forest of Fontainebleau with ancient trees and rocky ground, style of Rousseau, detailed rendering of bark, leaves, and terrain, capturing the wildness and antiquity of the forest.",
-            "Group of Oaks, Apremont, style of Théodore Rousseau, focusing on the powerful forms and textures of the trees, strong contrasts of light and shadow, sense of enduring nature."
+            {
+              "text": "Majestic oak trees in the Forest of Fontainebleau at sunset, gnarled branches against a fiery sky, style of Théodore Rousseau, dramatic, golden light filtering through dense foliage, rich, dark greens and browns with highlights of orange and yellow, solemn and grand atmosphere."
+            },
+            {
+              "text": "Clearing in the Forest of Fontainebleau with ancient trees and rocky ground, style of Rousseau, detailed rendering of bark, leaves, and terrain, capturing the wildness and antiquity of the forest."
+            },
+            {
+              "text": "Group of Oaks, Apremont, style of Théodore Rousseau, focusing on the powerful forms and textures of the trees, strong contrasts of light and shadow, sense of enduring nature."
+            }
           ]
         },
         {
           "scene_name": "Desolate Plains & Marshes (Under Dramatic Skies)",
           "prompts": [
-            "A vast, desolate plain under a stormy, cloud-filled sky with a lone, windswept tree, style of Théodore Rousseau, dramatic lighting with shafts of light breaking through dark clouds, a somber palette of grays, browns, and deep blues, powerful and melancholic mood, sense of solitude.",
-            "Marshland landscape at twilight, style of Rousseau, subtle reflections in water, silhouettes of reeds and distant trees, quiet and atmospheric.",
-            "Hoarfrost on a plain, style of Théodore Rousseau, capturing the delicate, icy beauty of a winter morning, muted colors, sense of stillness and cold."
+            {
+              "text": "A vast, desolate plain under a stormy, cloud-filled sky with a lone, windswept tree, style of Théodore Rousseau, dramatic lighting with shafts of light breaking through dark clouds, a somber palette of grays, browns, and deep blues, powerful and melancholic mood, sense of solitude."
+            },
+            {
+              "text": "Marshland landscape at twilight, style of Rousseau, subtle reflections in water, silhouettes of reeds and distant trees, quiet and atmospheric."
+            },
+            {
+              "text": "Hoarfrost on a plain, style of Théodore Rousseau, capturing the delicate, icy beauty of a winter morning, muted colors, sense of stillness and cold."
+            }
           ]
         },
         {
           "scene_name": "Sunset & Twilight Landscapes",
           "prompts": [
-            "Sunset over a landscape of plains and distant hills, style of Théodore Rousseau, intense colors in the sky reflected in the land, conveying the fleeting beauty of the moment, dramatic and emotional.",
-            "Twilight descending over a forest or heath, style of Rousseau, deepening shadows and subtle gradations of color, quiet and contemplative mood.",
-            "The Edge of the Woods at Monts-Girard, style of Théodore Rousseau, capturing the transition from forest to open land, often with a dramatic sky, detailed and atmospheric."
+            {
+              "text": "Sunset over a landscape of plains and distant hills, style of Théodore Rousseau, intense colors in the sky reflected in the land, conveying the fleeting beauty of the moment, dramatic and emotional."
+            },
+            {
+              "text": "Twilight descending over a forest or heath, style of Rousseau, deepening shadows and subtle gradations of color, quiet and contemplative mood."
+            },
+            {
+              "text": "The Edge of the Woods at Monts-Girard, style of Théodore Rousseau, capturing the transition from forest to open land, often with a dramatic sky, detailed and atmospheric."
+            }
           ]
         },
         {
           "scene_name": "Detailed Tree Studies",
           "prompts": [
-            "Study of a single, ancient oak tree, focusing on its gnarled branches and textured bark, style of Théodore Rousseau, conveying its strength and character, detailed and monumental.",
-            "Group of birch trees in a forest setting, style of Rousseau, capturing their slender forms and distinctive bark, play of light through leaves.",
-            "Trees reflected in a calm pond or river, style of Théodore Rousseau, detailed rendering of both trees and their reflections, creating a symmetrical and peaceful composition."
+            {
+              "text": "Study of a single, ancient oak tree, focusing on its gnarled branches and textured bark, style of Théodore Rousseau, conveying its strength and character, detailed and monumental."
+            },
+            {
+              "text": "Group of birch trees in a forest setting, style of Rousseau, capturing their slender forms and distinctive bark, play of light through leaves."
+            },
+            {
+              "text": "Trees reflected in a calm pond or river, style of Théodore Rousseau, detailed rendering of both trees and their reflections, creating a symmetrical and peaceful composition."
+            }
           ]
         }
       ]
@@ -823,33 +1328,57 @@
         {
           "scene_name": "River Landscapes from 'Le Bottin' (Oise, Seine)",
           "prompts": [
-            "Tranquil river scene on the Oise at twilight, painted from the perspective of his studio boat 'Le Bottin', style of Charles-François Daubigny, soft, fading light reflecting on calm water, lush riverbanks with silhouetted trees, a palette of cool blues, greens, and grays, peaceful and atmospheric, precursor to Impressionism.",
-            "Banks of the Oise river in summer, style of Daubigny, bright sunlight on water and verdant foliage, perhaps with ducks or a small boat, capturing a sense of leisurely river life.",
-            "Sunset on the Seine, style of Charles-François Daubigny, warm colors reflecting in the water, serene and picturesque, capturing the fleeting effects of light."
+            {
+              "text": "Tranquil river scene on the Oise at twilight, painted from the perspective of his studio boat 'Le Bottin', style of Charles-François Daubigny, soft, fading light reflecting on calm water, lush riverbanks with silhouetted trees, a palette of cool blues, greens, and grays, peaceful and atmospheric, precursor to Impressionism."
+            },
+            {
+              "text": "Banks of the Oise river in summer, style of Daubigny, bright sunlight on water and verdant foliage, perhaps with ducks or a small boat, capturing a sense of leisurely river life."
+            },
+            {
+              "text": "Sunset on the Seine, style of Charles-François Daubigny, warm colors reflecting in the water, serene and picturesque, capturing the fleeting effects of light."
+            }
           ]
         },
         {
           "scene_name": "Orchards & Blooming Fields",
           "prompts": [
-            "Apple orchards in full bloom along a serene riverbank in springtime, style of Charles-François Daubigny, fresh, gentle light, a delicate palette of pinks, whites, and light greens against a soft blue sky, serene and idyllic depiction of nature's renewal.",
-            "Fields of poppies or other wildflowers, style of Daubigny, vibrant splashes of color in a green landscape, bright, natural light, joyful and picturesque.",
-            "Harvest scene with peasants working in a field of wheat or hay, style of Charles-François Daubigny, capturing rural activity, warm sunlight, often with a broad, panoramic view."
+            {
+              "text": "Apple orchards in full bloom along a serene riverbank in springtime, style of Charles-François Daubigny, fresh, gentle light, a delicate palette of pinks, whites, and light greens against a soft blue sky, serene and idyllic depiction of nature's renewal."
+            },
+            {
+              "text": "Fields of poppies or other wildflowers, style of Daubigny, vibrant splashes of color in a green landscape, bright, natural light, joyful and picturesque."
+            },
+            {
+              "text": "Harvest scene with peasants working in a field of wheat or hay, style of Charles-François Daubigny, capturing rural activity, warm sunlight, often with a broad, panoramic view."
+            }
           ]
         },
         {
           "scene_name": "Coastal Scenes & Estuaries",
           "prompts": [
-            "View of Villerville beach with fishing boats pulled ashore, style of Charles-François Daubigny, capturing the coastal atmosphere, soft light, muted colors of sand and sea.",
-            "Estuary scene with wide expanse of water and distant shoreline, style of Daubigny, focus on atmospheric effects and the play of light on water, often with a sense of openness and tranquility.",
-            "Cliffs by the sea, style of Charles-François Daubigny, capturing the ruggedness of the coastline, often with a dramatic sky, strong sense of place."
+            {
+              "text": "View of Villerville beach with fishing boats pulled ashore, style of Charles-François Daubigny, capturing the coastal atmosphere, soft light, muted colors of sand and sea."
+            },
+            {
+              "text": "Estuary scene with wide expanse of water and distant shoreline, style of Daubigny, focus on atmospheric effects and the play of light on water, often with a sense of openness and tranquility."
+            },
+            {
+              "text": "Cliffs by the sea, style of Charles-François Daubigny, capturing the ruggedness of the coastline, often with a dramatic sky, strong sense of place."
+            }
           ]
         },
         {
           "scene_name": "Moonlit & Twilight River Scenes",
           "prompts": [
-            "Moonlit landscape with a wide river and silhouetted trees, silvery moonlight casting subtle reflections on the water, style of Charles-François Daubigny, a palette of deep blues, grays, and blacks, quiet and mysterious nocturnal scene, capturing the tranquility of night.",
-            "Twilight on the river, style of Daubigny, soft, fading light, deepening shadows, serene and contemplative mood, often with a solitary boat or figure.",
-            "The Lock at Optevoz, style of Charles-François Daubigny, capturing a specific location with attention to atmosphere and light, often with a sense of stillness and everyday life."
+            {
+              "text": "Moonlit landscape with a wide river and silhouetted trees, silvery moonlight casting subtle reflections on the water, style of Charles-François Daubigny, a palette of deep blues, grays, and blacks, quiet and mysterious nocturnal scene, capturing the tranquility of night."
+            },
+            {
+              "text": "Twilight on the river, style of Daubigny, soft, fading light, deepening shadows, serene and contemplative mood, often with a solitary boat or figure."
+            },
+            {
+              "text": "The Lock at Optevoz, style of Charles-François Daubigny, capturing a specific location with attention to atmosphere and light, often with a sense of stillness and everyday life."
+            }
           ]
         }
       ]
@@ -860,33 +1389,57 @@
         {
           "scene_name": "Stormy Seascapes & Shipwrecks",
           "prompts": [
-            "Stormy seascape with crashing waves against a rugged, rocky coast under a dark, dramatic sky, style of Jules Dupré, dramatic, turbulent sky and churning water, a palette of dark blues, grays, and white foam, emphasizing nature's power and raw energy.",
-            "Shipwreck on a stormy coast, style of Dupré, conveying the drama and tragedy of maritime disaster, powerful waves and dark, brooding atmosphere.",
-            "Rough sea with fishing boats struggling against the wind, style of Jules Dupré, capturing the peril and resilience of seafarers, dynamic composition, somber colors."
+            {
+              "text": "Stormy seascape with crashing waves against a rugged, rocky coast under a dark, dramatic sky, style of Jules Dupré, dramatic, turbulent sky and churning water, a palette of dark blues, grays, and white foam, emphasizing nature's power and raw energy."
+            },
+            {
+              "text": "Shipwreck on a stormy coast, style of Dupré, conveying the drama and tragedy of maritime disaster, powerful waves and dark, brooding atmosphere."
+            },
+            {
+              "text": "Rough sea with fishing boats struggling against the wind, style of Jules Dupré, capturing the peril and resilience of seafarers, dynamic composition, somber colors."
+            }
           ]
         },
         {
           "scene_name": "Dramatic Forest Interiors (Ancient Oaks)",
           "prompts": [
-            "Ancient, gnarled oak tree in a dense forest clearing, with dramatic light and shadow creating a moody atmosphere, style of Jules Dupré, rich textures of bark and foliage, a somber palette of deep greens, browns, and grays, melancholic and imposing presence of nature.",
-            "Forest interior with a dark pool of water, style of Dupré, mysterious and brooding, deep shadows and limited light, sense of untamed wilderness.",
-            "Path winding through a dark and ancient forest, style of Jules Dupré, sense of solitude and the sublime power of nature, rich, impasto brushwork."
+            {
+              "text": "Ancient, gnarled oak tree in a dense forest clearing, with dramatic light and shadow creating a moody atmosphere, style of Jules Dupré, rich textures of bark and foliage, a somber palette of deep greens, browns, and grays, melancholic and imposing presence of nature."
+            },
+            {
+              "text": "Forest interior with a dark pool of water, style of Dupré, mysterious and brooding, deep shadows and limited light, sense of untamed wilderness."
+            },
+            {
+              "text": "Path winding through a dark and ancient forest, style of Jules Dupré, sense of solitude and the sublime power of nature, rich, impasto brushwork."
+            }
           ]
         },
         {
           "scene_name": "Cattle by Ponds (Under Brooding Skies)",
           "prompts": [
-            "Cattle drinking at a rustic pond under a brooding evening sky, with rich reflections in the still water, style of Jules Dupré, warm, fading light contrasting with deep shadows, rich earthy tones and deep blues, peaceful yet slightly brooding pastoral scene.",
-            "Pasture with cows under a stormy sky, style of Dupré, dramatic lighting, emphasizing the connection between animals and the forces of nature, somber and powerful.",
-            "Solitary cow standing by a dark pond, style of Jules Dupré, melancholic mood, rich textures, focus on the animal within a moody landscape."
+            {
+              "text": "Cattle drinking at a rustic pond under a brooding evening sky, with rich reflections in the still water, style of Jules Dupré, warm, fading light contrasting with deep shadows, rich earthy tones and deep blues, peaceful yet slightly brooding pastoral scene."
+            },
+            {
+              "text": "Pasture with cows under a stormy sky, style of Dupré, dramatic lighting, emphasizing the connection between animals and the forces of nature, somber and powerful."
+            },
+            {
+              "text": "Solitary cow standing by a dark pond, style of Jules Dupré, melancholic mood, rich textures, focus on the animal within a moody landscape."
+            }
           ]
         },
         {
           "scene_name": "Sunset Landscapes with Rich Textures",
           "prompts": [
-            "Sunset over a rural landscape with intense, fiery colors in the sky, style of Jules Dupré, dramatic cloud formations, rich, impasto brushwork conveying the texture of the land and sky, emotional and powerful.",
-            "Landscape with a windmill at sunset, style of Dupré, silhouetted form against a glowing sky, picturesque yet dramatic, capturing the end of day.",
-            "The Old Oak, style of Jules Dupré, a prominent tree against a dramatic sunset, symbolizing strength and endurance, rich colors and textures."
+            {
+              "text": "Sunset over a rural landscape with intense, fiery colors in the sky, style of Jules Dupré, dramatic cloud formations, rich, impasto brushwork conveying the texture of the land and sky, emotional and powerful."
+            },
+            {
+              "text": "Landscape with a windmill at sunset, style of Dupré, silhouetted form against a glowing sky, picturesque yet dramatic, capturing the end of day."
+            },
+            {
+              "text": "The Old Oak, style of Jules Dupré, a prominent tree against a dramatic sunset, symbolizing strength and endurance, rich colors and textures."
+            }
           ]
         }
       ]
@@ -897,33 +1450,57 @@
         {
           "scene_name": "Cattle & Livestock in Pastures",
           "prompts": [
-            "Cattle grazing in a lush, sunlit pasture with a low horizon and expansive sky, style of Constant Troyon, warm, morning light highlighting the animals' coats and musculature, a rich palette of greens, browns, and blues, realistic and tranquil rural scene, masterful depiction of animal anatomy.",
-            "Herd of cows returning from pasture at sunset, style of Troyon, golden light, long shadows, dusty atmosphere, capturing the peaceful end of a rural day.",
-            "Oxen ploughing a field, style of Constant Troyon, emphasizing the strength and labor of the animals, realistic detail, strong forms against the landscape."
+            {
+              "text": "Cattle grazing in a lush, sunlit pasture with a low horizon and expansive sky, style of Constant Troyon, warm, morning light highlighting the animals' coats and musculature, a rich palette of greens, browns, and blues, realistic and tranquil rural scene, masterful depiction of animal anatomy."
+            },
+            {
+              "text": "Herd of cows returning from pasture at sunset, style of Troyon, golden light, long shadows, dusty atmosphere, capturing the peaceful end of a rural day."
+            },
+            {
+              "text": "Oxen ploughing a field, style of Constant Troyon, emphasizing the strength and labor of the animals, realistic detail, strong forms against the landscape."
+            }
           ]
         },
         {
           "scene_name": "Market Scenes with Animals",
           "prompts": [
-            "Animated market scene with farmers and their robust livestock (cows, sheep, horses) for sale, under a bright sky, style of Constant Troyon, naturalistic depiction of animals and figures interacting, varied textures and earthy colors, lively and engaging scene of rural commerce and daily life.",
-            "Cattle market in a provincial town, style of Troyon, bustling atmosphere, detailed rendering of animals and human figures, capturing the sights and sounds of the market.",
-            "Horse fair, style of Constant Troyon, focusing on the various breeds and actions of horses, dynamic and detailed, lively social interactions."
+            {
+              "text": "Animated market scene with farmers and their robust livestock (cows, sheep, horses) for sale, under a bright sky, style of Constant Troyon, naturalistic depiction of animals and figures interacting, varied textures and earthy colors, lively and engaging scene of rural commerce and daily life."
+            },
+            {
+              "text": "Cattle market in a provincial town, style of Troyon, bustling atmosphere, detailed rendering of animals and human figures, capturing the sights and sounds of the market."
+            },
+            {
+              "text": "Horse fair, style of Constant Troyon, focusing on the various breeds and actions of horses, dynamic and detailed, lively social interactions."
+            }
           ]
         },
         {
           "scene_name": "Forest Paths with Herdsmen",
           "prompts": [
-            "Herdsman leading cattle or sheep along a sun-dappled forest path, style of Constant Troyon, play of light and shadow through trees, detailed rendering of animals and foliage, peaceful and picturesque.",
-            "Wooded landscape with grazing animals, style of Troyon, serene atmosphere, naturalistic depiction of light and texture, harmonious integration of animals and nature.",
-            "Return from the Market, figures and livestock on a country road, style of Constant Troyon, capturing a narrative moment of rural life, often with attention to atmospheric effects."
+            {
+              "text": "Herdsman leading cattle or sheep along a sun-dappled forest path, style of Constant Troyon, play of light and shadow through trees, detailed rendering of animals and foliage, peaceful and picturesque."
+            },
+            {
+              "text": "Wooded landscape with grazing animals, style of Troyon, serene atmosphere, naturalistic depiction of light and texture, harmonious integration of animals and nature."
+            },
+            {
+              "text": "Return from the Market, figures and livestock on a country road, style of Constant Troyon, capturing a narrative moment of rural life, often with attention to atmospheric effects."
+            }
           ]
         },
         {
           "scene_name": "Dogs & Hunting Scenes",
           "prompts": [
-            "Portrait of hunting dogs, alert and poised, style of Constant Troyon, capturing their breed characteristics and keen expressions, detailed rendering of fur and anatomy.",
-            "Huntsmen with dogs in a forest setting, style of Troyon, anticipating the hunt or returning, dynamic composition, capturing the excitement of the chase.",
-            "Pointer or setter in a landscape, style of Constant Troyon, focusing on the dog's form and stance, often with a sense of elegance and purpose."
+            {
+              "text": "Portrait of hunting dogs, alert and poised, style of Constant Troyon, capturing their breed characteristics and keen expressions, detailed rendering of fur and anatomy."
+            },
+            {
+              "text": "Huntsmen with dogs in a forest setting, style of Troyon, anticipating the hunt or returning, dynamic composition, capturing the excitement of the chase."
+            },
+            {
+              "text": "Pointer or setter in a landscape, style of Constant Troyon, focusing on the dog's form and stance, often with a sense of elegance and purpose."
+            }
           ]
         }
       ]
@@ -936,33 +1513,57 @@
         {
           "scene_name": "Allegorical Series (Voyage of Life, Course of Empire)",
           "prompts": [
-            "Scene from 'The Voyage of Life - Youth', an angelic figure guiding a youth in a lavish boat down a lush, Edenic river towards a celestial palace in the sky, style of Thomas Cole, bright, optimistic light, vibrant palette of greens, blues, and floral colors, symbolic and aspirational narrative.",
-            "The Savage State, from 'The Course of Empire,' primeval wilderness with hunter-gatherers, dramatic mountains and stormy skies, style of Cole, conveying raw, untamed nature and early human existence.",
-            "Desolation, from 'The Course ofEmpire,' ancient ruins of a once-great city overgrown by nature, a solitary column against a melancholic twilight sky, style of Thomas Cole, contemplative and cautionary tale of civilization's rise and fall."
+            {
+              "text": "Scene from 'The Voyage of Life - Youth', an angelic figure guiding a youth in a lavish boat down a lush, Edenic river towards a celestial palace in the sky, style of Thomas Cole, bright, optimistic light, vibrant palette of greens, blues, and floral colors, symbolic and aspirational narrative."
+            },
+            {
+              "text": "The Savage State, from 'The Course of Empire,' primeval wilderness with hunter-gatherers, dramatic mountains and stormy skies, style of Cole, conveying raw, untamed nature and early human existence."
+            },
+            {
+              "text": "Desolation, from 'The Course ofEmpire,' ancient ruins of a once-great city overgrown by nature, a solitary column against a melancholic twilight sky, style of Thomas Cole, contemplative and cautionary tale of civilization's rise and fall."
+            }
           ]
         },
         {
           "scene_name": "American Wilderness Landscapes (Catskills, White Mountains)",
           "prompts": [
-            "Expansive view of the Catskill Mountains with a dramatic, cloud-filled sky after a thunderstorm, a tiny figure observing the sublime scene, style of Thomas Cole, sublime depiction of untamed American wilderness, rich greens, blues, and earthy browns, awe-inspiring and majestic.",
-            "The Oxbow, view from Mount Holyoke, Northampton, Massachusetts, after a Thunderstorm, style of Cole, contrasting wild forest with cultivated river plain, panoramic and iconic.",
-            "View in the White Mountains, New Hampshire, style of Thomas Cole, rugged peaks, deep valleys, and pristine forests, capturing the grandeur and wildness of the American landscape."
+            {
+              "text": "Expansive view of the Catskill Mountains with a dramatic, cloud-filled sky after a thunderstorm, a tiny figure observing the sublime scene, style of Thomas Cole, sublime depiction of untamed American wilderness, rich greens, blues, and earthy browns, awe-inspiring and majestic."
+            },
+            {
+              "text": "The Oxbow, view from Mount Holyoke, Northampton, Massachusetts, after a Thunderstorm, style of Cole, contrasting wild forest with cultivated river plain, panoramic and iconic."
+            },
+            {
+              "text": "View in the White Mountains, New Hampshire, style of Thomas Cole, rugged peaks, deep valleys, and pristine forests, capturing the grandeur and wildness of the American landscape."
+            }
           ]
         },
         {
           "scene_name": "Romantic Landscapes with Ruins",
           "prompts": [
-            "Romantic landscape with crumbling Gothic ruins or a classical temple in a wild, overgrown setting, style of Thomas Cole, conveying the passage of time and the power of nature over human endeavors, often with a melancholic or picturesque mood.",
-            "Moonlit scene with ancient ruins, style of Cole, mysterious and evocative atmosphere, dramatic play of light and shadow.",
-            "Italian landscape with ruins and distant mountains, style of Thomas Cole, inspired by his travels, combining classical elements with romantic sensibility."
+            {
+              "text": "Romantic landscape with crumbling Gothic ruins or a classical temple in a wild, overgrown setting, style of Thomas Cole, conveying the passage of time and the power of nature over human endeavors, often with a melancholic or picturesque mood."
+            },
+            {
+              "text": "Moonlit scene with ancient ruins, style of Cole, mysterious and evocative atmosphere, dramatic play of light and shadow."
+            },
+            {
+              "text": "Italian landscape with ruins and distant mountains, style of Thomas Cole, inspired by his travels, combining classical elements with romantic sensibility."
+            }
           ]
         },
         {
           "scene_name": "Pastoral American Scenery",
           "prompts": [
-            "View of a peaceful American farmstead nestled in a rolling landscape, style of Thomas Cole, cultivated fields, grazing animals, conveying an idealized vision of rural life and harmony with nature.",
-            "Landscape with a winding river and distant mountains, style of Cole, serene and picturesque, often with a focus on the beauty and bounty of the American land.",
-            "The Hunter's Return, style of Thomas Cole, log cabin in a wilderness clearing, figures returning from a hunt, capturing a scene of early American frontier life."
+            {
+              "text": "View of a peaceful American farmstead nestled in a rolling landscape, style of Thomas Cole, cultivated fields, grazing animals, conveying an idealized vision of rural life and harmony with nature."
+            },
+            {
+              "text": "Landscape with a winding river and distant mountains, style of Cole, serene and picturesque, often with a focus on the beauty and bounty of the American land."
+            },
+            {
+              "text": "The Hunter's Return, style of Thomas Cole, log cabin in a wilderness clearing, figures returning from a hunt, capturing a scene of early American frontier life."
+            }
           ]
         }
       ]
@@ -973,33 +1574,57 @@
         {
           "scene_name": "Detailed Forest Interiors (Kindred Spirits)",
           "prompts": [
-            "Two figures, a poet (William Cullen Bryant) and a painter (Thomas Cole), standing on a rocky ledge admiring a dramatic Catskills gorge ('Kindred Spirits'), style of Asher B. Durand, detailed rendering of trees, rocks, and waterfall, clear, natural light revealing intricate textures, a palette of rich greens, grays, and blues, harmonious and contemplative.",
-            "Intimate forest interior with meticulously detailed trees (birches, beeches), ferns, and moss-covered rocks, style of Durand, dappled sunlight filtering through the canopy creating a serene atmosphere, a naturalistic palette of varied greens, browns, and grays, peaceful and immersive study of nature's details.",
-            "The Beeches, style of Asher B. Durand, focusing on the majestic forms and textures of beech trees in a sunlit woodland, detailed and naturalistic."
+            {
+              "text": "Two figures, a poet (William Cullen Bryant) and a painter (Thomas Cole), standing on a rocky ledge admiring a dramatic Catskills gorge ('Kindred Spirits'), style of Asher B. Durand, detailed rendering of trees, rocks, and waterfall, clear, natural light revealing intricate textures, a palette of rich greens, grays, and blues, harmonious and contemplative."
+            },
+            {
+              "text": "Intimate forest interior with meticulously detailed trees (birches, beeches), ferns, and moss-covered rocks, style of Durand, dappled sunlight filtering through the canopy creating a serene atmosphere, a naturalistic palette of varied greens, browns, and grays, peaceful and immersive study of nature's details."
+            },
+            {
+              "text": "The Beeches, style of Asher B. Durand, focusing on the majestic forms and textures of beech trees in a sunlit woodland, detailed and naturalistic."
+            }
           ]
         },
         {
           "scene_name": "Pastoral Landscapes (New England Countryside)",
           "prompts": [
-            "Pastoral landscape with grazing sheep or cattle in a sunlit meadow beside a tranquil river, with rolling hills and distant mountains, style of Asher B. Durand, serene atmosphere of rural peace, soft, warm light, a gentle palette of greens, blues, and yellows, idyllic and harmonious depiction of cultivated nature.",
-            "View of a New England farm with fields and orchards, style of Durand, capturing the beauty and productivity of the American countryside, clear, gentle light.",
-            "Landscape with a hay wagon, style of Asher B. Durand, figures engaged in rural labor, harmonious with the surrounding landscape, peaceful and idyllic."
+            {
+              "text": "Pastoral landscape with grazing sheep or cattle in a sunlit meadow beside a tranquil river, with rolling hills and distant mountains, style of Asher B. Durand, serene atmosphere of rural peace, soft, warm light, a gentle palette of greens, blues, and yellows, idyllic and harmonious depiction of cultivated nature."
+            },
+            {
+              "text": "View of a New England farm with fields and orchards, style of Durand, capturing the beauty and productivity of the American countryside, clear, gentle light."
+            },
+            {
+              "text": "Landscape with a hay wagon, style of Asher B. Durand, figures engaged in rural labor, harmonious with the surrounding landscape, peaceful and idyllic."
+            }
           ]
         },
         {
           "scene_name": "Mountain Landscapes (Adirondacks, Catskills)",
           "prompts": [
-            "View of the Adirondack Mountains with a lake in the foreground, style of Asher B. Durand, capturing the grandeur and tranquility of the wilderness, clear, crisp light, detailed rendering of trees and mountains.",
-            "Catskill Mountains landscape with a broad vista, style of Durand, panoramic view emphasizing the expanse and beauty of the region, often with a focus on atmospheric perspective.",
-            "High Point, Shandaken Mountains, style of Asher B. Durand, capturing a specific mountain view with meticulous detail and a sense of sublime beauty."
+            {
+              "text": "View of the Adirondack Mountains with a lake in the foreground, style of Asher B. Durand, capturing the grandeur and tranquility of the wilderness, clear, crisp light, detailed rendering of trees and mountains."
+            },
+            {
+              "text": "Catskill Mountains landscape with a broad vista, style of Durand, panoramic view emphasizing the expanse and beauty of the region, often with a focus on atmospheric perspective."
+            },
+            {
+              "text": "High Point, Shandaken Mountains, style of Asher B. Durand, capturing a specific mountain view with meticulous detail and a sense of sublime beauty."
+            }
           ]
         },
         {
           "scene_name": "Tree Studies & Nature Details",
           "prompts": [
-            "Detailed study of a group of trees, focusing on their individual characteristics, bark textures, and foliage, style of Asher B. Durand, naturalistic and analytical, often painted outdoors.",
-            "Close-up of rocks and ferns by a stream, style of Durand, meticulous attention to natural detail, capturing the textures and colors of the forest floor.",
-            "Study of a single, prominent tree, style of Asher B. Durand, conveying its strength and character, careful observation of light and form."
+            {
+              "text": "Detailed study of a group of trees, focusing on their individual characteristics, bark textures, and foliage, style of Asher B. Durand, naturalistic and analytical, often painted outdoors."
+            },
+            {
+              "text": "Close-up of rocks and ferns by a stream, style of Durand, meticulous attention to natural detail, capturing the textures and colors of the forest floor."
+            },
+            {
+              "text": "Study of a single, prominent tree, style of Asher B. Durand, conveying its strength and character, careful observation of light and form."
+            }
           ]
         }
       ]
@@ -1010,33 +1635,57 @@
         {
           "scene_name": "South American Landscapes (Andes, Jungles)",
           "prompts": [
-            "Panoramic vista of the Andes mountains, featuring Cotopaxi volcano erupting or Chimborazo peak, with a lush tropical foreground of exotic plants and animals, style of Frederic Edwin Church, dramatic, luminous light at sunset or sunrise bathing the scene in gold and rose, vibrant palette, awe-inspiring and minutely detailed.",
-            "Heart of the Andes, a vast, detailed jungle landscape with a river, waterfall, and distant snow-capped peaks, style of Church, encyclopedic depiction of tropical flora and fauna, brilliant light.",
-            "Tropical jungle scene with vibrant flowers, hummingbirds, and a shimmering waterfall, style of Frederic Edwin Church, capturing the incredible biodiversity and lushness of South America, intense colors and meticulous detail."
+            {
+              "text": "Panoramic vista of the Andes mountains, featuring Cotopaxi volcano erupting or Chimborazo peak, with a lush tropical foreground of exotic plants and animals, style of Frederic Edwin Church, dramatic, luminous light at sunset or sunrise bathing the scene in gold and rose, vibrant palette, awe-inspiring and minutely detailed."
+            },
+            {
+              "text": "Heart of the Andes, a vast, detailed jungle landscape with a river, waterfall, and distant snow-capped peaks, style of Church, encyclopedic depiction of tropical flora and fauna, brilliant light."
+            },
+            {
+              "text": "Tropical jungle scene with vibrant flowers, hummingbirds, and a shimmering waterfall, style of Frederic Edwin Church, capturing the incredible biodiversity and lushness of South America, intense colors and meticulous detail."
+            }
           ]
         },
         {
           "scene_name": "Arctic Scenes (Icebergs, Aurora Borealis)",
           "prompts": [
-            "Giant, cathedral-like icebergs floating in a calm, frigid Arctic sea under a glowing, ethereal sky, perhaps with a wrecked ship for scale, style of Frederic Edwin Church (Luminism), subtle gradations of light and color, a palette of icy blues, whites, and soft pinks/oranges, sublime and desolate beauty, capturing frozen majesty.",
-            "Aurora Borealis over a frozen Arctic landscape, style of Church, dramatic display of colored lights in the night sky, reflecting on ice and snow, conveying wonder and desolation.",
-            "The Icebergs, a monumental depiction of towering ice formations, style of Frederic Edwin Church, capturing their translucency and immense scale, often with a sense of danger and awe."
+            {
+              "text": "Giant, cathedral-like icebergs floating in a calm, frigid Arctic sea under a glowing, ethereal sky, perhaps with a wrecked ship for scale, style of Frederic Edwin Church (Luminism), subtle gradations of light and color, a palette of icy blues, whites, and soft pinks/oranges, sublime and desolate beauty, capturing frozen majesty."
+            },
+            {
+              "text": "Aurora Borealis over a frozen Arctic landscape, style of Church, dramatic display of colored lights in the night sky, reflecting on ice and snow, conveying wonder and desolation."
+            },
+            {
+              "text": "The Icebergs, a monumental depiction of towering ice formations, style of Frederic Edwin Church, capturing their translucency and immense scale, often with a sense of danger and awe."
+            }
           ]
         },
         {
           "scene_name": "Niagara Falls & North American Wonders",
           "prompts": [
-            "Niagara Falls seen from the American or Canadian side, powerful rush of water creating immense mist under a dramatic, sunlit sky, often with a rainbow, style of Frederic Edwin Church, meticulous detail capturing the force and grandeur of nature, a palette of greens, blues, whites, and browns, majestic and overwhelming sensory experience.",
-            "View of the Natural Bridge, Virginia, style of Church, capturing the monumental scale and geological wonder, dramatic lighting, detailed rendering.",
-            "Sunset over a North American landscape, perhaps a lake or coastal scene, style of Frederic Edwin Church, brilliant, fiery colors in the sky reflected in the water, conveying a sense of divine presence in nature."
+            {
+              "text": "Niagara Falls seen from the American or Canadian side, powerful rush of water creating immense mist under a dramatic, sunlit sky, often with a rainbow, style of Frederic Edwin Church, meticulous detail capturing the force and grandeur of nature, a palette of greens, blues, whites, and browns, majestic and overwhelming sensory experience."
+            },
+            {
+              "text": "View of the Natural Bridge, Virginia, style of Church, capturing the monumental scale and geological wonder, dramatic lighting, detailed rendering."
+            },
+            {
+              "text": "Sunset over a North American landscape, perhaps a lake or coastal scene, style of Frederic Edwin Church, brilliant, fiery colors in the sky reflected in the water, conveying a sense of divine presence in nature."
+            }
           ]
         },
         {
           "scene_name": "Luminous Sunsets & Tropical Twilight",
           "prompts": [
-            "Spectacular sunset over the ocean or a tropical landscape, style of Frederic Edwin Church, intense, glowing colors (reds, oranges, yellows, purples) filling the sky and reflecting on water, often with silhouetted palms or mountains, conveying a sense of awe and the sublime.",
-            "Twilight in the Wilderness, a dramatic sunset over a pristine North American lake and forest, style of Church, conveying a sense of solitude and the unspoiled beauty of nature, rich, deep colors.",
-            "Evening in the Tropics, style of Frederic Edwin Church, capturing the transition from day to night in a lush jungle setting, warm, fading light, mysterious shadows, rich biodiversity."
+            {
+              "text": "Spectacular sunset over the ocean or a tropical landscape, style of Frederic Edwin Church, intense, glowing colors (reds, oranges, yellows, purples) filling the sky and reflecting on water, often with silhouetted palms or mountains, conveying a sense of awe and the sublime."
+            },
+            {
+              "text": "Twilight in the Wilderness, a dramatic sunset over a pristine North American lake and forest, style of Church, conveying a sense of solitude and the unspoiled beauty of nature, rich, deep colors."
+            },
+            {
+              "text": "Evening in the Tropics, style of Frederic Edwin Church, capturing the transition from day to night in a lush jungle setting, warm, fading light, mysterious shadows, rich biodiversity."
+            }
           ]
         }
       ]
@@ -1047,33 +1696,57 @@
         {
           "scene_name": "American West Panoramas (Rocky Mountains, Yosemite)",
           "prompts": [
-            "Sunlight breaking through storm clouds over a grand valley in the Rocky Mountains, illuminating majestic peaks, a pristine lake, and perhaps a waterfall, style of Albert Bierstadt, dramatic atmospheric effects, towering peaks and vast wilderness, a palette of golden yellows, deep blues, and rich greens, majestic and romanticized vision of the American West.",
-            "Yosemite Valley with El Capitan and Bridalveil Fall under a clear or dramatically lit sky, style of Bierstadt, capturing the monumental scale and breathtaking beauty of the granite cliffs and waterfalls, often with deer or other wildlife in the foreground.",
-            "View of Mount Corcoran or other Sierra Nevada peaks, style of Albert Bierstadt, often with a luminous, hazy light, conveying the vastness and pristine nature of the high mountains."
+            {
+              "text": "Sunlight breaking through storm clouds over a grand valley in the Rocky Mountains, illuminating majestic peaks, a pristine lake, and perhaps a waterfall, style of Albert Bierstadt, dramatic atmospheric effects, towering peaks and vast wilderness, a palette of golden yellows, deep blues, and rich greens, majestic and romanticized vision of the American West."
+            },
+            {
+              "text": "Yosemite Valley with El Capitan and Bridalveil Fall under a clear or dramatically lit sky, style of Bierstadt, capturing the monumental scale and breathtaking beauty of the granite cliffs and waterfalls, often with deer or other wildlife in the foreground."
+            },
+            {
+              "text": "View of Mount Corcoran or other Sierra Nevada peaks, style of Albert Bierstadt, often with a luminous, hazy light, conveying the vastness and pristine nature of the high mountains."
+            }
           ]
         },
         {
           "scene_name": "Native American Encampments & Life",
           "prompts": [
-            "Native American encampment by a tranquil lake or river in a Western landscape at sunset or under a moonlit sky, style of Albert Bierstadt, warm, golden light or silvery moonlight illuminating the scene, detailed depiction of figures, teepees, horses, and daily activities against a monumental natural backdrop, peaceful and idealized portrayal.",
-            "Sioux village near Fort Laramie, style of Bierstadt, capturing the cultural details and setting of Native American life on the plains, often with a sense of dignity and harmony with nature.",
-            "Native Americans hunting buffalo or deer in a vast Western landscape, style of Albert Bierstadt, dynamic and dramatic scene, emphasizing their skill and connection to the land."
+            {
+              "text": "Native American encampment by a tranquil lake or river in a Western landscape at sunset or under a moonlit sky, style of Albert Bierstadt, warm, golden light or silvery moonlight illuminating the scene, detailed depiction of figures, teepees, horses, and daily activities against a monumental natural backdrop, peaceful and idealized portrayal."
+            },
+            {
+              "text": "Sioux village near Fort Laramie, style of Bierstadt, capturing the cultural details and setting of Native American life on the plains, often with a sense of dignity and harmony with nature."
+            },
+            {
+              "text": "Native Americans hunting buffalo or deer in a vast Western landscape, style of Albert Bierstadt, dynamic and dramatic scene, emphasizing their skill and connection to the land."
+            }
           ]
         },
         {
           "scene_name": "Luminous Western Landscapes (Sunlight & Mist)",
           "prompts": [
-            "A Storm in the Rocky Mountains, Mt. Rosalie, style of Albert Bierstadt, dramatic interplay of light and shadow as a storm clears, sunbeams piercing through clouds to illuminate parts of the landscape, conveying the power and sublimity of nature.",
-            "Valley of the Yosemite, style of Bierstadt, with a soft, hazy light filling the valley, creating a sense of immense depth and ethereal beauty, often with a warm, golden glow.",
-            "Sunset in the Yosemite Valley, style of Albert Bierstadt, fiery colors in the sky reflecting on the Merced River and granite cliffs, romantic and awe-inspiring."
+            {
+              "text": "A Storm in the Rocky Mountains, Mt. Rosalie, style of Albert Bierstadt, dramatic interplay of light and shadow as a storm clears, sunbeams piercing through clouds to illuminate parts of the landscape, conveying the power and sublimity of nature."
+            },
+            {
+              "text": "Valley of the Yosemite, style of Bierstadt, with a soft, hazy light filling the valley, creating a sense of immense depth and ethereal beauty, often with a warm, golden glow."
+            },
+            {
+              "text": "Sunset in the Yosemite Valley, style of Albert Bierstadt, fiery colors in the sky reflecting on the Merced River and granite cliffs, romantic and awe-inspiring."
+            }
           ]
         },
         {
           "scene_name": "Buffalo & Wildlife in Vast Scenery",
           "prompts": [
-            "Herd of buffalo stampeding across a vast prairie under a dramatic sky, style of Albert Bierstadt, capturing the power and wildness of these iconic animals, dusty atmosphere, dynamic movement.",
-            "Deer grazing in a sunlit meadow in Yosemite or the Rocky Mountains, style of Bierstadt, peaceful and idyllic scene, emphasizing the harmony of wildlife and pristine nature.",
-            "Grizzly bears in a mountain landscape, style of Albert Bierstadt, capturing the wildness and majesty of these animals in their natural habitat."
+            {
+              "text": "Herd of buffalo stampeding across a vast prairie under a dramatic sky, style of Albert Bierstadt, capturing the power and wildness of these iconic animals, dusty atmosphere, dynamic movement."
+            },
+            {
+              "text": "Deer grazing in a sunlit meadow in Yosemite or the Rocky Mountains, style of Bierstadt, peaceful and idyllic scene, emphasizing the harmony of wildlife and pristine nature."
+            },
+            {
+              "text": "Grizzly bears in a mountain landscape, style of Albert Bierstadt, capturing the wildness and majesty of these animals in their natural habitat."
+            }
           ]
         }
       ]
@@ -1084,33 +1757,57 @@
         {
           "scene_name": "Hazy Sunsets & Sunrises (Kauterskill Clove, Coastal)",
           "prompts": [
-            "Hazy, golden sunset over Kauterskill Clove in the Catskill Mountains, the valley filled with soft, luminous mist that diffuses the light, Luminist style of Sanford Robinson Gifford, soft, diffused light creating a palpable atmosphere and dissolving forms, a palette of warm yellows, oranges, pinks, and hazy blues, serene and poetic.",
-            "Sunrise over a calm coastal scene, the sun appearing as a glowing orb through a hazy atmosphere, style of Gifford, subtle gradations of light and color, quiet and contemplative.",
-            "A Coming Storm over the Hudson River, style of Sanford Robinson Gifford, dramatic, hazy light before a storm, dark clouds contrasting with luminous sky, creating a sense of anticipation and sublime beauty."
+            {
+              "text": "Hazy, golden sunset over Kauterskill Clove in the Catskill Mountains, the valley filled with soft, luminous mist that diffuses the light, Luminist style of Sanford Robinson Gifford, soft, diffused light creating a palpable atmosphere and dissolving forms, a palette of warm yellows, oranges, pinks, and hazy blues, serene and poetic."
+            },
+            {
+              "text": "Sunrise over a calm coastal scene, the sun appearing as a glowing orb through a hazy atmosphere, style of Gifford, subtle gradations of light and color, quiet and contemplative."
+            },
+            {
+              "text": "A Coming Storm over the Hudson River, style of Sanford Robinson Gifford, dramatic, hazy light before a storm, dark clouds contrasting with luminous sky, creating a sense of anticipation and sublime beauty."
+            }
           ]
         },
         {
           "scene_name": "Misty River & Lake Scenes (Hudson River)",
           "prompts": [
-            "Boats on the Hudson River veiled in a luminous morning mist, with distant, softened shorelines and subtle reflections, style of Sanford Robinson Gifford, subtle gradations of light and color creating a quiet glow, a delicate palette of grays, blues, and soft whites, quiet, contemplative, and ethereal.",
-            "View of Mount Mansfield from Lake Champlain, style of Gifford, hazy atmosphere, distant mountains appearing soft and ethereal, calm water reflecting the sky, serene and picturesque.",
-            "A Lake Twilight, style of Sanford Robinson Gifford, capturing the soft, fading light and quiet mood of dusk over a still lake, minimal detail, focus on atmosphere and light."
+            {
+              "text": "Boats on the Hudson River veiled in a luminous morning mist, with distant, softened shorelines and subtle reflections, style of Sanford Robinson Gifford, subtle gradations of light and color creating a quiet glow, a delicate palette of grays, blues, and soft whites, quiet, contemplative, and ethereal."
+            },
+            {
+              "text": "View of Mount Mansfield from Lake Champlain, style of Gifford, hazy atmosphere, distant mountains appearing soft and ethereal, calm water reflecting the sky, serene and picturesque."
+            },
+            {
+              "text": "A Lake Twilight, style of Sanford Robinson Gifford, capturing the soft, fading light and quiet mood of dusk over a still lake, minimal detail, focus on atmosphere and light."
+            }
           ]
         },
         {
           "scene_name": "Italian Landscapes (Venice, Roman Campagna)",
           "prompts": [
-            "View of Venetian canals and architecture bathed in a warm, hazy Italian light, perhaps at sunset or sunrise, style of Sanford Robinson Gifford, shimmering reflections on water and soft edges of buildings, a palette of golden yellows, ochres, and pale blues, romantic and atmospheric, capturing the unique light of Venice.",
-            "The Roman Campagna with ancient ruins under a soft, hazy sky, style of Gifford, conveying a sense of history and timelessness, gentle light and subtle colors.",
-            "Lake Maggiore, Italy, style of Sanford Robinson Gifford, capturing the beauty of the Italian lakes with his signature hazy atmosphere and luminous light, serene and picturesque."
+            {
+              "text": "View of Venetian canals and architecture bathed in a warm, hazy Italian light, perhaps at sunset or sunrise, style of Sanford Robinson Gifford, shimmering reflections on water and soft edges of buildings, a palette of golden yellows, ochres, and pale blues, romantic and atmospheric, capturing the unique light of Venice."
+            },
+            {
+              "text": "The Roman Campagna with ancient ruins under a soft, hazy sky, style of Gifford, conveying a sense of history and timelessness, gentle light and subtle colors."
+            },
+            {
+              "text": "Lake Maggiore, Italy, style of Sanford Robinson Gifford, capturing the beauty of the Italian lakes with his signature hazy atmosphere and luminous light, serene and picturesque."
+            }
           ]
         },
         {
           "scene_name": "Atmospheric Mountain Views",
           "prompts": [
-            "A Sketch of Mount Chocorua, New Hampshire, style of Sanford Robinson Gifford, capturing the mountain peak through a hazy, atmospheric veil, soft light and subtle color variations, conveying its majestic presence.",
-            "View from South Mountain, Catskills, style of Gifford, panoramic vista with layers of hills and valleys receding into a hazy distance, focus on atmospheric perspective and light.",
-            "Sunset on the Palisades, style of Sanford Robinson Gifford, capturing the cliffs along the Hudson River bathed in the warm, hazy light of sunset, serene and beautiful."
+            {
+              "text": "A Sketch of Mount Chocorua, New Hampshire, style of Sanford Robinson Gifford, capturing the mountain peak through a hazy, atmospheric veil, soft light and subtle color variations, conveying its majestic presence."
+            },
+            {
+              "text": "View from South Mountain, Catskills, style of Gifford, panoramic vista with layers of hills and valleys receding into a hazy distance, focus on atmospheric perspective and light."
+            },
+            {
+              "text": "Sunset on the Palisades, style of Sanford Robinson Gifford, capturing the cliffs along the Hudson River bathed in the warm, hazy light of sunset, serene and beautiful."
+            }
           ]
         }
       ]
@@ -1121,33 +1818,57 @@
         {
           "scene_name": "Autumn Landscapes (Vibrant Foliage)",
           "prompts": [
-            "Vibrant autumn landscape in the Hudson River Valley with brilliant red, orange, and yellow foliage under a clear blue sky, style of Jasper Francis Cropsey, clear, crisp autumn light enhancing the intense colors, detailed rendering of individual leaves and trees, panoramic view, celebratory and intensely colorful.",
-            "Autumn on the Hudson River, style of Cropsey, showcasing the brilliant fall colors of the trees lining the riverbanks, often with boats on the water, capturing the peak of seasonal beauty.",
-            "View of a forest in autumn, style of Jasper Francis Cropsey, a tapestry of red, orange, and gold leaves, sunlight filtering through the canopy, immersive and dazzling."
+            {
+              "text": "Vibrant autumn landscape in the Hudson River Valley with brilliant red, orange, and yellow foliage under a clear blue sky, style of Jasper Francis Cropsey, clear, crisp autumn light enhancing the intense colors, detailed rendering of individual leaves and trees, panoramic view, celebratory and intensely colorful."
+            },
+            {
+              "text": "Autumn on the Hudson River, style of Cropsey, showcasing the brilliant fall colors of the trees lining the riverbanks, often with boats on the water, capturing the peak of seasonal beauty."
+            },
+            {
+              "text": "View of a forest in autumn, style of Jasper Francis Cropsey, a tapestry of red, orange, and gold leaves, sunlight filtering through the canopy, immersive and dazzling."
+            }
           ]
         },
         {
           "scene_name": "Hudson River Valley Scenes",
           "prompts": [
-            "View of the Hudson River with distant mountains and sailboats, style of Jasper Francis Cropsey, capturing the picturesque beauty of the valley, often with a clear, bright light and detailed rendering of landscape features.",
-            "Summer landscape in the Hudson River Valley, style of Cropsey, lush green foliage, calm river, and hazy distant hills, serene and idyllic.",
-            "Winter on the Hudson, style of Jasper Francis Cropsey, snow-covered landscape, frozen river, capturing the crispness and stillness of winter, often with a subtle, cool palette."
+            {
+              "text": "View of the Hudson River with distant mountains and sailboats, style of Jasper Francis Cropsey, capturing the picturesque beauty of the valley, often with a clear, bright light and detailed rendering of landscape features."
+            },
+            {
+              "text": "Summer landscape in the Hudson River Valley, style of Cropsey, lush green foliage, calm river, and hazy distant hills, serene and idyllic."
+            },
+            {
+              "text": "Winter on the Hudson, style of Jasper Francis Cropsey, snow-covered landscape, frozen river, capturing the crispness and stillness of winter, often with a subtle, cool palette."
+            }
           ]
         },
         {
           "scene_name": "Views of American Landmarks (Starrucca Viaduct)",
           "prompts": [
-            "Starrucca Viaduct, Pennsylvania, a train crossing a grand stone railway viaduct amidst a blaze of autumn foliage, style of Jasper Francis Cropsey, harmonious blend of human engineering and nature's autumnal splendor, warm, rich autumnal colors, detailed and picturesque composition.",
-            "View of Mount Washington, New Hampshire, style of Cropsey, capturing the majestic peak, often with dramatic cloud formations or autumn colors.",
-            "Niagara Falls, style of Jasper Francis Cropsey, depicting the iconic waterfall with attention to detail and the surrounding landscape, often highlighting its grandeur."
+            {
+              "text": "Starrucca Viaduct, Pennsylvania, a train crossing a grand stone railway viaduct amidst a blaze of autumn foliage, style of Jasper Francis Cropsey, harmonious blend of human engineering and nature's autumnal splendor, warm, rich autumnal colors, detailed and picturesque composition."
+            },
+            {
+              "text": "View of Mount Washington, New Hampshire, style of Cropsey, capturing the majestic peak, often with dramatic cloud formations or autumn colors."
+            },
+            {
+              "text": "Niagara Falls, style of Jasper Francis Cropsey, depicting the iconic waterfall with attention to detail and the surrounding landscape, often highlighting its grandeur."
+            }
           ]
         },
         {
           "scene_name": "English Landscapes (Isle of Wight)",
           "prompts": [
-            "View of the coastline of the Isle of Wight, England, style of Jasper Francis Cropsey, capturing the cliffs, sea, and sky with his characteristic clarity and attention to detail, often with a bright, breezy atmosphere.",
-            "English countryside scene with rolling hills and cottages, style of Cropsey, detailed rendering of foliage and architecture, capturing the charm of rural England.",
-            "Richmond Hill in Summer, style of Jasper Francis Cropsey, panoramic view of the English landscape, lush greenery, clear light, detailed and picturesque."
+            {
+              "text": "View of the coastline of the Isle of Wight, England, style of Jasper Francis Cropsey, capturing the cliffs, sea, and sky with his characteristic clarity and attention to detail, often with a bright, breezy atmosphere."
+            },
+            {
+              "text": "English countryside scene with rolling hills and cottages, style of Cropsey, detailed rendering of foliage and architecture, capturing the charm of rural England."
+            },
+            {
+              "text": "Richmond Hill in Summer, style of Jasper Francis Cropsey, panoramic view of the English landscape, lush greenery, clear light, detailed and picturesque."
+            }
           ]
         }
       ]
@@ -1238,10 +1959,50 @@
             
             const scene = artData[selectedSchoolName][selectedArtistIndex].scene_prompts[selectedSceneIndex];
             promptListDisplayDiv.innerHTML = ''; // Clear default message
-            scene.prompts.forEach(promptText => {
+            
+            scene.prompts.forEach((prompt, index) => {
                 const promptDiv = document.createElement('div');
                 promptDiv.className = 'prompt';
+                
+                // Handle both string and object formats
+                let promptText, imageUrl;
+                if (typeof prompt === 'string') {
+                    promptText = prompt;
+                    imageUrl = null;
+                } else if (prompt && typeof prompt === 'object') {
+                    promptText = prompt.text || '';
+                    imageUrl = prompt.image_url || null;
+                } else {
+                    promptText = String(prompt);
+                    imageUrl = null;
+                }
+                
+                // Add the prompt text
                 promptDiv.textContent = promptText;
+                
+                // Add image icon if there's an image URL
+                if (imageUrl) {
+                    const iconSpan = document.createElement('span');
+                    iconSpan.className = 'image-icon';
+                    iconSpan.textContent = ' 🖼️';
+                    iconSpan.title = 'Click to view image';
+                    
+                    // Create the image element (hidden by default)
+                    const img = document.createElement('img');
+                    img.className = 'prompt-image';
+                    img.src = imageUrl;
+                    img.alt = 'Generated image for this prompt';
+                    
+                    // Add click handler to toggle image visibility
+                    iconSpan.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        img.classList.toggle('visible');
+                    });
+                    
+                    promptDiv.appendChild(iconSpan);
+                    promptDiv.appendChild(img);
+                }
+                
                 promptListDisplayDiv.appendChild(promptDiv);
             });
         }
