@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gelfand Representation Theorem — Level 1 Illustrated Proof</title>
+<style>
+  :root {
+    --bg-outer: #0C192D;
+    --bg-panel: #142745;
+    --bg-card: #263E5C;
+    --bg-card-hover: #2C486A;
+    --bg-subtle: #1B3254;
+    --accent: #F0CD79;
+    --accent-soft: rgba(240, 205, 121, 0.14);
+    --accent-text-on: #142745;
+    --teal: #8CDDD3;
+    --teal-soft: rgba(140, 221, 211, 0.14);
+    --text-title: #FFFFFF;
+    --text-primary: #F7F4ED;
+    --text-secondary: #C9D5E5;
+    --text-muted: #BACBDF;
+    --divider: #536A84;
+    --diagram-bg: #10203A;
+    --diagram-box: #1E3556;
+    --diagram-stroke: #8CDDD3;
+    --focus-ring: #F0CD79;
+    --shadow: 0 12px 32px rgba(5, 12, 24, 0.45);
+  }
+  [data-theme="light"] {
+    --bg-outer: #EAE5D9;
+    --bg-panel: #FAF8F3;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #F4F7FA;
+    --bg-subtle: #EFF3F7;
+    --accent: #0B665E;
+    --accent-soft: rgba(11, 102, 94, 0.10);
+    --accent-text-on: #FFFFFF;
+    --teal: #24588A;
+    --teal-soft: rgba(36, 88, 138, 0.10);
+    --text-title: #132238;
+    --text-primary: #1B2B40;
+    --text-secondary: #3A4F68;
+    --text-muted: #4F6680;
+    --divider: #CBD5E1;
+    --diagram-bg: #F3F6FA;
+    --diagram-box: #FFFFFF;
+    --diagram-stroke: #24588A;
+    --focus-ring: #0B665E;
+    --shadow: 0 8px 24px rgba(19, 34, 56, 0.08);
+  }
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    padding: 16px 12px 40px;
+    background-color: var(--bg-outer);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .app-shell {
+    max-width: 1060px;
+    margin: 0 auto;
+    background-color: var(--bg-panel);
+    border: 1px solid var(--divider);
+    border-radius: 14px;
+    padding: 18px 16px 24px;
+    box-shadow: var(--shadow);
+  }
+  @media (min-width: 680px) {
+    body {
+      padding: 24px 20px 48px;
+    }
+    .app-shell {
+      padding: 26px 28px 32px;
+    }
+  }
+  .top-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 4px;
+  }
+  h1 {
+    margin: 0;
+    font-size: 1.45rem;
+    line-height: 1.25;
+    color: var(--text-title);
+    font-weight: 700;
+  }
+  @media (min-width: 680px) {
+    h1 {
+      font-size: 1.75rem;
+    }
+  }
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--divider);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover {
+    background-color: var(--bg-card-hover);
+  }
+  .theme-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    display: inline-block;
+  }
+  .premise {
+    margin: 0 0 14px;
+    color: var(--text-secondary);
+    font-size: 0.96rem;
+    max-width: 78ch;
+  }
+  .premise strong {
+    color: var(--text-title);
+  }
+  .notation-wrap {
+    margin-bottom: 16px;
+  }
+  .notation-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 4px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--divider);
+    background-color: var(--bg-subtle);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .notation-toggle:hover {
+    color: var(--text-title);
+  }
+  .notation-panel {
+    margin-top: 10px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background-color: var(--bg-subtle);
+    border: 1px solid var(--divider);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 8px 16px;
+    font-size: 0.88rem;
+  }
+  .notation-panel[hidden] {
+    display: none;
+  }
+  .notation-item {
+    color: var(--text-secondary);
+  }
+  .notation-sym {
+    font-weight: 700;
+    color: var(--accent);
+    font-family: "Cambria Math", "STIX Two Math", Georgia, serif;
+  }
+  .overview-bar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  @media (min-width: 720px) {
+    .overview-bar {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+  }
+  .phase-box {
+    background-color: var(--bg-subtle);
+    border: 1px solid var(--divider);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .phase-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .phase-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-title);
+    margin-bottom: 6px;
+  }
+  .phase-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .step-pill {
+    min-width: 32px;
+    min-height: 30px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--divider);
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .step-pill.is-active {
+    background-color: var(--accent);
+    color: var(--accent-text-on);
+    border-color: var(--accent);
+  }
+  .controls-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0 14px;
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+    margin-bottom: 16px;
+  }
+  .mode-group, .action-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn {
+    min-height: 40px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--divider);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .btn:hover:not(:disabled) {
+    background-color: var(--bg-card-hover);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background-color: var(--accent);
+    color: var(--accent-text-on);
+    border-color: var(--accent);
+  }
+  .btn-primary:hover:not(:disabled) {
+    opacity: 0.92;
+    background-color: var(--accent);
+  }
+  .btn-tab.is-selected {
+    background-color: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .counter-text {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-right: 4px;
+  }
+  button:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+  .accordion-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .accordion-list[hidden], .focus-view[hidden] {
+    display: none;
+  }
+  .step-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--divider);
+    border-radius: 11px;
+    overflow: hidden;
+  }
+  .step-card.is-open {
+    border-color: var(--accent);
+  }
+  .step-header {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 36px 1fr 24px;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: transparent;
+    border: none;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .step-header:hover {
+    background-color: var(--bg-card-hover);
+  }
+  .step-num {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background-color: var(--accent);
+    color: var(--accent-text-on);
+    font-weight: 800;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-title-col {
+    min-width: 0;
+  }
+  .step-title {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--text-title);
+    line-height: 1.3;
+  }
+  .step-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+    line-height: 1.35;
+  }
+  .step-chevron {
+    color: var(--accent);
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+  .step-card.is-open .step-chevron {
+    transform: rotate(180deg);
+  }
+  .step-body {
+    border-top: 1px solid var(--divider);
+    padding: 14px 16px 18px;
+  }
+  .step-body[hidden] {
+    display: none;
+  }
+  .step-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  @media (min-width: 820px) {
+    .step-layout {
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 22px;
+    }
+  }
+  .substeps-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .substep-item {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 6px;
+    align-items: baseline;
+  }
+  .substep-letter {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.92rem;
+  }
+  .substep-takeaway {
+    display: block;
+    color: var(--accent);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+    margin-bottom: 3px;
+  }
+  .substep-explanation {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 0.94rem;
+    line-height: 1.5;
+  }
+  .diagram-card {
+    background-color: var(--diagram-bg);
+    border: 1px solid var(--divider);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .diagram-svg-wrap {
+    width: 100%;
+    overflow: hidden;
+  }
+  .diagram-svg-wrap svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .diagram-caption {
+    margin: 10px 0 0;
+    padding-top: 8px;
+    border-top: 1px solid var(--divider);
+    font-size: 0.84rem;
+    line-height: 1.45;
+    color: var(--text-secondary);
+  }
+  .diagram-caption strong {
+    color: var(--accent);
+  }
+  .focus-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .focus-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .focus-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .dep-note {
+    margin: 0 0 12px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background-color: var(--teal-soft);
+    border-left: 3px solid var(--teal);
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+  }
+  .conclusion-footer {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--divider);
+  }
+  .conclusion-kicker {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 4px;
+  }
+  .conclusion-expr {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-title);
+    margin: 0 0 4px;
+    font-family: "Cambria Math", "STIX Two Math", Georgia, serif;
+  }
+  .conclusion-text {
+    margin: 0;
+    font-size: 0.94rem;
+    color: var(--text-secondary);
+  }
+  .math {
+    font-family: "Cambria Math", "STIX Two Math", Georgia, serif;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<main class="app-shell">
+  <div class="top-bar">
+    <div>
+      <p class="eyebrow">Gelfand Representation Theorem &middot; Level 1 Proof</p>
+      <h1>Every Commutative Unital C*-Algebra Is C(X)</h1>
+    </div>
+    <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle color theme">
+      <span class="theme-dot" aria-hidden="true"></span>
+      <span id="themeLabel">Theme: Dark</span>
+    </button>
+  </div>
+  <p class="premise">
+    <strong>Assumptions &amp; Goal:</strong> Let <span class="math">A</span> be a nonzero commutative unital complex C*-algebra. Construct its compact Hausdorff character space <span class="math">X = Spec(A)</span> and prove that the Gelfand transform <span class="math">&Gamma;: A &rarr; C(X)</span> is an isometric *-isomorphism.
+  </p>
+  <div class="notation-wrap">
+    <button type="button" id="notationToggle" class="notation-toggle" aria-expanded="false" aria-controls="notationPanel">
+      Notation &amp; Key Objects
+    </button>
+    <div id="notationPanel" class="notation-panel" hidden>
+      <div class="notation-item"><span class="notation-sym">A</span> &mdash; Nonzero commutative unital complex C*-algebra with identity <span class="math">1<sub>A</sub></span></div>
+      <div class="notation-item"><span class="notation-sym">M</span> &mdash; Maximal proper ideal of <span class="math">A</span></div>
+      <div class="notation-item"><span class="notation-sym">A*</span> &mdash; Bounded dual space of continuous linear functionals <span class="math">A &rarr; &#8450;</span></div>
+      <div class="notation-item"><span class="notation-sym">a*</span> &mdash; Involution (adjoint) of element <span class="math">a &isin; A</span></div>
+      <div class="notation-item"><span class="notation-sym">X = Spec(A)</span> &mdash; Set of characters <span class="math">&phi;: A &rarr; &#8450;</span> with weak-* topology</div>
+      <div class="notation-item"><span class="notation-sym">&sigma;(a), r(a)</span> &mdash; Spectrum of <span class="math">a</span> and spectral radius <span class="math">sup{|&lambda;| : &lambda; &isin; &sigma;(a)}</span></div>
+      <div class="notation-item"><span class="notation-sym">&Gamma;(a) = &#226;</span> &mdash; Gelfand transform <span class="math">&#226;(&phi;) = &phi;(a)</span></div>
+      <div class="notation-item"><span class="notation-sym">C(X)</span> &mdash; Continuous functions <span class="math">X &rarr; &#8450;</span> with sup norm <span class="math">&Vert;&middot;&Vert;<sub>&infin;</sub></span></div>
+    </div>
+  </div>
+  <section class="overview-bar" aria-label="Proof phases">
+    <div class="phase-box">
+      <div class="phase-label">Phase I &middot; Steps 1&ndash;4</div>
+      <div class="phase-title">Construct Characters</div>
+      <div class="phase-pills" data-phase="1"></div>
+    </div>
+    <div class="phase-box">
+      <div class="phase-label">Phase II &middot; Steps 5&ndash;6</div>
+      <div class="phase-title">Build Compact Hausdorff X</div>
+      <div class="phase-pills" data-phase="2"></div>
+    </div>
+    <div class="phase-box">
+      <div class="phase-label">Phase III &middot; Steps 7&ndash;9</div>
+      <div class="phase-title">Prove A &cong; C(X)</div>
+      <div class="phase-pills" data-phase="3"></div>
+    </div>
+  </section>
+  <div class="controls-bar">
+    <div class="mode-group" role="tablist" aria-label="Presentation mode">
+      <button type="button" id="modeOverview" class="btn btn-tab is-selected" role="tab" aria-selected="true">All Steps (Accordions)</button>
+      <button type="button" id="modeFocus" class="btn btn-tab" role="tab" aria-selected="false">Focus View (1 at a time)</button>
+    </div>
+    <div class="action-group" id="accordionControls">
+      <span id="expandedCounter" class="counter-text" aria-live="polite">0 of 9 expanded</span>
+      <button type="button" id="resetBtn" class="btn" disabled>Reset</button>
+      <button type="button" id="revealNextBtn" class="btn btn-primary">Reveal next</button>
+    </div>
+  </div>
+  <section id="accordionList" class="accordion-list" aria-label="Proof steps"></section>
+  <section id="focusView" class="focus-view" aria-label="Focused proof step" hidden></section>
+  <footer class="conclusion-footer">
+    <p class="conclusion-kicker">The Conclusion</p>
+    <p class="conclusion-expr">A &cong; C(Spec(A))</p>
+    <p class="conclusion-text">An isometric *-isomorphism &mdash; the central representation theorem underlying Gelfand duality.</p>
+  </footer>
+</main>
+<script>
+const CONTENT = [
+  {
+    id: 1,
+    phase: 1,
+    title: "Maximal ideals exist",
+    subtitle: "Zorn\u2019s lemma.",
+    uses: "Assumptions: A is a nonzero unital algebra.",
+    parts: [
+      {
+        takeaway: "Nonempty partially ordered set.",
+        explanation: "The proper ideals of A include {0} and are ordered by inclusion."
+      },
+      {
+        takeaway: "Every chain has an upper bound.",
+        explanation: "The union of a chain of proper ideals is itself a proper ideal."
+      },
+      {
+        takeaway: "Apply Zorn\u2019s lemma.",
+        explanation: "The required conditions hold, so a maximal proper ideal M exists."
+      }
+    ],
+    caption: "Notice: The union of the chain is a proper upper bound inside the chain-ordered poset (schematic), while Zorn\u2019s lemma supplies a maximal ideal M above it."
+  },
+  {
+    id: 2,
+    phase: 1,
+    title: "Maximal ideals are closed",
+    subtitle: "Continuity, Neumann, maximality.",
+    uses: "Uses Step 1 (a maximal proper ideal M exists).",
+    parts: [
+      {
+        takeaway: "Closure preserves the ideal property.",
+        explanation: "Continuity of algebra operations makes the norm closure M\u0304 an ideal."
+      },
+      {
+        takeaway: "Neumann excludes M\u0304 = A.",
+        explanation: "Otherwise some m \u2208 M satisfies \u2016m \u2212 1_A\u2016 < 1, hence is invertible, impossible for a proper ideal."
+      },
+      {
+        takeaway: "Maximality forces closedness.",
+        explanation: "Since M \u2286 M\u0304 and M\u0304 is proper, M\u0304 = M."
+      }
+    ],
+    caption: "Notice: Every element inside the open unit ball around 1_A is invertible by Neumann series, so a proper ideal M cannot enter that ball\u2014preventing M\u0304 from reaching 1_A."
+  },
+  {
+    id: 3,
+    phase: 1,
+    title: "Construct the quotient Banach algebra",
+    subtitle: "Cosets, norm, completeness.",
+    uses: "Uses Step 2 (M is closed).",
+    parts: [
+      {
+        takeaway: "Form the quotient algebra.",
+        explanation: "A/M consists of cosets a + M, with induced complex algebra operations and identity 1_A + M."
+      },
+      {
+        takeaway: "Closedness gives a genuine norm.",
+        explanation: "Define \u2016a + M\u2016 = inf{\u2016a \u2212 m\u2016 : m \u2208 M}. Closedness of M prevents nonzero cosets from having norm zero; the quotient norm is submultiplicative."
+      },
+      {
+        takeaway: "The quotient is complete.",
+        explanation: "A is Banach and M is closed, so the quotient Banach-space theorem makes A/M complete."
+      },
+      {
+        takeaway: "Conclusion.",
+        explanation: "A/M is a complex unital Banach algebra."
+      }
+    ],
+    caption: "Notice: Whole cosets a + M collapse to single points in A/M (geometric analogy); closedness of M ensures that a coset outside M has strictly positive distance to M."
+  },
+  {
+    id: 4,
+    phase: 1,
+    title: "Obtain characters",
+    subtitle: "Division algebra and Gelfand\u2013Mazur.",
+    uses: "Uses Step 1 (maximality) and Step 3 (A/M is a complex unital Banach algebra).",
+    parts: [
+      {
+        takeaway: "Maximality gives division.",
+        explanation: "It can be shown that every nonzero coset in A/M is invertible."
+      },
+      {
+        takeaway: "Apply Gelfand\u2013Mazur.",
+        explanation: "The complex unital Banach division algebra A/M is isomorphic to \u2102."
+      },
+      {
+        takeaway: "Construct a character.",
+        explanation: "Compose quotient map q: A \u2192 A/M with isomorphism i: A/M \u2192 \u2102 to obtain \u03c6 = i \u2218 q."
+      },
+      {
+        takeaway: "Recover maximal ideals.",
+        explanation: "Conversely, kernels of characters are maximal ideals."
+      }
+    ],
+    caption: "Notice: Closedness supplies the Banach quotient and maximality supplies invertibility of nonzero cosets; Gelfand\u2013Mazur collapses A/M to \u2102, yielding \u03c6 = i \u2218 q with ker \u03c6 = M."
+  },
+  {
+    id: 5,
+    phase: 2,
+    title: "Construct the character space",
+    subtitle: "Bounded dual and weak-* topology.",
+    uses: "Uses Step 4 (characters \u03c6: A \u2192 \u2102 exist).",
+    parts: [
+      {
+        takeaway: "Collect the characters.",
+        explanation: "X = Spec(A) is the set of all nonzero multiplicative complex-linear functionals \u03c6: A \u2192 \u2102."
+      },
+      {
+        takeaway: "Place X inside the dual.",
+        explanation: "It can be shown that every character has norm 1, so X \u2286 A*, the bounded dual space."
+      },
+      {
+        takeaway: "Define the weak-* topology.",
+        explanation: "Use the weakest topology making all evaluations E_a(\u03c6) = \u03c6(a), for a \u2208 A, continuous."
+      }
+    ],
+    caption: "Notice: A weak-* neighborhood around \u03c6 constrains only finitely many evaluations |\u03c8(a_k) \u2212 \u03c6(a_k)| < \u03b5. Note that A* is the bounded dual space, distinct from element involution a*."
+  },
+  {
+    id: 6,
+    phase: 2,
+    title: "Establish compact Hausdorff",
+    subtitle: "Banach\u2013Alaoglu and separation.",
+    uses: "Uses Step 5 (X \u2286 A* with weak-* topology and \u2016\u03c6\u2016 = 1).",
+    parts: [
+      {
+        takeaway: "Banach\u2013Alaoglu supplies compactness.",
+        explanation: "The closed unit ball of A* is weak-* compact."
+      },
+      {
+        takeaway: "Closedness transfers compactness.",
+        explanation: "Characters have norm 1, so X lies in that ball. It can be shown that X is weak-* closed; therefore X is compact."
+      },
+      {
+        takeaway: "Evaluations separate characters.",
+        explanation: "If \u03c6 \u2260 \u03c8, some a \u2208 A gives \u03c6(a) \u2260 \u03c8(a). Since \u2102 is Hausdorff and E_a is continuous, disjoint neighborhoods pull back to X."
+      },
+      {
+        takeaway: "Conclusion.",
+        explanation: "X is compact Hausdorff."
+      }
+    ],
+    caption: "Notice: Compactness and Hausdorffness come from two separate arguments\u2014Banach\u2013Alaoglu on the closed unit ball plus weak-* closedness, and pulling back disjoint open disks from \u2102 via E_a."
+  },
+  {
+    id: 7,
+    phase: 3,
+    title: "Define the Gelfand transform",
+    subtitle: "Evaluation and *-homomorphism.",
+    uses: "Uses Steps 5\u20136 (weak-* topology on compact Hausdorff X).",
+    parts: [
+      {
+        takeaway: "Define the transform.",
+        explanation: "For a \u2208 A, set \u00e2(\u03c6) = \u03c6(a), and \u0393(a) = \u00e2."
+      },
+      {
+        takeaway: "Continuity is built in.",
+        explanation: "The weak-* topology makes \u00e2 continuous; thus \u0393 maps A into C(X), the algebra of continuous complex-valued functions on X."
+      },
+      {
+        takeaway: "Preserve algebraic structure.",
+        explanation: "Character linearity, multiplicativity and unity give the corresponding properties of \u0393."
+      },
+      {
+        takeaway: "Preserve involution.",
+        explanation: "Characters on C*-algebras respect involution; hence \u0393 is a unital *-homomorphism."
+      }
+    ],
+    caption: "Notice: Fixing \u03c6 and varying a gives a character on A; fixing a and varying \u03c6 gives the continuous function \u00e2 on X. Both read the same pairing \u00e2(\u03c6) = \u03c6(a)."
+  },
+  {
+    id: 8,
+    phase: 3,
+    title: "Establish isometry and closed image",
+    subtitle: "Spectrum, spectral radius, completeness.",
+    uses: "Uses Steps 1, 4 (\u03c3(a) = {\u03c6(a)}) and Step 7 (\u0393: A \u2192 C(X)).",
+    parts: [
+      {
+        takeaway: "Identify the spectrum.",
+        explanation: "For fixed a, \u03c3(a) = {\u03c6(a) : \u03c6 \u2208 X}. Here \u03c3(a) is the set of \u03bb for which a \u2212 \u03bb1_A is not invertible; r(a) = sup{|\u03bb| : \u03bb \u2208 \u03c3(a)} is the spectral radius. Thus r(a) = \u2016\u00e2\u2016_\u221e."
+      },
+      {
+        takeaway: "Invoke the C*-spectral-radius theorem.",
+        explanation: "Commutativity makes every a normal (a*a = aa*); therefore r(a) = \u2016a\u2016."
+      },
+      {
+        takeaway: "Conclude isometry and injectivity.",
+        explanation: "\u2016\u0393(a)\u2016_\u221e = \u2016a\u2016, making \u0393 an isometry and therefore injective."
+      },
+      {
+        takeaway: "Transfer completeness.",
+        explanation: "Since A is Banach, the isometric image \u0393(A) is complete; every complete subspace of a normed space is closed."
+      }
+    ],
+    caption: "Notice: The equality chain \u2016\u00e2\u2016_\u221e = r(a) = \u2016a\u2016 relies on commutativity (making every element normal), and then branches into injectivity and completeness-driven closedness of \u0393(A)."
+  },
+  {
+    id: 9,
+    phase: 3,
+    title: "Establish surjectivity",
+    subtitle: "Stone\u2013Weierstrass: dense + closed.",
+    uses: "Uses Step 6 (X compact Hausdorff), Step 7 (*-homomorphism), and Step 8 (\u0393(A) is closed).",
+    parts: [
+      {
+        takeaway: "Constants are present.",
+        explanation: "\u0393(1_A) is the constant function 1, so \u0393(A) contains all constants."
+      },
+      {
+        takeaway: "Points are separated.",
+        explanation: "Distinct characters differ on some a \u2208 A, so the functions \u00e2 separate points of X."
+      },
+      {
+        takeaway: "Conjugation is preserved.",
+        explanation: "\u0393 respects involution; hence \u0393(A) is closed under complex conjugation."
+      },
+      {
+        takeaway: "Apply Stone\u2013Weierstrass.",
+        explanation: "\u0393(A) is a complex subalgebra of C(X), and X is compact Hausdorff. These three conditions make \u0393(A) dense in C(X)."
+      },
+      {
+        takeaway: "Combine density with closedness.",
+        explanation: "Step 8 gave closedness, so \u0393(A) = C(X). Thus \u0393 is surjective and is an isometric *-isomorphism."
+      }
+    ],
+    caption: "Notice: Neither branch proves surjectivity alone\u2014complex Stone\u2013Weierstrass supplies density in C(X), while Step 8 supplies closedness; together they force \u0393(A) = C(X)."
+  }
+];
+const DIAGRAMS = {
+  1: `
+  <svg viewBox="0 0 380 220" role="img" aria-label="Schematic chain of proper ideals and union leading to maximal ideal M">
+    <defs>
+      <marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,1 L10,5 L0,9 z" fill="var(--diagram-stroke)"/>
+      </marker>
+    </defs>
+    <text x="16" y="22" font-size="11" font-weight="700" fill="var(--accent)">SCHEMATIC POSET OF PROPER IDEALS</text>
+    <rect x="20" y="158" width="54" height="32" rx="6" fill="var(--diagram-box)" stroke="var(--divider)" stroke-width="1.5"/>
+    <text x="47" y="179" font-size="13" text-anchor="middle" fill="var(--text-primary)">{0}</text>
+    <line x1="74" y1="174" x2="100" y2="146" stroke="var(--diagram-stroke)" stroke-width="1.6" marker-end="url(#arr1)"/>
+    <rect x="104" y="122" width="54" height="32" rx="6" fill="var(--diagram-box)" stroke="var(--divider)" stroke-width="1.5"/>
+    <text x="131" y="143" font-size="13" text-anchor="middle" fill="var(--text-primary)">I&#x2081;</text>
+    <line x1="158" y1="138" x2="184" y2="110" stroke="var(--diagram-stroke)" stroke-width="1.6" marker-end="url(#arr1)"/>
+    <rect x="188" y="86" width="54" height="32" rx="6" fill="var(--diagram-box)" stroke="var(--divider)" stroke-width="1.5"/>
+    <text x="215" y="107" font-size="13" text-anchor="middle" fill="var(--text-primary)">I&#x2082;</text>
+    <line x1="242" y1="102" x2="268" y2="74" stroke="var(--diagram-stroke)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#arr1)"/>
+    <rect x="272" y="46" width="88" height="36" rx="7" fill="var(--diagram-box)" stroke="var(--diagram-stroke)" stroke-width="1.8"/>
+    <text x="316" y="69" font-size="13" font-weight="700" text-anchor="middle" fill="var(--diagram-stroke)">U = &#x22C3; I&#x03B1;</text>
+    <text x="316" y="98" font-size="11" text-anchor="middle" fill="var(--text-secondary)">1_A &#x2209; U (proper)</text>
+    <line x1="316" y1="108" x2="316" y2="140" stroke="var(--accent)" stroke-width="1.8" stroke-dasharray="4 3" marker-end="url(#arr1)"/>
+    <rect x="256" y="146" width="108" height="44" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+    <text x="310" y="166" font-size="13" font-weight="700" text-anchor="middle" fill="var(--accent)">Maximal M</text>
+    <text x="310" y="182" font-size="11" text-anchor="middle" fill="var(--text-primary)">by Zorn&#x2019;s lemma</text>
+  </svg>`,
+  2: `
+  <svg viewBox="0 0 380 220" role="img" aria-label="Open unit ball around 1_A containing invertibles, disjoint from proper ideal M">
+    <text x="16" y="22" font-size="11" font-weight="700" fill="var(--accent)">NEUMANN EXCLUSION IN BANACH ALGEBRA A</text>
+    <rect x="16" y="34" width="348" height="172" rx="10" fill="var(--diagram-box)" stroke="var(--divider)" stroke-width="1.5"/>
+    <path d="M 30 165 Q 95 140 148 168 T 212 188 L 30 192 Z" fill="var(--teal-soft)" stroke="var(--diagram-stroke)" stroke-width="1.8"/>
+    <text x="102" y="176" font-size="13" font-weight="700" text-anchor="middle" fill="var(--diagram-stroke)">Proper ideal M (and M&#x0304;)</text>
+    <circle cx="272" cy="110" r="64" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
+    <circle cx="272" cy="110" r="4" fill="var(--accent)"/>
+    <text x="272" y="96" font-size="13" font-weight="700" text-anchor="middle" fill="var(--text-title)">1_A</text>
+    <text x="272" y="128" font-size="11.5" text-anchor="middle" fill="var(--accent)">&#x2016;x &#x2212; 1_A&#x2016; &lt; 1</text>
+    <text x="272" y="144" font-size="11" text-anchor="middle" fill="var(--text-primary)">all invertible</text>
+    <text x="108" y="72" font-size="12" font-weight="700" text-anchor="middle" fill="var(--text-primary)">M cannot enter</text>
+    <text x="108" y="88" font-size="11.5" text-anchor="middle" fill="var(--text-secondary)">so M&#x0304; &#x2260; A &#x21D2; M&#x0304; = M</text>
+  </svg>`,
+  3: `
+  <svg viewBox="0 0 380 220" role="img" aria-label="Cosets collapsing to quotient points with distance to M as norm">
+    <defs>
+      <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,1 L10,5 L0,9 z" fill="var(--accent)"/>
+      </marker>
+    </defs>
+    <text x="16" y="22" font-size="11" font-weight="700" fill="var(--accent)">QUOTIENT NORM &amp; COMPLETENESS (GEOMETRIC ANALOGY)</text>
+    <rect x="16" y="36" width="184" height="168" rx="9" fill="var(--diagram-box)" stroke="var(--divider)" stroke-width="1.5"/>
+    <text x="28" y="54" font-size="11.5" font-weight="700" fill="var(--text-secondary)">Banach algebra A</text>
+    <line x1="34" y1="168" x2="182" y2="168" stroke="var(--diagram-stroke)" stroke-width="3"/>
+    <text x="108" y="186" font-size="12" font-weight="700" text-anchor="middle" fill="var(--diagram-stroke)">Closed ideal M</text>
+    <line x1="34" y1="92" x2="182" y2="92" stroke="var(--accent)" stroke-width="2.5"/>
+    <circle cx="80" cy="92" r="4" fill="var(--accent)"/>
+    <text x="80" y="82" font-size="12" text-anchor="middle" fill="var(--text-title)">a</text>
+    <text x="142" y="82" font-size="11.5" text-anchor="middle" fill="var(--accent)">coset a + M</text>
+    <line x1="80" y1="96" x2="80" y2="164" stroke="var(--text-primary)" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <text x="132" y="134" font-size="11" text-anchor="middle" fill="var(--text-primary)">inf &#x2016;a &#x2212; m&#x2016; &gt; 0</text>
+    <line x1="206" y1="120" x2="238" y2="120" stroke="var(--accent)" stroke-width="2" marker-end="url(#arr3)"/>
+    <text x="222" y="110" font-size="12" font-weight="700" text-anchor="middle" fill="var(--accent)">q</text>
+    <rect x="244" y="36" width="120" height="168" rx="9" fill="var(--diagram-box)" stroke="var(--diagram-stroke)" stroke-width="1.6"/>
+    <text x="304" y="54" font-size="11.5" font-weight="700" text-anchor="middle" fill="var(--text-secondary)">Banach A/M</text>
+    <circle cx="304" cy="92" r="5" fill="var(--accent)"/>
+    <text x="304" y="112" font-size="12" font-weight="700" text-anchor="middle" fill="var(--accent)">[a] = a + M</text>
+    <circle cx="304" cy="168" r="5" fill="var(--diagram-stroke)"/>
+    <text x="304" y="186" font-size="12" font-weight="700" text-anchor="middle" fill="var(--diagram-stroke)">[0] = M</text>
+  </svg>`,
+  4: `
+  <svg viewBox="0 0 380 220" role="img" aria-label="Closedness and maximality combine for Gelfand-Mazur yielding character phi">
+    <defs>
+      <marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,1 L10,5 L0,9 z" fill="var(--accent)"/>
+      </marker>
+    </defs>
+    <text x="16" y="22" font-size="11" font-weight="700" fill="var(--accent)">FROM MAXIMAL IDEAL TO CHARACTER</text>
+    <rect x="16" y="38" width="146" height="44" rx="7" fill="var(--diagram-box)" stroke="var(--diagram-stroke)" stroke-width="1.5"/>
+    <text x="89" y="57" font-size="12" font-weight="700" text-anchor="middle" fill="var(--diagram-stroke)">M closed (Step 2)</text>
+    <text x="89" y="73" font-size="11" text-anchor="middle" fill="var(--text-primary)">A/M is Banach</text>
+    <rect x="16" y="96" width="146" height="44" rx="7" fill="var(--diagram-box)" stroke="var(--diagram-stroke)" stroke-width="1.5"/>
+    <text x="89" y="115" font-size="12" font-weight="700" text-anchor="middle" fill="var(--diagram-stroke)">M maximal (Step 1)</text>
+    <text x="89" y="131" font-size="11" text-anchor="middle" fill="var(--text-primary)">A/M is division</text>
+    <line x1="162" y1="60" x2="196" y2="82" stroke="var(--accent)" stroke-width="1.8" marker-end="url(#arr4)"/>
+    <line x1="162" y1="118" x2="196" y2="96" stroke="var(--accent)" stroke-width="1.8" marker-end="url(#arr4)"/>
+    <rect x="202" y="58" width="162" height="62" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+    <text x="283" y="81" font-size="12.5" font-weight="700" text-anchor="middle" fill="var(--accent)">Gelfand&#x2013;Mazur</text>
+    <text x="283" y="102" font-size="13" font-weight="700" text-anchor="middle" fill="var(--text-title)">i : A/M &#x2245; &#x2102;</text>
+    <rect x="16" y="160" width="348" height="44" rx="8" fill="var(--diagram-box)" stroke="var(--divider)" stroke-width="1.5"/>
+    <text x="190" y="180" font-size="12.5" font-weight="700" text-anchor="middle" fill="var(--text-title)">A &#x2192; A/M &#x2192; &#x2102;   gives   &#x03C6; = i &#x2218; q</text>
+    <text x="190" y="196" font-size="11.5" text-anchor="middle" fill="var(--accent)">and conversely ker &#x03C6; = M is maximal</text>
+  </svg>`,
+  5: `
+  <svg viewBox="0 0 380 220" role="img" aria-label="Weak-* neighborhood testing finitely many elements in A*">
+    <text x="16" y="22" font-size="11" font-weight="700" fill="var(--accent)">WEAK-* TOPOLOGY ON X &#x2286; A*</text>
+    <rect x="16" y="36" width="212" height="168" rx="9" fill="var(--diagram-box)" stroke="var(--divider)" stroke-width="1.5"/>
+    <text x="28" y="55" font-size="11.5" font-weight="700" fill="var(--text-secondary)">Bounded dual A* (unit ball)</text>
+    <ellipse cx="122" cy="126" rx="76" ry="52" fill="var(--teal-soft)" stroke="var(--diagram-stroke)" stroke-width="1.6" stroke-dasharray="4 3"/>
+    <circle cx="110" cy="122" r="4.5" fill="var(--accent)"/>
+    <text x="110" y="111" font-size="12.5" font-weight="700" text-anchor="middle" fill="var(--accent)">&#x03C6;</text>
+    <circle cx="146" cy="134" r="4" fill="var(--diagram-stroke)"/>
+    <text x="158" y="138" font-size="12" font-weight="700" fill="var(--diagram-stroke)">&#x03C8;</text>
+    <text x="122" y="164" font-size="11" text-anchor="middle" fill="var(--text-primary)">|&#x03C8;(a_k) &#x2212; &#x03C6;(a_k)| &lt; &#x03B5;</text>
+    <rect x="240" y="36" width="124" height="78" rx="8" fill="var(--diagram-box)" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="302" y="58" font-size="12" font-weight="700" text-anchor="middle" fill="var(--accent)">E_a(&#x03C6;) = &#x03C6;(a)</text>
+    <text x="302" y="78" font-size="11" text-anchor="middle" fill="var(--text-primary)">weakest topology</text>
+    <text x="302" y="94" font-size="11" text-anchor="middle" fill="var(--text-primary)">making E_a cont.</text>
+    <rect x="240" y="126" width="124" height="78" rx="8" fill="var(--accent-soft)" stroke="var(--divider)" stroke-width="1.5"/>
+    <text x="302" y="147" font-size="11.5" font-weight="700" text-anchor="middle" fill="var(--text-title)">Notation Check</text>
+    <text x="302" y="167" font-size="11" text-anchor="middle" fill="var(--text-primary)">A* = dual space</text>
+    <text x="302" y="185" font-size="11" text-anchor="middle" fill="var(--text-primary)">a* = involution</text>
+  </svg>`,
+  6: `
+  <svg viewBox="0 0 380 220" role="img" aria-label="Compactness via Banach-Alaoglu and Hausdorffness via pullback of disjoint disks">
+    <defs>
+      <marker id="arr6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,1 L10,5 L0,9 z" fill="var(--diagram-stroke)"/>
+      </marker>
+    </defs>
+    <text x="16" y="22" font-size="11" font-weight="700" fill="var(--accent)">TWO ARGUMENTS FOR COMPACT HAUSDORFF</text>
+    <rect x="16" y="38" width="166" height="166" rx="9" fill="var(--diagram-box)" stroke="var(--divider)" stroke-width="1.5"/>
+    <text x="99" y="58" font-size="12" font-weight="700" text-anchor="middle" fill="var(--diagram-stroke)">1. Compactness</text>
+    <circle cx="99" cy="118" r="46" fill="var(--teal-soft)" stroke="var(--diagram-stroke)" stroke-width="1.6"/>
+    <text x="99" y="95" font-size="10.5" text-anchor="middle" fill="var(--text-secondary)">Ball(A*) w*-compact</text>
+    <ellipse cx="99" cy="128" rx="28" ry="18" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="99" y="132" font-size="11.5" font-weight="700" text-anchor="middle" fill="var(--accent)">X w*-closed</text>
+    <text x="99" y="188" font-size="11" text-anchor="middle" fill="var(--text-primary)">&#x21D2; X is compact</text>
+    <rect x="198" y="38" width="166" height="166" rx="9" fill="var(--diagram-box)" stroke="var(--divider)" stroke-width="1.5"/>
+    <text x="281" y="58" font-size="12" font-weight="700" text-anchor="middle" fill="var(--accent)">2. Hausdorff</text>
+    <circle cx="244" cy="96" r="14" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="244" y="100" font-size="11.5" font-weight="700" text-anchor="middle" fill="var(--text-title)">&#x03C6;</text>
+    <circle cx="318" cy="96" r="14" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"/>
+    <text x="318" y="100" font-size="11.5" font-weight="700" text-anchor="middle" fill="var(--text-title)">&#x03C8;</text>
+    <line x1="244" y1="112" x2="244" y2="142" stroke="var(--diagram-stroke)" stroke-width="1.5" marker-end="url(#arr6)"/>
+    <line x1="318" y1="112" x2="318" y2="142" stroke="var(--diagram-stroke)" stroke-width="1.5" marker-end="url(#arr6)"/>
+    <text x="281" y="132" font-size="11" text-anchor="middle" fill="var(--diagram-stroke)">E_a</text>
+    <circle cx="244" cy="162" r="15" fill="var(--teal-soft)" stroke="var(--diagram-stroke)" stroke-width="1.5"/>
+    <text x="244" y="166" font-size="11" text-anchor="middle" fill="var(--text-primary)">&#x03C6;(a)</text>
+    <circle cx="318" cy="162" r="15" fill="var(--teal-soft)" stroke="var(--diagram-stroke)" stroke-width="1.5"/>
+    <text x="318" y="166" font-size="11" text-anchor="middle" fill="var(--text-primary)">&#x03C8;(a)</text>
+    <text x="281" y="192" font-size="11" text-anchor="middle" fill="var(--text-primary)">disjoint in &#x2102; pull back</text>
+  </svg>`,
+  7: `
+  <svg viewBox="0 0 380 220" role="img" aria-label="Swapping fixed argument in a-hat(phi) = phi(a) and *-homomorphism Gamma">
+    <defs>
+      <marker id="arr7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,1 L10,5 L0,9 z" fill="var(--accent)"/>
+      </marker>
+    </defs>
+    <text x="16" y="22" font-size="11" font-weight="700" fill="var(--accent)">TWO READINGS OF &#x00E2;(&#x03C6;) = &#x03C6;(a)</text>
+    <rect x="16" y="38" width="166" height="82" rx="8" fill="var(--diagram-box)" stroke="var(--divider)" stroke-width="1.5"/>
+    <text x="99" y="58" font-size="12" font-weight="700" text-anchor="middle" fill="var(--diagram-stroke)">Fix &#x03C6;, vary a &#x2208; A</text>
+    <text x="99" y="80" font-size="12.5" text-anchor="middle" fill="var(--text-title)">&#x03C6;: A &#x2192; &#x2102;</text>
+    <text x="99" y="102" font-size="11" text-anchor="middle" fill="var(--text-secondary)">a character on A</text>
+    <rect x="198" y="38" width="166" height="82" rx="8" fill="var(--diagram-box)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="281" y="58" font-size="12" font-weight="700" text-anchor="middle" fill="var(--accent)">Fix a, vary &#x03C6; &#x2208; X</text>
+    <text x="281" y="80" font-size="12.5" text-anchor="middle" fill="var(--text-title)">&#x00E2;: X &#x2192; &#x2102;</text>
+    <text x="281" y="102" font-size="11" text-anchor="middle" fill="var(--text-secondary)">continuous via weak-*</text>
+    <rect x="16" y="138" width="348" height="66" rx="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="190" y="162" font-size="13.5" font-weight="700" text-anchor="middle" fill="var(--text-title)">&#x0393;: A &#x2192; C(X),   &#x0393;(a) = &#x00E2;</text>
+    <text x="190" y="185" font-size="11.5" text-anchor="middle" fill="var(--text-primary)">preserves +, &middot;, 1_A, and *  (&#x0393;(a*) = conj(&#x00E2;))</text>
+  </svg>`,
+  8: `
+  <svg viewBox="0 0 380 220" role="img" aria-label="Isometry chain and branching to injectivity and closed image">
+    <defs>
+      <marker id="arr8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,1 L10,5 L0,9 z" fill="var(--accent)"/>
+      </marker>
+    </defs>
+    <text x="16" y="22" font-size="11" font-weight="700" fill="var(--accent)">ISOMETRY &amp; CLOSED IMAGE</text>
+    <rect x="24" y="38" width="332" height="54" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="190" y="61" font-size="13.5" font-weight="700" text-anchor="middle" fill="var(--text-title)">&#x2016;&#x00E2;&#x2016;_&#x221E;  =  r(a)  =  &#x2016;a&#x2016;</text>
+    <text x="190" y="80" font-size="11" text-anchor="middle" fill="var(--text-secondary)">&#x03C3;(a) = {&#x03C6;(a)} (Steps 1, 4) &amp; a normal by commutativity</text>
+    <line x1="125" y1="92" x2="96" y2="128" stroke="var(--accent)" stroke-width="1.8" marker-end="url(#arr8)"/>
+    <line x1="255" y1="92" x2="284" y2="128" stroke="var(--accent)" stroke-width="1.8" marker-end="url(#arr8)"/>
+    <rect x="16" y="134" width="164" height="70" rx="8" fill="var(--diagram-box)" stroke="var(--diagram-stroke)" stroke-width="1.5"/>
+    <text x="98" y="156" font-size="12.5" font-weight="700" text-anchor="middle" fill="var(--diagram-stroke)">Isometry &#x21D2; Injective</text>
+    <text x="98" y="176" font-size="11.5" text-anchor="middle" fill="var(--text-primary)">&#x0393;(a) = 0 &#x21D2; &#x2016;a&#x2016; = 0</text>
+    <text x="98" y="193" font-size="11" text-anchor="middle" fill="var(--text-secondary)">so A &#x2245; &#x0393;(A)</text>
+    <rect x="200" y="134" width="164" height="70" rx="8" fill="var(--diagram-box)" stroke="var(--diagram-stroke)" stroke-width="1.5"/>
+    <text x="282" y="156" font-size="12.5" font-weight="700" text-anchor="middle" fill="var(--diagram-stroke)">Complete &#x21D2; Closed</text>
+    <text x="282" y="176" font-size="11.5" text-anchor="middle" fill="var(--text-primary)">A Banach &#x21D2; &#x0393;(A) complete</text>
+    <text x="282" y="193" font-size="11" text-anchor="middle" fill="var(--text-secondary)">&#x21D2; &#x0393;(A) closed in C(X)</text>
+  </svg>`,
+  9: `
+  <svg viewBox="0 0 380 220" role="img" aria-label="Stone-Weierstrass density and Step 8 closedness combine for surjectivity">
+    <defs>
+      <marker id="arr9" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,1 L10,5 L0,9 z" fill="var(--accent)"/>
+      </marker>
+    </defs>
+    <text x="16" y="22" font-size="11" font-weight="700" fill="var(--accent)">DENSITY + CLOSEDNESS = SURJECTIVITY</text>
+    <rect x="16" y="38" width="182" height="102" rx="8" fill="var(--diagram-box)" stroke="var(--diagram-stroke)" stroke-width="1.6"/>
+    <text x="107" y="58" font-size="12" font-weight="700" text-anchor="middle" fill="var(--diagram-stroke)">Complex Stone&#x2013;Weierstrass</text>
+    <text x="107" y="77" font-size="11" text-anchor="middle" fill="var(--text-primary)">1. Contains constants (&#x0393;(1_A))</text>
+    <text x="107" y="94" font-size="11" text-anchor="middle" fill="var(--text-primary)">2. Separates points of X</text>
+    <text x="107" y="111" font-size="11" text-anchor="middle" fill="var(--text-primary)">3. Closed under conjugation (*)</text>
+    <text x="107" y="130" font-size="11.5" font-weight="700" text-anchor="middle" fill="var(--accent)">&#x21D2; closure(&#x0393;(A)) = C(X)</text>
+    <rect x="212" y="38" width="152" height="102" rx="8" fill="var(--diagram-box)" stroke="var(--divider)" stroke-width="1.6"/>
+    <text x="288" y="62" font-size="12" font-weight="700" text-anchor="middle" fill="var(--text-title)">From Step 8</text>
+    <text x="288" y="88" font-size="11.5" text-anchor="middle" fill="var(--text-primary)">&#x0393;(A) is closed in C(X)</text>
+    <text x="288" y="114" font-size="11.5" font-weight="700" text-anchor="middle" fill="var(--accent)">&#x21D2; closure(&#x0393;(A)) = &#x0393;(A)</text>
+    <line x1="120" y1="140" x2="164" y2="162" stroke="var(--accent)" stroke-width="1.8" marker-end="url(#arr9)"/>
+    <line x1="274" y1="140" x2="220" y2="162" stroke="var(--accent)" stroke-width="1.8" marker-end="url(#arr9)"/>
+    <rect x="64" y="166" width="252" height="40" rx="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+    <text x="190" y="191" font-size="13.5" font-weight="700" text-anchor="middle" fill="var(--accent)">&#x0393;(A) = C(X)   &amp;   A &#x2245; C(X)</text>
+  </svg>`
+};
+(function () {
+  const state = {
+    mode: "overview",
+    expandedIds: new Set(),
+    focusIndex: 0,
+    theme: "dark"
+  };
+  const els = {
+    html: document.documentElement,
+    themeToggle: document.getElementById("themeToggle"),
+    themeLabel: document.getElementById("themeLabel"),
+    notationToggle: document.getElementById("notationToggle"),
+    notationPanel: document.getElementById("notationPanel"),
+    modeOverview: document.getElementById("modeOverview"),
+    modeFocus: document.getElementById("modeFocus"),
+    accordionControls: document.getElementById("accordionControls"),
+    expandedCounter: document.getElementById("expandedCounter"),
+    resetBtn: document.getElementById("resetBtn"),
+    revealNextBtn: document.getElementById("revealNextBtn"),
+    accordionList: document.getElementById("accordionList"),
+    focusView: document.getElementById("focusView")
+  };
+  function loadTheme() {
+    try {
+      const saved = localStorage.getItem("gelfand-theme");
+      if (saved === "light" || saved === "dark") {
+        state.theme = saved;
+      }
+    } catch (e) {}
+    applyTheme();
+  }
+  function applyTheme() {
+    els.html.setAttribute("data-theme", state.theme);
+    els.themeLabel.textContent = state.theme === "dark" ? "Theme: Dark" : "Theme: Light";
+  }
+  function toggleTheme() {
+    state.theme = state.theme === "dark" ? "light" : "dark";
+    try {
+      localStorage.setItem("gelfand-theme", state.theme);
+    } catch (e) {}
+    applyTheme();
+  }
+  function formatMath(text) {
+    return text
+      .replace(/1_A/g, "1\u2090")
+      .replace(/a_k/g, "a\u2096")
+      .replace(/E_a/g, "E\u2090")
+      .replace(/_\u221E/g, "\u221E");
+  }
+  function renderPhasePills() {
+    document.querySelectorAll(".phase-pills").forEach((container) => {
+      const phase = Number(container.getAttribute("data-phase"));
+      const steps = CONTENT.filter((s) => s.phase === phase);
+      container.innerHTML = "";
+      steps.forEach((step) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "step-pill";
+        const isActive =
+          state.mode === "focus"
+            ? CONTENT[state.focusIndex].id === step.id
+            : state.expandedIds.has(step.id);
+        if (isActive) btn.classList.add("is-active");
+        btn.textContent = String(step.id);
+        btn.setAttribute("aria-label", `Jump to Step ${step.id}: ${step.title}`);
+        btn.addEventListener("click", () => {
+          const stepIndex = CONTENT.findIndex((s) => s.id === step.id);
+          if (state.mode === "focus") {
+            state.focusIndex = stepIndex;
+            renderFocus();
+            renderPhasePills();
+          } else {
+            state.expandedIds.add(step.id);
+            renderAccordions();
+            const card = document.getElementById(`step-card-${step.id}`);
+            if (card) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }
+        });
+        container.appendChild(btn);
+      });
+    });
+  }
+  function buildStepLayoutHTML(step) {
+    const letters = "abcdefghijklmnopqrstuvwxyz";
+    const substepsHTML = step.parts
+      .map(
+        (part, i) => `
+      <li class="substep-item">
+        <span class="substep-letter">${letters[i]}.</span>
+        <div>
+          <span class="substep-takeaway">${escapeHTML(formatMath(part.takeaway))}</span>
+          <p class="substep-explanation">${escapeHTML(formatMath(part.explanation))}</p>
+        </div>
+      </li>`
+      )
+      .join("");
+    return `
+      <p class="dep-note">${escapeHTML(formatMath(step.uses))}</p>
+      <div class="step-layout">
+        <ol class="substeps-list">${substepsHTML}</ol>
+        <figure class="diagram-card" style="margin:0;">
+          <div class="diagram-svg-wrap">${DIAGRAMS[step.id]}</div>
+          <figcaption class="diagram-caption"><strong>Notice:</strong> ${escapeHTML(formatMath(step.caption.replace(/^Notice:\s*/i, "")))}</figcaption>
+        </figure>
+      </div>
+    `;
+  }
+  function escapeHTML(str) {
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+  function renderAccordions() {
+    els.accordionList.innerHTML = "";
+    CONTENT.forEach((step) => {
+      const isOpen = state.expandedIds.has(step.id);
+      const card = document.createElement("article");
+      card.className = `step-card${isOpen ? " is-open" : ""}`;
+      card.id = `step-card-${step.id}`;
+      const header = document.createElement("button");
+      header.type = "button";
+      header.className = "step-header";
+      header.setAttribute("aria-expanded", String(isOpen));
+      header.setAttribute("aria-controls", `step-body-${step.id}`);
+      header.innerHTML = `
+        <span class="step-num">${step.id}</span>
+        <span class="step-title-col">
+          <span class="step-title" style="display:block;">${escapeHTML(step.title)}</span>
+          <span class="step-subtitle" style="display:block;">${escapeHTML(step.subtitle)}</span>
+        </span>
+        <span class="step-chevron" aria-hidden="true">&#9662;</span>
+      `;
+      header.addEventListener("click", () => {
+        if (state.expandedIds.has(step.id)) {
+          state.expandedIds.delete(step.id);
+        } else {
+          state.expandedIds.add(step.id);
+          state.focusIndex = CONTENT.findIndex((s) => s.id === step.id);
+        }
+        renderAccordions();
+      });
+      const body = document.createElement("div");
+      body.className = "step-body";
+      body.id = `step-body-${step.id}`;
+      body.hidden = !isOpen;
+      if (isOpen) {
+        body.innerHTML = buildStepLayoutHTML(step);
+      }
+      card.appendChild(header);
+      card.appendChild(body);
+      els.accordionList.appendChild(card);
+    });
+    const count = state.expandedIds.size;
+    els.expandedCounter.textContent = `${count} of ${CONTENT.length} expanded`;
+    els.resetBtn.disabled = count === 0;
+    els.revealNextBtn.disabled = count === CONTENT.length;
+    renderPhasePills();
+  }
+  function renderFocus() {
+    const step = CONTENT[state.focusIndex];
+    els.focusView.innerHTML = "";
+    const card = document.createElement("div");
+    card.className = "focus-card";
+    card.innerHTML = `
+      <div class="focus-nav">
+        <button type="button" id="focusBack" class="btn" ${state.focusIndex === 0 ? "disabled" : ""}>&larr; Back</button>
+        <span class="counter-text">Step ${step.id} of ${CONTENT.length}</span>
+        <button type="button" id="focusNext" class="btn btn-primary" ${state.focusIndex === CONTENT.length - 1 ? "disabled" : ""}>Next &rarr;</button>
+      </div>
+      <div class="focus-head">
+        <span class="step-num">${step.id}</span>
+        <div class="step-title-col">
+          <div class="step-title">${escapeHTML(step.title)}</div>
+          <div class="step-subtitle">${escapeHTML(step.subtitle)}</div>
+        </div>
+      </div>
+      ${buildStepLayoutHTML(step)}
+    `;
+    els.focusView.appendChild(card);
+    const backBtn = document.getElementById("focusBack");
+    const nextBtn = document.getElementById("focusNext");
+    if (backBtn) {
+      backBtn.addEventListener("click", () => {
+        if (state.focusIndex > 0) {
+          state.focusIndex -= 1;
+          renderFocus();
+          renderPhasePills();
+        }
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        if (state.focusIndex < CONTENT.length - 1) {
+          state.focusIndex += 1;
+          renderFocus();
+          renderPhasePills();
+        }
+      });
+    }
+    renderPhasePills();
+  }
+  function setMode(mode) {
+    state.mode = mode;
+    const isOverview = mode === "overview";
+    els.modeOverview.classList.toggle("is-selected", isOverview);
+    els.modeOverview.setAttribute("aria-selected", String(isOverview));
+    els.modeFocus.classList.toggle("is-selected", !isOverview);
+    els.modeFocus.setAttribute("aria-selected", String(!isOverview));
+    els.accordionList.hidden = !isOverview;
+    els.accordionControls.hidden = !isOverview;
+    els.focusView.hidden = isOverview;
+    if (isOverview) {
+      renderAccordions();
+    } else {
+      renderFocus();
+    }
+  }
+  els.themeToggle.addEventListener("click", toggleTheme);
+  els.notationToggle.addEventListener("click", () => {
+    const expanded = els.notationToggle.getAttribute("aria-expanded") === "true";
+    els.notationToggle.setAttribute("aria-expanded", String(!expanded));
+    els.notationPanel.hidden = expanded;
+  });
+  els.modeOverview.addEventListener("click", () => setMode("overview"));
+  els.modeFocus.addEventListener("click", () => setMode("focus"));
+  els.revealNextBtn.addEventListener("click", () => {
+    const next = CONTENT.find((s) => !state.expandedIds.has(s.id));
+    if (next) {
+      state.expandedIds.add(next.id);
+      state.focusIndex = CONTENT.findIndex((s) => s.id === next.id);
+      renderAccordions();
+    }
+  });
+  els.resetBtn.addEventListener("click", () => {
+    state.expandedIds.clear();
+    renderAccordions();
+  });
+  loadTheme();
+  renderAccordions();
+})();
+</script>
+</body>
+</html>
