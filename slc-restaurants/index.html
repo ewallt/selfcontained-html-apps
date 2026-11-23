@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SLC & Park City Restaurant Explorer</title>
+<style>
+/* VOICE: a trusted friend's annotated dining notebook. IDEA: index cards in a navy binder.
+   PICTURE: the cards themselves. COLOUR/TYPE: spec navy & gold dark; teal-on-warm-white light.
+   LAYOUT: sticky tabs, compact cards, details expand in place. */
+:root, [data-theme="dark"] {
+  --page:#0C192D; --panel:#142745; --card:#263E5C; --text:#F7F4ED; --muted:#C9D5E5;
+  --accent:#F0CD79; --conn:#8CDDD3; --line:#536A84; --title:#FFFFFF; --on-accent:#142745;
+  --ok:#8CDDD3; --warn:#F0CD79; --bad:#F4A9A0; --soft:rgba(240,205,121,.12);
+}
+[data-theme="light"] {
+  --page:#F1EEE6; --panel:#FAF8F3; --card:#FFFFFF; --text:#1B2A3F; --muted:#4A5A6E;
+  --accent:#0E6E66; --conn:#2F5D8A; --line:#D6D0C2; --title:#142745; --on-accent:#FFFFFF;
+  --ok:#0E6E66; --warn:#8A5A00; --bad:#A3322A; --soft:rgba(14,110,102,.08);
+}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--page);color:var(--text);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;overflow-x:clip}
+.serif{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+.wrap{max-width:1120px;margin:0 auto;padding:12px}
+.shell{background:var(--panel);border-radius:16px;padding:16px 14px 24px}
+header.top{display:flex;flex-wrap:wrap;gap:10px 14px;justify-content:space-between;align-items:flex-start}
+h1{margin:0;color:var(--title);font-size:clamp(23px,4vw,32px);line-height:1.15;font-weight:600}
+.sub{color:var(--muted);margin:4px 0 0;font-size:14.5px}
+.btn{appearance:none;border:1.5px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:8px 13px;font:600 14px/1.2 inherit;cursor:pointer;min-height:44px}
+.btn:hover{border-color:var(--accent)}
+.btn[aria-pressed="true"],.btn.on{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.theme .lbl{color:var(--muted);font-weight:500}.theme .val{color:var(--accent)}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--panel);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:14px -14px 0;padding:8px 14px;border-bottom:1px solid var(--line)}
+.tab{appearance:none;border:1.5px solid var(--line);background:var(--card);color:var(--text);border-radius:10px;padding:7px 6px;cursor:pointer;min-height:52px;font:600 13.5px/1.2 inherit;text-align:center}
+.tab small{display:block;font-weight:500;color:var(--muted);font-size:12px;margin-top:2px}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.tab[aria-selected="true"] small{color:var(--on-accent);opacity:.85}
+.intro{color:var(--muted);font-size:14.5px;margin:12px 2px 10px;max-width:75ch}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.search{flex:1 1 220px;min-height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--text);padding:8px 12px;font-size:16px}
+.seg{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{appearance:none;border:0;background:var(--card);color:var(--text);padding:8px 11px;min-height:41px;font:600 13.5px inherit;cursor:pointer}
+.seg button+button{border-left:1.5px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.panelbox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.panelbox label{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:600}
+select{min-height:42px;border-radius:9px;border:1.5px solid var(--line);background:var(--panel);color:var(--text);padding:6px 8px;font-size:15px}
+.chk{display:flex!important;align-items:center;gap:8px;color:var(--text)!important;font-weight:500!important;font-size:14.5px!important}
+.chk input{width:20px;height:20px;accent-color:var(--accent)}
+.count{color:var(--muted);font-size:13.5px;margin:10px 2px}
+.list{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,500px),1fr));align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px}
+.card[data-open="true"]{border-color:var(--accent)}
+.rank{display:inline-grid;place-items:center;min-width:26px;height:26px;border-radius:13px;border:2px solid var(--accent);color:var(--accent);font-weight:800;font-size:13px;margin-right:8px;padding:0 5px}
+.card h3{margin:0;font-size:19px;color:var(--title);display:flex;align-items:center;line-height:1.2}
+.meta{color:var(--muted);font-size:13.5px;margin:3px 0 7px}
+.badges{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 7px}
+.b{font-size:12.5px;font-weight:700;border-radius:999px;padding:3px 9px;border:1.5px solid currentColor;cursor:help;white-space:nowrap}
+.b.ok{color:var(--ok)}.b.warn{color:var(--warn)}.b.bad{color:var(--bad)}.b.mute{color:var(--muted);font-weight:600}
+.b .sym{margin-right:3px}
+.why{margin:0 0 6px;font-size:15px}
+.dish{margin:0;font-size:15px}
+.dish b{color:var(--accent)}
+.price{white-space:nowrap;color:var(--muted)}
+.more{margin-top:9px}
+.detail{border-top:1px solid var(--line);margin-top:10px;padding-top:10px;font-size:14.5px}
+.detail h4{margin:12px 0 4px;font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.detail h4:first-child{margin-top:0}
+.detail ul{margin:0;padding-left:18px}
+.hrs{display:grid;grid-template-columns:44px 1fr;gap:1px 8px;font-variant-numeric:tabular-nums}
+.hrs .d{color:var(--muted);font-weight:600}
+.links{display:flex;flex-wrap:wrap;gap:6px}
+.links a{color:var(--accent);font-weight:600;text-decoration:none;border:1.5px solid var(--line);border-radius:9px;padding:6px 10px;min-height:40px;display:inline-flex;align-items:center}
+.links a:hover{border-color:var(--accent)}
+.src a{color:var(--accent);word-break:break-word}
+.checked{color:var(--muted);font-size:13px}
+.note{background:var(--soft);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:14.5px}
+.note b{color:var(--accent)}
+details.legend{margin-top:12px;font-size:14.5px}
+details.legend summary{cursor:pointer;color:var(--accent);font-weight:700;min-height:40px;display:flex;align-items:center}
+.legend dl{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;margin:6px 0}
+.legend dd{margin:0}
+.empty{color:var(--muted);padding:20px;text-align:center;border:1px dashed var(--line);border-radius:12px}
+footer{color:var(--muted);font-size:13px;margin-top:18px}
+footer a{color:var(--accent)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:520px){.wrap{padding:6px}.shell{padding:12px 10px 18px}nav.tabs{margin:12px -10px 0;padding:8px 10px}.tab{font-size:12.5px}}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="shell">
+<header class="top">
+  <div>
+    <h1 class="serif">SLC & Park City Restaurant Explorer</h1>
+    <p class="sub">A dependable dish at each place · pescatarian, fins-and-scales fish only · research checked <span id="asof"></span></p>
+  </div>
+  <button class="btn theme" id="themeBtn" type="button"><span class="lbl">Theme: </span><span class="val" id="themeVal">Dark</span></button>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Restaurant lists" id="tabs"></nav>
+<p class="intro" id="intro"></p>
+
+<div class="tools">
+  <label class="sr" for="q">Search</label>
+  <input class="search" id="q" type="search" placeholder="Search name, dish, cuisine, area" autocomplete="off">
+  <div class="seg" role="group" aria-label="Area" id="area"></div>
+  <button class="btn" id="filtersBtn" type="button" aria-expanded="false" aria-controls="filters">Filters</button>
+  <button class="btn" id="resetBtn" type="button">Reset</button>
+</div>
+<div class="panelbox" id="filters" hidden></div>
+
+<p class="count" id="count" aria-live="polite"></p>
+<main class="list" id="list"></main>
+
+<div class="note" id="portuguese"></div>
+
+<details class="legend">
+  <summary>What the labels mean</summary>
+  <dl id="legend"></dl>
+</details>
+
+<footer>
+  <p>Hours, menus and prices change. Every card shows its sources and the date they were checked; nothing here is live. "Unknown" means it wasn't confirmed, not that it doesn't exist. Utah law lets a restaurant licensed to sell wine allow you to bring a bottle (hand it to your server on arrival) only if that restaurant permits it. Corkage is shown only where a source states it (<a href="https://law.justia.com/codes/utah/2021/title-32b/chapter-5/part-3/section-307/">Utah Code 32B-5-307</a>).</p>
+  <p>To update: edit the <code>RESTAURANTS</code> list at the top of this file's script. Built by Claude from ChatGPT's spec of 23 Nov 2026.</p>
+</footer>
+</div></div>
+
+<script>
+{
+/* =================== DATA (edit here) =================== */
+const CHECKED = "2026-11-23";
+const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const all = (o,c) => Object.fromEntries(DAYS.map(d=>[d,[[o,c]]]));
+const D = (s) => ({lunch:"Lunch",dinner:"Dinner"}[s]||s);
+
+/* diet: confirmed | modification | plausible | none | incompatible
+   afternoon: confirmed | limited | split | unverified
+   hours: day -> [[open,close],...] (24h), "closed", or omitted = unknown */
+const RESTAURANTS = [
+{ id:"ruths", name:"Ruth's Diner", area:"SLC", place:"Emigration Canyon, Salt Lake City", cuisine:["Diner","American"],
+  address:"4160 Emigration Canyon Rd, Salt Lake City, UT 84108", phone:"801-582-5807",
+  site:"https://ruthsdiner.com/", menu:"https://ruthsdiner.com/wp-content/uploads/2026/06/Ruths-Diner-005-363978-8551350-Day-Menu-05.2026_WEB.pdf",
+  why:"A canyon diner open since 1930, serving one menu all day, so a 3 p.m. meal is easy.",
+  dishes:[{name:"Red Trout & Eggs",price:"Market price",comp:"Cajun-spiced grilled trout fillet, fresh salsa, two eggs (breakfast menu, served 8 a.m.–4 p.m.).",diet:"confirmed"},
+          {name:"Roasted Cauliflower Quinoa Tacos",price:"$16.99",comp:"Quinoa, fire-roasted cauliflower, avocado, chimichurri in corn tortillas; with Spanish rice and fat-free pinto beans. Ask whether the rice is cooked in meat stock.",diet:"confirmed"}],
+  diet:"confirmed", dishPrice:17,
+  hours:{Mon:[["08:00","21:00"]],Tue:"closed",Wed:"closed",Thu:[["08:00","21:00"]],Fri:[["08:00","22:00"]],Sat:[["08:00","22:00"]],Sun:[["08:00","21:00"]]},
+  afternoon:"confirmed", kitchen:"Day menu all day; breakfast 8 a.m.–4 p.m. Closed Tuesday and Wednesday.",
+  wine:"Wine by the glass (about $9–11); full bar from 10 a.m.", corkage:null,
+  tabs:{best:1,afternoon:1,popular:2},
+  popular:"Visit Salt Lake lists it among 15 iconic Salt Lake restaurants; in business since 1930.",
+  sources:[["Hours (ruthsdiner.com)","https://ruthsdiner.com/"],["Day menu, May 2026 (PDF)","https://ruthsdiner.com/wp-content/uploads/2026/06/Ruths-Diner-005-363978-8551350-Day-Menu-05.2026_WEB.pdf"],["Visit Salt Lake: 15 iconic restaurants","https://www.visitsaltlake.com/blog/stories/post/where-to-eat-in-salt-lake-city-15-iconic-restaurants-that-define-the-city/"]]},
+
+{ id:"marketstreet", name:"Market Street Grill (Downtown)", area:"SLC", place:"Downtown Salt Lake City", cuisine:["Seafood","American"],
+  address:"48 W Market St, Salt Lake City, UT 84101", phone:"801-322-4668",
+  site:"https://marketstreetgrill.com/downtown/", menu:"https://www.toasttab.com/local/order/mwb-dba-market-street-grill-salt-lake-city-48-w-market-st/r-3b16192f-7d84-4e7a-8765-78f6a1deec4b/item-trout_aa4965c4-0d53-4c55-a2b3-da4220170601",
+  why:"Salt Lake's classic seafood house since 1980, with simply grilled fin fish on the lunch menu.",
+  dishes:[{name:"Grilled Trout",price:"$23.99",comp:"Grilled trout with tartar sauce (lunch menu, 'Fin Fish and Specialties').",diet:"confirmed"},
+          {name:"Broiled Salmon",price:"$26.99",comp:"Broiled salmon with cucumber-dill sauce.",diet:"confirmed"}],
+  diet:"confirmed", dishPrice:24,
+  hours:{Mon:[["08:00","21:30"]],Tue:[["08:00","21:30"]],Wed:[["08:00","21:30"]],Thu:[["08:00","21:30"]],Fri:[["08:00","21:30"]],Sat:[["08:00","21:30"]],Sun:[["09:00","21:30"]]},
+  afternoon:"confirmed", kitchen:"Posted ordering hours run straight through, from breakfast to dinner. Avoid the 'Louie Mixed Seafood' and seafood sandwich (they contain shrimp and crab).",
+  wine:null, corkage:null, tabs:{best:2,afternoon:2,popular:4},
+  popular:"Downtown fixture since 1980; about 870 Yelp reviews (MapQuest listing).",
+  sources:[["Menu & hours (Toast)","https://www.toasttab.com/local/order/mwb-dba-market-street-grill-salt-lake-city-48-w-market-st/r-3b16192f-7d84-4e7a-8765-78f6a1deec4b/item-trout_aa4965c4-0d53-4c55-a2b3-da4220170601"],["Official site","https://marketstreetgrill.com/downtown/"]]},
+
+{ id:"oasis", name:"Oasis Cafe", area:"SLC", place:"East Downtown, Salt Lake City", cuisine:["American","Vegetarian-friendly"],
+  address:"151 S 500 E, Salt Lake City, UT 84102", phone:"801-322-0404", site:"http://oasiscafeslc.com", menu:"https://www.allmenus.com/ut/salt-lake-city/35666-oasis-cafe/menu/",
+  why:"A garden-patio cafe that's mostly vegetarian, open from 8 a.m. to 9 p.m. with lunch running until 5.",
+  dishes:[{name:"Grilled Salmon",price:"Price not verified",comp:"Honey-lavender polenta cake, arugula, saba, merlot vinegar, olive oil, grilled tomato. The ingredients come from an older published menu; diners in 2024–25 report it's still served.",diet:"confirmed"}],
+  diet:"confirmed", dishPrice:null,
+  hours:all("08:00","21:00"), afternoon:"confirmed", kitchen:"Brunch 8–3, lunch 8–5, dinner 5–9 daily (OpenTable listing).",
+  wine:"Wine list, full bar and local beers.", corkage:null, tabs:{best:3,afternoon:3,popular:8},
+  popular:"Around 1,300 OpenTable reviews at 4.6–4.7; open since 1995.",
+  sources:[["Hours (OpenTable)","https://www.opentable.com/single.aspx?rid=66046"],["Older menu (allmenus)","https://www.allmenus.com/ut/salt-lake-city/35666-oasis-cafe/menu/"],["City Weekly review","https://www.cityweekly.net/eat-drink/an-urban-oasis-3237509/"],["Drinks (Gastronomic SLC)","https://gastronomicslc.com/?p=3923"]]},
+
+{ id:"takashi", name:"Takashi (with Post Office Place)", area:"SLC", place:"Downtown Salt Lake City", cuisine:["Japanese","Sushi"],
+  address:"18 W Market St, Salt Lake City, UT 84101", phone:"801-519-9595", site:"https://www.takashisushi.com/", menu:"https://www.takashisushi.com/nigiri-sashimi",
+  why:"Utah's best-known sushi bar; its sister bar Post Office Place next door shared a 2026 Salt Lake Magazine award.",
+  dishes:[{name:"Salmon, sea bream or yellowtail nigiri",price:"$7–8 for 2 pieces",comp:"Sake (salmon), tai (sea bream), hamachi (yellowtail). Skip octopus, squid, shrimp, scallop and eel-sauce rolls.",diet:"confirmed"}],
+  diet:"confirmed", dishPrice:8,
+  hours:{Mon:[["11:30","14:00"],["17:30","22:00"]],Tue:[["11:30","14:00"],["17:30","22:00"]],Wed:[["11:30","14:00"],["17:30","22:00"]],Thu:[["11:30","14:00"],["17:30","22:00"]],Fri:[["11:30","14:00"],["17:30","22:00"]],Sat:[["17:00","22:00"]],Sun:"closed"},
+  afternoon:"split", kitchen:"Closed between lunch (ends 2) and dinner (from 5:30). Expect a wait at peak times.",
+  wine:"Sake list and full bar.", corkage:null, reservations:"Online through Takashi's own site (not OpenTable).",
+  tabs:{best:4,popular:3,critics:2},
+  popular:"About 2,070 Yelp reviews (MapQuest listing); widely called the city's best sushi.",
+  critics:"Salt Lake Magazine 2026: 'Post Office Place × Takashi' among the Most Outstanding Restaurants; Post Office Place a 2026 James Beard semifinalist (bar).",
+  sources:[["Nigiri menu","https://www.takashisushi.com/nigiri-sashimi"],["Hours (OpenTable listing)","https://www.opentable.com.au/takashi-salt-lake-city"],["Salt Lake Magazine 2026","https://www.saltlakemagazine.com/best-restaurant-of-2026-post-office-place-takashi/"]]},
+
+{ id:"saffron", name:"Saffron Valley (Avenues / 26 E St)", area:"SLC", place:"Avenues, Salt Lake City", cuisine:["Indian"],
+  address:"26 E St, Salt Lake City, UT 84103", phone:"801-203-3325", site:"https://www.saffronvalley.com/", menu:"https://order.toasttab.com/online/saffron-valley-avenues-26-e-st",
+  why:"A homegrown Indian group whose founder was a 2026 James Beard semifinalist; tandoori salmon is a clean, reliable choice.",
+  dishes:[{name:"Tandoori Salmon",price:"$19.95",comp:"Atlantic salmon in mustard oil, garlic and chili, dusted with spiced chickpea flour, tandoor-grilled (gluten-free).",diet:"confirmed"}],
+  diet:"confirmed", dishPrice:20, hours:{}, afternoon:"unverified",
+  kitchen:"Pickup ordering ran until 8:45 p.m.; dine-in hours not confirmed. Avoid Fish Amritsari (swai, a catfish). The other fish curries don't name the species; ask.",
+  wine:null, corkage:null, tabs:{best:5,critics:12},
+  critics:"James Beard 2026 semifinalist: Lavanya Mahate (Saffron Valley), Outstanding Restaurateur.",
+  sources:[["Menu (Toast)","https://www.toasttab.com/local/order/saffron-valley-avenues-26-e-st/item-vegetable-biryani_ad768afd-1227-413c-bcbd-5b809e69ffaf"],["KSL: Utah James Beard semifinalists","https://www.ksl.com/article/51437560"]]},
+
+{ id:"ledepot", name:"Le Depot Brasserie", area:"PC", place:"Main Street, Park City", cuisine:["French"],
+  address:"660 Main St, Park City, UT 84060", phone:"435-228-5001", site:"https://www.ledepotpc.com/", menu:"https://www.ledepotpc.com/menus/",
+  why:"Salt Lake Magazine's Most Outstanding Restaurant of 2026: a French brasserie in Park City's 1886 railroad depot.",
+  dishes:[{name:"Loup de Mer Poêlé (roasted sea bass)",price:"$41",comp:"Sea bass, ratatouille, confit cherry tomato, basil (brunch menu).",diet:"confirmed"},
+          {name:"Aubergine à la Tunisienne",price:"$34",comp:"Crispy roasted eggplant, tomato compote, miso, spinach-mint purée.",diet:"confirmed"}],
+  diet:"confirmed", dishPrice:41,
+  hours:all("11:30","21:30"),
+  service:all("11:30","17:30"),
+  afternoon:"limited", kitchen:"Lunch/brunch 11:30–3 (one page says 2:30), après bar menu 3–5:30, dinner 5:30–9:30. It was closed Jan 12–Feb 6, 2026 for Sundance, so check winter dates.",
+  wine:"Wine menu (French focus).", corkage:null, reservations:"Resy, 5:30–9 p.m.",
+  tabs:{best:6,afternoon:9,critics:1},
+  critics:"Salt Lake Magazine 2026 Most Outstanding Restaurant (top honor).",
+  sources:[["Hours & location","https://www.ledepotpc.com/location/ledpot/"],["Menus & service times","https://www.ledepotpc.com/menus/"],["Brunch menu","https://www.ledepotpc.com/menu/brunch-menu/"],["TownLift on the award","https://townlift.com/2026/02/le-depot-earns-top-honor-in-salt-lake-magazine-dining-awards-as-park-city-midway-restaurants-land-statewide-recognition/"]]},
+
+{ id:"hearthpc", name:"Hearth and Hill (Park City)", area:"PC", place:"Kimball Junction, Park City", cuisine:["American"],
+  address:"1153 Center Dr, Park City, UT 84098", phone:"435-200-8840", site:"https://hearth-hill.com/", menu:"https://hearth-hill.com/park-city-menu/",
+  why:"A family-owned locals' favorite with all-day service, so a 3 p.m. meal is easy.",
+  dishes:[{name:"French Onion Lentil Cake",price:"$24",comp:"Ratatouille, mushrooms, parmesan, cashew pesto, artichoke (Nov 2025 dinner menu; check it's still on). Salmon can be added to salads for $11.",diet:"plausible"}],
+  diet:"plausible", dishPrice:24,
+  hours:{Mon:[["11:00","21:00"]],Tue:[["11:00","21:00"]],Wed:[["11:00","21:00"]],Thu:[["11:00","21:00"]],Fri:[["11:00","21:00"]],Sat:[["10:00","21:00"]],Sun:[["10:00","21:00"]]},
+  afternoon:"confirmed", kitchen:"Open continuously. Avoid the spring rolls (they contain shrimp).",
+  wine:null, corkage:null, tabs:{best:7,afternoon:4,popular:7},
+  popular:"City Weekly readers' 2024 'Best Restaurant in Park City'; featured in the New York Times' 36 Hours in Park City (Dec 2025).",
+  sources:[["Hours","https://hearth-hill.com/park-city-menu/"],["Dinner menu, Nov 2025 (PDF)","https://hearth-hill.com/wp-content/uploads/2025/11/hhpc-dinner-11.25.pdf"],["Press & awards","https://hearth-hill.com/media/"],["Our story","https://hearth-hill.com/our-story/"]]},
+
+{ id:"mazza", name:"Mazza (15th & 15th)", area:"SLC", place:"15th & 15th, Salt Lake City", cuisine:["Lebanese","Middle Eastern"],
+  address:"1515 S 1500 E, Salt Lake City, UT 84105", phone:"801-484-9259", site:"https://www.mazzacafe.com/", menu:"https://www.mazzacafe.com/",
+  why:"A small, from-scratch Lebanese room (9 tables) open straight through from 11 a.m., with a big Middle Eastern wine list.",
+  dishes:[{name:"Pumpkin Kibbeh",price:"$28",comp:"Baked pumpkin, spinach, walnuts and bulgur over salad, with tahini sauce (vegan).",diet:"confirmed"},
+          {name:"Mujaddara",price:"$10",comp:"Lentils and rice with caramelized onions (vegan).",diet:"confirmed"}],
+  diet:"confirmed", dishPrice:28,
+  hours:{Mon:[["11:00","21:00"]],Tue:[["11:00","21:00"]],Wed:[["11:00","21:00"]],Thu:[["11:00","21:00"]],Fri:[["11:00","22:00"]],Sat:[["11:00","22:00"]],Sun:"closed"},
+  afternoon:"confirmed", kitchen:"Lunch and dinner with no posted break; closed Sunday.",
+  wine:"One of the largest Middle Eastern beer and wine selections in the US (restaurant's claim).", corkage:null,
+  tabs:{best:8,afternoon:5},
+  sources:[["Hours & about","https://www.mazzacafe.com/about-mazza"],["Menu","https://www.mazzacafe.com/"],["Order menu (Toast)","https://order.toasttab.com/online/mazza-middleeastern-cafe-1515-s-1500-e"]]},
+
+{ id:"himalayan", name:"Himalayan Kitchen", area:"SLC", place:"Downtown Salt Lake City", cuisine:["Nepali","Indian"],
+  address:"360 S State St, Salt Lake City, UT 84111", phone:"801-328-2077", site:"https://himalayankitchen.com/", menu:"https://order.toasttab.com/online/himalayan-kitchen-360-s-state-st-slc-utah-downtown",
+  why:"A 2026 Salt Lake Magazine Best Restaurant that serves straight through Monday to Saturday, with lots of vegetarian choices.",
+  dishes:[{name:"Veggie lunch combo",price:"$14.95",comp:"Vegetarian curries with pakora and basmati rice (Mon–Sat lunch special). Which curries varies, so ask.",diet:"plausible"},
+          {name:"Dal Aloo ko Soup",price:"$4.95",comp:"Lentils, onion, potato, spices (vegan).",diet:"confirmed"}],
+  diet:"plausible", dishPrice:15,
+  hours:{Mon:[["11:30","22:00"]],Tue:[["11:30","22:00"]],Wed:[["11:30","22:00"]],Thu:[["11:30","22:00"]],Fri:[["11:30","22:00"]],Sat:[["11:30","22:00"]],Sun:[["17:00","22:00"]]},
+  afternoon:"confirmed", kitchen:"Continuous Mon–Sat; Sunday dinner only.", wine:null, corkage:null, reservations:"By phone.",
+  tabs:{best:9,afternoon:6,critics:4},
+  critics:"Salt Lake Magazine 2026: among the Most Outstanding Restaurants.",
+  sources:[["Hours (official)","https://himalayankitchen.com/"],["Lunch specials","https://himalayankitchen.com/specials"],["Salt Lake Magazine 2026","https://www.saltlakemagazine.com/best-restaurant-of-2026-himalayan-kitchen/"]]},
+
+{ id:"redrock", name:"Red Rock Brewing (Downtown)", area:"SLC", place:"Downtown Salt Lake City", cuisine:["Brewpub","American"],
+  address:"254 S 200 W, Salt Lake City, UT 84101", phone:"435-409-4089", site:"https://redrockbrewing.com/downtown/", menu:"https://www.toasttab.com/local/order/red-rock-brewing-254-s-200-w/item-root-beer_c8617d2b-6c22-4914-874b-9a84ac1e795b",
+  why:"An award-winning brewpub open 11 a.m. to late, with a straightforward grilled salmon.",
+  dishes:[{name:"Grilled Salmon",price:"$26.95",comp:"Champagne-Dijon glaze, seasonal vegetables.",diet:"confirmed"},
+          {name:"Halibut, pan seared",price:"$28.50",comp:"Halibut (preparation details not listed).",diet:"plausible"}],
+  diet:"confirmed", dishPrice:27,
+  hours:{Mon:[["11:00","23:00"]],Tue:[["11:00","23:00"]],Wed:[["11:00","23:00"]],Thu:[["11:00","23:00"]],Fri:[["11:00","24:00"]],Sat:[["10:30","24:00"]],Sun:[["10:30","23:00"]]},
+  afternoon:"confirmed", kitchen:"Open daily without a break; weekend brunch 10:30–3.", wine:"Craft beer on site; wine not confirmed.", corkage:null,
+  tabs:{best:10,afternoon:7},
+  sources:[["Hours (official)","https://redrockbrewing.com/downtown/"],["Menu (Toast)","https://www.toasttab.com/local/order/red-rock-brewing-254-s-200-w/item-root-beer_c8617d2b-6c22-4914-874b-9a84ac1e795b"]]},
+
+{ id:"rediguana", name:"Red Iguana (the original)", area:"SLC", place:"North Temple, Salt Lake City", cuisine:["Mexican"],
+  address:"736 W North Temple, Salt Lake City, UT 84116", phone:"801-322-1489", site:"https://www.rediguana.com/", menu:"https://www.rediguana.com/menus/red-iguana-main-menu/",
+  why:"Salt Lake's most recommended restaurant, known for its moles, with a labeled vegetarian section.",
+  dishes:[{name:"Enchiladas Potosinas",price:"Price not verified",comp:"Seasoned corn masa filled with queso fresco, crushed red chile and green onion (on the restaurant's vegetarian list). Ask how the rice and beans are made.",diet:"plausible"}],
+  diet:"plausible", dishPrice:null,
+  hours:{Mon:[["11:00","21:00"]],Tue:[["11:00","21:00"]],Wed:[["11:00","21:00"]],Thu:[["11:00","21:00"]],Fri:[["11:00","22:00"]],Sat:[["11:00","22:00"]],Sun:[["11:00","21:00"]]},
+  afternoon:"confirmed", kitchen:"Continuous. Closed Thanksgiving, Christmas Eve and Christmas Day. Red Iguana 2 (866 W South Temple) keeps the same hours.",
+  wine:null, corkage:null, reservations:"Reservations page on the official site.",
+  tabs:{best:11,afternoon:8,popular:1},
+  popular:"Usually first on visitor and local lists; open since 1985 (family recipes go back further).",
+  sources:[["Hours (official)","https://www.rediguana.com/locations/red-iguana/"],["Vegetarian dishes (official)","https://www.rediguana.com/our-favorite-vegetarian-mexican-food-at-red-iguana/"],["Visit Salt Lake: iconic restaurants","https://www.visitsaltlake.com/blog/stories/post/where-to-eat-in-salt-lake-city-15-iconic-restaurants-that-define-the-city/"]]},
+
+{ id:"eatingest", name:"The Eating Establishment", area:"PC", place:"Main Street, Park City", cuisine:["American","Breakfast"],
+  address:"317 Main St, Park City, UT 84060", phone:null, site:"https://order.toasttab.com/online/the-eating-establishment-317-main-street", menu:"https://order.toasttab.com/online/the-eating-establishment-317-main-street",
+  why:"A long-running casual spot on Main Street whose halibut tacos make a reliable lunch.",
+  dishes:[{name:"Grilled Fish Tacos (halibut)",price:"$24",comp:"Two halibut tacos with serrano guacamole and cilantro dressing on flour tortillas; black beans, chips, salsa.",diet:"confirmed"}],
+  diet:"confirmed", dishPrice:24, hours:{}, afternoon:"unverified",
+  kitchen:"Ordering page showed 'closes at 9 p.m.'; opening time and any mid-day break weren't confirmed.",
+  wine:null, corkage:null, tabs:{best:12},
+  sources:[["Menu (Toast)","https://order.toasttab.com/online/the-eating-establishment-317-main-street"]]},
+
+{ id:"urbanhill", name:"Urban Hill", area:"SLC", place:"Post District, Salt Lake City", cuisine:["Seafood-forward","Southwestern"],
+  address:"510 S 300 W Suite 100, Salt Lake City, UT 84101", phone:"385-295-4200", site:"https://urban-hill.com/", menu:"https://urban-hill.com/",
+  why:"Chef Nick Zocco was a 2026 James Beard Best Chef finalist; the menu leans on seafood cooked over a wood fire.",
+  dishes:[{name:"Golden Eagle Black Cod (sablefish)",price:"Price not verified",comp:"Fregola sarda, delicata squash, smoked dashi, scallion-ginger vinaigrette, gochujang-citrus glaze, benne seed. Dashi is normally made from bonito (a fin fish), but confirm it has no shellfish.",diet:"plausible"}],
+  diet:"plausible", dishPrice:null, hours:{}, afternoon:"unverified",
+  kitchen:"Dinner hours not confirmed; weekend brunch 10:30–2:30 was reported in 2023.",
+  wine:"A 'daring' wine list (Salt Lake Magazine).", corkage:null,
+  tabs:{best:13,critics:3},
+  critics:"James Beard 2026 Best Chef: Mountain finalist (Nick Zocco); Salt Lake Magazine 2024 Outstanding Restaurant of the Year.",
+  sources:[["Salt Lake Magazine 2024 award","https://saltlakemagazine.com/urban-hill-outstanding-salt-lake-city-restaurant/"],["Visit Salt Lake: James Beard 2026","https://www.visitsaltlake.com/blog/stories/post/james-beard-2026-awards-highlight-salt-lake-semifinalists/"],["Brunch (SLM 2023)","https://www.saltlakemagazine.com/first-bite-urban-hill-brunch/"]]},
+
+{ id:"loghaven", name:"Log Haven", area:"SLC", place:"Millcreek Canyon", cuisine:["American","Fine dining"],
+  address:"6451 Millcreek Canyon Rd, Salt Lake City, UT 84109", phone:null, site:"https://log-haven.com/", menu:"https://log-haven.com/",
+  why:"A 1920 log cabin with waterfalls in Millcreek Canyon, often named one of America's most romantic restaurants.",
+  dishes:[{name:"Utah steelhead trout (when on the menu)",price:"Price not verified",comp:"Travel + Leisure singled out its crispy-skinned Utah steelhead trout in 2016; whether it's on the current menu isn't confirmed.",diet:"plausible"}],
+  diet:"plausible", dishPrice:null,
+  hours:{Mon:[["17:00","21:00"]],Tue:[["17:00","21:00"]],Wed:[["17:00","21:00"]],Thu:[["17:00","21:00"]],Fri:[["17:00","21:00"]],Sat:[["16:30","21:00"]],Sun:[["10:00","14:00"],["17:30","21:00"]]},
+  afternoon:"split", kitchen:"Dinner only on weekdays; Sunday brunch 10–2.", wine:"Wine & drink menu.", corkage:null,
+  tabs:{best:14,critics:13},
+  critics:"Travel + Leisure 'America's Most Romantic Restaurants' (2016); USA Today Top 10 Romantic (Utah).",
+  sources:[["Hours (official)","https://log-haven.com/contact/"],["Accolades","https://log-haven.com/accolades/"]]},
+
+{ id:"marmuntanya", name:"Mar | Muntanya", area:"SLC", place:"Downtown (Hyatt Regency, 6th floor)", cuisine:["Spanish","Basque tapas"],
+  address:"170 S West Temple, Salt Lake City, UT 84101", phone:"385-433-6700", site:"https://www.mar-muntanya.com/", menu:"https://www.mar-muntanya.com/menus/",
+  why:"A rooftop Northern Spanish tapas room with skyline and mountain views; a 2026 Salt Lake Magazine Best Restaurant.",
+  dishes:[{name:"Seared Tuna Crudo / Boquerones",price:"Price not verified",comp:"Tuna crudo with radish, scallion aioli and 'ocho spice'; boquerones are white anchovies (a fin fish). From a dinner menu PDF that may be dated.",diet:"plausible"}],
+  diet:"plausible", dishPrice:null,
+  hours:{Mon:"closed",Tue:[["17:00","21:00"]],Wed:[["11:00","14:30"],["17:00","21:00"]],Thu:[["11:00","14:30"],["17:00","21:00"]],Fri:[["11:00","14:30"],["17:00","21:00"]],Sat:[["10:30","14:30"],["17:00","21:00"]],Sun:[["10:30","14:30"]]},
+  afternoon:"split", kitchen:"'Golden Cocktail Hour' Wed–Sat 2:30–5 is a bar service; food then isn't confirmed. Hyatt lists dinner to 10; the restaurant's own site says 9.",
+  wine:"Spanish-focused beverage menu.", corkage:null, tabs:{critics:5},
+  critics:"Salt Lake Magazine 2026 Best Restaurant.",
+  sources:[["Hours (official)","https://www.mar-muntanya.com/location/mar-muntanya/"],["Dinner menu (Hyatt PDF)","https://www.hyatt.com/content/dam/hotel/propertysites/assets/regency/slcrs/dining/Dinner%20MM%20Chef%20Final%20Draft.pdf"],["Salt Lake Magazine 2026","https://saltlakemagazine.com/best-restaurant-of-2026-mar-muntanya/"]]},
+
+{ id:"felt", name:"Felt Bar & Eatery", area:"SLC", place:"Downtown Salt Lake City (21+)", cuisine:["American","Raw bar"],
+  address:"341 S Main St Suite 101, Salt Lake City, UT 84111", phone:"385-267-1093", site:"https://feltslc.com/", menu:"https://feltslc.com/kitchenmenupdf",
+  why:"Chef Travis Herbert was a 2026 James Beard Best Chef finalist; a 21+ cocktail bar with a serious kitchen.",
+  dishes:[], diet:"none", dishPrice:null,
+  hours:{Mon:[["16:00","22:00"]],Tue:[["16:00","22:00"]],Wed:[["16:00","22:00"]],Thu:[["16:00","22:00"]],Fri:[["16:00","23:00"]],Sat:[["13:00","23:00"]],Sun:[["13:00","22:00"]]},
+  afternoon:"unverified", kitchen:"Shown hours are bar opening to kitchen close. The bar opens at 1 p.m. on weekends, but when the kitchen starts isn't stated. The raw bar is mostly shellfish.",
+  wine:"Curated wine list.", corkage:null, reservations:"Limited reservations until 10 p.m.",
+  tabs:{critics:6},
+  critics:"James Beard 2026 Best Chef: Mountain finalist (Travis Herbert); Salt Lake Magazine 2026 Best Restaurant.",
+  sources:[["Hours & kitchen hours","https://feltslc.com/kitchenmenupdf"],["Good Morning America: 2026 finalists","https://www.goodmorningamerica.com/food/story/2026-james-beard-award-finalists-list-restaurants-chefs-131584274"]]},
+
+{ id:"pearl", name:"The Pearl", area:"SLC", place:"Central Ninth, Salt Lake City", cuisine:["Vietnamese","Bar"],
+  address:"917 S 200 W, Salt Lake City, UT 84111", phone:null, site:"https://www.thepearlslc.com/", menu:"https://www.thepearlslc.com/menu-1-1",
+  why:"Chef Tommy Nguyen's Vietnamese street-food bar; he was a 2026 James Beard semifinalist.",
+  dishes:[{name:"Vegetable Stir Fry",price:"$17",comp:"Glass noodles, tofu, snap peas, broccolini, chili crisp (marked vegetarian). Confirm the house chili crisp has no dried shrimp. Note: the banh mi comes with shrimp chips.",diet:"plausible"}],
+  diet:"plausible", dishPrice:17,
+  hours:{Mon:"closed",Tue:[["11:00","14:00"]],Wed:[["11:00","14:00"]],Thu:[["11:00","14:00"]],Fri:[["11:00","14:00"]]},
+  afternoon:"split", kitchen:"Lunch Tue–Fri 11–2 (Toast). Dinner and Saturday hours weren't confirmed.",
+  wine:"Cocktail-focused bar.", corkage:null, tabs:{critics:7},
+  critics:"James Beard 2026 semifinalist (Tommy Nguyen); Salt Lake Magazine 2026 among the Most Outstanding Restaurants.",
+  sources:[["Dinner menu","https://www.thepearlslc.com/menu-1-1"],["Lunch hours (Toast)","https://www.toasttab.com/local/order/the-pearl-917-south-200-west/r-4ceb09e0-bf2f-4531-bdd8-5e0963241ed2"],["KSL: James Beard semifinalists","https://www.ksl.com/article/51437560"]]},
+
+{ id:"oquirrh", name:"Oquirrh", area:"SLC", place:"Downtown Salt Lake City", cuisine:["American","Farm-to-table"],
+  address:"Downtown SLC (two blocks east of Eccles Theater)", phone:"801-359-0426", site:"https://oquirrhslc.com/", menu:"https://oquirrhslc.com/dinner/",
+  why:"Chef Andrew Fuller's small farm-to-table room, which panelists call 'Salt Lake's living room.'",
+  dishes:[{name:"Oquirrh Salad + Milk Braised Potatoes",price:"$15 / $16",comp:"Whole-leaf lettuce, garden sprouts, buckwheat, toasted sunflower-seed vinaigrette; heirloom potatoes, curds, whey vinaigrette, alliums.",diet:"confirmed"}],
+  diet:"confirmed", dishPrice:16,
+  hours:{Mon:[["16:30","22:00"]],Tue:[["16:30","22:00"]],Wed:[["16:30","22:00"]],Thu:[["16:30","22:00"]],Fri:[["16:30","22:00"]],Sat:[["10:00","14:00"],["16:30","22:00"]],Sun:[["10:00","14:00"],["16:30","22:00"]]},
+  afternoon:"split", kitchen:"Dinner from 4:30 p.m. daily; weekend brunch 10–2. The street address wasn't confirmed.", wine:null, corkage:null,
+  tabs:{critics:8},
+  critics:"James Beard 2026 semifinalist (Andrew Fuller); Salt Lake Magazine 2026 Best Restaurant.",
+  sources:[["Hours (OpenTable)","https://www.opentable.com/r/oquirrh-salt-lake-city"],["Dinner menu","https://oquirrhslc.com/dinner/"]]},
+
+{ id:"junah", name:"Junah", area:"SLC", place:"Central Ninth, Salt Lake City", cuisine:["Japanese-Italian"],
+  address:"916 S Jefferson St, Salt Lake City, UT 84101", phone:"801-382-9182", site:"https://junahslc.com/", menu:"https://junahslc.com/",
+  why:"The only Utah restaurant on the New York Times' 2026 list of 50 favorites; a Japanese-Italian ('itameshi') kitchen.",
+  dishes:[{name:"Tagliolini with mentaiko",price:"Price not verified",comp:"Pasta in a creamy pollock-roe sauce with shiso (pollock is a fin fish). Confirm nothing else from the sea is in the sauce.",diet:"plausible"}],
+  diet:"plausible", dishPrice:null,
+  hours:{Mon:"closed",Tue:[["17:00","21:00"]],Wed:[["17:00","21:00"]],Thu:[["17:00","21:00"]],Fri:[["17:00","21:00"]],Sat:[["17:00","21:00"]],Sun:"closed"},
+  afternoon:"split", kitchen:"Dinner only.", wine:"Wine list including rare Italian reds (OpenTable).", corkage:null, reservations:"Walk-ins and reservations.",
+  tabs:{critics:9},
+  critics:"New York Times 2026 Restaurant List (50 favorites); James Beard 2026 Best New Restaurant semifinalist; Salt Lake Magazine 2026 One to Watch.",
+  sources:[["Hours (official)","https://junahslc.com/"],["Salt Lake Tribune on the NYT list","https://www.sltrib.com/artsliving/food/2026/09/15/utah-restaurant-junah-named-one/"],["OpenTable listing","https://www.opentable.com/r/junah-salt-lake-city"]]},
+
+{ id:"beirut", name:"Beirut Cafe", area:"SLC", place:"Murray", cuisine:["Lebanese","Halal"],
+  address:"Murray strip mall (address not confirmed)", phone:null, site:null, menu:null,
+  why:"A modest halal Lebanese spot that made Salt Lake Magazine's 2026 Best Restaurants list.",
+  dishes:[{name:"Fattoush salad",price:"Price not verified",comp:"Vegetable-loaded salad with a lemon-pomegranate dressing.",diet:"plausible"}],
+  diet:"plausible", dishPrice:null, hours:{}, afternoon:"unverified", kitchen:"Hours not confirmed.", wine:null, corkage:null,
+  tabs:{critics:10},
+  critics:"Salt Lake Magazine 2026 Best Restaurant.",
+  sources:[["Salt Lake Magazine 2026","https://www.saltlakemagazine.com/best-restaurant-of-2026-beirut-cafe/"]]},
+
+{ id:"rime", name:"RIME Seafood & Steak", area:"PC", place:"St. Regis Deer Valley, Park City", cuisine:["Seafood","Steak"],
+  address:"2300 Deer Valley Dr E, Park City, UT 84060", phone:"435-940-5760", site:"https://www.marriott.com/en-us/dining/restaurant-bar/slcxr-the-st-regis-deer-valley/5968374-rime.mi", menu:null,
+  why:"A resort seafood and steak room reached by funicular, with a 10,000-bottle wine cellar.",
+  dishes:[], diet:"none", dishPrice:null,
+  hours:all("07:00","21:00"), service:null,
+  afternoon:"split", kitchen:"Breakfast 7–11, dinner 5:30–9 (Marriott). No afternoon service.",
+  wine:"10,000+ bottle cellar.", corkage:null, tabs:{critics:11},
+  critics:"Salt Lake Magazine 2026 Best Restaurant.",
+  sources:[["Hours (Marriott)","https://www.marriott.com/hotels/hotel-information/restaurant/details/slcxr-the-st-regis-deer-valley/5968374/"],["Salt Lake Magazine 2026","https://www.saltlakemagazine.com/best-restaurant-of-2026-rime/"]]},
+
+{ id:"riverhorse", name:"Riverhorse on Main", area:"PC", place:"Main Street, Park City", cuisine:["American","Fine dining"],
+  address:"540 Main St, Park City, UT 84060", phone:"435-649-3536", site:"https://www.riverhorseparkcity.com/", menu:"https://www.riverhorseparkcity.com/menus",
+  why:"A Park City fine-dining institution with 17 years of Forbes Four-Star ratings; its menu rotates seasonally.",
+  dishes:[], diet:"none", dishPrice:null,
+  hours:{Mon:[["17:00","21:00"]],Tue:[["17:00","21:00"]],Wed:[["17:00","21:00"]],Thu:[["17:00","21:00"]],Fri:[["17:00","21:30"]],Sat:[["17:00","21:30"]],Sun:[["17:00","21:00"]]},
+  afternoon:"split", kitchen:"Dinner only.", wine:"Extensive list; sommeliers on staff.", corkage:null, reservations:"Online for up to 6 guests.",
+  tabs:{critics:14},
+  critics:"Forbes Travel Guide Four-Star for 17 years; Utah's first DiRōNA Award.",
+  sources:[["Hours (official)","https://www.riverhorseparkcity.com/"],["History & awards","https://www.riverhorseparkcity.com/about-us"]]},
+
+{ id:"kyoto", name:"Kyoto", area:"SLC", place:"1300 South, Salt Lake City", cuisine:["Japanese"],
+  address:"1080 E 1300 S, Salt Lake City, UT 84105", phone:"801-487-3525", site:"https://www.kyotoslc.com/", menu:null,
+  why:"A traditional Japanese institution since 1984; locals say to book ahead.",
+  dishes:[{name:"Tuna sashimi or agedashi tofu",price:"Price not verified",comp:"Agedashi tofu is usually served in a bonito-dashi broth (bonito is a fin fish). The famous tempura is shrimp, so skip it.",diet:"plausible"}],
+  diet:"plausible", dishPrice:null, hours:{}, afternoon:"unverified", kitchen:"Lunch and dinner; current hours not confirmed.",
+  wine:"Full bar, wine and sake.", corkage:null, tabs:{popular:5},
+  popular:"Open since 1984; Gastronomic SLC says it's 'busy every night of the week.'",
+  sources:[["History (official)","https://www.kyotoslc.com/history"],["Gastronomic SLC top 10","https://gastronomicslc.com/top-10-dinner-spots-in-salt-lake-city/"]]},
+
+{ id:"copperonion", name:"The Copper Onion", area:"SLC", place:"Downtown Salt Lake City", cuisine:["American brasserie"],
+  address:"111 E Broadway, Salt Lake City, UT 84111", phone:null, site:"https://www.thecopperonion.com/", menu:"https://www.thecopperonion.com/foodmenu",
+  why:"A downtown brasserie that's been a local favorite since 2010; its sister bar Copper Common is a 2026 award winner.",
+  dishes:[], diet:"none", dishPrice:null,
+  hours:{Mon:[["11:30","15:00"],["17:00","22:00"]],Tue:[["11:30","15:00"],["17:00","22:00"]],Wed:[["11:30","15:00"],["17:00","22:00"]],Thu:[["11:30","15:00"],["17:00","22:00"]],Fri:[["11:30","15:00"],["17:00","23:00"]],Sat:[["10:30","15:00"],["17:00","23:00"]],Sun:[["10:30","15:00"],["17:00","22:00"]]},
+  afternoon:"split", kitchen:"Closed 3–5 p.m. daily. The menu is posted as images, so no dish was verified.",
+  wine:"Extensive wine and cocktail menus.", corkage:null, tabs:{popular:6},
+  popular:"Long-running downtown standby (opened 2010), often cited for its Utah lamb.",
+  sources:[["Hours (official)","https://www.thecopperonion.com/visit"],["About","https://www.thecopperonion.com/"]]},
+
+{ id:"thepie", name:"The Pie Underground", area:"SLC", place:"University of Utah area", cuisine:["Pizza"],
+  address:"1320 E 200 S, Salt Lake City, UT (below the University Pharmacy)", phone:"801-582-5700", site:"https://www.thepie.com/locations/the-pie-underground-salt-lake", menu:"https://thepie.com/menu",
+  why:"The original basement pizzeria by the U, a Salt Lake tradition since 1980.",
+  dishes:[{name:"Cheese or veggie pizza",price:"Price not verified",comp:"Vegan and gluten-free options are offered. Confirm the toppings and sauce have no anchovy or meat.",diet:"plausible"}],
+  diet:"plausible", dishPrice:null,
+  hours:{Mon:[["11:00","23:00"]],Tue:[["11:00","23:00"]],Wed:[["11:00","23:00"]],Thu:[["11:00","23:00"]],Fri:[["11:00","23:00"]],Sat:[["11:00","23:00"]],Sun:[["12:00","22:00"]]},
+  afternoon:"confirmed", kitchen:"Open straight through; custom slices 11–5 daily.", wine:null, corkage:null,
+  tabs:{afternoon:10,popular:9},
+  popular:"A Salt Lake landmark since 1980; the classic University of Utah hangout.",
+  sources:[["Hours (official)","https://www.thepie.com/locations/the-pie-underground-salt-lake"],["History","https://thepie.com/our-company"],["Menu","https://thepie.com/menu"]]},
+
+{ id:"lucky13", name:"Lucky 13 Bar & Grill", area:"SLC", place:"South Salt Lake (21+)", cuisine:["Burgers","Bar"],
+  address:"135 W 1300 S, Salt Lake City, UT 84115", phone:"801-487-4418", site:"https://www.lucky13slc.com/", menu:null,
+  why:"A 21+ dive bar famous for its burgers, consistently on lists of Salt Lake favorites.",
+  dishes:[], diet:"none", dishPrice:null,
+  hours:all("10:00","24:00"), afternoon:"unverified", kitchen:"Open 10 a.m.–2 a.m. daily, kitchen last call midnight; burgers served after 1 p.m. No suitable dish verified.",
+  wine:null, corkage:null, reservations:"At least 12 hours ahead.", tabs:{popular:10},
+  popular:"Visit Utah's 'Best Restaurants in Salt Lake City' list; widely known for its burgers.",
+  sources:[["Hours (official)","https://www.lucky13slc.com/contact-us/"],["Visit Utah list","https://visitutah.com/articles/best-restaurants-in-salt-lake-city"]]},
+
+{ id:"arlo", name:"Arlo", area:"SLC", place:"Salt Lake City", cuisine:["American"], address:"Salt Lake City (address not confirmed)", phone:null, site:null, menu:null,
+  why:"Chef Milo Carrier's restaurant, recognized by both the James Beard Foundation and Salt Lake Magazine in 2026.",
+  dishes:[], diet:"none", dishPrice:null, hours:{}, afternoon:"unverified", kitchen:"Not yet researched beyond the awards.", wine:null, corkage:null,
+  tabs:{critics:15}, critics:"James Beard 2026 Best Chef semifinalist (Milo Carrier); Salt Lake Magazine 2026 Best Restaurant.",
+  sources:[["Salt Lake Magazine 2026","https://www.saltlakemagazine.com/best-restaurant-of-2026-arlo/"],["KSL: James Beard semifinalists","https://www.ksl.com/article/51437560"]]},
+
+{ id:"tablex", name:"Table X", area:"SLC", place:"Salt Lake City", cuisine:["Contemporary American"], address:"Salt Lake City (address not confirmed)", phone:null, site:null, menu:null,
+  why:"Mike Blocher and Nick Fahs's restaurant, a 2026 James Beard semifinalist.",
+  dishes:[], diet:"none", dishPrice:null, hours:{}, afternoon:"unverified", kitchen:"Not yet researched beyond the award.", wine:null, corkage:null,
+  tabs:{critics:16}, critics:"James Beard 2026 semifinalist (Mike Blocher & Nick Fahs).",
+  sources:[["KSL: James Beard semifinalists","https://www.ksl.com/article/51437560"]]},
+
+{ id:"franklin", name:"Franklin Ave", area:"SLC", place:"Salt Lake City", cuisine:["American"], address:"Salt Lake City (address not confirmed)", phone:null, site:null, menu:null,
+  why:"A Bourbon Group restaurant on Salt Lake Magazine's 2026 Best Restaurants list.",
+  dishes:[], diet:"none", dishPrice:null, hours:{}, afternoon:"unverified", kitchen:"Not yet researched beyond the award.", wine:null, corkage:null,
+  tabs:{critics:17}, critics:"Salt Lake Magazine 2026 Best Restaurant.",
+  sources:[["Salt Lake Magazine 2026","https://saltlakemagazine.com/best-restaurant-of-2026-franklin-ave/"]]},
+
+{ id:"barnohm", name:"Bar Nohm", area:"SLC", place:"Central Ninth, Salt Lake City", cuisine:["Japanese izakaya"], address:"Central Ninth, Salt Lake City (address not confirmed)", phone:"385-465-4488", site:null, menu:null,
+  why:"A Central Ninth bar and kitchen named among Salt Lake Magazine's 2026 Most Outstanding Restaurants.",
+  dishes:[], diet:"none", dishPrice:null, hours:{}, afternoon:"unverified", kitchen:"Not yet researched beyond the award.", wine:null, corkage:null,
+  tabs:{critics:18}, critics:"Salt Lake Magazine 2026: among the Most Outstanding Restaurants.",
+  sources:[["Salt Lake Magazine 2026","https://www.saltlakemagazine.com/best-restaurant-of-2026-bar-nohm/"],["City Cast SLC award roundup","https://saltlake.citycast.fm/food-drink/2026-salt-lake-magazine-dining-award-winners"]]}
+];
+
+const PORTUGUESE = {
+  found:false, checked:CHECKED,
+  text:"No dedicated Portuguese restaurant anywhere in Utah was confirmed. Searches for 'Portuguese' turn up Brazilian and Spanish places instead. The nearest finds are Tushar Brazilian Express in South Jordan (its website lists bacalhau), Finca in Salt Lake (Spanish, with Portuguese wines) and Onoh's Malasadas in Pleasant Grove (Portuguese-Hawaiian pastries). One may exist that these sources missed.",
+  sources:[["Yelp search: Portuguese, Salt Lake City","https://www.yelp.com/search?find_desc=Portuguese+Restaurants&find_loc=Salt+Lake+City%2C+UT"],["Onoh's Malasadas","https://onohsmalasadaco.com/new-portuguese-hawaiian-restaurant-in-pleasant-grove-you-need-to-check-out/"]]
+};
+
+/* =================== LABELS =================== */
+const DIET = {
+  confirmed:{t:"Confirmed suitable",c:"ok",s:"✓",d:"The menu's listed ingredients meet the rules: no meat or poultry; fish only with fins and scales; no shellfish, squid, octopus or catfish."},
+  modification:{t:"Suitable with verified change",c:"ok",s:"✓",d:"Suitable only with a change the restaurant itself confirms it makes."},
+  plausible:{t:"Plausible — confirm",c:"warn",s:"?",d:"Probably suitable, but a sauce, stock, side or current-menu detail couldn't be confirmed. Ask your server about the item noted."},
+  none:{t:"No verified dish",c:"mute",s:"–",d:"Listed for popularity or acclaim; no specific suitable dish was confirmed."},
+  incompatible:{t:"Dietary mismatch",c:"bad",s:"✕",d:"The menu offers nothing that fits."}
+};
+const AFT = {
+  confirmed:{t:"Afternoon meals",c:"ok",s:"◷",d:"Published hours show the kitchen serving meals straight through mid-afternoon on at least some days."},
+  limited:{t:"Limited afternoon menu",c:"warn",s:"◔",d:"Something is served mid-afternoon, such as a bar or après menu, but not the full menu."},
+  split:{t:"Closed mid-afternoon",c:"mute",s:"◑",d:"Lunch and dinner only, with a break in the afternoon, or no afternoon service at all."},
+  unverified:{t:"Hours not verified",c:"mute",s:"?",d:"Kitchen hours couldn't be confirmed. Never treat this as 'open now'."}
+};
+const TABS = [
+  {id:"best",name:"Best Fits",sub:"Dish first",intro:"Curated places with a specific dish that fits your diet. Ranked by dish appeal, then how sure we are it fits, then afternoon hours."},
+  {id:"afternoon",name:"Afternoon",sub:"2:30–4:30",intro:"Places whose kitchens serve real meals in your chosen afternoon window, based on published hours. Change the day or window under Filters."},
+  {id:"popular",name:"Most Popular",sub:"Crowd favorites",intro:"Salt Lake's most widely patronized favorites, judged by review volume and long-term reputation. Diet and hours don't decide who's included; each card is just labeled honestly."},
+  {id:"critics",name:"Critics' Picks",sub:"Awards & standouts",intro:"Picks from Salt Lake Magazine's 2026 Dining Awards, the 2026 James Beard Awards and other editorial recognition. Diet and hours don't decide who's included."}
+];
+
+/* =================== STATE =================== */
+const KEY="slcRestaurants.v1";
+const defFilters = () => ({q:"",area:"all",cuisine:"",diet:"",aft:"",wine:false,price:"",day:"any",from:"14:30",to:"16:30"});
+let state = {tab:"best", filters:Object.fromEntries(TABS.map(t=>[t.id,defFilters()])), open:null, showFilters:false};
+try{ const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.filters){ state.filters=Object.assign(state.filters,s.filters); state.open=s.open||null; state.tab=s.tab||"best"; } }catch(_){}
+const h=location.hash.slice(1); if(TABS.some(t=>t.id===h)) state.tab=h;
+const save=()=>{ try{localStorage.setItem(KEY,JSON.stringify({tab:state.tab,filters:state.filters,open:state.open}))}catch(_){} };
+
+/* =================== HELPERS =================== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const mins=t=>{const [a,b]=t.split(":").map(Number);return a*60+b};
+const fmt=t=>{let m=mins(t);if(m>=1440)return"midnight";let H=Math.floor(m/60),M=m%60,ap=H>=12?"p":"a";H=H%12||12;return H+(M?":"+String(M).padStart(2,"0"):"")+ap};
+const fmtDay=v=>v==="closed"?"Closed":(!v?"Unknown":v.map(([a,b])=>fmt(a)+"–"+fmt(b)).join(", "));
+const svc=r=>r.service||r.hours||{};
+function coversWindow(r,day,from,to){
+  if(!["confirmed","limited"].includes(r.afternoon)) return false;
+  const days=day==="any"?DAYS:[day]; const f=mins(from),t=mins(to);
+  return days.some(d=>{const v=svc(r)[d]; return Array.isArray(v)&&v.some(([a,b])=>mins(a)<=f&&mins(b)>=t)});
+}
+function windowDays(r,from,to){ return DAYS.filter(d=>coversWindow(r,d,from,to)); }
+const dayRange=ds=>{ if(ds.length===7)return"every day"; return ds.join(", "); };
+const priceBand=p=>p==null?"unknown":p<20?"lt20":p<=35?"20to35":"gt35";
+const mapUrl=r=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(r.name+" "+r.address);
+const badge=(o,extra="")=>`<span class="b ${o.c}" title="${esc(o.d)}"><span class="sym" aria-hidden="true">${o.s}</span>${esc(o.t)}${extra}</span>`;
+
+/* =================== RENDER =================== */
+function renderTabs(){
+  $("#tabs").innerHTML=TABS.map(t=>{const n=RESTAURANTS.filter(r=>inTab(r,t.id)).length;
+    return `<button class="tab" role="tab" id="tab-${t.id}" aria-selected="${state.tab===t.id}" data-tab="${t.id}">${t.name}<small>${t.sub} · ${n}</small></button>`}).join("");
+  $("#intro").textContent=TABS.find(t=>t.id===state.tab).intro;
+}
+function inTab(r,tab){
+  if(tab==="afternoon"){ const f=state.filters.afternoon; return !!r.tabs.afternoon || (coversWindow(r,f.day,f.from,f.to) && r.diet!=="none"); }
+  return r.tabs[tab]!=null;
+}
+function renderArea(){
+  const f=state.filters[state.tab];
+  $("#area").innerHTML=[["all","All"],["SLC","Salt Lake"],["PC","Park City"]].map(([v,l])=>`<button type="button" data-area="${v}" aria-pressed="${f.area===v}">${l}</button>`).join("");
+  $("#q").value=f.q;
+}
+function renderFilters(){
+  const f=state.filters[state.tab]; const box=$("#filters");
+  box.hidden=!state.showFilters; $("#filtersBtn").setAttribute("aria-expanded",state.showFilters);
+  const active=["cuisine","diet","aft","price"].some(k=>f[k])||f.wine||(state.tab==="afternoon"&&(f.day!=="any"||f.from!=="14:30"||f.to!=="16:30"));
+  $("#filtersBtn").classList.toggle("on",active); $("#filtersBtn").textContent=active?"Filters •":"Filters";
+  if(!state.showFilters) return;
+  const cuisines=[...new Set(RESTAURANTS.flatMap(r=>r.cuisine))].sort();
+  const times=[];for(let m=11*60;m<=20*60;m+=30){const t=String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0");times.push(t)}
+  const opt=(v,l,cur)=>`<option value="${v}"${v===cur?" selected":""}>${l}</option>`;
+  box.innerHTML=
+   (state.tab==="afternoon"?`<label>Day<select data-f="day">${opt("any","Any day",f.day)}${DAYS.map(d=>opt(d,d,f.day)).join("")}</select></label>
+   <label>From<select data-f="from">${times.map(t=>opt(t,fmt(t),f.from)).join("")}</select></label>
+   <label>Until<select data-f="to">${times.map(t=>opt(t,fmt(t),f.to)).join("")}</select></label>`:"")+
+   `<label>Cuisine<select data-f="cuisine">${opt("","Any",f.cuisine)}${cuisines.map(c=>opt(c,c,f.cuisine)).join("")}</select></label>
+   <label>Diet fit<select data-f="diet">${opt("","Any",f.diet)}${opt("confirmed","Confirmed only",f.diet)}${opt("fit","Confirmed or plausible",f.diet)}</select></label>
+   <label>Afternoon<select data-f="aft">${opt("","Any",f.aft)}${opt("confirmed","Afternoon meals",f.aft)}${opt("any","Any afternoon service",f.aft)}</select></label>
+   <label>Dish price<select data-f="price">${opt("","Any",f.price)}${opt("lt20","Under $20",f.price)}${opt("20to35","$20–35",f.price)}${opt("gt35","Over $35",f.price)}${opt("unknown","Not verified",f.price)}</select></label>
+   <label class="chk"><input type="checkbox" data-f="wine"${f.wine?" checked":""}> Wine information known</label>`;
+}
+function filtered(){
+  const f=state.filters[state.tab], q=f.q.trim().toLowerCase();
+  let rs=RESTAURANTS.filter(r=>inTab(r,state.tab));
+  rs=rs.filter(r=>{
+    if(f.area!=="all"&&r.area!==f.area) return false;
+    if(q && ![r.name,r.place,r.cuisine.join(" "),r.why,...r.dishes.map(d=>d.name+" "+d.comp)].join(" ").toLowerCase().includes(q)) return false;
+    if(f.cuisine&&!r.cuisine.includes(f.cuisine)) return false;
+    if(f.diet==="confirmed"&&r.diet!=="confirmed") return false;
+    if(f.diet==="fit"&&!["confirmed","modification","plausible"].includes(r.diet)) return false;
+    if(f.aft==="confirmed"&&r.afternoon!=="confirmed") return false;
+    if(f.aft==="any"&&!["confirmed","limited"].includes(r.afternoon)) return false;
+    if(f.wine&&!r.wine) return false;
+    if(f.price&&priceBand(r.dishPrice)!==f.price) return false;
+    if(state.tab==="afternoon"&&!coversWindow(r,f.day,f.from,f.to)) return false;
+    return true;
+  });
+  const rk=r=>r.tabs[state.tab]??99;
+  rs.sort((a,b)=>rk(a)-rk(b)||a.name.localeCompare(b.name));
+  return rs;
+}
+function card(r,i){
+  const open=state.open===r.id, f=state.filters.afternoon;
+  const wd=windowDays(r,f.from,f.to);
+  const aftExtra=(state.tab==="afternoon"&&wd.length)?`: ${dayRange(wd)}`:"";
+  const d0=r.dishes[0];
+  const placement=Object.keys(r.tabs).map(t=>{const T=TABS.find(x=>x.id===t);
+     const why={best:"has a specific dish that fits your diet",afternoon:"kitchen serves meals mid-afternoon",popular:r.popular||"",critics:r.critics||""}[t];
+     return `<li><b>${T.name}</b>: ${esc(why)}</li>`}).join("");
+  return `<article class="card" data-open="${open}" id="r-${r.id}">
+   <h3 class="serif"><span class="rank" aria-label="Rank ${i+1}">${i+1}</span>${esc(r.name)}</h3>
+   <div class="meta">${esc(r.place)} · ${esc(r.cuisine.join(", "))}</div>
+   <div class="badges">${badge(DIET[r.diet])}${badge(AFT[r.afternoon],aftExtra)}${r.wine?`<span class="b mute" title="${esc(r.wine)}">Wine</span>`:""}</div>
+   <p class="why">${esc(r.why)}</p>
+   ${d0?`<p class="dish">Try: <b>${esc(d0.name)}</b> <span class="price">${esc(d0.price)}</span></p>`:`<p class="dish" style="color:var(--muted)">No specific dish verified.</p>`}
+   <button class="btn more" type="button" data-open="${r.id}" aria-expanded="${open}" aria-controls="d-${r.id}">${open?"Hide details":"Details"}</button>
+   <div class="detail" id="d-${r.id}" ${open?"":"hidden"}>
+     ${r.dishes.length?`<h4>Dishes</h4><ul>${r.dishes.map(d=>`<li><b>${esc(d.name)}</b> (${esc(d.price)}), <span title="${esc(DIET[d.diet].d)}">${esc(DIET[d.diet].t)}</span>: ${esc(d.comp)}</li>`).join("")}</ul>`:""}
+     <h4>Hours</h4>
+     ${Object.keys(r.hours||{}).length?`<div class="hrs">${DAYS.map(d=>`<span class="d">${d}</span><span>${fmtDay(r.hours[d])}</span>`).join("")}</div>`:`<p>Not verified.</p>`}
+     <p>${esc(r.kitchen||"")}</p>
+     ${r.wine?`<h4>Wine</h4><p>${esc(r.wine)} Corkage: ${r.corkage?esc(r.corkage):"not confirmed; ask before bringing a bottle."}</p>`:`<h4>Wine</h4><p>Not confirmed.</p>`}
+     ${r.reservations?`<h4>Reservations</h4><p>${esc(r.reservations)}</p>`:""}
+     <h4>Where</h4><p>${esc(r.address)}${r.phone?` · <a href="tel:${esc(r.phone.replace(/[^0-9]/g,""))}" style="color:var(--accent)">${esc(r.phone)}</a>`:""}</p>
+     <div class="links">${r.address.match(/\d/)?`<a href="${mapUrl(r)}" target="_blank" rel="noopener">Map & directions</a>`:""}${r.menu?`<a href="${esc(r.menu)}" target="_blank" rel="noopener">Menu</a>`:""}${r.site?`<a href="${esc(r.site)}" target="_blank" rel="noopener">Website</a>`:""}</div>
+     <h4>Why it's on these lists</h4><ul>${placement}</ul>
+     <h4>Sources</h4><ul class="src">${r.sources.map(([l,u])=>`<li><a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)}</a></li>`).join("")}</ul>
+     <p class="checked">Checked on ${CHECKED}. Hours and menus change; confirm before you go.</p>
+   </div></article>`;
+}
+function renderList(){
+  const rs=filtered();
+  $("#count").textContent=`${rs.length} ${rs.length===1?"restaurant":"restaurants"}`+(state.tab==="afternoon"?` serving meals ${fmt(state.filters.afternoon.from)}–${fmt(state.filters.afternoon.to)}${state.filters.afternoon.day==="any"?" on at least one day":" on "+state.filters.afternoon.day}`:"");
+  $("#list").innerHTML=rs.length?rs.map(card).join(""):`<div class="empty">Nothing matches these filters. <button class="btn" type="button" data-reset>Reset filters</button></div>`;
+}
+function renderPortuguese(){
+  $("#portuguese").innerHTML=`<b>Portuguese check (${PORTUGUESE.checked}):</b> ${esc(PORTUGUESE.text)} Sources: ${PORTUGUESE.sources.map(([l,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener" style="color:var(--accent)">${esc(l)}</a>`).join(" · ")}`;
+  $("#legend").innerHTML=[...Object.values(DIET),...Object.values(AFT)].map(o=>`<dt>${badge(o)}</dt><dd>${esc(o.d)}</dd>`).join("");
+  $("#asof").textContent=new Date(CHECKED+"T12:00").toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+}
+function render(){ renderTabs(); renderArea(); renderFilters(); renderList(); save(); }
+
+/* =================== EVENTS =================== */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-tab]"); if(t){state.tab=t.dataset.tab; history.replaceState(null,"","#"+state.tab); render(); return;}
+  const a=e.target.closest("[data-area]"); if(a){state.filters[state.tab].area=a.dataset.area; render(); return;}
+  const o=e.target.closest("[data-open]"); if(o){state.open=state.open===o.dataset.open?null:o.dataset.open; renderList(); save(); return;}
+  if(e.target.closest("[data-reset]")){state.filters[state.tab]=defFilters(); render();}
+});
+$("#tabs").addEventListener("keydown",e=>{
+  if(!["ArrowLeft","ArrowRight"].includes(e.key))return;
+  const i=TABS.findIndex(t=>t.id===state.tab), n=(i+(e.key==="ArrowRight"?1:-1)+TABS.length)%TABS.length;
+  state.tab=TABS[n].id; history.replaceState(null,"","#"+state.tab); render(); $("#tab-"+state.tab).focus();
+});
+$("#q").addEventListener("input",e=>{state.filters[state.tab].q=e.target.value; renderList(); save();});
+$("#filtersBtn").onclick=()=>{state.showFilters=!state.showFilters; renderFilters();};
+$("#resetBtn").onclick=()=>{state.filters[state.tab]=defFilters(); render();};
+$("#filters").addEventListener("change",e=>{const k=e.target.dataset.f; if(!k)return;
+  state.filters[state.tab][k]=e.target.type==="checkbox"?e.target.checked:e.target.value;
+  if(k==="from"||k==="to"||k==="day"){const f=state.filters[state.tab]; if(mins(f.to)<=mins(f.from)) f.to=fmt2(mins(f.from)+60);}
+  render();});
+const fmt2=m=>String(Math.min(Math.floor(m/60),23)).padStart(2,"0")+":"+String(m%60).padStart(2,"0");
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1); if(TABS.some(t=>t.id===h)){state.tab=h; render();}});
+
+/* theme */
+const TK="slcRestaurants.theme";
+function setTheme(t,s){document.documentElement.dataset.theme=t;$("#themeVal").textContent=t==="dark"?"Dark":"Light";
+  $("#themeBtn").setAttribute("aria-label","Theme: "+(t==="dark"?"Dark":"Light")+". Switch to "+(t==="dark"?"Light":"Dark"));
+  if(s){try{localStorage.setItem(TK,t)}catch(_){}}}
+$("#themeBtn").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark",true);
+let st=null;try{st=localStorage.getItem(TK)}catch(_){} setTheme(st==="light"?"light":"dark",false);
+
+renderPortuguese(); render();
+if(state.open){const el=document.getElementById("r-"+state.open); if(el) el.scrollIntoView({block:"center"});}
+}
+</script>
+</body>
+</html>
