@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<educationalContent id="gelfand-duality-abstract-proof" version="1.2" language="en" audience="AI">
+  <metadata>
+    <title>Gelfand Duality — Abstract Mathematical Exposition</title>
+    <subtitle>The abstract representation theorem</subtitle>
+    <scope>The commutative unital Gelfand representation theorem for a nonzero complex C*-algebra.</scope>
+    <sourceDate>2026-11-24</sourceDate>
+    <purpose>Canonical mathematical content for the abstract Gelfand representation theorem, independent of any presentation or implementation.</purpose>
+    <reuseGuidance>Use these mathematical statements, definitions, explanations, equations, and theorem references as a self-contained source. The numbering records the logical progression of the proof, not a required display sequence. Presentation format, organization, and delivery are separate decisions.</reuseGuidance>
+    <notationNote>A denotes the original algebra; M a maximal ideal; X the character space; A* the continuous dual; a-hat the Gelfand transform of an element a; A-hat the image of the transform.</notationNote>
+  </metadata>
+  <steps count="9" first="0" last="8">
+    <step number="0" id="objective">
+      <title>The objective</title>
+      <takeaway>Reconstruct a space from an algebra.</takeaway>
+      <explanation>Starting with a commutative unital C*-algebra A, we will construct a compact Hausdorff space X and establish an isometric *-isomorphism between A and C(X).</explanation>
+      <equation notation="latex">A\cong C(X)</equation>
+      <detail>The proof constructs X from A and then establishes the isometric *-isomorphism.</detail>
+      <foundation>Gelfand representation theorem</foundation>
+    </step>
+    <step number="1" id="maximal-ideals-exist">
+      <title>Existence of maximal ideals</title>
+      <takeaway>Zorn's lemma supplies maximal ideals.</takeaway>
+      <explanation>The proper ideals of A form a nonempty partially ordered set under inclusion. The union of any nonempty chain of proper ideals is itself a proper ideal and provides an upper bound.</explanation>
+      <equation notation="latex">J=\bigcup_{I\in\mathcal C}I</equation>
+      <detail>The union cannot contain the identity, since that would mean one of the proper ideals contains the identity.</detail>
+      <foundation>Zorn's lemma</foundation>
+    </step>
+    <step number="2" id="maximal-ideals-closed">
+      <title>Maximal ideals are closed</title>
+      <takeaway>Openness of the invertible elements.</takeaway>
+      <explanation>If the closure of a maximal ideal M contained the identity, M would contain an element sufficiently close to the identity to be invertible. This contradicts the properness of M.</explanation>
+      <equation notation="latex">\overline M=M</equation>
+      <detail>The closure is itself an ideal. Since it is proper and contains M, maximality forces equality.</detail>
+      <foundation>Neumann series</foundation>
+    </step>
+    <step number="3" id="quotient-algebra">
+      <title>Construct the quotient algebra</title>
+      <takeaway>Closedness gives a Banach quotient; maximality gives division.</takeaway>
+      <explanation>Because M is closed, A/M is a unital complex Banach algebra. Because M is maximal, every nonzero coset is invertible.</explanation>
+      <equation notation="latex">x\notin M\Rightarrow M+Ax=A</equation>
+      <detail>Consequently, there exist m in M and a in A such that m + ax = 1. Passing to the quotient establishes invertibility.</detail>
+      <foundation>Banach quotient theorem and maximality</foundation>
+    </step>
+    <step number="4" id="characters">
+      <title>Obtain the characters</title>
+      <takeaway>Every complex Banach division algebra is isomorphic to ℂ.</takeaway>
+      <explanation>The Gelfand–Mazur theorem applies to A/M. Composing the quotient map with the resulting isomorphism produces a character on A.</explanation>
+      <equation notation="latex">A\xrightarrow{\ q\ }A/M\xrightarrow{\ \theta\ }\mathbb C</equation>
+      <detail>The character φ = θ ∘ q is a nonzero multiplicative linear functional. Characters have norm one.</detail>
+      <foundation>Gelfand–Mazur theorem</foundation>
+    </step>
+    <step number="5" id="character-space">
+      <title>Construct the space X</title>
+      <takeaway>The weak-* topology supplies compactness.</takeaway>
+      <explanation>Let X be the set of all characters. It is a weak-* closed subset of the closed unit ball of A*, and therefore compact by Banach–Alaoglu.</explanation>
+      <equation notation="latex">X=\operatorname{Spec}(A)\subseteq A^*</equation>
+      <detail>Distinct characters differ on at least one element of A. The corresponding evaluation map separates them, establishing the Hausdorff property.</detail>
+      <foundation>Banach–Alaoglu theorem</foundation>
+    </step>
+    <step number="6" id="gelfand-transform">
+      <title>Define the Gelfand transform</title>
+      <takeaway>Elements of the algebra become functions on the character space.</takeaway>
+      <explanation>For each element a of A, define a function on X by evaluating each character at a. Continuity follows from the definition of the weak-* topology.</explanation>
+      <equation notation="latex">\widehat a(\varphi)=\varphi(a)</equation>
+      <detail>The character identities establish linearity and multiplicativity. Characters also preserve the involution, so the transform is a *-homomorphism.</detail>
+      <foundation>Weak-* topology and character properties</foundation>
+    </step>
+    <step number="7" id="isometry">
+      <title>Establish isometry</title>
+      <takeaway>The spectral radius recovers the original norm.</takeaway>
+      <explanation>The character values of a constitute its spectrum. Since A is a commutative C*-algebra, every element is normal, and its spectral radius equals its norm.</explanation>
+      <equation notation="latex">\|\widehat a\|_\infty=r(a)=\|a\|</equation>
+      <detail>Isometry immediately establishes injectivity: two elements with the same transform must have distance zero.</detail>
+      <foundation>Spectral radius formula and C*-identity</foundation>
+    </step>
+    <step number="8" id="surjectivity">
+      <title>Establish surjectivity</title>
+      <takeaway>Density plus closedness gives equality.</takeaway>
+      <explanation>The image of A contains the constants, separates the points of X and is closed under complex conjugation. Stone–Weierstrass therefore establishes density in C(X).</explanation>
+      <equation notation="latex">\overline{\widehat A}=\widehat A=C(X)</equation>
+      <detail>Isometry and completeness of A establish that the image is closed. Together with density, this proves surjectivity and completes the isometric *-isomorphism.</detail>
+      <foundation>Stone–Weierstrass and completeness</foundation>
+    </step>
+  </steps>
+  <editorialNotes>
+    <note step="1">For the empty chain, the zero ideal is an upper bound. The nonzero assumption ensures it is proper.</note>
+    <note step="5">The weak-* closedness is relative to the closed unit ball: impose φ(1)=1 and the multiplicative identities for all pairs of algebra elements.</note>
+    <note step="7">The identification of the spectrum with character values is an additional standard result from commutative unital Banach algebra theory.</note>
+    <note step="8">The image is both dense and closed in the supremum norm. The displayed equality uses both arguments, not Stone–Weierstrass alone.</note>
+  </editorialNotes>
+</educationalContent>
