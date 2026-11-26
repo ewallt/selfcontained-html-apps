@@ -60,7 +60,28 @@ function openCount(){return eligible().filter(i=>state.open.has(i)).length}
 function footerButtons(nextLabel="Reveal next"){const count=openCount(),total=eligible().length;return '<div class="row between"><div class="row"><button class="primary" data-action="open-next" '+(count===total?"disabled":"")+'>'+nextLabel+'</button><button data-action="reset">Reset</button><button data-action="all">'+(count===total?"Collapse all":"Expand all")+'</button></div><span class="muted">'+count+" of "+total+" open</span></div>"}
 function overview(){return '<div class="overview">'+units.map((u,i)=>'<button data-step="'+i+'" aria-pressed="'+(state.step===i)+'">'+esc(u.number+" · "+u.title)+"</button>").join("")+"</div>"}
 function graph(){const edges=state.subject.edges||[];if(!edges.length)return '<div class="notice">No concept relationships are specified for this subject. Choose another pattern.</div>';const nodes=units.map((u,i)=>'<button data-step="'+i+'" aria-pressed="'+(state.step===i)+'">'+esc(u.number+" · "+u.title)+"</button>").join("");const linked=edges.filter(([a,b])=>a===state.step||b===state.step);const rows=Math.ceil(units.length/3);const height=rows*100;const pos=i=>[50+(i%3)*100,50+Math.floor(i/3)*100];const lines=edges.map(([a,b])=>{const [x,y]=pos(a),[xx,yy]=pos(b);return '<path d="M'+x+' '+y+' L'+xx+' '+yy+'" stroke="var(--connector)" stroke-width="'+(a===state.step||b===state.step?2.2:1)+'" opacity="'+(a===state.step||b===state.step?1:.38)+'" fill="none"/>'}).join("");return '<div class="map diagram-map" style="--map-rows:'+rows+'"><svg viewBox="0 0 300 '+height+'" preserveAspectRatio="none" aria-hidden="true">'+lines+'</svg>'+nodes+'</div><div class="edge-list" aria-label="Relationships of selected node">'+linked.map(([a,b])=>'<span class="edge">'+esc(units[a].number+" ↔ "+units[b].number+" · "+units[a].title+" / "+units[b].title)+"</span>").join("")+"</div>"+group(units[state.step]);}
-function renderMath(){if(window.katex)document.querySelectorAll("[data-math]").forEach(e=>{try{window.katex.render(e.dataset.math,e,{displayMode:true,throwOnError:true,strict:"ignore"})}catch(_){}})}
+function fitMobileMath(){
+  const mobile=window.matchMedia("(max-width:700px)").matches;
+  document.querySelectorAll("[data-math]").forEach(e=>{
+    e.style.fontSize="";
+    if(!mobile)return;
+    const rendered=e.querySelector(".katex-html");
+    if(!rendered)return;
+    const base=parseFloat(getComputedStyle(e).fontSize);
+    if(!base)return;
+    let scale=1;
+    for(let i=0;i<3;i++){
+      const room=rendered.clientWidth,needed=rendered.scrollWidth;
+      if(room<=0||needed<=room+1)break;
+      scale*=Math.max(0.1,(room-2)/needed);
+      e.style.fontSize=(base*scale)+"px";
+    }
+  });
+}
+function renderMath(){if(window.katex)document.querySelectorAll("[data-math]").forEach(e=>{try{window.katex.render(e.dataset.math,e,{displayMode:true,throwOnError:true,strict:"ignore"})}catch(_){}});fitMobileMath()}
+let mathResizeFrame=0;
+window.addEventListener("resize",()=>{cancelAnimationFrame(mathResizeFrame);mathResizeFrame=requestAnimationFrame(fitMobileMath)});
+if(document.fonts?.ready)document.fonts.ready.then(fitMobileMath);
 function render(follow=false){if(!units.length)return;state.step=Math.max(0,Math.min(state.step,units.length-1));document.documentElement.dataset.theme=state.theme;document.body.classList.toggle("video",state.video);$("theme").textContent=state.theme==="dark"?"Light theme":"Dark theme";$("exit-video").hidden=!state.video;$("pattern").value=state.pattern;$("tracks").innerHTML=tracks.map(t=>'<button data-track="'+t+'" aria-pressed="'+(t===state.track)+'">'+t+"</button>").join("");$("dots").innerHTML=units.map((u,i)=>'<button class="dot" data-step="'+i+'" aria-label="Step '+esc(u.number)+'" aria-pressed="'+(state.step===i)+'">'+esc(u.number)+"</button>").join("");$("back").disabled=state.step===0;$("next").disabled=state.step===units.length-1;$("counter").textContent=(state.step+1)+" of "+units.length;$("status").innerHTML="";
 const u=units[state.step];let h="";
 switch(state.pattern){
