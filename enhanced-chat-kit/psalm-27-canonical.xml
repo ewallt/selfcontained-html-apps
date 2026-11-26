@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<educationalContent id="psalm-27-kjv" version="1.0" language="en" audience="AI">
+  <metadata>
+    <title>Psalm 27 — Biblical Exposition</title>
+    <subtitle>Confidence, seeking God's face, and waiting on the LORD</subtitle>
+    <scope>Psalm 27, all fourteen verses of the King James Version, with concise textual exposition.</scope>
+    <sourceDate>2026-11-26</sourceDate>
+    <purpose>Canonical subject content independent of presentation format, color scheme, implementation and delivery environment.</purpose>
+    <reuseGuidance>Preserve the distinction between biblical text and explanatory commentary. Step numbers organize the exposition, not a required display sequence. Each detail field in steps 1–7 contains KJV verse text with verse numbers; preserve wording and verse boundaries. Step 0 contains an overview. Foundation fields identify textual references. Equations are intentionally absent. Do not invent equations or new substantive claims to satisfy a presentation format.</reuseGuidance>
+    <notationNote>LORD reproduces the KJV convention for the divine name. The traditional heading is A Psalm of David. Verse 13 contains the supplied opening words I had fainted, traditionally italicized in the KJV.</notationNote>
+  </metadata>
+  <steps count="8" first="0" last="7">
+    <step number="0" id="overview">
+      <title>Confidence, communion and waiting</title>
+      <takeaway>Trust in God persists even when danger and uncertainty remain.</takeaway>
+      <explanation>The psalm moves from confidence in the LORD, through the desire for his presence, to a personal plea for help and a final exhortation to wait. Faith is not portrayed as the absence of trouble.</explanation>
+      <detail>A Psalm of David. The exposition follows its movement from confidence (1–6), through petition (7–12), to renewed hope (13–14).</detail>
+      <foundation>Psalm 27:1–14 (KJV)</foundation>
+    </step>
+    <step number="1" id="confidence-in-danger">
+      <title>The LORD is my light and salvation</title>
+      <takeaway>Confidence rests on who God is, not on the absence of enemies.</takeaway>
+      <explanation>The opening questions express confidence in the LORD as light, salvation and strength. Real hostility is acknowledged but does not define the psalmist's outlook.</explanation>
+      <detail>1 The LORD is my light and my salvation; whom shall I fear? the LORD is the strength of my life; of whom shall I be afraid?
+2 When the wicked, even mine enemies and my foes, came upon me to eat up my flesh, they stumbled and fell.
+3 Though an host should encamp against me, my heart shall not fear: though war should rise against me, in this will I be confident.</detail>
+      <foundation>Psalm 27:1–3 (KJV)</foundation>
+    </step>
+    <step number="2" id="one-desire">
+      <title>One thing have I desired</title>
+      <takeaway>The deepest desire is communion with God.</takeaway>
+      <explanation>The psalmist seeks more than escape from danger: God's presence, the beauty of the LORD, and the opportunity to inquire in his temple. This gives the preceding confidence a relational focus.</explanation>
+      <detail>4 One thing have I desired of the LORD, that will I seek after; that I may dwell in the house of the LORD all the days of my life, to behold the beauty of the LORD, and to enquire in his temple.</detail>
+      <foundation>Psalm 27:4 (KJV)</foundation>
+    </step>
+    <step number="3" id="shelter-and-praise">
+      <title>Shelter in trouble and joyful praise</title>
+      <takeaway>God's protection gives rise to thanksgiving.</takeaway>
+      <explanation>The pavilion, secret place and rock express refuge and security in trouble. Anticipated deliverance leads to sacrifices of joy, singing and praise.</explanation>
+      <detail>5 For in the time of trouble he shall hide me in his pavilion: in the secret of his tabernacle shall he hide me; he shall set me up upon a rock.
+6 And now shall mine head be lifted up above mine enemies round about me: therefore will I offer in his tabernacle sacrifices of joy; I will sing, yea, I will sing praises unto the LORD.</detail>
+      <foundation>Psalm 27:5–6 (KJV)</foundation>
+    </step>
+    <step number="4" id="seek-my-face">
+      <title>Thy face, LORD, will I seek</title>
+      <takeaway>God's invitation elicits a personal response.</takeaway>
+      <explanation>The tone changes from declarations of confidence to direct petition. The psalmist asks to be heard and answered, and responds to the invitation to seek God's face. Confidence and the need for mercy coexist.</explanation>
+      <detail>7 Hear, O LORD, when I cry with my voice: have mercy also upon me, and answer me.
+8 When thou saidst, Seek ye my face; my heart said unto thee, Thy face, LORD, will I seek.</detail>
+      <foundation>Psalm 27:7–8 (KJV)</foundation>
+    </step>
+    <step number="5" id="steadfast-help">
+      <title>The LORD will take me up</title>
+      <takeaway>Hope in God's care extends beyond even the closest human relationships.</takeaway>
+      <explanation>The psalmist fears rejection and appeals to the God who has helped him before. Even the abandonment of father and mother is contrasted with the LORD's willingness to receive him. The text need not imply this abandonment actually occurred.</explanation>
+      <detail>9 Hide not thy face far from me; put not thy servant away in anger: thou hast been my help; leave me not, neither forsake me, O God of my salvation.
+10 When my father and my mother forsake me, then the LORD will take me up.</detail>
+      <foundation>Psalm 27:9–10 (KJV)</foundation>
+    </step>
+    <step number="6" id="guidance-and-justice">
+      <title>Teach me thy way, O LORD</title>
+      <takeaway>In the face of opposition, the psalmist seeks guidance as well as deliverance.</takeaway>
+      <explanation>The prayer asks for instruction and a plain path amid enemies. False witnesses and threats of cruelty are specific forms of the danger described earlier. The response is an appeal to God for direction and protection.</explanation>
+      <detail>11 Teach me thy way, O LORD, and lead me in a plain path, because of mine enemies.
+12 Deliver me not over unto the will of mine enemies: for false witnesses are risen up against me, and such as breathe out cruelty.</detail>
+      <foundation>Psalm 27:11–12 (KJV)</foundation>
+    </step>
+    <step number="7" id="goodness-and-waiting">
+      <title>Wait on the LORD</title>
+      <takeaway>Hope in God's goodness sustains courage while the outcome is unresolved.</takeaway>
+      <explanation>The expectation of seeing God's goodness in the land of the living sustains the psalmist. The repeated command to wait joins hope with courage and divine strengthening. The conclusion does not specify when deliverance will come.</explanation>
+      <detail>13 I had fainted, unless I had believed to see the goodness of the LORD in the land of the living.
+14 Wait on the LORD: be of good courage, and he shall strengthen thine heart: wait, I say, on the LORD.</detail>
+      <foundation>Psalm 27:13–14 (KJV)</foundation>
+    </step>
+  </steps>
+  <editorialNotes>
+    <note step="0">Confidence, petition and renewed hope describe the literary movement, not a specific historical occasion or mandatory presentation phases.</note>
+    <note step="4">The shift to petition does not cancel the confidence of verses 1–6. Both belong to the psalmist's experience of faith.</note>
+    <note step="7">The psalm ends with waiting, not a narrated resolution of the danger.</note>
+  </editorialNotes>
+</educationalContent>
